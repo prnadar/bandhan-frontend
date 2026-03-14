@@ -1,0 +1,222 @@
+"use client";
+
+import { useState } from "react";
+import { Globe, MapPin, Heart, Shield, CheckCircle, Star, ArrowRight, Plane, Clock } from "lucide-react";
+
+const countries = [
+  { code: "🇺🇸", name: "USA",         count: "48,200", flag: "us" },
+  { code: "🇬🇧", name: "UK",          count: "22,100", flag: "gb" },
+  { code: "🇨🇦", name: "Canada",      count: "18,900", flag: "ca" },
+  { code: "🇦🇺", name: "Australia",   count: "14,300", flag: "au" },
+  { code: "🇸🇬", name: "Singapore",   count: "11,500", flag: "sg" },
+  { code: "🇦🇪", name: "UAE",         count: "9,800",  flag: "ae" },
+  { code: "🇩🇪", name: "Germany",     count: "6,200",  flag: "de" },
+  { code: "🇳🇿", name: "New Zealand", count: "4,100",  flag: "nz" },
+];
+
+const profiles = [
+  { id: "n1", name: "Divya Menon",     initials: "DM", grad: "linear-gradient(135deg,#C4520F,#E8A060)", age: 29, location: "San Francisco, USA", profession: "Product Manager", company: "Meta",    compatibility: 91, visitIndia: "Dec 2025", religion: "Hindu", verified: true  },
+  { id: "n2", name: "Swati Kapoor",    initials: "SK", grad: "linear-gradient(135deg,#9A6B00,#C89020)", age: 27, location: "London, UK",          profession: "Doctor",          company: "NHS",     compatibility: 88, visitIndia: "Jan 2026", religion: "Hindu", verified: true  },
+  { id: "n3", name: "Ananya Rao",      initials: "AR", grad: "linear-gradient(135deg,#5C7A52,#8DB870)", age: 30, location: "Toronto, Canada",      profession: "Data Scientist",  company: "Shopify", compatibility: 85, visitIndia: "Mar 2026", religion: "Hindu", verified: true  },
+  { id: "n4", name: "Pooja Nambiar",   initials: "PN", grad: "linear-gradient(135deg,#7C3AED,#A78BFA)", age: 28, location: "Sydney, Australia",    profession: "Engineer",        company: "Atlassian", compatibility: 82, visitIndia: "Feb 2026", religion: "Christian", verified: false },
+  { id: "n5", name: "Kritika Arora",   initials: "KA", grad: "linear-gradient(135deg,#0F766E,#0D9488)", age: 26, location: "Singapore",            profession: "Finance",         company: "DBS",     compatibility: 79, visitIndia: "Nov 2025", religion: "Sikh", verified: true  },
+  { id: "n6", name: "Nisha Pillai",    initials: "NP", grad: "linear-gradient(135deg,#BE185D,#F472B6)", age: 31, location: "Dubai, UAE",           profession: "Architect",       company: "AECOM",   compatibility: 76, visitIndia: "Dec 2025", religion: "Hindu", verified: true  },
+];
+
+const features = [
+  { icon: "🌐", title: "Timezone-aware chat",      desc: "See local time of your match. Schedule calls across time zones." },
+  { icon: "✈️",  title: "India visit planner",      desc: "Share when you're in India. Meet matches during your trip." },
+  { icon: "🛂",  title: "Visa & background check",  desc: "Optional foreign credential and background verification." },
+  { icon: "📹",  title: "Video introductions",      desc: "Skip the text — let a 90-second video speak for you." },
+];
+
+export default function NriHubPage() {
+  const [selectedCountry, setSelectedCountry] = useState<string | null>(null);
+  const [liked, setLiked] = useState<Set<string>>(new Set());
+
+  const filtered = selectedCountry
+    ? profiles.filter((p) => p.location.includes(selectedCountry))
+    : profiles;
+
+  return (
+    <div className="px-8 py-8 max-w-5xl">
+      {/* Hero */}
+      <div className="rounded-3xl p-8 mb-8 relative overflow-hidden" style={{ background: "linear-gradient(135deg,rgba(196,82,15,0.08),rgba(154,107,0,0.12))", border: "1px solid rgba(154,107,0,0.18)" }}>
+        <div className="relative z-10">
+          <div className="flex items-center gap-2 mb-2">
+            <Globe className="w-5 h-5 text-marigold" />
+            <span className="font-body text-sm font-semibold text-marigold uppercase tracking-widest">NRI Hub</span>
+          </div>
+          <h1 className="font-display text-3xl font-light text-deep mb-2">
+            Connecting the{" "}
+            <span className="text-gradient-gold italic font-semibold">global Indian community</span>
+          </h1>
+          <p className="font-body text-sm text-deep/50 max-w-xl mb-6">
+            Find your perfect match across 40+ countries. NRI-verified profiles, timezone-aware messaging, and India visit coordination.
+          </p>
+          <div className="flex items-center gap-6">
+            {[{ n: "1.2L+", l: "NRI Profiles" }, { n: "40+", l: "Countries" }, { n: "8,400+", l: "Matches Made" }].map(({ n, l }) => (
+              <div key={l}>
+                <p className="font-display text-2xl font-bold text-deep">{n}</p>
+                <p className="font-body text-xs text-deep/45">{l}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+        {/* Decorative globe */}
+        <div className="absolute right-8 top-1/2 -translate-y-1/2 opacity-10 text-9xl select-none">🌏</div>
+      </div>
+
+      {/* Country filter */}
+      <div className="mb-6">
+        <h2 className="font-display text-lg font-semibold text-deep mb-3">Browse by Country</h2>
+        <div className="flex flex-wrap gap-2">
+          <button
+            onClick={() => setSelectedCountry(null)}
+            className="flex items-center gap-1.5 px-4 py-2 rounded-full font-body text-sm font-medium transition-all"
+            style={{
+              background: !selectedCountry ? "linear-gradient(135deg,#C4520F,#E06A1A)" : "rgba(255,255,255,0.7)",
+              color: !selectedCountry ? "#fff" : "rgba(28,15,6,0.6)",
+              border: !selectedCountry ? "none" : "1px solid rgba(154,107,0,0.18)",
+              minHeight: "auto",
+            }}
+          >
+            🌍 All Countries
+          </button>
+          {countries.map((c) => (
+            <button
+              key={c.name}
+              onClick={() => setSelectedCountry(selectedCountry === c.name ? null : c.name)}
+              className="flex items-center gap-1.5 px-4 py-2 rounded-full font-body text-sm font-medium transition-all"
+              style={{
+                background: selectedCountry === c.name ? "linear-gradient(135deg,#C4520F,#E06A1A)" : "rgba(255,255,255,0.7)",
+                color: selectedCountry === c.name ? "#fff" : "rgba(28,15,6,0.6)",
+                border: selectedCountry === c.name ? "none" : "1px solid rgba(154,107,0,0.18)",
+                minHeight: "auto",
+              }}
+            >
+              {c.code} {c.name}
+              <span className="font-body text-[10px] opacity-70">({c.count})</span>
+            </button>
+          ))}
+        </div>
+      </div>
+
+      {/* Profiles grid */}
+      <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-4 mb-10">
+        {filtered.map((profile) => {
+          const isLiked = liked.has(profile.id);
+          return (
+            <div
+              key={profile.id}
+              className="rounded-2xl overflow-hidden"
+              style={{ background: "rgba(250,246,238,0.9)", border: "1px solid rgba(154,107,0,0.12)" }}
+            >
+              {/* Photo */}
+              <div className="h-36 flex items-center justify-center relative" style={{ background: profile.grad }}>
+                <span className="font-display text-4xl font-light text-white/90">{profile.initials}</span>
+                <button
+                  onClick={() => setLiked((prev) => {
+                    const next = new Set(prev);
+                    next.has(profile.id) ? next.delete(profile.id) : next.add(profile.id);
+                    return next;
+                  })}
+                  className="absolute top-3 right-3 w-8 h-8 rounded-full flex items-center justify-center transition-all"
+                  style={{ background: "rgba(255,255,255,0.25)", minHeight: "auto", minWidth: "auto" }}
+                >
+                  <Heart className={`w-4 h-4 ${isLiked ? "fill-white text-white" : "text-white/70"}`} />
+                </button>
+                {profile.verified && (
+                  <div className="absolute bottom-3 left-3 flex items-center gap-1 px-2 py-0.5 rounded-full" style={{ background: "rgba(92,122,82,0.85)" }}>
+                    <Shield className="w-3 h-3 text-white" />
+                    <span className="font-body text-[10px] font-semibold text-white">Verified</span>
+                  </div>
+                )}
+              </div>
+
+              <div className="p-4">
+                <div className="flex items-start justify-between gap-2 mb-2">
+                  <div>
+                    <h3 className="font-display text-base font-semibold text-deep">{profile.name}, {profile.age}</h3>
+                    <div className="flex items-center gap-1 mt-0.5">
+                      <MapPin className="w-3 h-3 text-deep/35" />
+                      <span className="font-body text-xs text-deep/45">{profile.location}</span>
+                    </div>
+                  </div>
+                  <span className="font-body text-xs font-bold px-2 py-0.5 rounded-full flex-shrink-0" style={{ background: "rgba(92,122,82,0.12)", color: "#5C7A52" }}>
+                    {profile.compatibility}%
+                  </span>
+                </div>
+
+                <p className="font-body text-xs text-deep/55">{profile.profession} · {profile.company}</p>
+                <p className="font-body text-xs text-deep/40 mt-0.5">{profile.religion}</p>
+
+                <div className="mt-3 flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg" style={{ background: "rgba(196,82,15,0.07)" }}>
+                  <Plane className="w-3 h-3 text-marigold" />
+                  <span className="font-body text-xs text-deep/55">Visiting India: <strong className="text-deep/75">{profile.visitIndia}</strong></span>
+                </div>
+
+                <div className="flex gap-2 mt-3">
+                  <button
+                    className="flex-1 flex items-center justify-center gap-1 py-2 rounded-xl font-body text-xs font-semibold text-white"
+                    style={{ background: "linear-gradient(135deg,#C4520F,#E06A1A)", minHeight: "auto" }}
+                  >
+                    <Heart className="w-3 h-3" /> Interest
+                  </button>
+                  <button
+                    className="px-3 py-2 rounded-xl font-body text-xs font-medium text-deep/60 hover:text-deep transition-colors"
+                    style={{ border: "1px solid rgba(28,15,6,0.12)", minHeight: "auto" }}
+                  >
+                    View
+                  </button>
+                </div>
+              </div>
+            </div>
+          );
+        })}
+      </div>
+
+      {/* NRI features */}
+      <div className="mb-8">
+        <h2 className="font-display text-xl font-semibold text-deep mb-4">Built for NRIs</h2>
+        <div className="grid md:grid-cols-2 gap-4">
+          {features.map((f) => (
+            <div
+              key={f.title}
+              className="rounded-2xl p-4 flex items-start gap-3"
+              style={{ background: "rgba(250,246,238,0.9)", border: "1px solid rgba(154,107,0,0.12)" }}
+            >
+              <span className="text-2xl flex-shrink-0">{f.icon}</span>
+              <div>
+                <p className="font-body text-sm font-semibold text-deep">{f.title}</p>
+                <p className="font-body text-xs text-deep/50 mt-0.5">{f.desc}</p>
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+
+      {/* Success stories */}
+      <div className="rounded-2xl p-6" style={{ background: "rgba(196,82,15,0.06)", border: "1px solid rgba(154,107,0,0.18)" }}>
+        <h2 className="font-display text-lg font-semibold text-deep mb-4">NRI Success Stories</h2>
+        <div className="grid md:grid-cols-2 gap-4">
+          {[
+            { couple: "Rahul & Pooja",   loc: "California → Mumbai",  msg: "\"Met on Bandhan, he flew down from SF for our roka. Now settled in Bangalore!\"" },
+            { couple: "Vikram & Naina",  loc: "London → Delhi",       msg: "\"Bandhan's NRI Hub helped us sync our India visit dates. We got engaged in 3 months.\"" },
+          ].map(({ couple, loc, msg }) => (
+            <div key={couple} className="rounded-xl p-4" style={{ background: "rgba(250,246,238,0.8)", border: "1px solid rgba(154,107,0,0.1)" }}>
+              <div className="flex items-center gap-1 mb-2">
+                {[...Array(5)].map((_, i) => <Star key={i} className="w-3 h-3 fill-gold text-gold" />)}
+              </div>
+              <p className="font-body text-sm text-deep/70 italic leading-relaxed mb-2">{msg}</p>
+              <div>
+                <p className="font-body text-xs font-bold text-deep">{couple}</p>
+                <p className="font-body text-[10px] text-deep/40 flex items-center gap-1"><MapPin className="w-2.5 h-2.5" />{loc}</p>
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+    </div>
+  );
+}

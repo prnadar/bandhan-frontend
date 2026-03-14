@@ -1,0 +1,186 @@
+/* Cormorant (luxury headings) + Montserrat (body) — Ivory & Marigold design system */
+@import url('https://fonts.googleapis.com/css2?family=Cormorant:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400;1,600&family=Montserrat:wght@300;400;500;600;700&family=Noto+Serif+Devanagari:wght@400;600&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    /* ── Ivory & Marigold — Sabyasachi Wedding Palette ── */
+    --marigold:        #C4520F;
+    --marigold-light:  #E06A1A;
+    --gold:            #9A6B00;
+    --gold-light:      #C89020;
+    --ivory:           #FAF6EE;
+    --ivory-dark:      #F2EBD8;
+    --deep:            #1C0F06;
+    --sage:            #5C7A52;
+    /* Liquid glass tokens — warm light mode */
+    --glass-bg:        rgba(196, 82, 15, 0.06);
+    --glass-border:    rgba(154, 107, 0, 0.22);
+    --glass-blur:      blur(20px);
+    /* Mesh gradient */
+    --mesh-1:          rgba(196, 82, 15, 0.12);
+    --mesh-2:          rgba(154, 107, 0, 0.14);
+    --mesh-3:          rgba(228, 163, 58, 0.08);
+  }
+
+  html {
+    font-size: 16px;
+    scroll-behavior: smooth;
+  }
+
+  body {
+    @apply font-body bg-ivory text-deep antialiased;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  :focus-visible {
+    outline: 2px solid #9A6B00;
+    outline-offset: 3px;
+    border-radius: 4px;
+  }
+
+  button, a, [role="button"] {
+    min-height: 44px;
+    min-width: 44px;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    *, ::before, ::after {
+      animation-duration: 0.01ms !important;
+      transition-duration: 0.01ms !important;
+    }
+  }
+}
+
+@layer components {
+
+  /* ── Liquid Glass Card — warm light variant ─────────────────────── */
+  .glass-card {
+    background: var(--glass-bg);
+    backdrop-filter: var(--glass-blur);
+    -webkit-backdrop-filter: var(--glass-blur);
+    border: 1px solid var(--glass-border);
+    @apply rounded-2xl;
+  }
+
+  .glass-card-hover {
+    @apply glass-card cursor-pointer;
+    transition: background 300ms ease-out, border-color 300ms ease-out, transform 300ms ease-out, box-shadow 300ms ease-out;
+  }
+  .glass-card-hover:hover {
+    background: rgba(196, 82, 15, 0.10);
+    border-color: rgba(154, 107, 0, 0.40);
+    box-shadow: 0 8px 32px rgba(196, 82, 15, 0.12);
+    transform: translateY(-3px);
+  }
+
+  /* ── Floating Navbar ────────────────────────────────────────────── */
+  .navbar-glass {
+    background: rgba(250, 246, 238, 0.94);
+    backdrop-filter: blur(24px);
+    -webkit-backdrop-filter: blur(24px);
+    border-bottom: 1px solid rgba(154, 107, 0, 0.18);
+  }
+
+  /* ── Buttons ────────────────────────────────────────────────────── */
+  .btn-primary {
+    @apply inline-flex items-center justify-center gap-2 cursor-pointer
+           font-body font-semibold text-sm tracking-wide
+           px-7 py-3.5 rounded-full text-white
+           transition-all duration-200 ease-out;
+    background: linear-gradient(135deg, #C4520F 0%, #E06A1A 100%);
+    box-shadow: 0 4px 20px rgba(196, 82, 15, 0.38);
+  }
+  .btn-primary:hover {
+    box-shadow: 0 6px 28px rgba(196, 82, 15, 0.55);
+    transform: translateY(-1px);
+  }
+  .btn-primary:active { transform: scale(0.97); }
+
+  .btn-gold {
+    @apply inline-flex items-center justify-center gap-2 cursor-pointer
+           font-body font-semibold text-sm tracking-wide
+           px-7 py-3.5 rounded-full text-white
+           transition-all duration-200 ease-out;
+    background: linear-gradient(135deg, #9A6B00 0%, #C89020 100%);
+    box-shadow: 0 4px 20px rgba(154, 107, 0, 0.32);
+  }
+  .btn-gold:hover {
+    box-shadow: 0 6px 28px rgba(154, 107, 0, 0.50);
+    transform: translateY(-1px);
+  }
+
+  .btn-ghost {
+    @apply inline-flex items-center justify-center gap-2 cursor-pointer
+           font-body font-medium text-sm tracking-wide
+           px-7 py-3.5 rounded-full
+           transition-all duration-200 ease-out;
+    color: rgba(28, 15, 6, 0.6);
+    border: 1px solid rgba(28, 15, 6, 0.18);
+  }
+  .btn-ghost:hover {
+    border-color: rgba(154, 107, 0, 0.45);
+    color: #1C0F06;
+    background: rgba(154, 107, 0, 0.07);
+  }
+
+  /* ── Match card ─────────────────────────────────────────────────── */
+  .match-card {
+    @apply glass-card-hover overflow-hidden;
+  }
+
+  /* ── Trust / premium badges ──────────────────────────────────────── */
+  .trust-badge {
+    @apply inline-flex items-center gap-1.5 text-xs font-medium px-3 py-1 rounded-full;
+    background: rgba(92, 122, 82, 0.12);
+    border: 1px solid rgba(92, 122, 82, 0.3);
+    color: #4A6B3E;
+  }
+
+  .premium-badge {
+    @apply inline-flex items-center gap-1.5 text-xs font-medium px-3 py-1 rounded-full;
+    background: rgba(154, 107, 0, 0.12);
+    border: 1px solid rgba(154, 107, 0, 0.30);
+    color: #7A5500;
+  }
+
+  /* ── Divider ─────────────────────────────────────────────────────── */
+  .divider-gold {
+    height: 1px;
+    background: linear-gradient(90deg, transparent, rgba(154,107,0,0.35), transparent);
+  }
+}
+
+@layer utilities {
+  .text-gradient-gold {
+    background: linear-gradient(135deg, #9A6B00 0%, #C89020 45%, #7A5200 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  .text-gradient-marigold {
+    background: linear-gradient(135deg, #C4520F 0%, #E06A1A 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  /* Warm mesh gradient background */
+  .bg-mesh {
+    background-color: #FAF6EE;
+    background-image:
+      radial-gradient(at 20% 30%, var(--mesh-1) 0px, transparent 55%),
+      radial-gradient(at 80% 10%, var(--mesh-2) 0px, transparent 45%),
+      radial-gradient(at 60% 80%, var(--mesh-3) 0px, transparent 50%);
+  }
+
+  .font-display    { font-family: 'Cormorant', Georgia, serif; }
+  .font-devanagari { font-family: 'Noto Serif Devanagari', serif; }
+  .font-body       { font-family: 'Montserrat', system-ui, sans-serif; }
+
+  .safe-bottom { padding-bottom: env(safe-area-inset-bottom); }
+}
