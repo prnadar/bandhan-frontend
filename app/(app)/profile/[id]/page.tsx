@@ -26,7 +26,7 @@ const profileData: Record<string, {
     education: "IIT Bombay · B.Tech CSE", religion: "Hindu", caste: "Brahmin",
     height: "5'4\"", language: "Hindi, English, Marathi", verified: true,
     trustScore: 96, compatibility: 92,
-    photo: "PS", grad: "linear-gradient(135deg,#C4520F,#E8A060)",
+    photo: "PS", grad: "linear-gradient(135deg,#E8426A,#E8A060)",
     about: "Love Carnatic music, trekking in Himalayas, and building side projects on weekends. Currently building a EdTech startup on the side. Looking for a partner who values growth, laughter, and deep conversations equally.",
     hobbies: ["Carnatic Music", "Trekking", "Side Projects", "Cooking", "Photography"],
     familyType: "Nuclear", siblings: "1 younger brother",
@@ -137,7 +137,7 @@ export default function ProfilePage({ params }: { params: { id: string } }) {
                   disabled={interestSent}
                   className="w-full flex items-center justify-center gap-2 rounded-full font-body text-sm font-semibold text-white py-3 transition-all"
                   style={{
-                    background: interestSent ? "rgba(92,122,82,0.7)" : "linear-gradient(135deg,#C4520F,#E06A1A)",
+                    background: interestSent ? "rgba(92,122,82,0.7)" : "linear-gradient(135deg,#E8426A,#FF8FA3)",
                     boxShadow: interestSent ? "none" : "0 4px 16px rgba(196,82,15,0.35)",
                     minHeight: "auto",
                   }}
@@ -161,7 +161,7 @@ export default function ProfilePage({ params }: { params: { id: string } }) {
         {/* Right — Full details */}
         <div className="space-y-4">
           {/* About */}
-          <Section title="About" icon={<Sparkles className="w-4 h-4 text-marigold" />}>
+          <Section title="About" icon={<Sparkles className="w-4 h-4 text-rose" />}>
             <p className="font-body text-sm text-deep/65 leading-relaxed">{profile.about}</p>
           </Section>
 
@@ -180,7 +180,7 @@ export default function ProfilePage({ params }: { params: { id: string } }) {
           </Section>
 
           {/* Compatibility */}
-          <Section title="AI Compatibility Breakdown" icon={<Brain className="w-4 h-4 text-marigold" />}>
+          <Section title="AI Compatibility Breakdown" icon={<Brain className="w-4 h-4 text-rose" />}>
             <div className="space-y-3">
               {Object.entries(profile.dimensions).map(([dim, score]) => (
                 <div key={dim}>
@@ -191,7 +191,7 @@ export default function ProfilePage({ params }: { params: { id: string } }) {
                   <div className="h-2 bg-deep/6 rounded-full overflow-hidden">
                     <div
                       className="h-full rounded-full"
-                      style={{ width: `${score}%`, background: "linear-gradient(90deg,#C4520F,#C89020)", transition: "width 0.8s ease" }}
+                      style={{ width: `${score}%`, background: "linear-gradient(90deg,#E8426A,#C89020)", transition: "width 0.8s ease" }}
                     />
                   </div>
                 </div>
@@ -207,7 +207,7 @@ export default function ProfilePage({ params }: { params: { id: string } }) {
                 <span
                   key={h}
                   className="font-body text-xs font-medium px-3 py-1.5 rounded-full"
-                  style={{ background: "rgba(196,82,15,0.08)", border: "1px solid rgba(196,82,15,0.18)", color: "#C4520F" }}
+                  style={{ background: "rgba(196,82,15,0.08)", border: "1px solid rgba(196,82,15,0.18)", color: "#E8426A" }}
                 >
                   {h}
                 </span>
@@ -216,7 +216,7 @@ export default function ProfilePage({ params }: { params: { id: string } }) {
           </Section>
 
           {/* Partner prefs */}
-          <Section title="Partner Preferences" icon={<Heart className="w-4 h-4 text-marigold" />}>
+          <Section title="Partner Preferences" icon={<Heart className="w-4 h-4 text-rose" />}>
             <p className="font-body text-sm text-deep/65">{profile.partnerPrefs}</p>
           </Section>
         </div>

@@ -8,30 +8,42 @@ const config: Config = {
   ],
   theme: {
     extend: {
-      // ── Bandhan · Ivory & Marigold Design System ──────────────────────
+      // ── Match4Marriage · Warm Luxury Rose Gold Design System ─────────────────
       colors: {
-        marigold: {
-          DEFAULT: "#C4520F",
-          light:   "#E06A1A",
-          dark:    "#9A3E0A",
+        rose: {
+          50:      "#FFF5F7",
+          100:     "#FFE4EA",
+          200:     "#FFBDCA",
+          300:     "#FF8FA3",
+          400:     "#FF6B8A",
+          DEFAULT: "#E8426A",
+          600:     "#C4285A",
+          700:     "#A01848",
+          dark:    "#7D0A35",
         },
         gold: {
-          DEFAULT: "#9A6B00",
-          light:   "#C89020",
-          dark:    "#7A5200",
+          50:      "#FFFBF0",
+          100:     "#FFF3CC",
+          200:     "#FFE499",
+          300:     "#FFD166",
+          DEFAULT: "#C9954A",
+          500:     "#B07D35",
+          dark:    "#8A5E20",
         },
-        ivory: {
-          DEFAULT: "#FAF6EE",
-          dark:    "#F2EBD8",
+        blush: {
+          DEFAULT: "#FDF0F3",
+          dark:    "#F9E0E8",
+          deeper:  "#F2C8D4",
         },
-        deep:   "#1C0F06",
-        sage:   "#5C7A52",
-        saffron: "#E06A1A",
+        cream:   "#FFFAF8",
+        deep:    "#1A0A12",
+        muted:   "#8A7080",
+        sage:    "#7A9E7E",
       },
       fontFamily: {
-        display:     ["Cormorant", "Georgia", "serif"],
+        display:     ["Playfair Display", "Georgia", "serif"],
         devanagari:  ["Noto Serif Devanagari", "serif"],
-        body:        ["Montserrat", "system-ui", "sans-serif"],
+        body:        ["DM Sans", "system-ui", "sans-serif"],
       },
       fontSize: {
         body: ["1rem", { lineHeight: "1.6" }],
@@ -57,8 +69,9 @@ const config: Config = {
         },
       },
       boxShadow: {
-        card:       "0 4px 24px rgba(196, 82, 15, 0.08)",
-        "card-hover": "0 8px 40px rgba(196, 82, 15, 0.15)",
+        card:         "0 4px 24px rgba(232, 66, 106, 0.08)",
+        "card-hover": "0 8px 40px rgba(232, 66, 106, 0.18)",
+        "gold":       "0 4px 20px rgba(201, 149, 74, 0.25)",
       },
       borderRadius: {
         card: "1.25rem",

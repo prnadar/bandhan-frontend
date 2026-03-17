@@ -37,17 +37,17 @@ export default function AppLayout({ children }: { children: React.ReactNode }) {
         {/* Logo */}
         <div className="px-6 py-5 border-b" style={{ borderColor: "rgba(154,107,0,0.12)" }}>
           <Link href="/dashboard" className="flex items-center gap-2.5" style={{ minHeight: "auto" }}>
-            <Heart className="w-5 h-5 text-marigold fill-marigold" />
-            <span className="font-display text-xl font-semibold text-deep">Bandhan</span>
+            <Heart className="w-5 h-5 text-rose fill-rose" />
+            <span className="font-display text-xl font-semibold text-deep">Match4Marriage</span>
           </Link>
         </div>
 
         {/* Profile mini */}
         <div className="px-4 py-4 border-b" style={{ borderColor: "rgba(154,107,0,0.10)" }}>
-          <Link href="/profile/me" className="flex items-center gap-3 p-2 rounded-xl cursor-pointer hover:bg-marigold/5 transition-colors" style={{ minHeight: "auto" }}>
+          <Link href="/profile/me" className="flex items-center gap-3 p-2 rounded-xl cursor-pointer hover:bg-rose/5 transition-colors" style={{ minHeight: "auto" }}>
             <div
               className="w-10 h-10 rounded-full flex items-center justify-center font-display font-bold text-white text-sm flex-shrink-0"
-              style={{ background: "linear-gradient(135deg,#C4520F,#E06A1A)" }}
+              style={{ background: "linear-gradient(135deg,#E8426A,#FF8FA3)" }}
             >
               P
             </div>
@@ -85,8 +85,8 @@ export default function AppLayout({ children }: { children: React.ReactNode }) {
                 style={{ minHeight: "auto" }}
                 className={`flex items-center gap-3 px-3 py-2.5 rounded-xl font-body text-sm font-medium transition-all duration-150 ${
                   active
-                    ? "text-marigold bg-marigold/10"
-                    : "text-deep/55 hover:text-deep hover:bg-marigold/5"
+                    ? "text-rose bg-rose/10"
+                    : "text-deep/55 hover:text-deep hover:bg-rose/5"
                 }`}
               >
                 <Icon className="w-4 h-4 flex-shrink-0" />
@@ -94,7 +94,7 @@ export default function AppLayout({ children }: { children: React.ReactNode }) {
                 {badge !== undefined && (
                   <span
                     className="text-[10px] font-bold text-white rounded-full w-5 h-5 flex items-center justify-center"
-                    style={{ background: "linear-gradient(135deg,#C4520F,#E06A1A)" }}
+                    style={{ background: "linear-gradient(135deg,#E8426A,#FF8FA3)" }}
                   >
                     {badge}
                   </span>
@@ -117,13 +117,13 @@ export default function AppLayout({ children }: { children: React.ReactNode }) {
                 href={href}
                 style={{ minHeight: "auto" }}
                 className={`w-full flex items-center gap-3 px-3 py-2.5 rounded-xl font-body text-sm font-medium transition-colors ${
-                  active ? "text-marigold bg-marigold/10" : "text-deep/50 hover:text-deep hover:bg-marigold/5"
+                  active ? "text-rose bg-rose/10" : "text-deep/50 hover:text-deep hover:bg-rose/5"
                 }`}
               >
                 <Icon className="w-4 h-4" />
                 <span className="flex-1">{label}</span>
                 {badge !== undefined && (
-                  <span className="text-[10px] font-bold text-white rounded-full w-5 h-5 flex items-center justify-center" style={{ background: "#C4520F" }}>
+                  <span className="text-[10px] font-bold text-white rounded-full w-5 h-5 flex items-center justify-center" style={{ background: "#E8426A" }}>
                     {badge}
                   </span>
                 )}

@@ -7,10 +7,10 @@ import { Heart, MessageCircle, X, CheckCircle, Clock, Star, Filter } from "lucid
 type Tab = "received" | "sent" | "mutual";
 
 const received = [
-  { id: "1", name: "Priya Sharma",    initials: "PS", grad: "linear-gradient(135deg,#C4520F,#E8A060)", age: 27, city: "Mumbai",     profession: "Software Engineer", company: "Google",     compatibility: 92, time: "2h ago",      verified: true  },
+  { id: "1", name: "Priya Sharma",    initials: "PS", grad: "linear-gradient(135deg,#E8426A,#E8A060)", age: 27, city: "Mumbai",     profession: "Software Engineer", company: "Google",     compatibility: 92, time: "2h ago",      verified: true  },
   { id: "2", name: "Anjali Patel",    initials: "AP", grad: "linear-gradient(135deg,#9A6B00,#C89020)", age: 26, city: "Ahmedabad",  profession: "Doctor",           company: "Apollo",     compatibility: 87, time: "5h ago",      verified: true  },
   { id: "3", name: "Kavya Nair",      initials: "KN", grad: "linear-gradient(135deg,#5C7A52,#8DB870)", age: 28, city: "Bangalore",  profession: "Data Scientist",   company: "Flipkart",   compatibility: 84, time: "Yesterday",   verified: true  },
-  { id: "4", name: "Shruti Agarwal",  initials: "SA", grad: "linear-gradient(135deg,#C4520F99,#9A6B0099)", age: 25, city: "Delhi",  profession: "CA",               company: "Deloitte",   compatibility: 79, time: "2 days ago",  verified: false },
+  { id: "4", name: "Shruti Agarwal",  initials: "SA", grad: "linear-gradient(135deg,#E8426A99,#9A6B0099)", age: 25, city: "Delhi",  profession: "CA",               company: "Deloitte",   compatibility: 79, time: "2 days ago",  verified: false },
   { id: "5", name: "Meera Iyer",      initials: "MI", grad: "linear-gradient(135deg,#7C3AED,#A78BFA)", age: 29, city: "Chennai",   profession: "Architect",        company: "Freelance",  compatibility: 76, time: "3 days ago",  verified: true  },
   { id: "6", name: "Ritika Singh",    initials: "RS", grad: "linear-gradient(135deg,#0F766E,#0D9488)", age: 26, city: "Hyderabad", profession: "MBA",              company: "McKinsey",   compatibility: 81, time: "4 days ago",  verified: true  },
 ];
@@ -22,7 +22,7 @@ const sent = [
 ];
 
 const mutual = [
-  { id: "1", name: "Priya Sharma",    initials: "PS", grad: "linear-gradient(135deg,#C4520F,#E8A060)", age: 27, city: "Mumbai",    profession: "Software Engineer", company: "Google",    compatibility: 92 },
+  { id: "1", name: "Priya Sharma",    initials: "PS", grad: "linear-gradient(135deg,#E8426A,#E8A060)", age: 27, city: "Mumbai",    profession: "Software Engineer", company: "Google",    compatibility: 92 },
   { id: "9", name: "Sonal Joshi",     initials: "SJ", grad: "linear-gradient(135deg,#92400E,#D97706)", age: 26, city: "Jaipur",    profession: "Fashion Designer", company: "NIFT",      compatibility: 71 },
 ];
 
@@ -67,7 +67,7 @@ export default function InterestsPage() {
             className="flex-1 flex items-center justify-center gap-2 py-2.5 rounded-xl font-body text-sm font-medium transition-all"
             style={{
               background: tab === t.key ? "rgba(250,246,238,1)" : "transparent",
-              color: tab === t.key ? "#1C0F06" : "rgba(28,15,6,0.45)",
+              color: tab === t.key ? "#1A0A12" : "rgba(28,15,6,0.45)",
               boxShadow: tab === t.key ? "0 1px 8px rgba(28,15,6,0.08)" : "none",
               minHeight: "auto",
             }}
@@ -76,7 +76,7 @@ export default function InterestsPage() {
             <span
               className="font-body text-xs font-bold px-1.5 py-0.5 rounded-full"
               style={{
-                background: tab === t.key ? "linear-gradient(135deg,#C4520F,#E06A1A)" : "rgba(28,15,6,0.1)",
+                background: tab === t.key ? "linear-gradient(135deg,#E8426A,#FF8FA3)" : "rgba(28,15,6,0.1)",
                 color: tab === t.key ? "#fff" : "rgba(28,15,6,0.4)",
               }}
             >
@@ -140,7 +140,7 @@ export default function InterestsPage() {
                       <button
                         onClick={() => accept(profile.id)}
                         className="flex items-center gap-1.5 px-4 py-2 rounded-full font-body text-xs font-semibold text-white"
-                        style={{ background: "linear-gradient(135deg,#C4520F,#E06A1A)", minHeight: "auto" }}
+                        style={{ background: "linear-gradient(135deg,#E8426A,#FF8FA3)", minHeight: "auto" }}
                       >
                         <Heart className="w-3.5 h-3.5" /> Accept
                       </button>
@@ -229,7 +229,7 @@ export default function InterestsPage() {
               >
                 {profile.initials}
                 <div className="absolute -bottom-1 -right-1 w-5 h-5 rounded-full bg-white flex items-center justify-center">
-                  <Heart className="w-3 h-3 fill-marigold text-marigold" />
+                  <Heart className="w-3 h-3 fill-rose text-rose" />
                 </div>
               </div>
 
@@ -245,7 +245,7 @@ export default function InterestsPage() {
               <Link
                 href={`/messages/1`}
                 className="flex items-center gap-1.5 px-4 py-2.5 rounded-full font-body text-sm font-semibold text-white"
-                style={{ background: "linear-gradient(135deg,#C4520F,#E06A1A)", boxShadow: "0 3px 12px rgba(196,82,15,0.35)", minHeight: "auto" }}
+                style={{ background: "linear-gradient(135deg,#E8426A,#FF8FA3)", boxShadow: "0 3px 12px rgba(196,82,15,0.35)", minHeight: "auto" }}
               >
                 <MessageCircle className="w-3.5 h-3.5" /> Message
               </Link>

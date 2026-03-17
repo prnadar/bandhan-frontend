@@ -8,18 +8,18 @@ import {
 } from "lucide-react";
 
 const allProfiles = [
-  { id: "1",  name: "Priya Sharma",    age: 27, city: "Mumbai",     profession: "Software Engineer", company: "Google",    education: "IIT Bombay",    religion: "Hindu", caste: "Brahmin", height: "5'4\"", verified: true, trustScore: 96, compatibility: 92, photo: "PS", grad: "linear-gradient(135deg,#C4520F,#E8A060)" },
+  { id: "1",  name: "Priya Sharma",    age: 27, city: "Mumbai",     profession: "Software Engineer", company: "Google",    education: "IIT Bombay",    religion: "Hindu", caste: "Brahmin", height: "5'4\"", verified: true, trustScore: 96, compatibility: 92, photo: "PS", grad: "linear-gradient(135deg,#E8426A,#E8A060)" },
   { id: "2",  name: "Anjali Patel",    age: 26, city: "Ahmedabad",  profession: "Doctor",            company: "AIIMS",     education: "AIIMS Delhi",   religion: "Hindu", caste: "Patel",   height: "5'3\"", verified: true, trustScore: 92, compatibility: 87, photo: "AP", grad: "linear-gradient(135deg,#9A6B00,#C89020)" },
   { id: "3",  name: "Kavya Nair",      age: 28, city: "Bangalore",  profession: "Product Manager",   company: "Flipkart",  education: "IIM Ahmedabad", religion: "Hindu", caste: "Nair",    height: "5'5\"", verified: true, trustScore: 89, compatibility: 84, photo: "KN", grad: "linear-gradient(135deg,#5C7A52,#8DB870)" },
-  { id: "4",  name: "Shruti Agarwal",  age: 25, city: "Delhi",      profession: "CA",                company: "Deloitte",  education: "DU + CA",       religion: "Hindu", caste: "Agarwal", height: "5'2\"", verified: true, trustScore: 88, compatibility: 79, photo: "SA", grad: "linear-gradient(135deg,#C4520F99,#9A6B0099)" },
+  { id: "4",  name: "Shruti Agarwal",  age: 25, city: "Delhi",      profession: "CA",                company: "Deloitte",  education: "DU + CA",       religion: "Hindu", caste: "Agarwal", height: "5'2\"", verified: true, trustScore: 88, compatibility: 79, photo: "SA", grad: "linear-gradient(135deg,#E8426A99,#9A6B0099)" },
   { id: "5",  name: "Deepika Iyer",    age: 29, city: "Chennai",    profession: "Data Scientist",    company: "Amazon",    education: "IIT Madras",    religion: "Hindu", caste: "Iyer",    height: "5'4\"", verified: true, trustScore: 91, compatibility: 76, photo: "DI", grad: "linear-gradient(135deg,#7A5200,#C89020)" },
   { id: "6",  name: "Meera Krishnan",  age: 27, city: "Hyderabad",  profession: "UX Designer",       company: "Microsoft", education: "NID Ahmedabad", religion: "Hindu", caste: "Nair",    height: "5'3\"", verified: true, trustScore: 85, compatibility: 73, photo: "MK", grad: "linear-gradient(135deg,#0F766E,#14B8A6)" },
   { id: "7",  name: "Ritu Gupta",      age: 26, city: "Pune",       profession: "MBA Finance",       company: "HDFC",      education: "ISB Hyderabad", religion: "Hindu", caste: "Gupta",   height: "5'2\"", verified: false, trustScore: 71, compatibility: 68, photo: "RG", grad: "linear-gradient(135deg,#9B1C1C,#C9952A)" },
-  { id: "8",  name: "Pooja Reddy",     age: 30, city: "Hyderabad",  profession: "Architect",         company: "Self",      education: "SPA Delhi",     religion: "Hindu", caste: "Reddy",   height: "5'5\"", verified: true, trustScore: 87, compatibility: 71, photo: "PR", grad: "linear-gradient(135deg,#C4520F,#9A6B00)" },
+  { id: "8",  name: "Pooja Reddy",     age: 30, city: "Hyderabad",  profession: "Architect",         company: "Self",      education: "SPA Delhi",     religion: "Hindu", caste: "Reddy",   height: "5'5\"", verified: true, trustScore: 87, compatibility: 71, photo: "PR", grad: "linear-gradient(135deg,#E8426A,#9A6B00)" },
   { id: "9",  name: "Nisha Mehta",     age: 25, city: "Surat",      profession: "Dentist",           company: "Private",   education: "SDC Ahmedabad", religion: "Hindu", caste: "Mehta",   height: "5'1\"", verified: true, trustScore: 83, compatibility: 65, photo: "NM", grad: "linear-gradient(135deg,#5C7A52,#C89020)" },
   { id: "10", name: "Aisha Khan",      age: 28, city: "Lucknow",    profession: "Civil Services",    company: "IAS",       education: "JNU Delhi",     religion: "Muslim", caste: "—",      height: "5'4\"", verified: true, trustScore: 94, compatibility: 62, photo: "AK", grad: "linear-gradient(135deg,#0F766E,#9A6B00)" },
-  { id: "11", name: "Simran Kaur",     age: 27, city: "Chandigarh", profession: "Lawyer",            company: "HC Punjab", education: "NLU Jodhpur",   religion: "Sikh",   caste: "Jat",    height: "5'6\"", verified: true, trustScore: 90, compatibility: 58, photo: "SK", grad: "linear-gradient(135deg,#7A5200,#C4520F)" },
-  { id: "12", name: "Sneha Joshi",     age: 24, city: "Nashik",     profession: "Teacher",           company: "IB School", education: "Pune Univ",     religion: "Hindu", caste: "Joshi",   height: "5'2\"", verified: false, trustScore: 68, compatibility: 55, photo: "SJ", grad: "linear-gradient(135deg,#C89020,#E06A1A)" },
+  { id: "11", name: "Simran Kaur",     age: 27, city: "Chandigarh", profession: "Lawyer",            company: "HC Punjab", education: "NLU Jodhpur",   religion: "Sikh",   caste: "Jat",    height: "5'6\"", verified: true, trustScore: 90, compatibility: 58, photo: "SK", grad: "linear-gradient(135deg,#7A5200,#E8426A)" },
+  { id: "12", name: "Sneha Joshi",     age: 24, city: "Nashik",     profession: "Teacher",           company: "IB School", education: "Pune Univ",     religion: "Hindu", caste: "Joshi",   height: "5'2\"", verified: false, trustScore: 68, compatibility: 55, photo: "SJ", grad: "linear-gradient(135deg,#C89020,#FF8FA3)" },
 ];
 
 const religions = ["All", "Hindu", "Muslim", "Sikh", "Christian", "Jain"];
@@ -75,7 +75,7 @@ export default function MatchesPage() {
         </div>
         <button
           onClick={() => setShowFilters(!showFilters)}
-          className={`flex items-center gap-2 px-4 rounded-full font-body text-sm font-medium transition-all ${showFilters ? "bg-marigold text-white" : "text-deep/60 hover:text-deep"}`}
+          className={`flex items-center gap-2 px-4 rounded-full font-body text-sm font-medium transition-all ${showFilters ? "bg-rose text-white" : "text-deep/60 hover:text-deep"}`}
           style={{ height: "44px", border: showFilters ? "none" : "1px solid rgba(28,15,6,0.18)", minHeight: "auto" }}
         >
           <SlidersHorizontal className="w-4 h-4" />
@@ -167,7 +167,7 @@ export default function MatchesPage() {
               <Link
                 href={`/profile/${p.id}`}
                 className="block w-full text-center rounded-full font-body text-xs font-semibold py-2 transition-all"
-                style={{ background: "linear-gradient(135deg,#C4520F,#E06A1A)", color: "#fff", boxShadow: "0 2px 8px rgba(196,82,15,0.3)", minHeight: "auto" }}
+                style={{ background: "linear-gradient(135deg,#E8426A,#FF8FA3)", color: "#fff", boxShadow: "0 2px 8px rgba(196,82,15,0.3)", minHeight: "auto" }}
               >
                 View Profile
               </Link>

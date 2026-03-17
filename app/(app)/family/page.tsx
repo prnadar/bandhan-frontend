@@ -4,13 +4,13 @@ import { useState } from "react";
 import { Users, Heart, Shield, CheckCircle, Eye, EyeOff, UserPlus, MessageCircle, Star, Lock } from "lucide-react";
 
 const familyMembers = [
-  { id: "f1", name: "Rajesh Sharma",    relation: "Father",       initials: "RS", grad: "linear-gradient(135deg,#1C0F06,#4A3728)", active: true,  lastSeen: "Just now"   },
-  { id: "f2", name: "Sunita Sharma",    relation: "Mother",       initials: "SS", grad: "linear-gradient(135deg,#C4520F,#E06A1A)", active: true,  lastSeen: "2 min ago"  },
+  { id: "f1", name: "Rajesh Sharma",    relation: "Father",       initials: "RS", grad: "linear-gradient(135deg,#1A0A12,#4A3728)", active: true,  lastSeen: "Just now"   },
+  { id: "f2", name: "Sunita Sharma",    relation: "Mother",       initials: "SS", grad: "linear-gradient(135deg,#E8426A,#FF8FA3)", active: true,  lastSeen: "2 min ago"  },
   { id: "f3", name: "Preethi Sharma",   relation: "Elder Sister", initials: "PS", grad: "linear-gradient(135deg,#5C7A52,#8DB870)", active: false, lastSeen: "1h ago"     },
 ];
 
 const matches = [
-  { id: "1", name: "Priya Sharma",    initials: "PS", grad: "linear-gradient(135deg,#C4520F,#E8A060)", age: 27, city: "Mumbai",     profession: "Software Engineer", company: "Google",    compatibility: 92, trustScore: 94, verified: true },
+  { id: "1", name: "Priya Sharma",    initials: "PS", grad: "linear-gradient(135deg,#E8426A,#E8A060)", age: 27, city: "Mumbai",     profession: "Software Engineer", company: "Google",    compatibility: 92, trustScore: 94, verified: true },
   { id: "2", name: "Anjali Patel",    initials: "AP", grad: "linear-gradient(135deg,#9A6B00,#C89020)", age: 26, city: "Ahmedabad",  profession: "Doctor",            company: "Apollo",    compatibility: 87, trustScore: 88, verified: true },
   { id: "3", name: "Kavya Nair",      initials: "KN", grad: "linear-gradient(135deg,#5C7A52,#8DB870)", age: 28, city: "Bangalore",  profession: "Data Scientist",    company: "Flipkart",  compatibility: 84, trustScore: 91, verified: true },
 ];
@@ -60,7 +60,7 @@ export default function FamilyPage() {
           onClick={() => setShowFamilyView(!showFamilyView)}
           className="flex items-center gap-2 px-4 py-2 rounded-full font-body text-sm font-medium transition-all"
           style={{
-            background: showFamilyView ? "linear-gradient(135deg,#C4520F,#E06A1A)" : "rgba(255,255,255,0.7)",
+            background: showFamilyView ? "linear-gradient(135deg,#E8426A,#FF8FA3)" : "rgba(255,255,255,0.7)",
             color: showFamilyView ? "#fff" : "rgba(28,15,6,0.6)",
             border: showFamilyView ? "none" : "1px solid rgba(28,15,6,0.14)",
             minHeight: "auto",
@@ -118,7 +118,7 @@ export default function FamilyPage() {
                       onClick={() => setRelation(r)}
                       className="py-1.5 rounded-lg font-body text-xs font-medium transition-all"
                       style={{
-                        background: relation === r ? "linear-gradient(135deg,#C4520F,#E06A1A)" : "rgba(255,255,255,0.5)",
+                        background: relation === r ? "linear-gradient(135deg,#E8426A,#FF8FA3)" : "rgba(255,255,255,0.5)",
                         color: relation === r ? "#fff" : "rgba(28,15,6,0.5)",
                         border: relation === r ? "none" : "1px solid rgba(154,107,0,0.14)",
                         minHeight: "auto",
@@ -131,7 +131,7 @@ export default function FamilyPage() {
                 <button
                   onClick={() => { if (email) { setInvited(true); setEmail(""); } }}
                   className="w-full flex items-center justify-center gap-2 py-2.5 rounded-xl font-body text-sm font-semibold text-white"
-                  style={{ background: "linear-gradient(135deg,#C4520F,#E06A1A)", minHeight: "auto" }}
+                  style={{ background: "linear-gradient(135deg,#E8426A,#FF8FA3)", minHeight: "auto" }}
                 >
                   <UserPlus className="w-4 h-4" />
                   {invited ? "Invitation sent!" : "Send Invitation"}
@@ -143,7 +143,7 @@ export default function FamilyPage() {
           {/* Permissions */}
           <div className="rounded-2xl p-5" style={{ background: "rgba(250,246,238,0.9)", border: "1px solid rgba(154,107,0,0.14)" }}>
             <div className="flex items-center gap-2 mb-4">
-              <Lock className="w-4 h-4 text-marigold" />
+              <Lock className="w-4 h-4 text-rose" />
               <h3 className="font-display text-base font-semibold text-deep">Permissions</h3>
             </div>
             <p className="font-body text-xs text-deep/45 mb-4">Choose what family members can do on your behalf</p>
@@ -154,7 +154,7 @@ export default function FamilyPage() {
                     onClick={() => togglePerm(p.key)}
                     className="w-5 h-5 rounded-md flex-shrink-0 flex items-center justify-center border transition-all cursor-pointer"
                     style={{
-                      background: selectedPerms.has(p.key) ? "linear-gradient(135deg,#C4520F,#E06A1A)" : "rgba(255,255,255,0.7)",
+                      background: selectedPerms.has(p.key) ? "linear-gradient(135deg,#E8426A,#FF8FA3)" : "rgba(255,255,255,0.7)",
                       border: selectedPerms.has(p.key) ? "none" : "1px solid rgba(154,107,0,0.2)",
                     }}
                   >
@@ -230,7 +230,7 @@ export default function FamilyPage() {
             <h3 className="font-display text-base font-semibold text-deep mb-4">Family Activity</h3>
             <div className="space-y-3">
               {[
-                { member: "Mother", action: "Shortlisted Priya Sharma", time: "5 min ago",  icon: <Heart className="w-3.5 h-3.5 text-marigold" /> },
+                { member: "Mother", action: "Shortlisted Priya Sharma", time: "5 min ago",  icon: <Heart className="w-3.5 h-3.5 text-rose" /> },
                 { member: "Father", action: "Viewed Anjali Patel",       time: "1h ago",    icon: <Eye className="w-3.5 h-3.5 text-gold" /> },
                 { member: "Sister", action: "Commented on Kavya Nair",   time: "3h ago",    icon: <MessageCircle className="w-3.5 h-3.5 text-sage" /> },
               ].map(({ member, action, time, icon }) => (

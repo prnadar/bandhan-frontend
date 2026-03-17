@@ -5,7 +5,7 @@ import { Shield, Search, CheckCheck, Clock } from "lucide-react";
 
 const threads = [
   {
-    id: "1", name: "Priya Sharma", photo: "PS", grad: "linear-gradient(135deg,#C4520F,#E8A060)",
+    id: "1", name: "Priya Sharma", photo: "PS", grad: "linear-gradient(135deg,#E8426A,#E8A060)",
     lastMsg: "Thank you for your interest! I'd love to know more about your work at…",
     time: "10:42 AM", unread: 2, verified: true, compatibility: 92,
   },
@@ -20,7 +20,7 @@ const threads = [
     time: "Mon", unread: 1, verified: true, compatibility: 84,
   },
   {
-    id: "4", name: "Shruti Agarwal", photo: "SA", grad: "linear-gradient(135deg,#C4520F99,#9A6B0099)",
+    id: "4", name: "Shruti Agarwal", photo: "SA", grad: "linear-gradient(135deg,#E8426A99,#9A6B0099)",
     lastMsg: "Haha yes, Delhi winters are something else 😄",
     time: "Sun", unread: 0, verified: true, compatibility: 79,
   },
@@ -69,7 +69,7 @@ export default function MessagesPage() {
                 {t.photo}
               </div>
               {t.verified && (
-                <div className="absolute -bottom-0.5 -right-0.5 w-4 h-4 bg-ivory rounded-full flex items-center justify-center">
+                <div className="absolute -bottom-0.5 -right-0.5 w-4 h-4 bg-cream rounded-full flex items-center justify-center">
                   <Shield className="w-3 h-3 text-sage" />
                 </div>
               )}
@@ -100,7 +100,7 @@ export default function MessagesPage() {
             {t.unread > 0 && (
               <div
                 className="w-5 h-5 rounded-full flex items-center justify-center font-body text-[10px] font-bold text-white flex-shrink-0"
-                style={{ background: "linear-gradient(135deg,#C4520F,#E06A1A)" }}
+                style={{ background: "linear-gradient(135deg,#E8426A,#FF8FA3)" }}
               >
                 {t.unread}
               </div>

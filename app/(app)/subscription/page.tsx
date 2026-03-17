@@ -64,8 +64,8 @@ export default function SubscriptionPage() {
           <div className="flex items-start justify-between gap-4 flex-wrap">
             <div>
               <div className="flex items-center gap-2 mb-1">
-                <span className="font-body text-xs font-bold text-marigold uppercase tracking-widest">Current Plan</span>
-                <span className="font-body text-xs font-bold px-2 py-0.5 rounded-full text-white" style={{ background: "linear-gradient(135deg,#C4520F,#E06A1A)" }}>Active</span>
+                <span className="font-body text-xs font-bold text-rose uppercase tracking-widest">Current Plan</span>
+                <span className="font-body text-xs font-bold px-2 py-0.5 rounded-full text-white" style={{ background: "linear-gradient(135deg,#E8426A,#FF8FA3)" }}>Active</span>
               </div>
               <h2 className="font-display text-3xl font-semibold text-deep">Gold Plan</h2>
               <p className="font-body text-sm text-deep/50 mt-1">Renews on April 1, 2026 · ₹2,499/month</p>
@@ -81,7 +81,7 @@ export default function SubscriptionPage() {
               <Link
                 href="/pricing"
                 className="flex items-center gap-1.5 px-4 py-2 rounded-full font-body text-sm font-semibold text-white"
-                style={{ background: "linear-gradient(135deg,#C4520F,#E06A1A)", minHeight: "auto" }}
+                style={{ background: "linear-gradient(135deg,#E8426A,#FF8FA3)", minHeight: "auto" }}
               >
                 Upgrade to Platinum <ArrowRight className="w-3.5 h-3.5" />
               </Link>
@@ -100,7 +100,7 @@ export default function SubscriptionPage() {
                   </p>
                   {c.total !== 999 && (
                     <div className="mt-1.5 h-1 rounded-full overflow-hidden" style={{ background: "rgba(28,15,6,0.07)" }}>
-                      <div className="h-full rounded-full" style={{ width: `${pct}%`, background: "linear-gradient(90deg,#C4520F,#E06A1A)" }} />
+                      <div className="h-full rounded-full" style={{ width: `${pct}%`, background: "linear-gradient(90deg,#E8426A,#FF8FA3)" }} />
                     </div>
                   )}
                   <p className="font-body text-[9px] text-deep/30 mt-1">{c.unit}</p>
@@ -148,7 +148,7 @@ export default function SubscriptionPage() {
                 onClick={() => setBilling(b)}
                 className="px-4 py-1.5 rounded-full font-body text-xs font-semibold transition-all"
                 style={{
-                  background: billing === b ? "linear-gradient(135deg,#C4520F,#E06A1A)" : "transparent",
+                  background: billing === b ? "linear-gradient(135deg,#E8426A,#FF8FA3)" : "transparent",
                   color: billing === b ? "#fff" : "rgba(28,15,6,0.5)",
                   minHeight: "auto",
                 }}
@@ -169,12 +169,12 @@ export default function SubscriptionPage() {
                 className="rounded-2xl p-4 flex flex-col relative"
                 style={{
                   background: plan.color,
-                  border: `1.5px solid ${isCurrent ? "#C4520F" : plan.border}`,
+                  border: `1.5px solid ${isCurrent ? "#E8426A" : plan.border}`,
                   boxShadow: isCurrent ? "0 4px 20px rgba(196,82,15,0.15)" : "none",
                 }}
               >
                 {isCurrent && (
-                  <div className="absolute -top-3 left-1/2 -translate-x-1/2 flex items-center gap-1 px-3 py-0.5 rounded-full font-body text-[10px] font-bold text-white" style={{ background: "linear-gradient(135deg,#C4520F,#E06A1A)" }}>
+                  <div className="absolute -top-3 left-1/2 -translate-x-1/2 flex items-center gap-1 px-3 py-0.5 rounded-full font-body text-[10px] font-bold text-white" style={{ background: "linear-gradient(135deg,#E8426A,#FF8FA3)" }}>
                     <CheckCircle className="w-2.5 h-2.5" /> Current
                   </div>
                 )}
@@ -197,10 +197,10 @@ export default function SubscriptionPage() {
                     className="w-full py-2 rounded-xl font-body text-xs font-semibold transition-all"
                     style={{
                       background: plan.id === "platinum" ? "linear-gradient(135deg,#0F766E,#0D9488)" :
-                                  plan.id === "gold"     ? "linear-gradient(135deg,#C4520F,#E06A1A)" :
+                                  plan.id === "gold"     ? "linear-gradient(135deg,#E8426A,#FF8FA3)" :
                                   plan.id === "silver"   ? "linear-gradient(135deg,#9A6B00,#C89020)" :
                                   "rgba(28,15,6,0.08)",
-                      color: plan.id === "free" ? "#1C0F06" : "#fff",
+                      color: plan.id === "free" ? "#1A0A12" : "#fff",
                       minHeight: "auto",
                     }}
                   >

@@ -85,7 +85,7 @@ export default function KundaliPage() {
             <button
               onClick={() => setShowChart(true)}
               className="w-full mt-4 flex items-center justify-center gap-2 rounded-full font-body text-sm font-semibold text-white py-3"
-              style={{ background: "linear-gradient(135deg,#C4520F,#E06A1A)", minHeight: "auto" }}
+              style={{ background: "linear-gradient(135deg,#E8426A,#FF8FA3)", minHeight: "auto" }}
             >
               <Sparkles className="w-4 h-4" /> Generate Kundali
             </button>
@@ -127,7 +127,7 @@ export default function KundaliPage() {
                     </text>
                   ))}
                   {/* Planet dots in lagna house */}
-                  <circle cx="150" cy="42" r="3" style={{ fill: "#C4520F", strokeWidth: 0 }} />
+                  <circle cx="150" cy="42" r="3" style={{ fill: "#E8426A", strokeWidth: 0 }} />
                 </svg>
               </div>
 

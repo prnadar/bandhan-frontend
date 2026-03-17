@@ -19,7 +19,7 @@ interface Notif {
 }
 
 const INITIAL: Notif[] = [
-  { id: "1",  type: "interest", title: "New Interest",       body: "Priya Sharma sent you an interest. 92% compatibility match!", time: "2 min ago",  read: false, link: "/interests",    initials: "PS", grad: "linear-gradient(135deg,#C4520F,#E8A060)" },
+  { id: "1",  type: "interest", title: "New Interest",       body: "Priya Sharma sent you an interest. 92% compatibility match!", time: "2 min ago",  read: false, link: "/interests",    initials: "PS", grad: "linear-gradient(135deg,#E8426A,#E8A060)" },
   { id: "2",  type: "message",  title: "New Message",        body: "Anjali Patel: \"Hello! I saw your profile and thought we have a lot in common...\"", time: "15 min ago", read: false, link: "/messages/2", initials: "AP", grad: "linear-gradient(135deg,#9A6B00,#C89020)" },
   { id: "3",  type: "match",    title: "New Match",          body: "Kavya Nair from Bangalore is a 84% match! She's online now.", time: "1h ago",     read: false, link: "/profile/3",    initials: "KN", grad: "linear-gradient(135deg,#5C7A52,#8DB870)" },
   { id: "4",  type: "trust",    title: "Trust Score Updated",body: "Your Aadhaar verification is complete. Trust Score: 84 (+40 pts)", time: "3h ago",     read: true,  link: "/profile/me"   },
@@ -32,7 +32,7 @@ const INITIAL: Notif[] = [
 ];
 
 const TYPE_META: Record<NotifType, { icon: React.ReactNode; color: string }> = {
-  interest: { icon: <Heart className="w-4 h-4" />,          color: "#C4520F" },
+  interest: { icon: <Heart className="w-4 h-4" />,          color: "#E8426A" },
   message:  { icon: <MessageCircle className="w-4 h-4" />,  color: "#9A6B00" },
   match:    { icon: <Star className="w-4 h-4" />,            color: "#5C7A52" },
   trust:    { icon: <Shield className="w-4 h-4" />,          color: "#0F766E" },
@@ -86,7 +86,7 @@ export default function NotificationsPage() {
           )}
           <Link
             href="/settings"
-            className="w-8 h-8 rounded-full flex items-center justify-center text-deep/35 hover:text-deep hover:bg-marigold/8 transition-colors"
+            className="w-8 h-8 rounded-full flex items-center justify-center text-deep/35 hover:text-deep hover:bg-rose/8 transition-colors"
             style={{ minHeight: "auto", minWidth: "auto" }}
           >
             <Settings className="w-4 h-4" />
@@ -104,7 +104,7 @@ export default function NotificationsPage() {
               onClick={() => setFilter(f.key)}
               className="flex items-center gap-1.5 px-3 py-1.5 rounded-full font-body text-xs font-medium transition-all"
               style={{
-                background: filter === f.key ? "linear-gradient(135deg,#C4520F,#E06A1A)" : "rgba(255,255,255,0.7)",
+                background: filter === f.key ? "linear-gradient(135deg,#E8426A,#FF8FA3)" : "rgba(255,255,255,0.7)",
                 color: filter === f.key ? "#fff" : "rgba(28,15,6,0.55)",
                 border: filter === f.key ? "none" : "1px solid rgba(28,15,6,0.1)",
                 minHeight: "auto",
@@ -116,7 +116,7 @@ export default function NotificationsPage() {
                   className="w-4 h-4 rounded-full flex items-center justify-center font-bold text-[9px]"
                   style={{
                     background: filter === f.key ? "rgba(255,255,255,0.25)" : "rgba(196,82,15,0.12)",
-                    color: filter === f.key ? "#fff" : "#C4520F",
+                    color: filter === f.key ? "#fff" : "#E8426A",
                   }}
                 >
                   {count}
@@ -176,7 +176,7 @@ export default function NotificationsPage() {
                   <Link
                     href={notif.link}
                     onClick={() => markRead(notif.id)}
-                    className="inline-block mt-2 font-body text-xs font-semibold text-marigold hover:underline"
+                    className="inline-block mt-2 font-body text-xs font-semibold text-rose hover:underline"
                     style={{ minHeight: "auto" }}
                   >
                     {notif.type === "interest" ? "View Interest →" :
@@ -211,7 +211,7 @@ export default function NotificationsPage() {
 
               {/* Unread dot */}
               {!notif.read && (
-                <div className="absolute top-4 right-4 w-2 h-2 rounded-full" style={{ background: "#C4520F" }} />
+                <div className="absolute top-4 right-4 w-2 h-2 rounded-full" style={{ background: "#E8426A" }} />
               )}
             </div>
           );

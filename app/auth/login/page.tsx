@@ -43,8 +43,8 @@ export default function LoginPage() {
     <div className="min-h-screen bg-mesh flex flex-col items-center justify-center px-4 py-12">
       {/* Logo */}
       <Link href="/" className="flex items-center gap-2 mb-10" style={{ minHeight: "auto" }}>
-        <Heart className="w-6 h-6 text-marigold fill-marigold" />
-        <span className="font-display text-2xl font-semibold text-deep">Bandhan</span>
+        <Heart className="w-6 h-6 text-rose fill-rose" />
+        <span className="font-display text-2xl font-semibold text-deep">Match4Marriage</span>
       </Link>
 
       <div
@@ -87,7 +87,7 @@ export default function LoginPage() {
                 disabled={phone.length < 10 || loading}
                 className="w-full flex items-center justify-center gap-2 rounded-full font-body text-sm font-semibold text-white py-3.5 transition-all"
                 style={{
-                  background: "linear-gradient(135deg,#C4520F,#E06A1A)",
+                  background: "linear-gradient(135deg,#E8426A,#FF8FA3)",
                   boxShadow: "0 4px 16px rgba(196,82,15,0.35)",
                   opacity: phone.length < 10 ? 0.55 : 1,
                   minHeight: "auto",
@@ -123,7 +123,7 @@ export default function LoginPage() {
 
             <p className="font-body text-xs text-center text-deep/35 mt-6">
               Don't have an account?{" "}
-              <Link href="/auth/register" className="text-marigold font-medium hover:underline" style={{ minHeight: "auto" }}>
+              <Link href="/auth/register" className="text-rose font-medium hover:underline" style={{ minHeight: "auto" }}>
                 Create profile
               </Link>
             </p>
@@ -131,7 +131,7 @@ export default function LoginPage() {
         ) : (
           <>
             <div className="mb-6">
-              <button onClick={() => setStep("phone")} className="font-body text-xs text-marigold mb-3 block hover:underline" style={{ minHeight: "auto" }}>
+              <button onClick={() => setStep("phone")} className="font-body text-xs text-rose mb-3 block hover:underline" style={{ minHeight: "auto" }}>
                 ← Change number
               </button>
               <h1 className="font-display text-2xl font-light text-deep">Enter OTP</h1>
@@ -157,7 +157,7 @@ export default function LoginPage() {
                   className="w-11 h-12 text-center rounded-xl font-display text-xl font-bold text-deep outline-none transition-all"
                   style={{
                     background: "rgba(255,255,255,0.8)",
-                    border: digit ? "2px solid #C4520F" : "1px solid rgba(154,107,0,0.2)",
+                    border: digit ? "2px solid #E8426A" : "1px solid rgba(154,107,0,0.2)",
                   }}
                 />
               ))}
@@ -168,7 +168,7 @@ export default function LoginPage() {
               disabled={otp.join("").length < 6 || loading}
               className="w-full flex items-center justify-center gap-2 rounded-full font-body text-sm font-semibold text-white py-3.5 transition-all"
               style={{
-                background: "linear-gradient(135deg,#C4520F,#E06A1A)",
+                background: "linear-gradient(135deg,#E8426A,#FF8FA3)",
                 boxShadow: "0 4px 16px rgba(196,82,15,0.35)",
                 opacity: otp.join("").length < 6 ? 0.55 : 1,
                 minHeight: "auto",
@@ -186,7 +186,7 @@ export default function LoginPage() {
 
             <p className="font-body text-xs text-center text-deep/40 mt-4">
               Didn't receive it?{" "}
-              <button className="text-marigold font-medium hover:underline" style={{ minHeight: "auto" }}>
+              <button className="text-rose font-medium hover:underline" style={{ minHeight: "auto" }}>
                 Resend in 30s
               </button>
             </p>
@@ -201,9 +201,9 @@ export default function LoginPage() {
       </div>
 
       <p className="font-body text-xs text-deep/30 mt-6 text-center max-w-sm">
-        By continuing, you agree to Bandhan's{" "}
-        <a href="#" className="text-marigold/70 hover:underline">Terms</a> and{" "}
-        <a href="#" className="text-marigold/70 hover:underline">Privacy Policy</a>
+        By continuing, you agree to Match4Marriage's{" "}
+        <a href="#" className="text-rose/70 hover:underline">Terms</a> and{" "}
+        <a href="#" className="text-rose/70 hover:underline">Privacy Policy</a>
       </p>
     </div>
   );

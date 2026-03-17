@@ -4,23 +4,23 @@ import "./globals.css";
 
 export const metadata: Metadata = {
   title: {
-    default: "Bandhan — The Sacred Bond",
-    template: "%s | Bandhan",
+    default: "Match4Marriage — The Sacred Bond",
+    template: "%s | Match4Marriage",
   },
   description:
     "India's most trusted matrimony platform. AI-powered matching with cultural depth.",
-  keywords: ["matrimony", "shaadi", "Indian marriage", "rishta", "bandhan"],
+  keywords: ["matrimony", "shaadi", "Indian marriage", "rishta", "match4marriage"],
   manifest: "/manifest.json",
   appleWebApp: {
     capable: true,
     statusBarStyle: "default",
-    title: "Bandhan",
+    title: "Match4Marriage",
   },
   formatDetection: { telephone: false },
   openGraph: {
     type: "website",
-    siteName: "Bandhan",
-    title: "Bandhan — The Sacred Bond",
+    siteName: "Match4Marriage",
+    title: "Match4Marriage — The Sacred Bond",
     description: "Find your life partner with confidence, privacy, and joy.",
   },
 };

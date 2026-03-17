@@ -21,9 +21,9 @@ export default function LandingPage() {
       <nav className="navbar-glass fixed top-0 left-0 right-0 z-50">
         <div className="max-w-7xl mx-auto px-6 h-16 flex items-center justify-between">
           <div className="flex items-center gap-2">
-            <Heart className="w-5 h-5 text-marigold fill-marigold" aria-hidden="true" />
+            <Heart className="w-5 h-5 text-rose fill-rose" aria-hidden="true" />
             <span className="font-display text-xl font-semibold tracking-wide text-deep">
-              Bandhan
+              Match4Marriage
             </span>
           </div>
 
@@ -60,7 +60,7 @@ export default function LandingPage() {
       {/* ── Hero ─────────────────────────────────────────────────────── */}
       <section className="relative min-h-screen flex flex-col items-center justify-center px-6 pt-24 pb-16 text-center">
 
-        {/* Decorative glow orbs — warm marigold tones */}
+        {/* Decorative glow orbs — warm rose tones */}
         <div
           className="absolute top-1/4 left-1/4 w-96 h-96 rounded-full pointer-events-none"
           style={{
@@ -163,7 +163,7 @@ export default function LandingPage() {
       <section id="features" className="py-24 px-6">
         <div className="max-w-6xl mx-auto">
           <div className="text-center mb-16">
-            <p className="font-body text-gold text-xs tracking-widest uppercase mb-4">Why Bandhan</p>
+            <p className="font-body text-gold text-xs tracking-widest uppercase mb-4">Why Match4Marriage</p>
             <h2
               className="font-display font-light text-deep leading-tight"
               style={{ fontSize: "clamp(2rem, 4vw, 3.2rem)" }}
@@ -205,7 +205,7 @@ export default function LandingPage() {
               style={{ fontSize: "clamp(2rem, 4vw, 3.2rem)" }}
             >
               From first profile to{" "}
-              <span className="text-gradient-marigold italic font-semibold">lifelong bond</span>
+              <span className="text-gradient-rose italic font-semibold">lifelong bond</span>
             </h2>
           </div>
 
@@ -213,7 +213,7 @@ export default function LandingPage() {
             {steps.map(({ step, title, description }) => (
               <div key={step} className="glass-card p-6 flex items-start gap-6">
                 <div
-                  className="flex-shrink-0 w-10 h-10 rounded-full flex items-center justify-center font-display text-sm font-bold text-marigold"
+                  className="flex-shrink-0 w-10 h-10 rounded-full flex items-center justify-center font-display text-sm font-bold text-rose"
                   style={{
                     background: "linear-gradient(135deg, rgba(196,82,15,0.15), rgba(154,107,0,0.10))",
                     border: "1px solid rgba(154,107,0,0.28)",
@@ -268,7 +268,7 @@ export default function LandingPage() {
                 <Link
                   href="/kundali-match"
                   className="inline-flex items-center gap-2 rounded-full font-body text-base font-semibold text-white px-8 py-4 self-start"
-                  style={{ background: "linear-gradient(135deg,#C4520F,#E06A1A)", boxShadow: "0 6px 24px rgba(196,82,15,0.38)", minHeight: "auto" }}
+                  style={{ background: "linear-gradient(135deg,#E8426A,#FF8FA3)", boxShadow: "0 6px 24px rgba(196,82,15,0.38)", minHeight: "auto" }}
                 >
                   <Star className="w-4 h-4" /> Match Kundali Free <ArrowRight className="w-4 h-4" />
                 </Link>
@@ -329,7 +329,7 @@ export default function LandingPage() {
               boxShadow: "0 8px 48px rgba(196,82,15,0.10)",
             }}
           >
-            <Heart className="w-10 h-10 text-marigold mx-auto mb-6 fill-marigold/25" aria-hidden="true" />
+            <Heart className="w-10 h-10 text-rose mx-auto mb-6 fill-rose/25" aria-hidden="true" />
             <h2
               className="font-display font-light text-deep mb-4"
               style={{ fontSize: "clamp(1.8rem, 3.5vw, 2.8rem)" }}
@@ -358,12 +358,12 @@ export default function LandingPage() {
         <div className="divider-gold mb-12" />
         <div className="max-w-6xl mx-auto flex flex-col md:flex-row items-center justify-between gap-6">
           <div className="flex items-center gap-2">
-            <Heart className="w-4 h-4 text-marigold fill-marigold/50" aria-hidden="true" />
-            <span className="font-display text-deep/60">Bandhan</span>
+            <Heart className="w-4 h-4 text-rose fill-rose/50" aria-hidden="true" />
+            <span className="font-display text-deep/60">Match4Marriage</span>
             <span className="font-devanagari text-deep/30 text-sm ml-2">बंधन</span>
           </div>
           <p className="font-body text-xs text-deep/30 text-center">
-            © 2026 Bandhan. PDPB Compliant · Data residency in India · Signal Protocol E2E encryption
+            © 2026 Match4Marriage. PDPB Compliant · Data residency in India · Signal Protocol E2E encryption
           </p>
           <div className="flex gap-6">
             {["Privacy", "Terms", "Safety"].map((link) => (
@@ -402,7 +402,7 @@ const features = [
     title: "AI Compatibility Engine",
     description:
       "60-question psychometric assessment across 5 dimensions. 5 curated daily matches — not 500 irrelevant ones.",
-    accent: "linear-gradient(135deg, #C4520F, #9A3E0A)",
+    accent: "linear-gradient(135deg, #E8426A, #C4285A)",
   },
   {
     icon: Lock,
@@ -415,15 +415,15 @@ const features = [
     icon: Smartphone,
     title: "Bharat Mode",
     description:
-      "Works on 2G. 10 regional languages. APK under 8MB. Bandhan is for every Indian, not just metro elites.",
-    accent: "linear-gradient(135deg, #E06A1A, #C4520F)",
+      "Works on 2G. 10 regional languages. APK under 8MB. Match4Marriage is for every Indian, not just metro elites.",
+    accent: "linear-gradient(135deg, #FF8FA3, #E8426A)",
   },
   {
     icon: Users,
     title: "Family-First Design",
     description:
       "Family browsing mode, Kundali matching, and joint session management — respecting how Indian families actually search.",
-    accent: "linear-gradient(135deg, #C4520F, #5C7A52)",
+    accent: "linear-gradient(135deg, #E8426A, #5C7A52)",
   },
   {
     icon: Globe,

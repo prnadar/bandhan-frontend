@@ -16,9 +16,9 @@ const matches = [
     dimensions: { values: 94, lifestyle: 90, family: 96, ambition: 88, communication: 92 },
     about: "Love Carnatic music, trekking in Himalayas, and building side projects on weekends. Looking for a partner who values growth and laughter equally.",
     photo: "PF",
-    photoGrad: "linear-gradient(135deg, #C4520F, #E8A060)",
+    photoGrad: "linear-gradient(135deg, #E8426A, #E8A060)",
     tag: "Top Match",
-    tagColor: "text-marigold bg-marigold/10",
+    tagColor: "text-rose bg-rose/10",
   },
   {
     id: "2", name: "Anjali Patel", age: 26, city: "Ahmedabad", state: "Gujarat",
@@ -52,7 +52,7 @@ const matches = [
     dimensions: { values: 82, lifestyle: 78, family: 84, ambition: 80, communication: 76 },
     about: "Finance professional with a love for Hindustani classical music and baking. Believe in building a home full of warmth, books, and good food.",
     photo: "SA",
-    photoGrad: "linear-gradient(135deg, #C4520F99, #9A6B0099)",
+    photoGrad: "linear-gradient(135deg, #E8426A99, #9A6B0099)",
     tag: "Compatible",
     tagColor: "text-deep/60 bg-deep/6",
   },
@@ -90,7 +90,7 @@ export default function DashboardPage() {
           </h1>
           <div className="flex items-center gap-3 mt-2">
             <span className="font-body text-sm text-deep/45">5 curated matches ·</span>
-            <div className="flex items-center gap-1 text-marigold">
+            <div className="flex items-center gap-1 text-rose">
               <Clock className="w-3.5 h-3.5" />
               <span className="font-body text-sm font-medium">Refreshes at 6:00 AM IST</span>
             </div>
@@ -108,7 +108,7 @@ export default function DashboardPage() {
             <Shield className="w-3 h-3 text-sage" />
             <span className="font-body text-xs text-sage font-medium">Aadhaar Verified</span>
           </div>
-          <Link href="/profile/me" className="font-body text-xs text-marigold font-medium mt-2 block hover:underline" style={{ minHeight: "auto" }}>
+          <Link href="/profile/me" className="font-body text-xs text-rose font-medium mt-2 block hover:underline" style={{ minHeight: "auto" }}>
             Boost to 96 →
           </Link>
         </div>
@@ -125,7 +125,7 @@ export default function DashboardPage() {
             <span className="font-body text-xs text-gold font-medium">+28pts trust score if complete</span>
           </div>
           <div className="h-2 bg-deep/8 rounded-full overflow-hidden">
-            <div className="h-full rounded-full" style={{ width: "68%", background: "linear-gradient(90deg,#C4520F,#C89020)" }} />
+            <div className="h-full rounded-full" style={{ width: "68%", background: "linear-gradient(90deg,#E8426A,#C89020)" }} />
           </div>
         </div>
         <Link href="/profile/me" className="btn-primary text-xs px-4 py-2" style={{ minHeight: "auto", whiteSpace: "nowrap" }}>
@@ -158,7 +158,7 @@ export default function DashboardPage() {
 
         {active.length === 0 && (
           <div className="col-span-3 py-20 text-center">
-            <Heart className="w-12 h-12 text-marigold/30 mx-auto mb-4 fill-marigold/10" />
+            <Heart className="w-12 h-12 text-rose/30 mx-auto mb-4 fill-rose/10" />
             <h3 className="font-display text-xl text-deep/60 mb-2">All done for today</h3>
             <p className="font-body text-sm text-deep/40">New matches arrive at 6:00 AM IST</p>
           </div>
@@ -248,7 +248,7 @@ function MatchCard({ match: m, onInterest, onPass }: {
           style={{ minHeight: "auto" }}
         >
           <div className="flex items-center gap-2 mb-2">
-            <Brain className="w-3.5 h-3.5 text-marigold" />
+            <Brain className="w-3.5 h-3.5 text-rose" />
             <span className="font-body text-xs font-semibold text-deep/70">Compatibility Breakdown</span>
             <ChevronRight className={`w-3.5 h-3.5 text-deep/30 ml-auto transition-transform ${expanded ? "rotate-90" : ""}`} />
           </div>
@@ -258,7 +258,7 @@ function MatchCard({ match: m, onInterest, onPass }: {
                 <div key={dim} className="flex items-center gap-2">
                   <span className="font-body text-xs text-deep/50 capitalize w-24">{dim}</span>
                   <div className="flex-1 h-1.5 bg-deep/8 rounded-full overflow-hidden">
-                    <div className="h-full rounded-full" style={{ width: `${score}%`, background: "linear-gradient(90deg,#C4520F,#C89020)" }} />
+                    <div className="h-full rounded-full" style={{ width: `${score}%`, background: "linear-gradient(90deg,#E8426A,#C89020)" }} />
                   </div>
                   <span className="font-body text-xs font-bold text-gold w-8 text-right">{score}</span>
                 </div>
@@ -279,7 +279,7 @@ function MatchCard({ match: m, onInterest, onPass }: {
           </button>
           <Link
             href={`/profile/${m.id}`}
-            className="flex items-center justify-center rounded-full font-body text-sm font-medium text-deep/50 border hover:bg-marigold/5 transition-colors"
+            className="flex items-center justify-center rounded-full font-body text-sm font-medium text-deep/50 border hover:bg-rose/5 transition-colors"
             style={{ padding: "8px 16px", border: "1px solid rgba(28,15,6,0.15)", minHeight: "auto" }}
           >
             View
@@ -287,7 +287,7 @@ function MatchCard({ match: m, onInterest, onPass }: {
           <button
             onClick={onInterest}
             className="flex-1 flex items-center justify-center gap-1.5 rounded-full font-body text-sm font-semibold text-white transition-all"
-            style={{ padding: "8px 0", background: "linear-gradient(135deg,#C4520F,#E06A1A)", boxShadow: "0 3px 12px rgba(196,82,15,0.35)", minHeight: "auto" }}
+            style={{ padding: "8px 0", background: "linear-gradient(135deg,#E8426A,#FF8FA3)", boxShadow: "0 3px 12px rgba(196,82,15,0.35)", minHeight: "auto" }}
           >
             <Heart className="w-3.5 h-3.5 fill-white" />
             Interest

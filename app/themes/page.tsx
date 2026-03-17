@@ -107,18 +107,18 @@ const themes = [
 
   /* ── LIGHT INDIAN WEDDING THEMES ──────────────────────────────────── */
   {
-    id: "ivory-marigold",
+    id: "cream-rose",
     name: "Ivory & Marigold",
     subtitle: "Sabyasachi — Luxury Wedding Invite",
     tag: "LIGHT · WEDDING GOLD",
     isDark: false,
-    bg: "#FAF6EE",
+    bg: "#FFFAF8",
     bgMesh: "radial-gradient(at 20% 30%, rgba(212,96,26,0.12) 0px, transparent 55%), radial-gradient(at 80% 10%, rgba(184,134,11,0.14) 0px, transparent 45%), radial-gradient(at 55% 80%, rgba(228,163,58,0.08) 0px, transparent 50%)",
-    primary: "#C4520F",
-    primaryGrad: "linear-gradient(135deg, #C4520F 0%, #E06A1A 100%)",
+    primary: "#E8426A",
+    primaryGrad: "linear-gradient(135deg, #E8426A 0%, #FF8FA3 100%)",
     accent: "#9A6B00",
     accentGrad: "linear-gradient(135deg, #9A6B00 0%, #C89020 100%)",
-    text: "#1C0F06",
+    text: "#1A0A12",
     textMuted: "rgba(28,15,6,0.5)",
     glass: "rgba(196,82,15,0.07)",
     glassBorder: "rgba(154,107,0,0.22)",
@@ -256,7 +256,7 @@ function ThemePreview({ theme: t }: { theme: (typeof themes)[0] }) {
       <div style={{ background: t.navBg, backdropFilter: "blur(24px)", padding: "0 28px", height: "56px", display: "flex", alignItems: "center", justifyContent: "space-between", borderBottom: `1px solid ${t.glassBorder}` }}>
         <div style={{ display: "flex", alignItems: "center", gap: "8px" }}>
           <Heart size={16} color={t.accent} fill={t.accent} />
-          <span style={{ fontFamily: "'Cormorant', serif", color: t.text, fontSize: "18px", fontWeight: 600 }}>Bandhan</span>
+          <span style={{ fontFamily: "'Cormorant', serif", color: t.text, fontSize: "18px", fontWeight: 600 }}>Match4Marriage</span>
         </div>
         <div style={{ display: "flex", gap: "10px" }}>
           <div style={{ padding: "6px 18px", borderRadius: "99px", border: `1px solid ${ghostBorder}`, color: ghostColor, fontSize: "12px", cursor: "pointer" }}>

@@ -67,8 +67,8 @@ export default function KundaliMatchPage() {
       <nav className="navbar-glass sticky top-0 z-50">
         <div className="max-w-5xl mx-auto px-6 h-16 flex items-center justify-between">
           <Link href="/" className="flex items-center gap-2" style={{ minHeight: "auto" }}>
-            <Heart className="w-5 h-5 text-marigold fill-marigold" />
-            <span className="font-display text-xl font-semibold text-deep">Bandhan</span>
+            <Heart className="w-5 h-5 text-rose fill-rose" />
+            <span className="font-display text-xl font-semibold text-deep">Match4Marriage</span>
           </Link>
           <div className="flex items-center gap-3">
             <Link href="/auth/login" className="btn-ghost text-sm px-4 py-2" style={{ minHeight: "auto" }}>Sign In</Link>
@@ -107,13 +107,13 @@ export default function KundaliMatchPage() {
                   <div
                     className="w-7 h-7 rounded-full flex items-center justify-center font-body text-xs font-bold"
                     style={{
-                      background: done ? "linear-gradient(135deg,#5C7A52,#8DB870)" : active ? "linear-gradient(135deg,#C4520F,#E06A1A)" : "rgba(28,15,6,0.08)",
+                      background: done ? "linear-gradient(135deg,#5C7A52,#8DB870)" : active ? "linear-gradient(135deg,#E8426A,#FF8FA3)" : "rgba(28,15,6,0.08)",
                       color: done || active ? "#fff" : "rgba(28,15,6,0.3)",
                     }}
                   >
                     {done ? <Check className="w-3.5 h-3.5" /> : i + 1}
                   </div>
-                  <span className={`font-body text-xs ${active ? "text-marigold font-semibold" : "text-deep/35"}`}>{s.label}</span>
+                  <span className={`font-body text-xs ${active ? "text-rose font-semibold" : "text-deep/35"}`}>{s.label}</span>
                 </div>
                 {i < arr.length - 1 && <div className="w-8 h-px" style={{ background: done ? "rgba(92,122,82,0.4)" : "rgba(28,15,6,0.1)" }} />}
               </div>
@@ -127,7 +127,7 @@ export default function KundaliMatchPage() {
             {/* Person 1 */}
             <div className="rounded-3xl p-6" style={{ background: "rgba(250,246,238,0.96)", border: "1px solid rgba(196,82,15,0.2)", boxShadow: "0 4px 24px rgba(196,82,15,0.07)" }}>
               <div className="flex items-center gap-2 mb-5">
-                <div className="w-8 h-8 rounded-full flex items-center justify-center font-display font-bold text-white text-sm" style={{ background: "linear-gradient(135deg,#C4520F,#E06A1A)" }}>
+                <div className="w-8 h-8 rounded-full flex items-center justify-center font-display font-bold text-white text-sm" style={{ background: "linear-gradient(135deg,#E8426A,#FF8FA3)" }}>
                   1
                 </div>
                 <h3 className="font-display text-lg font-semibold text-deep">Boy / Person 1</h3>
@@ -162,7 +162,7 @@ export default function KundaliMatchPage() {
                 disabled={!p1Valid || !p2Valid}
                 className="flex items-center gap-2 px-10 py-4 rounded-full font-body text-base font-semibold text-white transition-all"
                 style={{
-                  background: "linear-gradient(135deg,#C4520F,#E06A1A)",
+                  background: "linear-gradient(135deg,#E8426A,#FF8FA3)",
                   opacity: p1Valid && p2Valid ? 1 : 0.5,
                   boxShadow: p1Valid && p2Valid ? "0 6px 24px rgba(196,82,15,0.38)" : "none",
                   minHeight: "auto",
@@ -223,7 +223,7 @@ export default function KundaliMatchPage() {
                   disabled={!contactValid || loading}
                   className="w-full flex items-center justify-center gap-2 rounded-full font-body text-sm font-semibold text-white py-4 transition-all"
                   style={{
-                    background: "linear-gradient(135deg,#C4520F,#E06A1A)",
+                    background: "linear-gradient(135deg,#E8426A,#FF8FA3)",
                     opacity: contactValid ? 1 : 0.55,
                     boxShadow: contactValid ? "0 6px 24px rgba(196,82,15,0.38)" : "none",
                     minHeight: "auto",
@@ -252,7 +252,7 @@ export default function KundaliMatchPage() {
             >
               <p className="font-devanagari text-gold/70 text-base mb-2">गुण मिलान परिणाम</p>
               <h2 className="font-display text-2xl font-light text-deep mb-4">
-                {p1.name || "Person 1"} <span className="text-marigold">♥</span> {p2.name || "Person 2"}
+                {p1.name || "Person 1"} <span className="text-rose">♥</span> {p2.name || "Person 2"}
               </h2>
 
               <div className="flex items-center justify-center gap-8 mb-4">
@@ -348,7 +348,7 @@ export default function KundaliMatchPage() {
                   <Link
                     href="/auth/register"
                     className="flex items-center justify-center gap-2 w-full rounded-full font-body text-sm font-semibold text-white py-3"
-                    style={{ background: "linear-gradient(135deg,#C4520F,#E06A1A)", boxShadow: "0 4px 16px rgba(196,82,15,0.35)", minHeight: "auto" }}
+                    style={{ background: "linear-gradient(135deg,#E8426A,#FF8FA3)", boxShadow: "0 4px 16px rgba(196,82,15,0.35)", minHeight: "auto" }}
                   >
                     <Heart className="w-4 h-4" /> Create Free Profile <ArrowRight className="w-4 h-4" />
                   </Link>
@@ -359,7 +359,7 @@ export default function KundaliMatchPage() {
             <div className="text-center">
               <button
                 onClick={() => { setStep("form"); setP1({ name: "", dob: "", tob: "", pob: "" }); setP2({ name: "", dob: "", tob: "", pob: "" }); setContact({ phone: "", email: "" }); }}
-                className="font-body text-sm text-marigold hover:underline"
+                className="font-body text-sm text-rose hover:underline"
                 style={{ minHeight: "auto" }}
               >
                 ← Check another pair

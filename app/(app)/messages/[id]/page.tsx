@@ -5,10 +5,10 @@ import Link from "next/link";
 import { ArrowLeft, Shield, Send, Lock, Phone, Video, MoreHorizontal, CheckCheck } from "lucide-react";
 
 const threadProfiles: Record<string, { name: string; photo: string; grad: string; compatibility: number; city: string }> = {
-  "1": { name: "Priya Sharma",   photo: "PS", grad: "linear-gradient(135deg,#C4520F,#E8A060)", compatibility: 92, city: "Mumbai" },
+  "1": { name: "Priya Sharma",   photo: "PS", grad: "linear-gradient(135deg,#E8426A,#E8A060)", compatibility: 92, city: "Mumbai" },
   "2": { name: "Anjali Patel",   photo: "AP", grad: "linear-gradient(135deg,#9A6B00,#C89020)",  compatibility: 87, city: "Ahmedabad" },
   "3": { name: "Kavya Nair",     photo: "KN", grad: "linear-gradient(135deg,#5C7A52,#8DB870)",  compatibility: 84, city: "Bangalore" },
-  "4": { name: "Shruti Agarwal", photo: "SA", grad: "linear-gradient(135deg,#C4520F99,#9A6B0099)", compatibility: 79, city: "Delhi" },
+  "4": { name: "Shruti Agarwal", photo: "SA", grad: "linear-gradient(135deg,#E8426A99,#9A6B0099)", compatibility: 79, city: "Delhi" },
 };
 
 const initialMessages: Record<string, { id: string; from: "me" | "them"; text: string; time: string }[]> = {
@@ -81,13 +81,13 @@ export default function ChatPage({ params }: { params: { id: string } }) {
         </div>
 
         <div className="flex items-center gap-2">
-          <button className="w-9 h-9 rounded-full flex items-center justify-center text-deep/40 hover:text-deep hover:bg-marigold/8 transition-colors" style={{ minHeight: "auto", minWidth: "auto" }}>
+          <button className="w-9 h-9 rounded-full flex items-center justify-center text-deep/40 hover:text-deep hover:bg-rose/8 transition-colors" style={{ minHeight: "auto", minWidth: "auto" }}>
             <Phone className="w-4 h-4" />
           </button>
-          <button className="w-9 h-9 rounded-full flex items-center justify-center text-deep/40 hover:text-deep hover:bg-marigold/8 transition-colors" style={{ minHeight: "auto", minWidth: "auto" }}>
+          <button className="w-9 h-9 rounded-full flex items-center justify-center text-deep/40 hover:text-deep hover:bg-rose/8 transition-colors" style={{ minHeight: "auto", minWidth: "auto" }}>
             <Video className="w-4 h-4" />
           </button>
-          <Link href={`/profile/${params.id}`} className="w-9 h-9 rounded-full flex items-center justify-center text-deep/40 hover:text-deep hover:bg-marigold/8 transition-colors" style={{ minHeight: "auto", minWidth: "auto" }}>
+          <Link href={`/profile/${params.id}`} className="w-9 h-9 rounded-full flex items-center justify-center text-deep/40 hover:text-deep hover:bg-rose/8 transition-colors" style={{ minHeight: "auto", minWidth: "auto" }}>
             <MoreHorizontal className="w-4 h-4" />
           </Link>
         </div>
@@ -108,8 +108,8 @@ export default function ChatPage({ params }: { params: { id: string } }) {
                 className="rounded-2xl px-4 py-2.5 font-body text-sm leading-relaxed"
                 style={
                   msg.from === "me"
-                    ? { background: "linear-gradient(135deg,#C4520F,#E06A1A)", color: "#fff", borderBottomRightRadius: "6px" }
-                    : { background: "rgba(250,246,238,0.98)", color: "#1C0F06", border: "1px solid rgba(154,107,0,0.14)", borderBottomLeftRadius: "6px" }
+                    ? { background: "linear-gradient(135deg,#E8426A,#FF8FA3)", color: "#fff", borderBottomRightRadius: "6px" }
+                    : { background: "rgba(250,246,238,0.98)", color: "#1A0A12", border: "1px solid rgba(154,107,0,0.14)", borderBottomLeftRadius: "6px" }
                 }
               >
                 {msg.text}
@@ -142,7 +142,7 @@ export default function ChatPage({ params }: { params: { id: string } }) {
           onClick={send}
           className="w-10 h-10 rounded-full flex items-center justify-center text-white transition-all flex-shrink-0"
           style={{
-            background: input.trim() ? "linear-gradient(135deg,#C4520F,#E06A1A)" : "rgba(196,82,15,0.25)",
+            background: input.trim() ? "linear-gradient(135deg,#E8426A,#FF8FA3)" : "rgba(196,82,15,0.25)",
             minHeight: "auto", minWidth: "auto",
           }}
         >

@@ -15,7 +15,7 @@ const countries = [
 ];
 
 const profiles = [
-  { id: "n1", name: "Divya Menon",     initials: "DM", grad: "linear-gradient(135deg,#C4520F,#E8A060)", age: 29, location: "San Francisco, USA", profession: "Product Manager", company: "Meta",    compatibility: 91, visitIndia: "Dec 2025", religion: "Hindu", verified: true  },
+  { id: "n1", name: "Divya Menon",     initials: "DM", grad: "linear-gradient(135deg,#E8426A,#E8A060)", age: 29, location: "San Francisco, USA", profession: "Product Manager", company: "Meta",    compatibility: 91, visitIndia: "Dec 2025", religion: "Hindu", verified: true  },
   { id: "n2", name: "Swati Kapoor",    initials: "SK", grad: "linear-gradient(135deg,#9A6B00,#C89020)", age: 27, location: "London, UK",          profession: "Doctor",          company: "NHS",     compatibility: 88, visitIndia: "Jan 2026", religion: "Hindu", verified: true  },
   { id: "n3", name: "Ananya Rao",      initials: "AR", grad: "linear-gradient(135deg,#5C7A52,#8DB870)", age: 30, location: "Toronto, Canada",      profession: "Data Scientist",  company: "Shopify", compatibility: 85, visitIndia: "Mar 2026", religion: "Hindu", verified: true  },
   { id: "n4", name: "Pooja Nambiar",   initials: "PN", grad: "linear-gradient(135deg,#7C3AED,#A78BFA)", age: 28, location: "Sydney, Australia",    profession: "Engineer",        company: "Atlassian", compatibility: 82, visitIndia: "Feb 2026", religion: "Christian", verified: false },
@@ -44,8 +44,8 @@ export default function NriHubPage() {
       <div className="rounded-3xl p-8 mb-8 relative overflow-hidden" style={{ background: "linear-gradient(135deg,rgba(196,82,15,0.08),rgba(154,107,0,0.12))", border: "1px solid rgba(154,107,0,0.18)" }}>
         <div className="relative z-10">
           <div className="flex items-center gap-2 mb-2">
-            <Globe className="w-5 h-5 text-marigold" />
-            <span className="font-body text-sm font-semibold text-marigold uppercase tracking-widest">NRI Hub</span>
+            <Globe className="w-5 h-5 text-rose" />
+            <span className="font-body text-sm font-semibold text-rose uppercase tracking-widest">NRI Hub</span>
           </div>
           <h1 className="font-display text-3xl font-light text-deep mb-2">
             Connecting the{" "}
@@ -75,7 +75,7 @@ export default function NriHubPage() {
             onClick={() => setSelectedCountry(null)}
             className="flex items-center gap-1.5 px-4 py-2 rounded-full font-body text-sm font-medium transition-all"
             style={{
-              background: !selectedCountry ? "linear-gradient(135deg,#C4520F,#E06A1A)" : "rgba(255,255,255,0.7)",
+              background: !selectedCountry ? "linear-gradient(135deg,#E8426A,#FF8FA3)" : "rgba(255,255,255,0.7)",
               color: !selectedCountry ? "#fff" : "rgba(28,15,6,0.6)",
               border: !selectedCountry ? "none" : "1px solid rgba(154,107,0,0.18)",
               minHeight: "auto",
@@ -89,7 +89,7 @@ export default function NriHubPage() {
               onClick={() => setSelectedCountry(selectedCountry === c.name ? null : c.name)}
               className="flex items-center gap-1.5 px-4 py-2 rounded-full font-body text-sm font-medium transition-all"
               style={{
-                background: selectedCountry === c.name ? "linear-gradient(135deg,#C4520F,#E06A1A)" : "rgba(255,255,255,0.7)",
+                background: selectedCountry === c.name ? "linear-gradient(135deg,#E8426A,#FF8FA3)" : "rgba(255,255,255,0.7)",
                 color: selectedCountry === c.name ? "#fff" : "rgba(28,15,6,0.6)",
                 border: selectedCountry === c.name ? "none" : "1px solid rgba(154,107,0,0.18)",
                 minHeight: "auto",
@@ -152,14 +152,14 @@ export default function NriHubPage() {
                 <p className="font-body text-xs text-deep/40 mt-0.5">{profile.religion}</p>
 
                 <div className="mt-3 flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg" style={{ background: "rgba(196,82,15,0.07)" }}>
-                  <Plane className="w-3 h-3 text-marigold" />
+                  <Plane className="w-3 h-3 text-rose" />
                   <span className="font-body text-xs text-deep/55">Visiting India: <strong className="text-deep/75">{profile.visitIndia}</strong></span>
                 </div>
 
                 <div className="flex gap-2 mt-3">
                   <button
                     className="flex-1 flex items-center justify-center gap-1 py-2 rounded-xl font-body text-xs font-semibold text-white"
-                    style={{ background: "linear-gradient(135deg,#C4520F,#E06A1A)", minHeight: "auto" }}
+                    style={{ background: "linear-gradient(135deg,#E8426A,#FF8FA3)", minHeight: "auto" }}
                   >
                     <Heart className="w-3 h-3" /> Interest
                   </button>
@@ -201,8 +201,8 @@ export default function NriHubPage() {
         <h2 className="font-display text-lg font-semibold text-deep mb-4">NRI Success Stories</h2>
         <div className="grid md:grid-cols-2 gap-4">
           {[
-            { couple: "Rahul & Pooja",   loc: "California → Mumbai",  msg: "\"Met on Bandhan, he flew down from SF for our roka. Now settled in Bangalore!\"" },
-            { couple: "Vikram & Naina",  loc: "London → Delhi",       msg: "\"Bandhan's NRI Hub helped us sync our India visit dates. We got engaged in 3 months.\"" },
+            { couple: "Rahul & Pooja",   loc: "California → Mumbai",  msg: "\"Met on Match4Marriage, he flew down from SF for our roka. Now settled in Bangalore!\"" },
+            { couple: "Vikram & Naina",  loc: "London → Delhi",       msg: "\"Match4Marriage's NRI Hub helped us sync our India visit dates. We got engaged in 3 months.\"" },
           ].map(({ couple, loc, msg }) => (
             <div key={couple} className="rounded-xl p-4" style={{ background: "rgba(250,246,238,0.8)", border: "1px solid rgba(154,107,0,0.1)" }}>
               <div className="flex items-center gap-1 mb-2">

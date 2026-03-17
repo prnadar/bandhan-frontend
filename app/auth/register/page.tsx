@@ -42,8 +42,8 @@ export default function RegisterPage() {
   return (
     <div className="min-h-screen bg-mesh flex flex-col items-center justify-center px-4 py-12">
       <Link href="/" className="flex items-center gap-2 mb-10" style={{ minHeight: "auto" }}>
-        <Heart className="w-6 h-6 text-marigold fill-marigold" />
-        <span className="font-display text-2xl font-semibold text-deep">Bandhan</span>
+        <Heart className="w-6 h-6 text-rose fill-rose" />
+        <span className="font-display text-2xl font-semibold text-deep">Match4Marriage</span>
       </Link>
 
       {/* Step indicators */}
@@ -57,13 +57,13 @@ export default function RegisterPage() {
                 <div
                   className="w-7 h-7 rounded-full flex items-center justify-center font-body text-xs font-bold transition-all"
                   style={{
-                    background: done ? "linear-gradient(135deg,#5C7A52,#8DB870)" : active ? "linear-gradient(135deg,#C4520F,#E06A1A)" : "rgba(28,15,6,0.08)",
+                    background: done ? "linear-gradient(135deg,#5C7A52,#8DB870)" : active ? "linear-gradient(135deg,#E8426A,#FF8FA3)" : "rgba(28,15,6,0.08)",
                     color: done || active ? "#fff" : "rgba(28,15,6,0.3)",
                   }}
                 >
                   {done ? <Check className="w-3.5 h-3.5" /> : s.id}
                 </div>
-                <span className={`font-body text-xs ${active ? "text-marigold font-semibold" : "text-deep/35"}`}>{s.label}</span>
+                <span className={`font-body text-xs ${active ? "text-rose font-semibold" : "text-deep/35"}`}>{s.label}</span>
               </div>
               {i < steps.length - 1 && (
                 <div className="w-8 h-px" style={{ background: done ? "rgba(92,122,82,0.4)" : "rgba(28,15,6,0.1)" }} />
@@ -105,7 +105,7 @@ export default function RegisterPage() {
                   onClick={sendOtp}
                   disabled={phone.length < 10 || loading}
                   className="w-full flex items-center justify-center gap-2 rounded-full font-body text-sm font-semibold text-white py-3.5"
-                  style={{ background: "linear-gradient(135deg,#C4520F,#E06A1A)", opacity: phone.length < 10 ? 0.55 : 1, minHeight: "auto" }}
+                  style={{ background: "linear-gradient(135deg,#E8426A,#FF8FA3)", opacity: phone.length < 10 ? 0.55 : 1, minHeight: "auto" }}
                 >
                   {loading ? <span className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin" /> : <>Send OTP <ArrowRight className="w-4 h-4" /></>}
                 </button>
@@ -123,7 +123,7 @@ export default function RegisterPage() {
                         if (v && i < 5) (document.getElementById(`rotp-${i + 1}`) as HTMLInputElement)?.focus();
                       }}
                       className="w-11 h-12 text-center rounded-xl font-display text-xl font-bold text-deep outline-none"
-                      style={{ background: "rgba(255,255,255,0.8)", border: d ? "2px solid #C4520F" : "1px solid rgba(154,107,0,0.2)" }}
+                      style={{ background: "rgba(255,255,255,0.8)", border: d ? "2px solid #E8426A" : "1px solid rgba(154,107,0,0.2)" }}
                     />
                   ))}
                 </div>
@@ -131,7 +131,7 @@ export default function RegisterPage() {
                   onClick={next}
                   disabled={otp.join("").length < 6 || loading}
                   className="w-full flex items-center justify-center gap-2 rounded-full font-body text-sm font-semibold text-white py-3.5"
-                  style={{ background: "linear-gradient(135deg,#C4520F,#E06A1A)", opacity: otp.join("").length < 6 ? 0.55 : 1, minHeight: "auto" }}
+                  style={{ background: "linear-gradient(135deg,#E8426A,#FF8FA3)", opacity: otp.join("").length < 6 ? 0.55 : 1, minHeight: "auto" }}
                 >
                   {loading ? <span className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin" /> : <>Verify & Continue <ArrowRight className="w-4 h-4" /></>}
                 </button>
@@ -173,7 +173,7 @@ export default function RegisterPage() {
                     <button key={g} onClick={() => set("gender", g)}
                       className="py-2.5 rounded-xl font-body text-sm font-medium transition-all"
                       style={{
-                        background: form.gender === g ? "linear-gradient(135deg,#C4520F,#E06A1A)" : "rgba(255,255,255,0.6)",
+                        background: form.gender === g ? "linear-gradient(135deg,#E8426A,#FF8FA3)" : "rgba(255,255,255,0.6)",
                         border: form.gender === g ? "none" : "1px solid rgba(154,107,0,0.18)",
                         color: form.gender === g ? "#fff" : "rgba(28,15,6,0.6)",
                         minHeight: "auto",
@@ -214,7 +214,7 @@ export default function RegisterPage() {
                   </div>
                 </div>
               ))}
-              <button className="w-full font-body text-sm text-marigold font-medium py-2" style={{ minHeight: "auto" }}>
+              <button className="w-full font-body text-sm text-rose font-medium py-2" style={{ minHeight: "auto" }}>
                 Skip for now — verify later
               </button>
             </div>
@@ -233,7 +233,7 @@ export default function RegisterPage() {
               onClick={next}
               disabled={loading}
               className="flex-1 flex items-center justify-center gap-2 rounded-full font-body text-sm font-semibold text-white py-3 transition-all"
-              style={{ background: "linear-gradient(135deg,#C4520F,#E06A1A)", boxShadow: "0 4px 16px rgba(196,82,15,0.35)", minHeight: "auto" }}
+              style={{ background: "linear-gradient(135deg,#E8426A,#FF8FA3)", boxShadow: "0 4px 16px rgba(196,82,15,0.35)", minHeight: "auto" }}
             >
               {loading ? <span className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin" /> : <>{step === 3 ? "Go to Dashboard" : "Continue"} <ArrowRight className="w-4 h-4" /></>}
             </button>
@@ -242,7 +242,7 @@ export default function RegisterPage() {
 
         <p className="font-body text-xs text-center text-deep/35 mt-5">
           Already registered?{" "}
-          <Link href="/auth/login" className="text-marigold font-medium hover:underline" style={{ minHeight: "auto" }}>Sign in</Link>
+          <Link href="/auth/login" className="text-rose font-medium hover:underline" style={{ minHeight: "auto" }}>Sign in</Link>
         </p>
       </div>
     </div>

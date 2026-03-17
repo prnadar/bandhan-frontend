@@ -14,7 +14,7 @@ const plans = [
     color: "rgba(28,15,6,0.06)",
     border: "rgba(28,15,6,0.14)",
     cta: "Get Started",
-    ctaStyle: { background: "rgba(28,15,6,0.08)", color: "#1C0F06", border: "1px solid rgba(28,15,6,0.18)" },
+    ctaStyle: { background: "rgba(28,15,6,0.08)", color: "#1A0A12", border: "1px solid rgba(28,15,6,0.18)" },
     features: [
       { text: "Create your profile", included: true },
       { text: "Aadhaar + PAN verification", included: true },
@@ -58,12 +58,12 @@ const plans = [
     nameHindi: "सोना",
     price: 2499,
     priceLabel: "/ month",
-    description: "The full Bandhan experience",
+    description: "The full Match4Marriage experience",
     popular: true,
     color: "rgba(196,82,15,0.07)",
     border: "rgba(196,82,15,0.35)",
     cta: "Start Gold",
-    ctaStyle: { background: "linear-gradient(135deg,#C4520F,#E06A1A)", color: "#fff", boxShadow: "0 4px 20px rgba(196,82,15,0.38)" },
+    ctaStyle: { background: "linear-gradient(135deg,#E8426A,#FF8FA3)", color: "#fff", boxShadow: "0 4px 20px rgba(196,82,15,0.38)" },
     features: [
       { text: "Everything in Silver", included: true },
       { text: "Unlimited interests", included: true },
@@ -110,8 +110,8 @@ export default function PricingPage() {
       <nav className="navbar-glass sticky top-0 z-50">
         <div className="max-w-7xl mx-auto px-6 h-16 flex items-center justify-between">
           <Link href="/" className="flex items-center gap-2" style={{ minHeight: "auto" }}>
-            <Heart className="w-5 h-5 text-marigold fill-marigold" />
-            <span className="font-display text-xl font-semibold text-deep">Bandhan</span>
+            <Heart className="w-5 h-5 text-rose fill-rose" />
+            <span className="font-display text-xl font-semibold text-deep">Match4Marriage</span>
           </Link>
           <div className="flex items-center gap-3">
             <Link href="/dashboard" className="btn-ghost text-sm px-5 py-2" style={{ minHeight: "auto" }}>Dashboard</Link>
@@ -137,7 +137,7 @@ export default function PricingPage() {
 
           {/* Toggle annual/monthly */}
           <div className="inline-flex items-center gap-3 mt-6 px-2 py-2 rounded-full" style={{ background: "rgba(196,82,15,0.07)", border: "1px solid rgba(154,107,0,0.15)" }}>
-            <button className="font-body text-sm font-semibold text-white px-4 py-1.5 rounded-full" style={{ background: "linear-gradient(135deg,#C4520F,#E06A1A)", minHeight: "auto" }}>
+            <button className="font-body text-sm font-semibold text-white px-4 py-1.5 rounded-full" style={{ background: "linear-gradient(135deg,#E8426A,#FF8FA3)", minHeight: "auto" }}>
               Monthly
             </button>
             <button className="font-body text-sm font-medium text-deep/55 px-4 py-1.5 rounded-full" style={{ minHeight: "auto" }}>
@@ -162,7 +162,7 @@ export default function PricingPage() {
               {plan.popular && (
                 <div
                   className="flex items-center justify-center gap-1 py-2 font-body text-xs font-bold text-white tracking-wider"
-                  style={{ background: "linear-gradient(135deg,#C4520F,#E06A1A)" }}
+                  style={{ background: "linear-gradient(135deg,#E8426A,#FF8FA3)" }}
                 >
                   <Star className="w-3 h-3 fill-white" />
                   MOST POPULAR
@@ -228,7 +228,7 @@ export default function PricingPage() {
           ].map(({ icon: Icon, label, sub }) => (
             <div key={label}>
               <div className="w-10 h-10 rounded-full flex items-center justify-center mx-auto mb-2" style={{ background: "rgba(196,82,15,0.08)" }}>
-                <Icon className="w-4 h-4 text-marigold" />
+                <Icon className="w-4 h-4 text-rose" />
               </div>
               <p className="font-body text-sm font-semibold text-deep">{label}</p>
               <p className="font-body text-xs text-deep/40 mt-0.5">{sub}</p>
@@ -240,9 +240,9 @@ export default function PricingPage() {
         <div className="text-center">
           <p className="font-body text-sm text-deep/45">
             Have questions?{" "}
-            <a href="#" className="text-marigold font-medium hover:underline">Read our FAQ</a>{" "}
+            <a href="#" className="text-rose font-medium hover:underline">Read our FAQ</a>{" "}
             or{" "}
-            <a href="#" className="text-marigold font-medium hover:underline">chat with us</a>
+            <a href="#" className="text-rose font-medium hover:underline">chat with us</a>
           </p>
         </div>
       </div>

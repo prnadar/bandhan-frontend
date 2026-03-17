@@ -19,7 +19,7 @@ function Toggle2({ on, onToggle }: { on: boolean; onToggle: () => void }) {
       onClick={onToggle}
       className="relative w-10 h-5.5 rounded-full transition-all flex-shrink-0"
       style={{
-        background: on ? "linear-gradient(135deg,#C4520F,#E06A1A)" : "rgba(28,15,6,0.12)",
+        background: on ? "linear-gradient(135deg,#E8426A,#FF8FA3)" : "rgba(28,15,6,0.12)",
         height: "22px",
         width: "40px",
         minHeight: "auto",
@@ -106,11 +106,11 @@ export default function SettingsPage() {
               className="w-full flex items-center gap-2.5 px-3 py-2.5 rounded-xl font-body text-sm font-medium text-left transition-all"
               style={{
                 background: section === n.key ? "rgba(196,82,15,0.08)" : "transparent",
-                color: section === n.key ? "#C4520F" : "rgba(28,15,6,0.55)",
+                color: section === n.key ? "#E8426A" : "rgba(28,15,6,0.55)",
                 minHeight: "auto",
               }}
             >
-              <span style={{ color: section === n.key ? "#C4520F" : "rgba(28,15,6,0.35)" }}>{n.icon}</span>
+              <span style={{ color: section === n.key ? "#E8426A" : "rgba(28,15,6,0.35)" }}>{n.icon}</span>
               {n.label}
             </button>
           ))}
@@ -191,7 +191,7 @@ export default function SettingsPage() {
                 <Lock className="w-5 h-5 text-sage flex-shrink-0 mt-0.5" />
                 <div>
                   <p className="font-body text-sm font-semibold text-sage mb-1">Your data is protected</p>
-                  <p className="font-body text-xs text-sage/70">Bandhan is PDPB compliant. Aadhaar is hashed and never stored in plain text. All messages are E2E encrypted.</p>
+                  <p className="font-body text-xs text-sage/70">Match4Marriage is PDPB compliant. Aadhaar is hashed and never stored in plain text. All messages are E2E encrypted.</p>
                 </div>
               </div>
             </>
@@ -299,7 +299,7 @@ export default function SettingsPage() {
           {section === "data" && (
             <Card>
               {[
-                { label: "Download My Data", desc: "Get a copy of all your Bandhan data (GDPR Article 20)", icon: <Download className="w-4 h-4 text-deep/40" /> },
+                { label: "Download My Data", desc: "Get a copy of all your Match4Marriage data (GDPR Article 20)", icon: <Download className="w-4 h-4 text-deep/40" /> },
                 { label: "Privacy Policy", desc: "How we use and protect your data", icon: <Shield className="w-4 h-4 text-deep/40" /> },
                 { label: "Terms of Service", desc: "Platform terms and conditions", icon: <Globe className="w-4 h-4 text-deep/40" /> },
                 { label: "Cookie Preferences", desc: "Manage tracking and analytics cookies", icon: <Smartphone className="w-4 h-4 text-deep/40" /> },
