@@ -456,6 +456,28 @@ export default function HomePage() {
         `}</style>
       </section>
 
+      {/* ── 3b. Trust Strip ─────────────────────────────────────────── */}
+      <section style={{ background: "#fff", borderBottom: "1px solid rgba(220,30,60,0.08)", padding: "0 24px" }}>
+        <div className="max-w-5xl mx-auto grid grid-cols-2 md:grid-cols-4" >
+          {[
+            { icon: "✦", title: "Hand-Picked Profiles", desc: "Every member personally vetted" },
+            { icon: "🇬🇧", title: "UK Registered", desc: "Based & regulated in the United Kingdom" },
+            { icon: "🔒", title: "Discreet & Private", desc: "Your data is never shared without consent" },
+            { icon: "🤝", title: "Personal Advisors", desc: "Real people guiding your journey" },
+          ].map((item, i) => (
+            <div key={item.title} style={{
+              padding: "28px 20px",
+              textAlign: "center",
+              borderRight: i < 3 ? "1px solid rgba(220,30,60,0.07)" : "none",
+            }}>
+              <div style={{ fontSize: "22px", marginBottom: "10px" }}>{item.icon}</div>
+              <p style={{ fontSize: "13px", fontWeight: 700, color: "#1a0a14", marginBottom: "4px", fontFamily: "Playfair Display, serif" }}>{item.title}</p>
+              <p style={{ fontSize: "11px", color: "#999", lineHeight: 1.5 }}>{item.desc}</p>
+            </div>
+          ))}
+        </div>
+      </section>
+
       {/* ── 4. How It Works ──────────────────────────────────────────── */}
       <section id="how-it-works" style={{ padding: "96px 24px", background: "#fdfbf9", position: "relative", overflow: "hidden" }}>
         {/* Subtle background motif */}
@@ -519,6 +541,91 @@ export default function HomePage() {
                 </div>
               ))}
             </div>
+          </div>
+        </div>
+      </section>
+
+      {/* ── 5b. Featured Profiles Teaser ─────────────────────────────── */}
+      <section style={{ padding: "80px 24px", background: "#fff" }}>
+        <div className="max-w-5xl mx-auto">
+          <div style={{ textAlign: "center", marginBottom: "48px" }}>
+            <span style={{ fontSize: "12px", fontWeight: 700, color: "#dc1e3c", textTransform: "uppercase", letterSpacing: "0.15em" }}>Exclusively Curated</span>
+            <h2 className="font-playfair" style={{ fontSize: "clamp(26px, 3.5vw, 40px)", fontWeight: 700, color: "#1a0a14", marginTop: "12px", marginBottom: "12px" }}>A Glimpse of Our Members</h2>
+            <p style={{ color: "#888", fontSize: "14px", maxWidth: "480px", margin: "0 auto" }}>Register to view full profiles. Every member is personally verified and approved by our team.</p>
+          </div>
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-6" style={{ marginBottom: "40px" }}>
+            {[
+              { age: "28", city: "London", profession: "Doctor", religion: "Hindu", gender: "F" },
+              { age: "31", city: "Birmingham", profession: "Barrister", religion: "Hindu", gender: "M" },
+              { age: "26", city: "Manchester", profession: "Engineer", religion: "Muslim", gender: "F" },
+            ].map((p, i) => (
+              <div key={i} style={{
+                background: "#fdfbf9",
+                borderRadius: "20px",
+                overflow: "hidden",
+                border: "1px solid rgba(220,30,60,0.08)",
+                boxShadow: "0 2px 20px rgba(26,10,20,0.05)",
+                position: "relative",
+              }}>
+                {/* Blurred avatar */}
+                <div style={{
+                  height: "180px",
+                  background: `linear-gradient(135deg, ${i === 1 ? "#3b3fa0" : "#dc1e3c"}22, ${i === 1 ? "#dc1e3c" : "#3b3fa0"}11)`,
+                  display: "flex", alignItems: "center", justifyContent: "center",
+                  position: "relative",
+                }}>
+                  <div style={{
+                    width: "80px", height: "80px", borderRadius: "50%",
+                    background: `linear-gradient(135deg, ${i === 1 ? "#3b3fa0" : "#dc1e3c"}44, rgba(255,255,255,0.2))`,
+                    display: "flex", alignItems: "center", justifyContent: "center",
+                    fontSize: "32px",
+                  }}>
+                    {p.gender === "F" ? "👩" : "👨"}
+                  </div>
+                  {/* Blur overlay */}
+                  <div style={{
+                    position: "absolute", inset: 0,
+                    backdropFilter: "blur(8px)",
+                    background: "rgba(255,255,255,0.3)",
+                    display: "flex", alignItems: "center", justifyContent: "center",
+                  }}>
+                    <div style={{
+                      background: "rgba(255,255,255,0.9)",
+                      borderRadius: "9999px",
+                      padding: "6px 16px",
+                      fontSize: "11px", fontWeight: 600, color: "#dc1e3c",
+                      letterSpacing: "0.05em",
+                    }}>
+                      🔒 Register to View
+                    </div>
+                  </div>
+                </div>
+                <div style={{ padding: "20px" }}>
+                  <p className="font-playfair" style={{ fontSize: "16px", fontWeight: 700, color: "#1a0a14", marginBottom: "6px" }}>
+                    {p.age} yrs &nbsp;·&nbsp; {p.city}
+                  </p>
+                  <p style={{ fontSize: "13px", color: "#777", marginBottom: "4px" }}>🎓 {p.profession}</p>
+                  <p style={{ fontSize: "13px", color: "#777" }}>🕊 {p.religion}</p>
+                  <span style={{
+                    display: "inline-block", marginTop: "10px",
+                    fontSize: "11px", fontWeight: 600, color: "#dc1e3c",
+                    background: "rgba(220,30,60,0.07)", borderRadius: "9999px",
+                    padding: "3px 10px",
+                  }}>✓ Verified</span>
+                </div>
+              </div>
+            ))}
+          </div>
+          <div style={{ textAlign: "center" }}>
+            <Link href="/auth/register" style={{
+              display: "inline-block",
+              background: "linear-gradient(135deg, #dc1e3c, #a0153c)",
+              color: "#fff", padding: "14px 40px", borderRadius: "9999px",
+              fontSize: "14px", fontWeight: 600, textDecoration: "none",
+              boxShadow: "0 4px 20px rgba(220,30,60,0.25)",
+            }}>
+              Register to View All Profiles
+            </Link>
           </div>
         </div>
       </section>
@@ -592,6 +699,162 @@ export default function HomePage() {
                   </div>
                 </div>
               ))}
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* ── 8b. Trusted By ───────────────────────────────────────────── */}
+      <section style={{ padding: "48px 24px", background: "#fdfbf9", borderTop: "1px solid rgba(220,30,60,0.06)" }}>
+        <div className="max-w-5xl mx-auto">
+          <p style={{ textAlign: "center", fontSize: "11px", fontWeight: 700, color: "#bbb", textTransform: "uppercase", letterSpacing: "0.2em", marginBottom: "28px" }}>
+            Trusted by families across
+          </p>
+          <div style={{ display: "flex", flexWrap: "wrap", justifyContent: "center", gap: "12px 32px" }}>
+            {["London", "Birmingham", "Manchester", "Leicester", "Bradford", "Leeds", "Glasgow", "Dubai", "Toronto", "Chennai"].map((city) => (
+              <span key={city} style={{
+                fontSize: "13px", fontWeight: 600, color: "#999",
+                padding: "6px 16px",
+                border: "1px solid rgba(220,30,60,0.12)",
+                borderRadius: "9999px",
+                background: "#fff",
+              }}>
+                {city}
+              </span>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* ── 8c. FAQ ──────────────────────────────────────────────────── */}
+      <section style={{ padding: "80px 24px", background: "#fff" }}>
+        <div className="max-w-3xl mx-auto">
+          <div style={{ textAlign: "center", marginBottom: "56px" }}>
+            <span style={{ fontSize: "12px", fontWeight: 700, color: "#dc1e3c", textTransform: "uppercase", letterSpacing: "0.15em" }}>Common Questions</span>
+            <h2 className="font-playfair" style={{ fontSize: "clamp(26px, 3.5vw, 40px)", fontWeight: 700, color: "#1a0a14", marginTop: "12px" }}>Frequently Asked</h2>
+          </div>
+          <div style={{ display: "flex", flexDirection: "column", gap: "0" }}>
+            {[
+              {
+                q: "How is Match4Marriage different from other matrimony sites?",
+                a: "We are a boutique service — not a mass-market platform. Every profile is hand-picked and personally vetted by our team. We focus on quality introductions, not volume.",
+              },
+              {
+                q: "How does the matching process work?",
+                a: "Once you register, our advisors review your profile and preferences. We personally curate compatible introductions for you — no swiping, no endless browsing. Just meaningful, considered matches.",
+              },
+              {
+                q: "Is my information kept private?",
+                a: "Absolutely. Your contact details and personal information are never shared without your explicit consent. All data is handled in compliance with UK GDPR regulations.",
+              },
+              {
+                q: "How long does it typically take to find a match?",
+                a: "Every journey is unique. Some of our members have found their match within weeks; others take a few months. We guide you at every stage and never rush the process.",
+              },
+              {
+                q: "Do you serve families outside the UK?",
+                a: "Yes. While our primary focus is the British Indian community, we connect families globally — including India, UAE, Canada, Australia, and the USA.",
+              },
+            ].map((faq, i) => (
+              <details key={i} style={{
+                borderBottom: "1px solid rgba(220,30,60,0.08)",
+                padding: "0",
+              }}>
+                <summary style={{
+                  padding: "20px 0",
+                  fontSize: "15px", fontWeight: 600, color: "#1a0a14",
+                  cursor: "pointer", listStyle: "none",
+                  display: "flex", justifyContent: "space-between", alignItems: "center",
+                }}>
+                  {faq.q}
+                  <span style={{ color: "#dc1e3c", fontSize: "20px", flexShrink: 0, marginLeft: "16px" }}>+</span>
+                </summary>
+                <p style={{ padding: "0 0 20px", fontSize: "14px", color: "#777", lineHeight: 1.8, margin: 0 }}>
+                  {faq.a}
+                </p>
+              </details>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* ── 8d. Contact / Enquiry ────────────────────────────────────── */}
+      <section style={{ padding: "80px 24px", background: "#fdfbf9" }}>
+        <div className="max-w-5xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
+          <div>
+            <span style={{ fontSize: "12px", fontWeight: 700, color: "#dc1e3c", textTransform: "uppercase", letterSpacing: "0.15em" }}>Get in Touch</span>
+            <h2 className="font-playfair" style={{ fontSize: "clamp(26px, 3.5vw, 40px)", fontWeight: 700, color: "#1a0a14", marginTop: "12px", marginBottom: "16px" }}>
+              Speak to Our Team
+            </h2>
+            <p style={{ color: "#777", fontSize: "15px", lineHeight: 1.8, marginBottom: "32px" }}>
+              Have a question? Want to learn more before registering? Our advisors are here to help — no pressure, just a friendly conversation.
+            </p>
+            <div style={{ display: "flex", flexDirection: "column", gap: "16px" }}>
+              {[
+                { icon: "✉️", label: "Email Us", value: "hello@match4marriage.com" },
+                { icon: "📞", label: "Call Us", value: "+44 (0) 7700 000 000" },
+                { icon: "💬", label: "WhatsApp", value: "Message us on WhatsApp" },
+              ].map((c) => (
+                <div key={c.label} style={{ display: "flex", alignItems: "center", gap: "16px" }}>
+                  <div style={{
+                    width: "44px", height: "44px", borderRadius: "12px",
+                    background: "rgba(220,30,60,0.07)",
+                    display: "flex", alignItems: "center", justifyContent: "center",
+                    fontSize: "18px", flexShrink: 0,
+                  }}>
+                    {c.icon}
+                  </div>
+                  <div>
+                    <p style={{ fontSize: "11px", fontWeight: 700, color: "#bbb", textTransform: "uppercase", letterSpacing: "0.1em", margin: 0 }}>{c.label}</p>
+                    <p style={{ fontSize: "14px", color: "#1a0a14", fontWeight: 600, margin: 0 }}>{c.value}</p>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+          <div style={{
+            background: "#fff",
+            borderRadius: "20px",
+            padding: "36px",
+            boxShadow: "0 4px 32px rgba(26,10,20,0.08)",
+            border: "1px solid rgba(220,30,60,0.08)",
+          }}>
+            <h3 className="font-playfair" style={{ fontSize: "20px", fontWeight: 700, color: "#1a0a14", marginBottom: "24px" }}>Send an Enquiry</h3>
+            <div style={{ display: "flex", flexDirection: "column", gap: "14px" }}>
+              {["Your Name", "Email Address", "Phone Number"].map((field) => (
+                <input
+                  key={field}
+                  type="text"
+                  placeholder={field}
+                  style={{
+                    width: "100%", padding: "12px 16px",
+                    border: "1px solid rgba(220,30,60,0.15)",
+                    borderRadius: "10px", fontSize: "14px",
+                    color: "#1a0a14", background: "#fdfbf9",
+                    outline: "none", boxSizing: "border-box",
+                  }}
+                />
+              ))}
+              <textarea
+                placeholder="Your message (optional)"
+                rows={3}
+                style={{
+                  width: "100%", padding: "12px 16px",
+                  border: "1px solid rgba(220,30,60,0.15)",
+                  borderRadius: "10px", fontSize: "14px",
+                  color: "#1a0a14", background: "#fdfbf9",
+                  outline: "none", resize: "none", boxSizing: "border-box",
+                }}
+              />
+              <button style={{
+                background: "linear-gradient(135deg, #dc1e3c, #a0153c)",
+                color: "#fff", padding: "14px",
+                borderRadius: "10px", fontSize: "14px",
+                fontWeight: 600, border: "none", cursor: "pointer",
+                boxShadow: "0 4px 16px rgba(220,30,60,0.25)",
+              }}>
+                Send Enquiry
+              </button>
             </div>
           </div>
         </div>
