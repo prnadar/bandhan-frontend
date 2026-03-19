@@ -1,5 +1,4 @@
-/* Playfair Display (luxury headings) + DM Sans (body) — Warm Luxury Rose Gold */
-@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,400;1,600&family=DM+Sans:wght@300;400;500;600;700&family=Noto+Serif+Devanagari:wght@400;600&display=swap');
+/* ── Match4Marriage · Warm Matrimony Design System ── */
 
 @tailwind base;
 @tailwind components;
@@ -7,27 +6,14 @@
 
 @layer base {
   :root {
-    /* ── Warm Luxury Rose Gold Palette ── */
-    --rose:            #E8426A;
-    --rose-light:      #FF8FA3;
-    --rose-dark:       #C4285A;
-    --gold:            #C9954A;
-    --gold-light:      #FFD166;
-    --gold-dark:       #8A5E20;
-    --cream:           #FFFAF8;
-    --blush:           #FDF0F3;
-    --blush-dark:      #F9E0E8;
-    --deep:            #1A0A12;
-    --muted:           #8A7080;
-    --sage:            #7A9E7E;
-    /* Liquid glass tokens */
-    --glass-bg:        rgba(232, 66, 106, 0.06);
-    --glass-border:    rgba(201, 149, 74, 0.22);
-    --glass-blur:      blur(20px);
-    /* Mesh gradient */
-    --mesh-1:          rgba(232, 66, 106, 0.10);
-    --mesh-2:          rgba(201, 149, 74, 0.12);
-    --mesh-3:          rgba(255, 209, 102, 0.08);
+    --bg-warm: #fdfbf9;
+    --text-primary: #1a0a14;
+    --text-secondary: #555;
+    --accent-gold: #dc1e3c;
+    --accent-blue: #3b3fa0;
+    --card-bg: #fff8f9;
+    --border-gold: rgba(220, 30, 60, 0.12);
+    --shadow-warm: 0 4px 20px rgba(220, 30, 60, 0.06);
   }
 
   html {
@@ -36,19 +22,19 @@
   }
 
   body {
-    @apply font-body bg-cream text-deep antialiased;
+    font-family: 'Poppins', system-ui, sans-serif;
+    background: linear-gradient(135deg, #fdfbf9 0%, #fff5f7 100%) fixed;
+    color: var(--text-primary);
     -webkit-font-smoothing: antialiased;
+    font-weight: 400;
+    font-size: 1rem;
+    line-height: 1.6;
   }
 
   :focus-visible {
-    outline: 2px solid #C9954A;
+    outline: 2px solid #dc1e3c;
     outline-offset: 3px;
     border-radius: 4px;
-  }
-
-  button, a, [role="button"] {
-    min-height: 44px;
-    min-width: 44px;
   }
 
   @media (prefers-reduced-motion: reduce) {
@@ -59,139 +45,104 @@
   }
 }
 
-@layer components {
+/* ── Typography ────────────────────────────────────────────────────── */
 
-  /* ── Liquid Glass Card ──────────────────────────────────────────── */
-  .glass-card {
-    background: var(--glass-bg);
-    backdrop-filter: var(--glass-blur);
-    -webkit-backdrop-filter: var(--glass-blur);
-    border: 1px solid var(--glass-border);
-    @apply rounded-2xl;
-  }
+h1, h2, h3, h4 {
+  font-family: 'Playfair Display', serif;
+  color: var(--text-primary);
+}
 
-  .glass-card-hover {
-    @apply glass-card cursor-pointer;
-    transition: background 300ms ease-out, border-color 300ms ease-out, transform 300ms ease-out, box-shadow 300ms ease-out;
-  }
-  .glass-card-hover:hover {
-    background: rgba(232, 66, 106, 0.10);
-    border-color: rgba(201, 149, 74, 0.40);
-    box-shadow: 0 8px 32px rgba(232, 66, 106, 0.14);
-    transform: translateY(-3px);
-  }
+/* ── Keyframes ─────────────────────────────────────────────────────── */
 
-  /* ── Floating Navbar ────────────────────────────────────────────── */
-  .navbar-glass {
-    background: rgba(253, 240, 243, 0.94);
-    backdrop-filter: blur(24px);
-    -webkit-backdrop-filter: blur(24px);
-    border-bottom: 1px solid rgba(201, 149, 74, 0.18);
+@keyframes float {
+  0%, 100% { transform: translateY(0px); }
+  50% { transform: translateY(-10px); }
+}
+
+@keyframes fadeInUp {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* ── Utilities ─────────────────────────────────────────────────────── */
+
+@layer utilities {
+  .font-playfair {
+    font-family: 'Playfair Display', serif;
   }
 
-  /* ── Buttons ────────────────────────────────────────────────────── */
-  .btn-primary {
-    @apply inline-flex items-center justify-center gap-2 cursor-pointer
-           font-body font-semibold text-sm tracking-wide
-           px-7 py-3.5 rounded-full text-white
-           transition-all duration-200 ease-out;
-    background: linear-gradient(135deg, #E8426A 0%, #FF8FA3 100%);
-    box-shadow: 0 4px 20px rgba(232, 66, 106, 0.38);
+  .font-cinzel {
+    font-family: 'Cinzel Decorative', cursive;
   }
-  .btn-primary:hover {
-    box-shadow: 0 6px 28px rgba(232, 66, 106, 0.55);
-    transform: translateY(-1px);
+
+  .font-poppins {
+    font-family: 'Poppins', sans-serif;
   }
-  .btn-primary:active { transform: scale(0.97); }
+
+  .warm-card {
+    background: #ffffff;
+    border: 1px solid var(--border-gold);
+    border-radius: 1rem;
+    box-shadow: var(--shadow-warm);
+    transition: transform 300ms ease, box-shadow 300ms ease;
+  }
+
+  .warm-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 8px 30px rgba(102, 69, 28, 0.12);
+  }
 
   .btn-gold {
-    @apply inline-flex items-center justify-center gap-2 cursor-pointer
-           font-body font-semibold text-sm tracking-wide
-           px-7 py-3.5 rounded-full text-white
-           transition-all duration-200 ease-out;
-    background: linear-gradient(135deg, #C9954A 0%, #FFD166 100%);
-    box-shadow: 0 4px 20px rgba(201, 149, 74, 0.32);
+    background-color: var(--accent-gold);
+    color: #ffffff;
+    font-weight: 500;
+    border-radius: 9999px;
+    transition: background-color 200ms ease, transform 200ms ease;
   }
+
   .btn-gold:hover {
-    box-shadow: 0 6px 28px rgba(201, 149, 74, 0.50);
-    transform: translateY(-1px);
+    background-color: #a0153c;
+    transform: scale(1.02);
   }
 
-  .btn-ghost {
-    @apply inline-flex items-center justify-center gap-2 cursor-pointer
-           font-body font-medium text-sm tracking-wide
-           px-7 py-3.5 rounded-full
-           transition-all duration-200 ease-out;
-    color: rgba(26, 10, 18, 0.6);
-    border: 1px solid rgba(26, 10, 18, 0.18);
-  }
-  .btn-ghost:hover {
-    border-color: rgba(201, 149, 74, 0.45);
-    color: #1A0A12;
-    background: rgba(201, 149, 74, 0.07);
+  .btn-outline-gold {
+    border: 2px solid var(--accent-gold);
+    color: var(--accent-gold);
+    font-weight: 500;
+    border-radius: 9999px;
+    background: transparent;
+    transition: all 200ms ease;
   }
 
-  /* ── Match card ─────────────────────────────────────────────────── */
-  .match-card {
-    @apply glass-card-hover overflow-hidden;
+  .btn-outline-gold:hover {
+    background-color: var(--accent-gold);
+    color: #ffffff;
+    transform: scale(1.02);
   }
 
-  /* ── Trust / premium badges ──────────────────────────────────────── */
-  .trust-badge {
-    @apply inline-flex items-center gap-1.5 text-xs font-medium px-3 py-1 rounded-full;
-    background: rgba(122, 158, 126, 0.12);
-    border: 1px solid rgba(122, 158, 126, 0.3);
-    color: #4A7A4E;
+  .section-cream {
+    background-color: var(--card-bg);
   }
 
-  .premium-badge {
-    @apply inline-flex items-center gap-1.5 text-xs font-medium px-3 py-1 rounded-full;
-    background: rgba(201, 149, 74, 0.12);
-    border: 1px solid rgba(201, 149, 74, 0.30);
-    color: #8A5E20;
+  .animate-float {
+    animation: float 3s ease-in-out infinite;
   }
 
-  /* ── Divider ─────────────────────────────────────────────────────── */
-  .divider-gold {
-    height: 1px;
-    background: linear-gradient(90deg, transparent, rgba(201,149,74,0.35), transparent);
+  .animate-fade-in-up {
+    animation: fadeInUp 0.6s ease-out forwards;
   }
 }
 
-@layer utilities {
-  .text-gradient-gold {
-    background: linear-gradient(135deg, #C9954A 0%, #FFD166 45%, #8A5E20 100%);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
-  }
+/* ── Masonry Hero Animations ──────────────────────────────────────── */
 
-  .text-gradient-rose {
-    background: linear-gradient(135deg, #E8426A 0%, #FF8FA3 100%);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
-  }
+@keyframes scrollName {
+  0% { transform: translateX(60%); }
+  100% { transform: translateX(-60%); }
+}
 
-  .text-gradient-rose-gold {
-    background: linear-gradient(135deg, #E8426A 0%, #C9954A 100%);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
-  }
-
-  /* Warm mesh gradient background */
-  .bg-mesh {
-    background-color: #FFFAF8;
-    background-image:
-      radial-gradient(at 20% 30%, var(--mesh-1) 0px, transparent 55%),
-      radial-gradient(at 80% 10%, var(--mesh-2) 0px, transparent 45%),
-      radial-gradient(at 60% 80%, var(--mesh-3) 0px, transparent 50%);
-  }
-
-  .font-display    { font-family: 'Playfair Display', Georgia, serif; }
-  .font-devanagari { font-family: 'Noto Serif Devanagari', serif; }
-  .font-body       { font-family: 'DM Sans', system-ui, sans-serif; }
-
-  .safe-bottom { padding-bottom: env(safe-area-inset-bottom); }
+.name-scroll {
+  display: inline-block;
+  animation: scrollName 3s linear infinite;
+  white-space: nowrap;
+  padding: 0 2rem;
 }

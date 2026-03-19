@@ -1,462 +1,827 @@
 "use client";
 
+import { useState } from "react";
 import Link from "next/link";
-import {
-  Shield,
-  Brain,
-  Lock,
-  Smartphone,
-  Users,
-  Globe,
-  ArrowRight,
-  Star,
-  CheckCircle,
-  Heart,
-} from "lucide-react";
 
-export default function LandingPage() {
+/* ── Data ──────────────────────────────────────────────────────────── */
+
+const profiles = [
+  { name: "Priya S.", age: 26, profession: "Software Engineer", location: "Mumbai", religion: "Hindu", gender: "female", verified: true, premium: true },
+  { name: "Rahul M.", age: 29, profession: "Doctor", location: "Delhi", religion: "Hindu", gender: "male", verified: true, premium: false },
+  { name: "Ananya K.", age: 24, profession: "Architect", location: "Bangalore", religion: "Christian", gender: "female", verified: true, premium: true },
+  { name: "Vikram R.", age: 31, profession: "Business Owner", location: "Pune", religion: "Sikh", gender: "male", verified: true, premium: false },
+  { name: "Meera P.", age: 27, profession: "CA", location: "Chennai", religion: "Hindu", gender: "female", verified: true, premium: true },
+  { name: "Arjun N.", age: 28, profession: "Civil Engineer", location: "Hyderabad", religion: "Muslim", gender: "male", verified: true, premium: false },
+];
+
+const stories = [
+  {
+    img: "https://images.unsplash.com/photo-1583939003579-730e3918a45a?w=400",
+    names: "Anjali & Suresh",
+    quote: "We connected on Match4Marriage in January and got engaged by March. The compatibility matching was spot on!",
+  },
+  {
+    img: "https://images.unsplash.com/photo-1522673607200-164d1b6ce486?w=400",
+    names: "Kavya & Rohit",
+    quote: "Our families connected instantly. Match4Marriage made the whole process feel natural and comfortable.",
+  },
+  {
+    img: "https://images.unsplash.com/photo-1537633552985-df8429e8048b?w=400",
+    names: "Divya & Arjun",
+    quote: "3 weeks after matching we had our first family meeting. 6 months later we were married!",
+  },
+];
+
+const features = [
+  { title: "Hand-Picked Profiles Only", desc: "Every profile is personally reviewed and approved — not just registered" },
+  { title: "Complete Discretion", desc: "Your details are handled with the utmost confidentiality at every step" },
+  { title: "Elite Matching", desc: "We match on values, ambition, and compatibility — not just age and location" },
+  { title: "UK-Based Service", desc: "Founded in the United Kingdom, serving the global Indian community" },
+  { title: "Dedicated Guidance", desc: "Personal support from our relationship advisors, 7 days a week" },
+  { title: "Secure & GDPR Compliant", desc: "SSL encrypted, fully compliant with UK data protection standards" },
+];
+
+const plans = [
+  {
+    name: "Free",
+    price: "₹0",
+    period: "",
+    features: ["5 profile views", "Basic search", "Send 3 interests"],
+    highlighted: false,
+  },
+  {
+    name: "Premium",
+    price: "₹1,999",
+    period: "/mo",
+    badge: "Most Popular",
+    features: ["Unlimited views", "Advanced search", "Unlimited interests", "Photo access", "Priority matching"],
+    highlighted: true,
+  },
+  {
+    name: "Elite",
+    price: "₹4,999",
+    period: "/mo",
+    features: ["Everything in Premium", "Dedicated advisor", "Family background check", "Horoscope matching"],
+    highlighted: false,
+  },
+];
+
+const couples = [
+  { url: "https://images.unsplash.com/photo-1591604466107-ec97de577aff?w=800&q=90&auto=format&fit=crop", name: "Priya & Rahul" },
+  { url: "https://images.unsplash.com/photo-1519741497674-611481863552?w=800&q=90&auto=format&fit=crop", name: "Anjali & Suresh" },
+  { url: "https://images.unsplash.com/photo-1583939003579-730e3918a45a?w=800&q=90&auto=format&fit=crop", name: "Meera & Vikram" },
+  { url: "https://images.unsplash.com/photo-1606216794074-735e91aa2c92?w=800&q=90&auto=format&fit=crop", name: "Kavya & Arjun" },
+  { url: "https://images.unsplash.com/photo-1522673607200-164d1b6ce486?w=800&q=90&auto=format&fit=crop", name: "Divya & Rohit" },
+  { url: "https://images.unsplash.com/photo-1537633552985-df8429e8048b?w=800&q=90&auto=format&fit=crop", name: "Sneha & Kartik" },
+  { url: "https://images.unsplash.com/photo-1511285560929-80b456fea0bc?w=800&q=90&auto=format&fit=crop", name: "Nisha & Dev" },
+  { url: "https://images.unsplash.com/photo-1540575467063-178a50c2df87?w=800&q=90&auto=format&fit=crop", name: "Pooja & Arun" },
+];
+
+const filterTabs = ["All", "Hindu", "Muslim", "Christian", "Sikh"];
+
+/* ── Component ─────────────────────────────────────────────────────── */
+
+export default function HomePage() {
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [activeFilter, setActiveFilter] = useState("All");
+
+  const filteredProfiles = activeFilter === "All"
+    ? profiles
+    : profiles.filter((p) => p.religion === activeFilter);
+
   return (
-    <div className="bg-mesh min-h-screen text-deep overflow-x-hidden">
-      {/* ── Floating Navbar ──────────────────────────────────────────── */}
-      <nav className="navbar-glass fixed top-0 left-0 right-0 z-50">
-        <div className="max-w-7xl mx-auto px-6 h-16 flex items-center justify-between">
-          <div className="flex items-center gap-2">
-            <Heart className="w-5 h-5 text-rose fill-rose" aria-hidden="true" />
-            <span className="font-display text-xl font-semibold tracking-wide text-deep">
-              Match4Marriage
-            </span>
-          </div>
+    <div className="min-h-screen overflow-x-hidden font-poppins">
 
-          <div className="hidden md:flex items-center gap-8">
+      {/* ── 1. Top Bar ───────────────────────────────────────────────── */}
+      <div className="w-full text-white text-sm py-2 px-4" style={{ backgroundColor: "#dc1e3c" }}>
+        <div className="max-w-7xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-1">
+          <span>💍 Elite Indian Matrimony — Established in the United Kingdom 🇬🇧</span>
+          <div className="flex items-center gap-4 text-xs sm:text-sm">
+            <span>📞 +91 98765 43210</span>
+            <span className="hidden sm:inline">|</span>
+            <span>✉️ hello@match4marriage.com</span>
+          </div>
+        </div>
+      </div>
+
+      {/* ── 2. Navigation ────────────────────────────────────────────── */}
+      <nav className="sticky top-0 z-50 bg-white" style={{ borderBottom: "1px solid rgba(220,30,60,0.12)" }}>
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 h-16 flex items-center justify-between">
+          <Link href="/" className="flex items-center">
+            <img
+              src="/images/WhatsApp Image 2026-02-15 at 8.00.16 PM (2).jpeg"
+              alt="Match 4 Marriage"
+              style={{ height: "48px", width: "auto", objectFit: "contain" }}
+            />
+          </Link>
+
+          {/* Desktop nav */}
+          <div className="hidden lg:flex items-center gap-8">
             {[
-              { label: "Features",    href: "#features"    },
-              { label: "How it Works",href: "#how-it-works"},
-              { label: "Kundali",     href: "/kundali-match" },
-              { label: "Pricing",     href: "/pricing"     },
-              { label: "NRI Hub",     href: "#nri-hub"     },
-            ].map(({ label, href }) => (
-              <Link
-                key={label}
-                href={href}
-                className="font-body text-sm text-deep/50 hover:text-deep transition-colors duration-200"
-                style={{ minHeight: "auto" }}
+              { label: "Home", href: "#home" },
+              { label: "Browse Profiles", href: "#browse-profiles" },
+              { label: "Success Stories", href: "#success-stories" },
+              { label: "Pricing", href: "#pricing" },
+              { label: "About", href: "/about" },
+            ].map((item) => (
+              <a
+                key={item.label}
+                href={item.href}
+                className="text-sm font-medium transition-colors duration-200 hover:text-[#dc1e3c]"
+                style={{ color: "#333" }}
               >
-                {label}
-              </Link>
+                {item.label}
+              </a>
             ))}
           </div>
 
           <div className="flex items-center gap-3">
-            <Link href="/auth/login" className="btn-ghost text-sm px-5 py-2.5" style={{ minHeight: "auto" }}>
-              Sign In
+            <Link href="/auth/register" className="btn-gold px-5 py-2 text-sm hidden sm:inline-block">
+              Register Free
             </Link>
-            <Link href="/auth/register" className="btn-primary text-sm px-5 py-2.5" style={{ minHeight: "auto" }}>
-              Get Started
+            {/* Mobile hamburger */}
+            <button
+              className="lg:hidden p-2"
+              onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+              aria-label="Toggle menu"
+            >
+              <svg width="24" height="24" fill="none" stroke="#1a0a14" strokeWidth="2" strokeLinecap="round">
+                {mobileMenuOpen ? (
+                  <>
+                    <line x1="6" y1="6" x2="18" y2="18" />
+                    <line x1="6" y1="18" x2="18" y2="6" />
+                  </>
+                ) : (
+                  <>
+                    <line x1="3" y1="6" x2="21" y2="6" />
+                    <line x1="3" y1="12" x2="21" y2="12" />
+                    <line x1="3" y1="18" x2="21" y2="18" />
+                  </>
+                )}
+              </svg>
+            </button>
+          </div>
+        </div>
+
+        {/* Mobile menu */}
+        {mobileMenuOpen && (
+          <div className="lg:hidden bg-white border-t px-6 py-4 space-y-3" style={{ borderColor: "rgba(161,99,4,0.12)" }}>
+            {[
+              { label: "Home", href: "#home" },
+              { label: "Browse Profiles", href: "#browse-profiles" },
+              { label: "Success Stories", href: "#success-stories" },
+              { label: "Pricing", href: "#pricing" },
+              { label: "About", href: "/about" },
+            ].map((item) => (
+              <a
+                key={item.label}
+                href={item.href}
+                className="block text-sm font-medium py-2"
+                style={{ color: "#1a0a14" }}
+                onClick={() => setMobileMenuOpen(false)}
+              >
+                {item.label}
+              </a>
+            ))}
+            <Link href="/auth/register" className="btn-gold block text-center px-5 py-2 text-sm mt-2">
+              Register Free
+            </Link>
+          </div>
+        )}
+      </nav>
+
+      {/* ── 3. Hero Banner — Full-Width Image Carousel ──────────────── */}
+      <section id="home" style={{ position: "relative", width: "100%", height: "100vh", overflow: "hidden" }}>
+
+        {/* Background cycling images */}
+        {[
+          { src: "/images/Gemini_Generated_Image_xaa8o9xaa8o9xaa8.png", couple: "Priya & Rahul", time: "Matched in 2 weeks" },
+          { src: "/images/Gemini_Generated_Image_n1v0xcn1v0xcn1v0.png", couple: "Anjali & Suresh", time: "Matched in 3 weeks" },
+          { src: "/images/Gemini_Generated_Image_nnsmd2nnsmd2nnsm.png", couple: "Kavya & Vikram", time: "Matched in 1 month" },
+          { src: "/images/Gemini_Generated_Image_rovssrovssrovssr.png", couple: "Meera & Arjun", time: "Matched in 10 days" },
+        ].map((slide, idx) => (
+          <div
+            key={slide.src}
+            style={{
+              position: "absolute",
+              inset: 0,
+              opacity: 0,
+              animationName: `heroSlide${idx}`,
+              animationDuration: "20s",
+              animationIterationCount: "infinite",
+              animationTimingFunction: "ease-in-out",
+            }}
+          >
+            <img
+              src={slide.src}
+              alt={slide.couple}
+              loading={idx === 0 ? "eager" : "lazy"}
+              style={{
+                width: "100%",
+                height: "100%",
+                objectFit: "cover",
+                objectPosition: "center 20%",
+              }}
+            />
+          </div>
+        ))}
+
+        {/* Dark gradient overlay for text readability */}
+        <div
+          style={{
+            position: "absolute",
+            inset: 0,
+            background: "linear-gradient(to bottom, rgba(0,0,0,0.35) 0%, rgba(0,0,0,0.15) 40%, rgba(0,0,0,0.65) 100%)",
+            zIndex: 2,
+          }}
+        />
+
+        {/* Side vignette */}
+        <div
+          style={{
+            position: "absolute",
+            inset: 0,
+            background: "radial-gradient(ellipse at center, transparent 50%, rgba(0,0,0,0.3) 100%)",
+            zIndex: 2,
+          }}
+        />
+
+        {/* Content overlay */}
+        <div
+          style={{
+            position: "absolute",
+            inset: 0,
+            zIndex: 5,
+            display: "flex",
+            flexDirection: "column",
+            justifyContent: "center",
+            alignItems: "center",
+            textAlign: "center",
+            padding: "0 24px",
+          }}
+        >
+          {/* Badge */}
+          <div
+            style={{
+              display: "inline-flex",
+              alignItems: "center",
+              gap: "6px",
+              background: "rgba(220,30,60,0.9)",
+              backdropFilter: "blur(8px)",
+              borderRadius: "9999px",
+              padding: "8px 22px",
+              marginBottom: "28px",
+              border: "1px solid rgba(255,255,255,0.2)",
+            }}
+          >
+            <span style={{ color: "#fff", fontSize: "12px", fontWeight: 600, letterSpacing: "0.12em", textTransform: "uppercase" }}>
+              🇬🇧 Elite Indian Matrimony — UK
+            </span>
+          </div>
+
+          {/* Headline */}
+          <h1
+            className="font-playfair"
+            style={{
+              color: "#fff",
+              fontSize: "clamp(38px, 5.5vw, 72px)",
+              fontWeight: 700,
+              lineHeight: 1.12,
+              marginBottom: "20px",
+              textShadow: "0 2px 30px rgba(0,0,0,0.4)",
+            }}
+          >
+            Where Two Families<br />
+            <span style={{ color: "#ffd87a" }}>Become One</span>
+          </h1>
+
+          <p
+            style={{
+              color: "rgba(255,255,255,0.9)",
+              fontSize: "clamp(16px, 2vw, 20px)",
+              marginBottom: "40px",
+              maxWidth: "560px",
+              lineHeight: 1.6,
+              textShadow: "0 1px 10px rgba(0,0,0,0.3)",
+            }}
+          >
+            A boutique matrimonial service for the global elite Indian community — hand-picked, personally verified profiles across the UK and worldwide.
+          </p>
+
+          {/* Search Widget */}
+          <div
+            style={{
+              background: "rgba(255,255,255,0.97)",
+              backdropFilter: "blur(16px)",
+              borderRadius: "16px",
+              padding: "20px 24px",
+              marginBottom: "32px",
+              boxShadow: "0 12px 48px rgba(0,0,0,0.25)",
+              maxWidth: "640px",
+              width: "100%",
+            }}
+          >
+            <div className="grid grid-cols-1 sm:grid-cols-4 gap-3 items-end">
+              <div>
+                <label className="text-xs font-medium mb-1 block" style={{ color: "#888" }}>Looking for</label>
+                <select className="w-full border rounded-lg px-3 py-2.5 text-sm" style={{ borderColor: "#e5e5e5", color: "#333" }}>
+                  <option>Bride</option>
+                  <option>Groom</option>
+                </select>
+              </div>
+              <div>
+                <label className="text-xs font-medium mb-1 block" style={{ color: "#888" }}>Community</label>
+                <select className="w-full border rounded-lg px-3 py-2.5 text-sm" style={{ borderColor: "#e5e5e5", color: "#333" }}>
+                  <option>Indian</option>
+                  <option>Hindu</option>
+                  <option>Muslim</option>
+                  <option>Christian</option>
+                </select>
+              </div>
+              <div>
+                <label className="text-xs font-medium mb-1 block" style={{ color: "#888" }}>Age Range</label>
+                <select className="w-full border rounded-lg px-3 py-2.5 text-sm" style={{ borderColor: "#e5e5e5", color: "#333" }}>
+                  <option>21 – 25</option>
+                  <option>26 – 30</option>
+                  <option>31 – 35</option>
+                  <option>36+</option>
+                </select>
+              </div>
+              <a
+                href="/auth/register"
+                className="w-full py-2.5 text-sm font-semibold rounded-lg text-white text-center transition-all duration-200 hover:opacity-90 block"
+                style={{ background: "linear-gradient(135deg, #dc1e3c, #a0153c)" }}
+              >
+                Find Your Match
+              </a>
+            </div>
+          </div>
+
+          {/* Stats strip */}
+          <div
+            style={{
+              display: "inline-flex",
+              alignItems: "center",
+              gap: "24px",
+              background: "rgba(255,255,255,0.12)",
+              backdropFilter: "blur(8px)",
+              borderRadius: "9999px",
+              padding: "12px 32px",
+              border: "1px solid rgba(255,255,255,0.15)",
+            }}
+          >
+            {[
+              { val: "100+", label: "Elite Profiles" },
+              { val: "UK 🇬🇧", label: "Headquarters" },
+              { val: "Est.", label: "2020 🇬🇧" },
+              { val: "4.9★", label: "Rated" },
+            ].map((s, i, arr) => (
+              <span key={s.label} style={{ display: "flex", alignItems: "center", gap: "24px" }}>
+                <span>
+                  <span style={{ color: "#ffd87a", fontWeight: 700, fontSize: "16px" }}>{s.val}</span>
+                  <span style={{ color: "rgba(255,255,255,0.75)", fontSize: "12px", marginLeft: "4px" }}>{s.label}</span>
+                </span>
+                {i < arr.length - 1 && <span style={{ color: "rgba(255,255,255,0.2)" }}>|</span>}
+              </span>
+            ))}
+          </div>
+        </div>
+
+        {/* Slide dots — bottom center */}
+        <div
+          style={{
+            position: "absolute",
+            bottom: "24px",
+            left: "50%",
+            transform: "translateX(-50%)",
+            display: "flex",
+            gap: "10px",
+            zIndex: 10,
+          }}
+        >
+          {[0, 1, 2, 3].map((dot) => (
+            <div
+              key={dot}
+              style={{
+                width: "10px",
+                height: "10px",
+                borderRadius: "50%",
+                background: "rgba(255,255,255,0.4)",
+                animationName: `heroDot${dot}`,
+                animationDuration: "20s",
+                animationIterationCount: "infinite",
+                animationTimingFunction: "ease-in-out",
+                border: "1px solid rgba(255,255,255,0.3)",
+              }}
+            />
+          ))}
+        </div>
+
+        {/* Carousel keyframes — 4 slides, 5s each, 20s total */}
+        <style>{`
+          @keyframes heroSlide0 {
+            0%, 22% { opacity: 1; }
+            25%, 97% { opacity: 0; }
+            100% { opacity: 1; }
+          }
+          @keyframes heroSlide1 {
+            0%, 22% { opacity: 0; }
+            25%, 47% { opacity: 1; }
+            50%, 100% { opacity: 0; }
+          }
+          @keyframes heroSlide2 {
+            0%, 47% { opacity: 0; }
+            50%, 72% { opacity: 1; }
+            75%, 100% { opacity: 0; }
+          }
+          @keyframes heroSlide3 {
+            0%, 72% { opacity: 0; }
+            75%, 97% { opacity: 1; }
+            100% { opacity: 0; }
+          }
+          @keyframes heroDot0 {
+            0%, 22% { background: #fff; transform: scale(1.3); }
+            25%, 97% { background: rgba(255,255,255,0.35); transform: scale(1); }
+            100% { background: #fff; transform: scale(1.3); }
+          }
+          @keyframes heroDot1 {
+            0%, 22% { background: rgba(255,255,255,0.35); transform: scale(1); }
+            25%, 47% { background: #fff; transform: scale(1.3); }
+            50%, 100% { background: rgba(255,255,255,0.35); transform: scale(1); }
+          }
+          @keyframes heroDot2 {
+            0%, 47% { background: rgba(255,255,255,0.35); transform: scale(1); }
+            50%, 72% { background: #fff; transform: scale(1.3); }
+            75%, 100% { background: rgba(255,255,255,0.35); transform: scale(1); }
+          }
+          @keyframes heroDot3 {
+            0%, 72% { background: rgba(255,255,255,0.35); transform: scale(1); }
+            75%, 97% { background: #fff; transform: scale(1.3); }
+            100% { background: rgba(255,255,255,0.35); transform: scale(1); }
+          }
+        `}</style>
+      </section>
+
+      {/* ── 4. How It Works ──────────────────────────────────────────── */}
+      <section id="how-it-works" className="py-20 px-4 sm:px-6 bg-white">
+        <div className="max-w-6xl mx-auto">
+          <div className="text-center mb-16">
+            <span className="text-sm font-medium tracking-wide uppercase" style={{ color: "#dc1e3c" }}>Simple Process</span>
+            <h2 className="font-playfair text-3xl sm:text-4xl font-bold mt-2" style={{ color: "#1a0a14" }}>How Match4Marriage Works</h2>
+          </div>
+
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 relative">
+            {/* Connecting line (desktop) */}
+            <div className="hidden lg:block absolute top-10 left-[12%] right-[12%] h-0.5 border-t-2 border-dashed" style={{ borderColor: "rgba(161,99,4,0.2)" }} />
+
+            {[
+              { icon: "💼", num: "1", title: "Create Profile", desc: "Build your detailed verified profile" },
+              { icon: "🔍", num: "2", title: "Discover Matches", desc: "AI-powered compatibility suggestions" },
+              { icon: "💬", num: "3", title: "Connect & Chat", desc: "Send interests and start conversations" },
+              { icon: "💍", num: "4", title: "Begin Forever", desc: "Meet families and celebrate your union" },
+            ].map((step) => (
+              <div key={step.num} className="text-center relative z-10">
+                <div
+                  className="w-16 h-16 rounded-full flex items-center justify-center text-white text-lg font-bold mx-auto mb-4"
+                  style={{ backgroundColor: "#dc1e3c" }}
+                >
+                  {step.num}
+                </div>
+                <span className="text-2xl mb-2 block">{step.icon}</span>
+                <h3 className="font-playfair text-lg font-semibold mb-2" style={{ color: "#1a0a14" }}>{step.title}</h3>
+                <p className="text-sm" style={{ color: "#555" }}>{step.desc}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* ── 5. Browse Profiles ───────────────────────────────────────── */}
+      <section id="browse-profiles" className="py-20 px-4 sm:px-6 section-cream">
+        <div className="max-w-6xl mx-auto">
+          <div className="text-center mb-12">
+            <span className="text-sm font-medium tracking-wide uppercase" style={{ color: "#dc1e3c" }}>Find Your Match</span>
+            <h2 className="font-playfair text-3xl sm:text-4xl font-bold mt-2" style={{ color: "#1a0a14" }}>Browse Elite Verified Profiles</h2>
+          </div>
+
+          {/* Filter tabs */}
+          <div className="flex flex-wrap justify-center gap-2 mb-10">
+            {filterTabs.map((tab) => (
+              <button
+                key={tab}
+                onClick={() => setActiveFilter(tab)}
+                className="px-5 py-2 rounded-full text-sm font-medium transition-all duration-200"
+                style={
+                  activeFilter === tab
+                    ? { backgroundColor: "#dc1e3c", color: "#fff" }
+                    : { backgroundColor: "rgba(161,99,4,0.08)", color: "#dc1e3c" }
+                }
+              >
+                {tab}
+              </button>
+            ))}
+          </div>
+
+          {/* Profile cards */}
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+            {filteredProfiles.map((profile) => (
+              <div key={profile.name} className="warm-card p-5">
+                <div className="flex items-center gap-4 mb-4">
+                  <img
+                    src={
+                      profile.gender === "female"
+                        ? "https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=300"
+                        : "https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?w=300"
+                    }
+                    alt={profile.name}
+                    className="w-16 h-16 rounded-full object-cover"
+                    style={{ border: "2px solid rgba(161,99,4,0.15)" }}
+                  />
+                  <div>
+                    <h3 className="font-playfair font-semibold text-lg" style={{ color: "#1a0a14" }}>{profile.name}</h3>
+                    <p className="text-sm" style={{ color: "#555" }}>{profile.age} yrs • {profile.religion}</p>
+                  </div>
+                </div>
+                <div className="space-y-1 mb-4 text-sm" style={{ color: "#555" }}>
+                  <p>🎓 {profile.profession}</p>
+                  <p>📍 {profile.location}</p>
+                </div>
+                <div className="flex items-center gap-2 mb-4">
+                  {profile.verified && (
+                    <span className="text-xs px-2 py-0.5 rounded-full font-medium" style={{ backgroundColor: "rgba(161,99,4,0.1)", color: "#dc1e3c" }}>
+                      Verified ✓
+                    </span>
+                  )}
+                  {profile.premium && (
+                    <span className="text-xs px-2 py-0.5 rounded-full font-medium" style={{ backgroundColor: "rgba(161,99,4,0.08)", color: "#dc1e3c" }}>
+                      Premium
+                    </span>
+                  )}
+                </div>
+                <button className="btn-outline-gold w-full py-2 text-sm">
+                  View Profile
+                </button>
+              </div>
+            ))}
+          </div>
+
+          <div className="text-center mt-10">
+            <Link href="/profiles" className="btn-gold inline-block px-8 py-3 text-sm">
+              View All Profiles
             </Link>
           </div>
         </div>
-      </nav>
+      </section>
 
-      {/* ── Hero ─────────────────────────────────────────────────────── */}
-      <section className="relative min-h-screen flex flex-col items-center justify-center px-6 pt-24 pb-16 text-center">
+      {/* ── 6. Success Stories ────────────────────────────────────────── */}
+      <section id="success-stories" className="py-20 px-4 sm:px-6 bg-white">
+        <div className="max-w-6xl mx-auto">
+          <div className="text-center mb-12">
+            <span className="text-sm font-medium tracking-wide uppercase" style={{ color: "#dc1e3c" }}>Real Love Stories</span>
+            <h2 className="font-playfair text-3xl sm:text-4xl font-bold mt-2" style={{ color: "#1a0a14" }}>They Found Each Other Here</h2>
+          </div>
 
-        {/* Decorative glow orbs — warm rose tones */}
-        <div
-          className="absolute top-1/4 left-1/4 w-96 h-96 rounded-full pointer-events-none"
-          style={{
-            background: "radial-gradient(circle, rgba(196,82,15,0.14) 0%, transparent 70%)",
-            filter: "blur(50px)",
-          }}
-          aria-hidden="true"
-        />
-        <div
-          className="absolute top-1/3 right-1/4 w-80 h-80 rounded-full pointer-events-none"
-          style={{
-            background: "radial-gradient(circle, rgba(154,107,0,0.12) 0%, transparent 70%)",
-            filter: "blur(50px)",
-          }}
-          aria-hidden="true"
-        />
-
-        {/* Trust pill */}
-        <div className="premium-badge mb-8 text-xs tracking-widest uppercase">
-          <Star className="w-3 h-3 fill-current" aria-hidden="true" />
-          India's Most Trusted Matrimony Platform
-        </div>
-
-        {/* Hindi tagline */}
-        <p className="font-devanagari text-gold text-lg mb-4 tracking-widest">
-          बंधन · The Sacred Bond
-        </p>
-
-        {/* Main heading */}
-        <h1
-          className="font-display font-light text-deep leading-[1.1] mb-6"
-          style={{ fontSize: "clamp(2.8rem, 7vw, 5.5rem)", maxWidth: "900px" }}
-        >
-          Find Your{" "}
-          <span className="text-gradient-gold font-semibold italic">Life Partner</span>
-          <br />
-          With Confidence &amp; Joy
-        </h1>
-
-        <p
-          className="font-body text-deep/55 mb-10 font-light leading-relaxed"
-          style={{ fontSize: "clamp(1rem, 1.8vw, 1.2rem)", maxWidth: "600px" }}
-        >
-          AI-powered compatibility. Government-grade verification.
-          Cultural depth — for modern India and the global diaspora.
-        </p>
-
-        <div className="flex flex-col sm:flex-row gap-4 justify-center mb-20">
-          <Link href="/auth/register" className="btn-primary text-base px-9 py-4">
-            Begin Your Journey
-            <ArrowRight className="w-4 h-4" aria-hidden="true" />
-          </Link>
-          <Link href="/dashboard" className="btn-ghost text-base px-9 py-4">
-            View Matches
-          </Link>
-        </div>
-
-        {/* Stats row */}
-        <div className="glass-card px-8 py-6 flex flex-col sm:flex-row gap-8 sm:gap-16 text-center">
-          {[
-            { value: "2M+", label: "Verified Profiles" },
-            { value: "50K+", label: "Engagements Facilitated" },
-            { value: "28", label: "States Covered" },
-            { value: "99.9%", label: "Uptime SLA" },
-          ].map(({ value, label }, i) => (
-            <div key={label} className="relative">
-              {i > 0 && (
-                <div
-                  className="hidden sm:block absolute left-0 top-1/2 -translate-y-1/2 -translate-x-8 w-px h-8 bg-gold/20"
-                  aria-hidden="true"
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+            {stories.map((story) => (
+              <div key={story.names} className="warm-card overflow-hidden">
+                <img
+                  src={story.img}
+                  alt={story.names}
+                  className="w-full object-cover"
+                  style={{ aspectRatio: "16/10" }}
                 />
-              )}
-              <p className="font-display font-semibold text-3xl text-gradient-gold">{value}</p>
-              <p className="font-body text-xs text-deep/40 mt-1 tracking-wide">{label}</p>
+                <div className="p-6">
+                  <div className="flex items-center gap-1 mb-3">
+                    {[1, 2, 3, 4, 5].map((s) => (
+                      <span key={s} style={{ color: "#dc1e3c" }}>⭐</span>
+                    ))}
+                  </div>
+                  <p className="text-sm italic mb-4" style={{ color: "#555", lineHeight: 1.7 }}>
+                    &ldquo;{story.quote}&rdquo;
+                  </p>
+                  <p className="font-playfair font-semibold" style={{ color: "#1a0a14" }}>{story.names}</p>
+                  <span className="inline-block mt-2 text-xs px-3 py-1 rounded-full" style={{ backgroundColor: "rgba(161,99,4,0.1)", color: "#dc1e3c" }}>
+                    Married in 2025
+                  </span>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* ── 7. Why Us / Features ──────────────────────────────────────── */}
+      <section className="py-20 px-4 sm:px-6 section-cream">
+        <div className="max-w-6xl mx-auto">
+          <div className="text-center mb-12">
+            <span className="text-sm font-medium tracking-wide uppercase" style={{ color: "#dc1e3c" }}>Why We Are Different</span>
+            <h2 className="font-playfair text-3xl sm:text-4xl font-bold mt-2" style={{ color: "#1a0a14" }}>The Elite Difference</h2>
+          </div>
+
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+            <img
+              src="https://images.unsplash.com/photo-1511285560929-80b456fea0bc?w=600"
+              alt="Wedding celebration"
+              className="w-full rounded-2xl object-cover"
+              style={{ aspectRatio: "4/3", boxShadow: "0 12px 40px rgba(102,69,28,0.1)" }}
+            />
+
+            <div className="space-y-6">
+              {features.map((f) => (
+                <div key={f.title} className="flex gap-4">
+                  <div
+                    className="flex-shrink-0 w-8 h-8 rounded-full flex items-center justify-center text-white text-sm font-bold"
+                    style={{ backgroundColor: "#dc1e3c" }}
+                  >
+                    ✓
+                  </div>
+                  <div>
+                    <h3 className="font-playfair font-semibold text-lg" style={{ color: "#1a0a14" }}>{f.title}</h3>
+                    <p className="text-sm mt-1" style={{ color: "#555" }}>{f.desc}</p>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* ── 8. Pricing ───────────────────────────────────────────────── */}
+      <section id="pricing" className="py-20 px-4 sm:px-6 bg-white">
+        <div className="max-w-5xl mx-auto">
+          <div className="text-center mb-12">
+            <span className="text-sm font-medium tracking-wide uppercase" style={{ color: "#dc1e3c" }}>Plans</span>
+            <h2 className="font-playfair text-3xl sm:text-4xl font-bold mt-2" style={{ color: "#1a0a14" }}>Simple, Transparent Pricing</h2>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 items-stretch">
+            {plans.map((plan) => (
+              <div
+                key={plan.name}
+                className="rounded-2xl p-8 flex flex-col"
+                style={
+                  plan.highlighted
+                    ? {
+                        background: "#ffffff",
+                        border: "2px solid #dc1e3c",
+                        boxShadow: "0 8px 40px rgba(161,99,4,0.12)",
+                        position: "relative",
+                      }
+                    : {
+                        background: "#ffffff",
+                        border: "1px solid rgba(161,99,4,0.12)",
+                      }
+                }
+              >
+                {plan.highlighted && (
+                  <span
+                    className="absolute -top-3 left-1/2 -translate-x-1/2 text-xs font-semibold px-4 py-1 rounded-full text-white"
+                    style={{ backgroundColor: "#dc1e3c" }}
+                  >
+                    Most Popular
+                  </span>
+                )}
+
+                <p className="text-sm font-semibold uppercase tracking-wide mb-4" style={{ color: "#dc1e3c" }}>
+                  {plan.name}
+                </p>
+                <p className="text-4xl font-bold mb-1 font-playfair" style={{ color: "#1a0a14" }}>
+                  {plan.price}
+                  <span className="text-base font-normal" style={{ color: "#555" }}>{plan.period}</span>
+                </p>
+
+                <ul className="mt-6 space-y-3 flex-1">
+                  {plan.features.map((f) => (
+                    <li key={f} className="flex items-center gap-2 text-sm" style={{ color: "#555" }}>
+                      <span style={{ color: "#dc1e3c" }}>✓</span>
+                      {f}
+                    </li>
+                  ))}
+                </ul>
+
+                <Link
+                  href="/auth/register"
+                  className={`block mt-8 text-center py-3 rounded-full text-sm font-medium transition-all duration-200 hover:scale-[1.02] ${
+                    plan.highlighted ? "btn-gold" : "btn-outline-gold"
+                  }`}
+                >
+                  Get Started
+                </Link>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* ── 9. Community Stats Banner ────────────────────────────────── */}
+      <section className="py-16 px-4 sm:px-6" style={{ background: "linear-gradient(to right, #dc1e3c, #3b3fa0)" }}>
+        <div className="max-w-6xl mx-auto grid grid-cols-2 md:grid-cols-4 gap-8 text-center text-white">
+          {[
+            { num: "100+", label: "Elite Verified Profiles" },
+            { num: "🇬🇧 UK", label: "Headquarters" },
+            { num: "Est. 2020", label: "Established" },
+            { num: "4.9★", label: "Client Satisfaction" },
+          ].map((stat) => (
+            <div key={stat.label}>
+              <p className="text-3xl sm:text-4xl font-bold font-playfair">{stat.num}</p>
+              <p className="text-sm mt-1 opacity-80">{stat.label}</p>
             </div>
           ))}
         </div>
       </section>
 
-      <div className="divider-gold mx-auto" style={{ maxWidth: "600px" }} />
+      {/* ── 10. CTA Section ──────────────────────────────────────────── */}
+      <section className="py-24 px-4 sm:px-6 section-cream text-center relative overflow-hidden">
+        {/* Decorative rings */}
+        <div
+          className="absolute top-10 left-10 w-32 h-32 rounded-full border-2 opacity-10 pointer-events-none"
+          style={{ borderColor: "#dc1e3c" }}
+        />
+        <div
+          className="absolute bottom-10 right-10 w-48 h-48 rounded-full border-2 opacity-10 pointer-events-none"
+          style={{ borderColor: "#dc1e3c" }}
+        />
+        <div
+          className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-96 h-96 rounded-full border opacity-5 pointer-events-none"
+          style={{ borderColor: "#dc1e3c" }}
+        />
 
-      {/* ── Trust & Authority ────────────────────────────────────────── */}
-      <section className="py-20 px-6">
-        <div className="max-w-6xl mx-auto">
-          <div className="flex flex-wrap justify-center gap-6 md:gap-10">
-            {trustItems.map(({ label, icon: Icon }) => (
-              <div
-                key={label}
-                className="flex items-center gap-2.5 text-deep/45 hover:text-deep/75 transition-colors duration-200"
-              >
-                <Icon className="w-4 h-4 text-gold" aria-hidden="true" />
-                <span className="font-body text-xs tracking-wide">{label}</span>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* ── Features Grid ─────────────────────────────────────────────── */}
-      <section id="features" className="py-24 px-6">
-        <div className="max-w-6xl mx-auto">
-          <div className="text-center mb-16">
-            <p className="font-body text-gold text-xs tracking-widest uppercase mb-4">Why Match4Marriage</p>
-            <h2
-              className="font-display font-light text-deep leading-tight"
-              style={{ fontSize: "clamp(2rem, 4vw, 3.2rem)" }}
-            >
-              Not just another matrimony site.
-              <br />
-              <span className="text-gradient-gold italic font-semibold">A platform built for trust.</span>
-            </h2>
-          </div>
-
-          {/* Bento-style grid */}
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
-            {features.map(({ title, description, icon: Icon, accent }, i) => (
-              <div
-                key={title}
-                className={`glass-card-hover p-8 group ${i === 0 ? "md:col-span-2 lg:col-span-1" : ""}`}
-              >
-                <div
-                  className="w-12 h-12 rounded-xl flex items-center justify-center mb-6 transition-transform duration-300 group-hover:scale-110"
-                  style={{ background: accent }}
-                >
-                  <Icon className="w-5 h-5 text-white" aria-hidden="true" />
-                </div>
-                <h3 className="font-display text-xl font-semibold text-deep mb-3">{title}</h3>
-                <p className="font-body text-sm text-deep/50 leading-relaxed">{description}</p>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* ── How It Works ─────────────────────────────────────────────── */}
-      <section id="how-it-works" className="py-24 px-6">
-        <div className="max-w-4xl mx-auto">
-          <div className="text-center mb-16">
-            <p className="font-body text-gold text-xs tracking-widest uppercase mb-4">The Journey</p>
-            <h2
-              className="font-display font-light text-deep"
-              style={{ fontSize: "clamp(2rem, 4vw, 3.2rem)" }}
-            >
-              From first profile to{" "}
-              <span className="text-gradient-rose italic font-semibold">lifelong bond</span>
-            </h2>
-          </div>
-
-          <div className="space-y-4">
-            {steps.map(({ step, title, description }) => (
-              <div key={step} className="glass-card p-6 flex items-start gap-6">
-                <div
-                  className="flex-shrink-0 w-10 h-10 rounded-full flex items-center justify-center font-display text-sm font-bold text-rose"
-                  style={{
-                    background: "linear-gradient(135deg, rgba(196,82,15,0.15), rgba(154,107,0,0.10))",
-                    border: "1px solid rgba(154,107,0,0.28)",
-                  }}
-                >
-                  {step}
-                </div>
-                <div>
-                  <h3 className="font-display text-lg font-semibold text-deep mb-1">{title}</h3>
-                  <p className="font-body text-sm text-deep/50 leading-relaxed">{description}</p>
-                </div>
-                <CheckCircle className="flex-shrink-0 w-5 h-5 text-gold/50 ml-auto mt-0.5" aria-hidden="true" />
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* ── Kundali Match CTA ────────────────────────────────────────── */}
-      <section id="kundali" className="py-24 px-6">
-        <div className="max-w-5xl mx-auto">
-          <div
-            className="rounded-3xl overflow-hidden"
-            style={{ background: "linear-gradient(135deg,rgba(154,107,0,0.08),rgba(196,82,15,0.1))", border: "1px solid rgba(154,107,0,0.22)" }}
-          >
-            <div className="grid md:grid-cols-2 gap-0">
-              {/* Left text */}
-              <div className="p-10 md:p-14 flex flex-col justify-center">
-                <div className="flex items-center gap-2 mb-4">
-                  <Star className="w-4 h-4 fill-gold text-gold" />
-                  <span className="font-body text-xs font-bold text-gold uppercase tracking-widest">Free Kundali Matching</span>
-                </div>
-                <h2 className="font-display font-light text-deep mb-3" style={{ fontSize: "clamp(1.8rem,3vw,2.6rem)" }}>
-                  Check your <span className="text-gradient-gold italic font-semibold">Kundali compatibility</span> in minutes
-                </h2>
-                <p className="font-body text-deep/50 text-sm leading-relaxed mb-6">
-                  Traditional Vedic Ashtakoot Guna Milan — 36-point compatibility check, Dosha analysis, and a full PDF report sent to your phone & email. Completely free.
-                </p>
-                <ul className="space-y-2 mb-8">
-                  {[
-                    "36-point Ashtakoot Guna scoring",
-                    "Manglik, Nadi & Bhakoot dosha check",
-                    "Full PDF report on WhatsApp & email",
-                    "No account needed — 100% free",
-                  ].map((f) => (
-                    <li key={f} className="flex items-center gap-2">
-                      <CheckCircle className="w-4 h-4 text-sage flex-shrink-0" />
-                      <span className="font-body text-sm text-deep/65">{f}</span>
-                    </li>
-                  ))}
-                </ul>
-                <Link
-                  href="/kundali-match"
-                  className="inline-flex items-center gap-2 rounded-full font-body text-base font-semibold text-white px-8 py-4 self-start"
-                  style={{ background: "linear-gradient(135deg,#E8426A,#FF8FA3)", boxShadow: "0 6px 24px rgba(196,82,15,0.38)", minHeight: "auto" }}
-                >
-                  <Star className="w-4 h-4" /> Match Kundali Free <ArrowRight className="w-4 h-4" />
-                </Link>
-              </div>
-
-              {/* Right preview card */}
-              <div className="p-10 md:p-14 flex items-center justify-center" style={{ background: "rgba(250,246,238,0.6)" }}>
-                <div className="w-full max-w-xs">
-                  <p className="font-devanagari text-gold/60 text-sm text-center mb-3">गुण मिलान</p>
-                  <div className="relative w-28 h-28 mx-auto mb-4">
-                    <svg viewBox="0 0 120 120" className="w-full h-full -rotate-90">
-                      <circle cx="60" cy="60" r="50" fill="none" stroke="rgba(28,15,6,0.07)" strokeWidth="10" />
-                      <circle cx="60" cy="60" r="50" fill="none" stroke="url(#heroKundGrad)" strokeWidth="10"
-                        strokeDasharray={`${2 * Math.PI * 50}`}
-                        strokeDashoffset={`${2 * Math.PI * 50 * 0.14}`}
-                        strokeLinecap="round"
-                      />
-                      <defs>
-                        <linearGradient id="heroKundGrad" x1="0%" y1="0%" x2="100%" y2="0%">
-                          <stop offset="0%" stopColor="#9A6B00" />
-                          <stop offset="100%" stopColor="#C89020" />
-                        </linearGradient>
-                      </defs>
-                    </svg>
-                    <div className="absolute inset-0 flex flex-col items-center justify-center">
-                      <span className="font-display text-3xl font-bold text-gold">31</span>
-                      <span className="font-body text-xs text-deep/40">of 36</span>
-                    </div>
-                  </div>
-                  <div className="space-y-2">
-                    {["Varna", "Vashya", "Tara", "Yoni", "Graha Maitri", "Gana", "Rashi", "Nadi"].map((g, i) => {
-                      const widths = [100, 100, 100, 75, 100, 83, 86, 75];
-                      return (
-                        <div key={g} className="flex items-center gap-2">
-                          <span className="font-body text-[10px] text-deep/50 w-20 flex-shrink-0">{g}</span>
-                          <div className="flex-1 h-1.5 rounded-full overflow-hidden" style={{ background: "rgba(28,15,6,0.07)" }}>
-                            <div className="h-full rounded-full" style={{ width: `${widths[i]}%`, background: widths[i] === 100 ? "linear-gradient(90deg,#5C7A52,#8DB870)" : "linear-gradient(90deg,#9A6B00,#C89020)" }} />
-                          </div>
-                        </div>
-                      );
-                    })}
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* ── CTA Banner ───────────────────────────────────────────────── */}
-      <section className="py-24 px-6">
-        <div className="max-w-3xl mx-auto text-center">
-          <div
-            className="rounded-3xl p-16"
-            style={{
-              background: "linear-gradient(135deg, rgba(242,235,216,0.95) 0%, rgba(250,246,238,0.98) 100%)",
-              border: "1px solid rgba(154,107,0,0.28)",
-              boxShadow: "0 8px 48px rgba(196,82,15,0.10)",
-            }}
-          >
-            <Heart className="w-10 h-10 text-rose mx-auto mb-6 fill-rose/25" aria-hidden="true" />
-            <h2
-              className="font-display font-light text-deep mb-4"
-              style={{ fontSize: "clamp(1.8rem, 3.5vw, 2.8rem)" }}
-            >
-              Your story begins{" "}
-              <span className="text-gradient-gold italic font-semibold">today</span>
-            </h2>
-            <p className="font-body text-deep/50 text-sm mb-10 max-w-md mx-auto leading-relaxed">
-              Join 2 million verified profiles. Free forever — upgrade when you're ready.
-            </p>
-            <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <Link href="/auth/register" className="btn-gold text-base px-10 py-4">
-                Create Free Profile
-                <ArrowRight className="w-4 h-4" aria-hidden="true" />
-              </Link>
-              <Link href="#features" className="btn-ghost text-base px-10 py-4">
-                Learn More
-              </Link>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* ── Footer ───────────────────────────────────────────────────── */}
-      <footer className="py-12 px-6">
-        <div className="divider-gold mb-12" />
-        <div className="max-w-6xl mx-auto flex flex-col md:flex-row items-center justify-between gap-6">
-          <div className="flex items-center gap-2">
-            <Heart className="w-4 h-4 text-rose fill-rose/50" aria-hidden="true" />
-            <span className="font-display text-deep/60">Match4Marriage</span>
-            <span className="font-devanagari text-deep/30 text-sm ml-2">बंधन</span>
-          </div>
-          <p className="font-body text-xs text-deep/30 text-center">
-            © 2026 Match4Marriage. PDPB Compliant · Data residency in India · Signal Protocol E2E encryption
+        <div className="relative z-10 max-w-2xl mx-auto">
+          <h2 className="font-playfair text-3xl sm:text-5xl font-bold mb-4" style={{ color: "#1a0a14" }}>
+            Begin Your Journey Today
+          </h2>
+          <p className="text-lg mb-8" style={{ color: "#555" }}>
+            Join the UK&apos;s most trusted boutique Indian matrimonial service — where every connection is personal, verified, and meaningful.
           </p>
-          <div className="flex gap-6">
-            {["Privacy", "Terms", "Safety"].map((link) => (
-              <a key={link} href="#" className="font-body text-xs text-deep/30 hover:text-deep/60 transition-colors duration-200 cursor-pointer">
-                {link}
-              </a>
-            ))}
+          <div className="flex flex-col sm:flex-row gap-4 justify-center">
+            <Link href="/auth/register" className="btn-gold px-10 py-3 text-base">
+              Register Free
+            </Link>
+            <Link href="/profiles" className="btn-outline-gold px-10 py-3 text-base">
+              Browse Profiles
+            </Link>
+          </div>
+        </div>
+      </section>
+
+      {/* ── 11. Footer ───────────────────────────────────────────────── */}
+      <footer className="py-16 px-4 sm:px-6" style={{ backgroundColor: "#1a0a14" }}>
+        <div className="max-w-6xl mx-auto">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-10 mb-10">
+            {/* Brand */}
+            <div>
+              <img
+                src="/images/WhatsApp Image 2026-02-15 at 8.00.16 PM (2).jpeg"
+                alt="Match 4 Marriage"
+                style={{ height: "52px", width: "auto", objectFit: "contain", filter: "brightness(0) invert(1)", marginBottom: "10px" }}
+              />
+              <p className="text-sm" style={{ color: "rgba(255,255,255,0.7)" }}>
+                Elite Indian Matrimony — established in the United Kingdom, connecting the global Indian community with trust, discretion, and care.
+              </p>
+            </div>
+
+            {/* Links */}
+            <div>
+              <p className="text-sm font-semibold text-white mb-3 uppercase tracking-wide">Quick Links</p>
+              <div className="space-y-2">
+                {["About", "Pricing", "Success Stories", "Blog", "Contact", "Privacy", "Terms"].map((link) => (
+                  <a
+                    key={link}
+                    href="#"
+                    className="block text-sm transition-colors duration-200 hover:text-white"
+                    style={{ color: "rgba(255,255,255,0.6)" }}
+                  >
+                    {link}
+                  </a>
+                ))}
+              </div>
+            </div>
+
+            {/* Social */}
+            <div>
+              <p className="text-sm font-semibold text-white mb-3 uppercase tracking-wide">Follow Us</p>
+              <div className="flex gap-4">
+                {["Facebook", "Instagram", "Twitter", "LinkedIn"].map((social) => (
+                  <a
+                    key={social}
+                    href="#"
+                    className="text-sm transition-colors duration-200 hover:text-white"
+                    style={{ color: "rgba(255,255,255,0.6)" }}
+                  >
+                    {social}
+                  </a>
+                ))}
+              </div>
+            </div>
+          </div>
+
+          <div className="pt-8 text-center" style={{ borderTop: "1px solid rgba(255,255,255,0.15)" }}>
+            <p className="text-xs" style={{ color: "rgba(255,255,255,0.5)" }}>
+              © 2026 Match4Marriage. All rights reserved.
+            </p>
           </div>
         </div>
       </footer>
     </div>
   );
 }
-
-/* ── Data ──────────────────────────────────────────────────────────────── */
-
-const trustItems = [
-  { label: "Aadhaar Verified", icon: Shield },
-  { label: "Signal Protocol E2E Encryption", icon: Lock },
-  { label: "PDPB Compliant", icon: CheckCircle },
-  { label: "99.9% Uptime SLA", icon: Star },
-  { label: "24hr Fraud Resolution", icon: Shield },
-  { label: "10 Regional Languages", icon: Globe },
-];
-
-const features = [
-  {
-    icon: Shield,
-    title: "Government-Grade Trust",
-    description:
-      "Aadhaar + PAN verification, photo liveness checks, and a 100-point trust score on every profile. Fake profiles resolved within 24 hours.",
-    accent: "linear-gradient(135deg, #5C7A52, #3D5C35)",
-  },
-  {
-    icon: Brain,
-    title: "AI Compatibility Engine",
-    description:
-      "60-question psychometric assessment across 5 dimensions. 5 curated daily matches — not 500 irrelevant ones.",
-    accent: "linear-gradient(135deg, #E8426A, #C4285A)",
-  },
-  {
-    icon: Lock,
-    title: "Privacy First",
-    description:
-      "Signal Protocol E2E encryption. Blurred contacts until mutual interest. Watermarked photos. Your data stays in India.",
-    accent: "linear-gradient(135deg, #9A6B00, #7A5200)",
-  },
-  {
-    icon: Smartphone,
-    title: "Bharat Mode",
-    description:
-      "Works on 2G. 10 regional languages. APK under 8MB. Match4Marriage is for every Indian, not just metro elites.",
-    accent: "linear-gradient(135deg, #FF8FA3, #E8426A)",
-  },
-  {
-    icon: Users,
-    title: "Family-First Design",
-    description:
-      "Family browsing mode, Kundali matching, and joint session management — respecting how Indian families actually search.",
-    accent: "linear-gradient(135deg, #E8426A, #5C7A52)",
-  },
-  {
-    icon: Globe,
-    title: "NRI & Diaspora Hub",
-    description:
-      "Dedicated section for UK, US, UAE, Canada, Australia. Timezone-aware scheduling. Currency-appropriate pricing.",
-    accent: "linear-gradient(135deg, #9A6B00, #C89020)",
-  },
-];
-
-const steps = [
-  {
-    step: "1",
-    title: "Create your profile",
-    description:
-      "Sign up with your phone number. Complete your personality quiz and upload verified photos in under 12 minutes.",
-  },
-  {
-    step: "2",
-    title: "Get verified",
-    description:
-      "Aadhaar + PAN verification, photo liveness check. Your trust score is calculated and displayed to potential matches.",
-  },
-  {
-    step: "3",
-    title: "Receive 5 daily matches",
-    description:
-      "Every morning at 6 AM IST, our AI surfaces your 5 most compatible matches — curated, not overwhelmed.",
-  },
-  {
-    step: "4",
-    title: "Connect with confidence",
-    description:
-      "Express interest, chat with Signal Protocol encryption, video call — all without sharing personal contact details.",
-  },
-];
