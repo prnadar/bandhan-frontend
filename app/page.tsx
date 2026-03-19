@@ -321,7 +321,7 @@ export default function HomePage() {
               width: "100%",
             }}
           >
-            <div className="grid grid-cols-1 sm:grid-cols-4 gap-3 items-end">
+            <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 items-end">
               <div>
                 <label className="text-xs font-medium mb-1 block" style={{ color: "#888" }}>Looking for</label>
                 <select className="w-full border rounded-lg px-3 py-2.5 text-sm" style={{ borderColor: "#e5e5e5", color: "#333" }}>
@@ -329,15 +329,7 @@ export default function HomePage() {
                   <option>Groom</option>
                 </select>
               </div>
-              <div>
-                <label className="text-xs font-medium mb-1 block" style={{ color: "#888" }}>Community</label>
-                <select className="w-full border rounded-lg px-3 py-2.5 text-sm" style={{ borderColor: "#e5e5e5", color: "#333" }}>
-                  <option>Indian</option>
-                  <option>Hindu</option>
-                  <option>Muslim</option>
-                  <option>Christian</option>
-                </select>
-              </div>
+
               <div>
                 <label className="text-xs font-medium mb-1 block" style={{ color: "#888" }}>Age Range</label>
                 <select className="w-full border rounded-lg px-3 py-2.5 text-sm" style={{ borderColor: "#e5e5e5", color: "#333" }}>
@@ -463,33 +455,121 @@ export default function HomePage() {
       </section>
 
       {/* ── 4. How It Works ──────────────────────────────────────────── */}
-      <section id="how-it-works" className="py-20 px-4 sm:px-6 bg-white">
-        <div className="max-w-6xl mx-auto">
-          <div className="text-center mb-16">
-            <span className="text-sm font-medium tracking-wide uppercase" style={{ color: "#dc1e3c" }}>Simple Process</span>
-            <h2 className="font-playfair text-3xl sm:text-4xl font-bold mt-2" style={{ color: "#1a0a14" }}>How Match4Marriage Works</h2>
+      <section id="how-it-works" style={{ padding: "96px 24px", background: "#fdfbf9", position: "relative", overflow: "hidden" }}>
+        {/* Subtle background motif */}
+        <div style={{ position: "absolute", top: "50%", left: "50%", transform: "translate(-50%,-50%)", width: "700px", height: "700px", borderRadius: "50%", background: "radial-gradient(circle, rgba(220,30,60,0.03) 0%, transparent 70%)", pointerEvents: "none" }} />
+
+        <div className="max-w-5xl mx-auto" style={{ position: "relative" }}>
+          {/* Header */}
+          <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: "72px", flexWrap: "wrap", gap: "24px" }}>
+            <div>
+              <span style={{ fontSize: "12px", fontWeight: 700, color: "#dc1e3c", textTransform: "uppercase", letterSpacing: "0.2em", display: "block", marginBottom: "12px" }}>Your Journey</span>
+              <h2 className="font-playfair" style={{ fontSize: "clamp(32px, 4vw, 52px)", fontWeight: 700, color: "#1a0a14", lineHeight: 1.1, margin: 0 }}>
+                From First Step to <span style={{ color: "#dc1e3c", fontStyle: "italic" }}>Forever</span>
+              </h2>
+            </div>
+            <a href="/auth/register" style={{
+              display: "inline-block", background: "linear-gradient(135deg, #dc1e3c, #a0153c)",
+              color: "#fff", padding: "14px 32px", borderRadius: "9999px",
+              fontSize: "14px", fontWeight: 600, textDecoration: "none",
+              boxShadow: "0 4px 20px rgba(220,30,60,0.25)", whiteSpace: "nowrap",
+              flexShrink: 0,
+            }}>
+              Begin Your Journey →
+            </a>
           </div>
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 relative">
-            {/* Connecting line (desktop) */}
-            <div className="hidden lg:block absolute top-10 left-[12%] right-[12%] h-0.5 border-t-2 border-dashed" style={{ borderColor: "rgba(161,99,4,0.2)" }} />
-
+          {/* Steps — alternating editorial layout */}
+          <div style={{ display: "flex", flexDirection: "column", gap: "0" }}>
             {[
-              { icon: "💼", num: "1", title: "Create Profile", desc: "Build your detailed verified profile" },
-              { icon: "🔍", num: "2", title: "Discover Matches", desc: "AI-powered compatibility suggestions" },
-              { icon: "💬", num: "3", title: "Connect & Chat", desc: "Send interests and start conversations" },
-              { icon: "💍", num: "4", title: "Begin Forever", desc: "Meet families and celebrate your union" },
-            ].map((step) => (
-              <div key={step.num} className="text-center relative z-10">
-                <div
-                  className="w-16 h-16 rounded-full flex items-center justify-center text-white text-lg font-bold mx-auto mb-4"
-                  style={{ backgroundColor: "#dc1e3c" }}
-                >
-                  {step.num}
+              {
+                num: "01",
+                title: "Tell Us About You",
+                desc: "Create your profile and share what matters most — your values, your background, your vision for the future. Every profile is personally reviewed by our team before going live.",
+                tag: "Profile",
+                align: "left",
+              },
+              {
+                num: "02",
+                title: "We Do the Matching",
+                desc: "Our advisors personally curate compatible profiles for you — based on values, compatibility, and shared aspirations. No endless swiping. Just meaningful, hand-picked introductions.",
+                tag: "Matching",
+                align: "right",
+              },
+              {
+                num: "03",
+                title: "Connect with Discretion",
+                desc: "Express interest and begin a conversation in a safe, private environment. Your contact details are shared only with mutual consent — always on your terms.",
+                tag: "Connection",
+                align: "left",
+              },
+              {
+                num: "04",
+                title: "Begin Forever",
+                desc: "Meet families, celebrate the connection, and take the next step — with our dedicated advisors guiding you every step of the way.",
+                tag: "Forever",
+                align: "right",
+              },
+            ].map((step, i) => (
+              <div
+                key={step.num}
+                style={{
+                  display: "grid",
+                  gridTemplateColumns: "1fr 80px 1fr",
+                  alignItems: "center",
+                  gap: "0",
+                  minHeight: "160px",
+                }}
+              >
+                {/* Left content */}
+                <div style={{
+                  padding: "32px 40px 32px 0",
+                  textAlign: "right",
+                  opacity: step.align === "left" ? 1 : 0.15,
+                  transition: "opacity 0.2s",
+                }}>
+                  {step.align === "left" && (
+                    <>
+                      <span style={{ fontSize: "11px", fontWeight: 700, color: "#dc1e3c", textTransform: "uppercase", letterSpacing: "0.15em", display: "block", marginBottom: "8px" }}>{step.tag}</span>
+                      <h3 className="font-playfair" style={{ fontSize: "22px", fontWeight: 700, color: "#1a0a14", marginBottom: "10px", lineHeight: 1.3 }}>{step.title}</h3>
+                      <p style={{ fontSize: "14px", color: "#777", lineHeight: 1.8, margin: 0, maxWidth: "340px", marginLeft: "auto" }}>{step.desc}</p>
+                    </>
+                  )}
                 </div>
-                <span className="text-2xl mb-2 block">{step.icon}</span>
-                <h3 className="font-playfair text-lg font-semibold mb-2" style={{ color: "#1a0a14" }}>{step.title}</h3>
-                <p className="text-sm" style={{ color: "#555" }}>{step.desc}</p>
+
+                {/* Centre timeline */}
+                <div style={{ display: "flex", flexDirection: "column", alignItems: "center", position: "relative", alignSelf: "stretch" }}>
+                  {/* Top line */}
+                  {i > 0 && <div style={{ flex: 1, width: "1px", background: "linear-gradient(to bottom, rgba(220,30,60,0.2), rgba(220,30,60,0.4))" }} />}
+                  {/* Circle */}
+                  <div style={{
+                    width: "64px", height: "64px", borderRadius: "50%",
+                    background: "#fff",
+                    border: "2px solid #dc1e3c",
+                    display: "flex", alignItems: "center", justifyContent: "center",
+                    flexShrink: 0, zIndex: 1,
+                    boxShadow: "0 4px 24px rgba(220,30,60,0.12)",
+                  }}>
+                    <span className="font-playfair" style={{ fontSize: "18px", fontWeight: 700, color: "#dc1e3c" }}>{step.num}</span>
+                  </div>
+                  {/* Bottom line */}
+                  {i < 3 && <div style={{ flex: 1, width: "1px", background: "linear-gradient(to bottom, rgba(220,30,60,0.4), rgba(220,30,60,0.2))" }} />}
+                </div>
+
+                {/* Right content */}
+                <div style={{
+                  padding: "32px 0 32px 40px",
+                  textAlign: "left",
+                  opacity: step.align === "right" ? 1 : 0.15,
+                }}>
+                  {step.align === "right" && (
+                    <>
+                      <span style={{ fontSize: "11px", fontWeight: 700, color: "#dc1e3c", textTransform: "uppercase", letterSpacing: "0.15em", display: "block", marginBottom: "8px" }}>{step.tag}</span>
+                      <h3 className="font-playfair" style={{ fontSize: "22px", fontWeight: 700, color: "#1a0a14", marginBottom: "10px", lineHeight: 1.3 }}>{step.title}</h3>
+                      <p style={{ fontSize: "14px", color: "#777", lineHeight: 1.8, margin: 0, maxWidth: "340px" }}>{step.desc}</p>
+                    </>
+                  )}
+                </div>
               </div>
             ))}
           </div>
