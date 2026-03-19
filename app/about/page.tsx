@@ -351,7 +351,8 @@ export default function AboutPage() {
           alt="Match 4 Marriage"
           style={{ height: "44px", width: "auto", objectFit: "contain", filter: "brightness(0) invert(1)", marginBottom: "16px" }}
         />
-        <p style={{ color: "rgba(255,255,255,0.5)", fontSize: "13px" }}>© 2026 Match4Marriage. All rights reserved.</p>
+        <p style={{ color: "rgba(255,255,255,0.5)", fontSize: "13px", marginBottom: "6px" }}>© 2026 Match4Marriage Limited. All rights reserved. Registered in England & Wales.</p>
+        <p style={{ color: "rgba(255,255,255,0.3)", fontSize: "12px" }}>MATCH4MARRIAGE LIMITED · Company No. 15272378 · 282 Warwick Road, Solihull, England, B92 7AF</p>
       </footer>
     </div>
   );

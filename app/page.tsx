@@ -914,57 +914,84 @@ export default function HomePage() {
       {/* ── 11. Footer ───────────────────────────────────────────────── */}
       <footer className="py-16 px-4 sm:px-6" style={{ backgroundColor: "#1a0a14" }}>
         <div className="max-w-6xl mx-auto">
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-10 mb-10">
+          <div className="grid grid-cols-1 md:grid-cols-4 gap-10 mb-10">
+
             {/* Brand */}
-            <div>
+            <div className="md:col-span-2">
               <img
                 src="/images/WhatsApp Image 2026-02-15 at 8.00.16 PM (2).jpeg"
                 alt="Match 4 Marriage"
-                style={{ height: "52px", width: "auto", objectFit: "contain", filter: "brightness(0) invert(1)", marginBottom: "10px" }}
+                style={{ height: "52px", width: "auto", objectFit: "contain", filter: "brightness(0) invert(1)", marginBottom: "14px" }}
               />
-              <p className="text-sm" style={{ color: "rgba(255,255,255,0.7)" }}>
+              <p className="text-sm" style={{ color: "rgba(255,255,255,0.6)", lineHeight: 1.8, marginBottom: "20px" }}>
                 Elite Indian Matrimony — established in the United Kingdom, connecting the global Indian community with trust, discretion, and care.
               </p>
+              {/* Registered company info */}
+              <div style={{
+                borderTop: "1px solid rgba(255,255,255,0.1)",
+                paddingTop: "16px",
+                display: "flex", flexDirection: "column", gap: "6px",
+              }}>
+                <p style={{ fontSize: "11px", color: "rgba(255,255,255,0.35)", letterSpacing: "0.1em", textTransform: "uppercase", fontWeight: 600 }}>Registered Company</p>
+                <p style={{ fontSize: "13px", color: "rgba(255,255,255,0.7)", fontWeight: 600 }}>MATCH4MARRIAGE LIMITED</p>
+                <p style={{ fontSize: "12px", color: "rgba(255,255,255,0.45)" }}>Company No. 15272378</p>
+                <p style={{ fontSize: "12px", color: "rgba(255,255,255,0.45)" }}>282 Warwick Road, Solihull, England, B92 7AF</p>
+                <p style={{ fontSize: "11px", color: "rgba(255,255,255,0.3)" }}>Incorporated 9 November 2023 · Active</p>
+              </div>
             </div>
 
             {/* Links */}
             <div>
-              <p className="text-sm font-semibold text-white mb-3 uppercase tracking-wide">Quick Links</p>
+              <p className="text-sm font-semibold text-white mb-4 uppercase tracking-wide">Quick Links</p>
               <div className="space-y-2">
-                {["About Us", "Pricing", "Success Stories", "Blog", "Contact", "Privacy", "Terms"].map((link) => (
-                  <a
-                    key={link}
-                    href="#"
+                {[
+                  { label: "About Us", href: "/about" },
+                  { label: "Success Stories", href: "#success-stories" },
+                  { label: "How It Works", href: "#how-it-works" },
+                  { label: "Contact", href: "#contact" },
+                  { label: "Privacy Policy", href: "#" },
+                  { label: "Terms of Service", href: "#" },
+                ].map((link) => (
+                  <a key={link.label} href={link.href}
                     className="block text-sm transition-colors duration-200 hover:text-white"
-                    style={{ color: "rgba(255,255,255,0.6)" }}
-                  >
-                    {link}
+                    style={{ color: "rgba(255,255,255,0.55)" }}>
+                    {link.label}
                   </a>
                 ))}
               </div>
             </div>
 
-            {/* Social */}
+            {/* Contact */}
             <div>
-              <p className="text-sm font-semibold text-white mb-3 uppercase tracking-wide">Follow Us</p>
-              <div className="flex gap-4">
-                {["Facebook", "Instagram", "Twitter", "LinkedIn"].map((social) => (
-                  <a
-                    key={social}
-                    href="#"
-                    className="text-sm transition-colors duration-200 hover:text-white"
-                    style={{ color: "rgba(255,255,255,0.6)" }}
-                  >
-                    {social}
-                  </a>
-                ))}
+              <p className="text-sm font-semibold text-white mb-4 uppercase tracking-wide">Contact</p>
+              <div className="space-y-3">
+                <div>
+                  <p style={{ fontSize: "11px", color: "rgba(255,255,255,0.35)", textTransform: "uppercase", letterSpacing: "0.1em", marginBottom: "2px" }}>Email</p>
+                  <a href="mailto:hello@match4marriage.com" style={{ fontSize: "13px", color: "rgba(255,255,255,0.65)" }}>hello@match4marriage.com</a>
+                </div>
+                <div>
+                  <p style={{ fontSize: "11px", color: "rgba(255,255,255,0.35)", textTransform: "uppercase", letterSpacing: "0.1em", marginBottom: "2px" }}>Registered Office</p>
+                  <p style={{ fontSize: "13px", color: "rgba(255,255,255,0.65)", lineHeight: 1.6 }}>282 Warwick Road,<br />Solihull, England, B92 7AF</p>
+                </div>
+                <div style={{ paddingTop: "8px", display: "flex", gap: "12px" }}>
+                  {["Facebook", "Instagram", "LinkedIn"].map((s) => (
+                    <a key={s} href="#"
+                      className="text-xs transition-colors duration-200 hover:text-white"
+                      style={{ color: "rgba(255,255,255,0.4)" }}>
+                      {s}
+                    </a>
+                  ))}
+                </div>
               </div>
             </div>
           </div>
 
-          <div className="pt-8 text-center" style={{ borderTop: "1px solid rgba(255,255,255,0.15)" }}>
-            <p className="text-xs" style={{ color: "rgba(255,255,255,0.5)" }}>
-              © 2026 Match4Marriage. All rights reserved.
+          <div className="pt-8" style={{ borderTop: "1px solid rgba(255,255,255,0.1)", display: "flex", flexWrap: "wrap", justifyContent: "space-between", alignItems: "center", gap: "12px" }}>
+            <p style={{ fontSize: "12px", color: "rgba(255,255,255,0.35)" }}>
+              © 2026 Match4Marriage Limited. All rights reserved. Registered in England & Wales.
+            </p>
+            <p style={{ fontSize: "11px", color: "rgba(255,255,255,0.25)" }}>
+              Company No. 15272378
             </p>
           </div>
         </div>
