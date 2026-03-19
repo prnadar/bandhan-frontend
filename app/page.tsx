@@ -122,7 +122,7 @@ export default function HomePage() {
               { label: "Browse Profiles", href: "#browse-profiles" },
               { label: "Success Stories", href: "#success-stories" },
               { label: "Pricing", href: "#pricing" },
-              { label: "About", href: "/about" },
+              { label: "About Us", href: "/about" },
             ].map((item) => (
               <a
                 key={item.label}
@@ -171,7 +171,7 @@ export default function HomePage() {
               { label: "Browse Profiles", href: "#browse-profiles" },
               { label: "Success Stories", href: "#success-stories" },
               { label: "Pricing", href: "#pricing" },
-              { label: "About", href: "/about" },
+              { label: "About Us", href: "/about" },
             ].map((item) => (
               <a
                 key={item.label}
@@ -784,7 +784,7 @@ export default function HomePage() {
             <div>
               <p className="text-sm font-semibold text-white mb-3 uppercase tracking-wide">Quick Links</p>
               <div className="space-y-2">
-                {["About", "Pricing", "Success Stories", "Blog", "Contact", "Privacy", "Terms"].map((link) => (
+                {["About Us", "Pricing", "Success Stories", "Blog", "Contact", "Privacy", "Terms"].map((link) => (
                   <a
                     key={link}
                     href="#"

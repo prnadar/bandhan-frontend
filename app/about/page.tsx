@@ -2,7 +2,7 @@ import Link from "next/link";
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "About Us | Match4Marriage",
+  title: "About Us | Match4Marriage — Elite Indian Matrimony",
   description:
     "Match4Marriage is a UK-based boutique Indian matrimonial service. Hand-picked, personally verified profiles for the British Indian community and diaspora.",
 };
@@ -102,13 +102,13 @@ export default function AboutPage() {
               { label: "Browse Profiles", href: "/#browse-profiles" },
               { label: "Success Stories", href: "/#success-stories" },
               { label: "Pricing", href: "/#pricing" },
-              { label: "About", href: "/about" },
+              { label: "About Us", href: "/about" },
             ].map((item) => (
               <Link
                 key={item.label}
                 href={item.href}
                 className="text-sm font-medium transition-colors duration-200 hover:text-[#dc1e3c]"
-                style={{ color: item.label === "About" ? "#dc1e3c" : "#333" }}
+                style={{ color: item.label === "About Us" ? "#dc1e3c" : "#333" }}
               >
                 {item.label}
               </Link>
@@ -214,15 +214,15 @@ export default function AboutPage() {
           </div>
           <div style={{ position: "relative" }}>
             <img
-              src="https://images.unsplash.com/photo-1583939003579-730e3918a45a?w=700&q=85"
-              alt="Tamil wedding"
+              src="/images/DSC04881.jpeg"
+              alt="Indian wedding couple"
               style={{ width: "100%", borderRadius: "20px", objectFit: "cover", aspectRatio: "4/3", boxShadow: "0 20px 60px rgba(102,69,28,0.12)" }}
             />
             <div style={{ position: "absolute", bottom: -20, left: -20, background: "#fff", borderRadius: "16px", padding: "16px 24px", boxShadow: "0 8px 32px rgba(0,0,0,0.1)", display: "flex", alignItems: "center", gap: "12px" }}>
               <span style={{ fontSize: "28px" }}>💍</span>
               <div>
-                <p style={{ fontWeight: 700, color: "#1a0a14", fontSize: "15px" }}>12,000+ Marriages</p>
-                <p style={{ color: "#888", fontSize: "12px" }}>and counting</p>
+                <p style={{ fontWeight: 700, color: "#1a0a14", fontSize: "15px" }}>Successful Matches</p>
+                <p style={{ color: "#888", fontSize: "12px" }}>and growing</p>
               </div>
             </div>
           </div>
@@ -230,22 +230,48 @@ export default function AboutPage() {
       </section>
 
       {/* ── Values ── */}
-      <section style={{ padding: "80px 24px", background: "#fff" }}>
+      <section style={{ padding: "80px 24px", background: "#fdfbf9" }}>
         <div className="max-w-6xl mx-auto">
-          <div style={{ textAlign: "center", marginBottom: "56px" }}>
-            <span style={{ fontSize: "13px", fontWeight: 600, color: "#dc1e3c", textTransform: "uppercase", letterSpacing: "0.1em" }}>What We Stand For</span>
-            <h2 className="font-playfair" style={{ fontSize: "clamp(28px, 3.5vw, 42px)", fontWeight: 700, color: "#1a0a14", marginTop: "12px" }}>Our Pillars</h2>
+          <div style={{ textAlign: "center", marginBottom: "64px" }}>
+            <span style={{ fontSize: "12px", fontWeight: 700, color: "#dc1e3c", textTransform: "uppercase", letterSpacing: "0.15em" }}>What We Stand For</span>
+            <h2 className="font-playfair" style={{ fontSize: "clamp(28px, 3.5vw, 44px)", fontWeight: 700, color: "#1a0a14", marginTop: "14px", marginBottom: "16px" }}>Our Pillars</h2>
+            <div style={{ width: "48px", height: "3px", background: "linear-gradient(135deg, #dc1e3c, #a0153c)", borderRadius: "9999px", margin: "0 auto" }} />
           </div>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-            {pillars.map((v) => (
+            {pillars.map((v, i) => (
               <div
                 key={v.title}
-                style={{ background: "#fdfbf9", border: "1px solid rgba(220,30,60,0.1)", borderRadius: "16px", padding: "28px", transition: "transform 0.2s, box-shadow 0.2s" }}
+                style={{
+                  background: "#fff",
+                  borderRadius: "20px",
+                  padding: "36px 28px",
+                  boxShadow: "0 2px 24px rgba(26,10,20,0.06)",
+                  borderTop: "3px solid #dc1e3c",
+                  transition: "transform 0.2s, box-shadow 0.2s",
+                  position: "relative",
+                  overflow: "hidden",
+                }}
                 className="hover:shadow-lg"
               >
-                <span style={{ fontSize: "36px", display: "block", marginBottom: "16px" }}>{v.icon}</span>
-                <h3 className="font-playfair" style={{ fontSize: "18px", fontWeight: 700, color: "#1a0a14", marginBottom: "10px" }}>{v.title}</h3>
-                <p style={{ color: "#666", fontSize: "14px", lineHeight: 1.7 }}>{v.desc}</p>
+                {/* Number watermark */}
+                <span style={{
+                  position: "absolute", top: "16px", right: "20px",
+                  fontSize: "48px", fontWeight: 800, color: "rgba(220,30,60,0.06)",
+                  fontFamily: "Playfair Display, serif", lineHeight: 1,
+                }}>
+                  {String(i + 1).padStart(2, "0")}
+                </span>
+                {/* Icon circle */}
+                <div style={{
+                  width: "48px", height: "48px", borderRadius: "12px",
+                  background: "linear-gradient(135deg, rgba(220,30,60,0.1), rgba(160,21,60,0.06))",
+                  display: "flex", alignItems: "center", justifyContent: "center",
+                  marginBottom: "20px", fontSize: "22px",
+                }}>
+                  {v.icon}
+                </div>
+                <h3 className="font-playfair" style={{ fontSize: "17px", fontWeight: 700, color: "#1a0a14", marginBottom: "12px", lineHeight: 1.3 }}>{v.title}</h3>
+                <p style={{ color: "#777", fontSize: "14px", lineHeight: 1.8, margin: 0 }}>{v.desc}</p>
               </div>
             ))}
           </div>
