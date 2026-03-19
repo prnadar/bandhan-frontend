@@ -16,19 +16,25 @@ const profiles = [
 
 const stories = [
   {
-    img: "https://images.unsplash.com/photo-1583939003579-730e3918a45a?w=400",
-    names: "Anjali & Suresh",
-    quote: "We connected on Match4Marriage in January and got engaged by March. The compatibility matching was spot on!",
+    img: "/images/story1.png",
+    names: "Priya & Karthik",
+    location: "London & Chennai",
+    year: "Married 2024",
+    quote: "We had both given up on online matchmaking until Match4Marriage. Within weeks, we were introduced to each other — and within months, our families had met. We married in Chennai in December 2024.",
   },
   {
-    img: "https://images.unsplash.com/photo-1522673607200-164d1b6ce486?w=400",
-    names: "Kavya & Rohit",
-    quote: "Our families connected instantly. Match4Marriage made the whole process feel natural and comfortable.",
+    img: "/images/story2.png",
+    names: "Anitha & Vijay",
+    location: "Birmingham & Coimbatore",
+    year: "Married 2024",
+    quote: "What set Match4Marriage apart was the personal touch. They didn't just send us a profile — they took time to understand what we were both looking for. We are so grateful for the care they showed.",
   },
   {
-    img: "https://images.unsplash.com/photo-1537633552985-df8429e8048b?w=400",
-    names: "Divya & Arjun",
-    quote: "3 weeks after matching we had our first family meeting. 6 months later we were married!",
+    img: "/images/story4.png",
+    names: "Deepa & Suresh",
+    location: "Manchester & Madurai",
+    year: "Married 2023",
+    quote: "Our families were in different cities and countries. Match4Marriage bridged that gap beautifully. The process was discreet, respectful, and exactly what we needed.",
   },
 ];
 
@@ -532,20 +538,21 @@ export default function HomePage() {
                   src={story.img}
                   alt={story.names}
                   className="w-full object-cover"
-                  style={{ aspectRatio: "16/10" }}
+                  style={{ aspectRatio: "16/10", objectPosition: "top" }}
                 />
                 <div className="p-6">
                   <div className="flex items-center gap-1 mb-3">
-                    {[1, 2, 3, 4, 5].map((s) => (
-                      <span key={s} style={{ color: "#dc1e3c" }}>⭐</span>
+                    {[1,2,3,4,5].map((s) => (
+                      <span key={s} style={{ color: "#f59e0b", fontSize: "14px" }}>★</span>
                     ))}
                   </div>
-                  <p className="text-sm italic mb-4" style={{ color: "#555", lineHeight: 1.7 }}>
+                  <p className="text-sm italic mb-4" style={{ color: "#666", lineHeight: 1.8 }}>
                     &ldquo;{story.quote}&rdquo;
                   </p>
-                  <p className="font-playfair font-semibold" style={{ color: "#1a0a14" }}>{story.names}</p>
-                  <span className="inline-block mt-2 text-xs px-3 py-1 rounded-full" style={{ backgroundColor: "rgba(161,99,4,0.1)", color: "#dc1e3c" }}>
-                    Married in 2025
+                  <p className="font-playfair font-semibold" style={{ color: "#1a0a14", fontSize: "17px" }}>{story.names}</p>
+                  <p style={{ fontSize: "12px", color: "#999", marginTop: "2px" }}>📍 {story.location}</p>
+                  <span className="inline-block mt-3 text-xs px-3 py-1 rounded-full font-medium" style={{ backgroundColor: "rgba(220,30,60,0.08)", color: "#dc1e3c" }}>
+                    {story.year}
                   </span>
                 </div>
               </div>
