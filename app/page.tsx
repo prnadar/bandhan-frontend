@@ -83,11 +83,7 @@ const filterTabs = ["All", "Hindu", "Muslim", "Christian", "Sikh"];
 
 export default function HomePage() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
-  const [activeFilter, setActiveFilter] = useState("All");
 
-  const filteredProfiles = activeFilter === "All"
-    ? profiles
-    : profiles.filter((p) => p.religion === activeFilter);
 
   return (
     <div className="min-h-screen overflow-x-hidden font-poppins">
@@ -517,83 +513,6 @@ export default function HomePage() {
                 </div>
               ))}
             </div>
-          </div>
-        </div>
-      </section>
-
-      {/* ── 5. Browse Profiles ───────────────────────────────────────── */}
-      <section id="browse-profiles" className="py-20 px-4 sm:px-6 section-cream">
-        <div className="max-w-6xl mx-auto">
-          <div className="text-center mb-12">
-            <span className="text-sm font-medium tracking-wide uppercase" style={{ color: "#dc1e3c" }}>Find Your Match</span>
-            <h2 className="font-playfair text-3xl sm:text-4xl font-bold mt-2" style={{ color: "#1a0a14" }}>Browse Elite Verified Profiles</h2>
-          </div>
-
-          {/* Filter tabs */}
-          <div className="flex flex-wrap justify-center gap-2 mb-10">
-            {filterTabs.map((tab) => (
-              <button
-                key={tab}
-                onClick={() => setActiveFilter(tab)}
-                className="px-5 py-2 rounded-full text-sm font-medium transition-all duration-200"
-                style={
-                  activeFilter === tab
-                    ? { backgroundColor: "#dc1e3c", color: "#fff" }
-                    : { backgroundColor: "rgba(161,99,4,0.08)", color: "#dc1e3c" }
-                }
-              >
-                {tab}
-              </button>
-            ))}
-          </div>
-
-          {/* Profile cards */}
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-            {filteredProfiles.map((profile) => (
-              <div key={profile.name} className="warm-card p-5">
-                <div className="flex items-center gap-4 mb-4">
-                  <img
-                    src={
-                      profile.gender === "female"
-                        ? "https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=300"
-                        : "https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?w=300"
-                    }
-                    alt={profile.name}
-                    className="w-16 h-16 rounded-full object-cover"
-                    style={{ border: "2px solid rgba(161,99,4,0.15)" }}
-                  />
-                  <div>
-                    <h3 className="font-playfair font-semibold text-lg" style={{ color: "#1a0a14" }}>{profile.name}</h3>
-                    <p className="text-sm" style={{ color: "#555" }}>{profile.age} yrs • {profile.religion}</p>
-                  </div>
-                </div>
-                <div className="space-y-1 mb-4 text-sm" style={{ color: "#555" }}>
-                  <p>🎓 {profile.profession}</p>
-                  <p>📍 {profile.location}</p>
-                </div>
-                <div className="flex items-center gap-2 mb-4">
-                  {profile.verified && (
-                    <span className="text-xs px-2 py-0.5 rounded-full font-medium" style={{ backgroundColor: "rgba(161,99,4,0.1)", color: "#dc1e3c" }}>
-                      Verified ✓
-                    </span>
-                  )}
-                  {profile.premium && (
-                    <span className="text-xs px-2 py-0.5 rounded-full font-medium" style={{ backgroundColor: "rgba(161,99,4,0.08)", color: "#dc1e3c" }}>
-                      Premium
-                    </span>
-                  )}
-                </div>
-                <button className="btn-outline-gold w-full py-2 text-sm">
-                  View Profile
-                </button>
-              </div>
-            ))}
-          </div>
-
-          <div className="text-center mt-10">
-            <Link href="/profiles" className="btn-gold inline-block px-8 py-3 text-sm">
-              View All Profiles
-            </Link>
           </div>
         </div>
       </section>
