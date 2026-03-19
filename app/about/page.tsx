@@ -153,7 +153,7 @@ export default function AboutPage() {
 
       {/* ── Stats ── */}
       <section style={{ background: "#fff", padding: "0 24px", borderBottom: "1px solid rgba(220,30,60,0.08)" }}>
-        <div className="max-w-5xl mx-auto grid grid-cols-2 md:grid-cols-4" style={{ divideX: "1px solid rgba(220,30,60,0.1)" }}>
+        <div className="max-w-5xl mx-auto grid grid-cols-2 md:grid-cols-4">
           {[
             { icon: "👑", num: "100+", label: "Elite Verified Profiles" },
             { icon: "✅", num: "Every Profile", label: "Hand-Picked & Verified" },
