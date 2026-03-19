@@ -479,99 +479,44 @@ export default function HomePage() {
             </a>
           </div>
 
-          {/* Steps — alternating editorial layout */}
-          <div style={{ display: "flex", flexDirection: "column", gap: "0" }}>
-            {[
-              {
-                num: "01",
-                title: "Tell Us About You",
-                desc: "Create your profile and share what matters most — your values, your background, your vision for the future. Every profile is personally reviewed by our team before going live.",
-                tag: "Profile",
-                align: "left",
-              },
-              {
-                num: "02",
-                title: "We Do the Matching",
-                desc: "Our advisors personally curate compatible profiles for you — based on values, compatibility, and shared aspirations. No endless swiping. Just meaningful, hand-picked introductions.",
-                tag: "Matching",
-                align: "right",
-              },
-              {
-                num: "03",
-                title: "Connect with Discretion",
-                desc: "Express interest and begin a conversation in a safe, private environment. Your contact details are shared only with mutual consent — always on your terms.",
-                tag: "Connection",
-                align: "left",
-              },
-              {
-                num: "04",
-                title: "Begin Forever",
-                desc: "Meet families, celebrate the connection, and take the next step — with our dedicated advisors guiding you every step of the way.",
-                tag: "Forever",
-                align: "right",
-              },
-            ].map((step, i) => (
-              <div
-                key={step.num}
-                style={{
-                  display: "grid",
-                  gridTemplateColumns: "1fr 80px 1fr",
-                  alignItems: "center",
-                  gap: "0",
-                  minHeight: "160px",
-                }}
-              >
-                {/* Left content */}
-                <div style={{
-                  padding: "32px 40px 32px 0",
-                  textAlign: "right",
-                  opacity: step.align === "left" ? 1 : 0.15,
-                  transition: "opacity 0.2s",
-                }}>
-                  {step.align === "left" && (
-                    <>
-                      <span style={{ fontSize: "11px", fontWeight: 700, color: "#dc1e3c", textTransform: "uppercase", letterSpacing: "0.15em", display: "block", marginBottom: "8px" }}>{step.tag}</span>
-                      <h3 className="font-playfair" style={{ fontSize: "22px", fontWeight: 700, color: "#1a0a14", marginBottom: "10px", lineHeight: 1.3 }}>{step.title}</h3>
-                      <p style={{ fontSize: "14px", color: "#777", lineHeight: 1.8, margin: 0, maxWidth: "340px", marginLeft: "auto" }}>{step.desc}</p>
-                    </>
-                  )}
-                </div>
+          {/* Steps — horizontal layout */}
+          <div style={{ position: "relative" }}>
+            {/* Horizontal connecting line */}
+            <div style={{
+              position: "absolute",
+              top: "32px",
+              left: "calc(12.5%)",
+              right: "calc(12.5%)",
+              height: "1px",
+              background: "linear-gradient(to right, rgba(220,30,60,0.2), rgba(220,30,60,0.5), rgba(220,30,60,0.2))",
+            }} />
 
-                {/* Centre timeline */}
-                <div style={{ display: "flex", flexDirection: "column", alignItems: "center", position: "relative", alignSelf: "stretch" }}>
-                  {/* Top line */}
-                  {i > 0 && <div style={{ flex: 1, width: "1px", background: "linear-gradient(to bottom, rgba(220,30,60,0.2), rgba(220,30,60,0.4))" }} />}
+            <div className="grid grid-cols-2 lg:grid-cols-4" style={{ gap: "0", position: "relative" }}>
+              {[
+                { num: "01", title: "Tell Us About You",       desc: "Create your profile. Every profile is personally reviewed before going live.", tag: "Profile" },
+                { num: "02", title: "We Do the Matching",      desc: "Our advisors hand-pick compatible profiles — no algorithms, no endless swiping.", tag: "Matching" },
+                { num: "03", title: "Connect with Discretion", desc: "Express interest privately. Your details are shared only with mutual consent.", tag: "Connection" },
+                { num: "04", title: "Begin Forever",           desc: "Meet families and take the next step — with our advisors guiding you throughout.", tag: "Forever" },
+              ].map((step, i) => (
+                <div key={step.num} style={{ padding: "0 24px 0", textAlign: "center" }}>
                   {/* Circle */}
                   <div style={{
                     width: "64px", height: "64px", borderRadius: "50%",
                     background: "#fff",
                     border: "2px solid #dc1e3c",
                     display: "flex", alignItems: "center", justifyContent: "center",
-                    flexShrink: 0, zIndex: 1,
+                    margin: "0 auto 24px",
                     boxShadow: "0 4px 24px rgba(220,30,60,0.12)",
+                    position: "relative", zIndex: 1,
                   }}>
                     <span className="font-playfair" style={{ fontSize: "18px", fontWeight: 700, color: "#dc1e3c" }}>{step.num}</span>
                   </div>
-                  {/* Bottom line */}
-                  {i < 3 && <div style={{ flex: 1, width: "1px", background: "linear-gradient(to bottom, rgba(220,30,60,0.4), rgba(220,30,60,0.2))" }} />}
+                  <span style={{ fontSize: "11px", fontWeight: 700, color: "#dc1e3c", textTransform: "uppercase", letterSpacing: "0.15em", display: "block", marginBottom: "8px" }}>{step.tag}</span>
+                  <h3 className="font-playfair" style={{ fontSize: "18px", fontWeight: 700, color: "#1a0a14", marginBottom: "10px", lineHeight: 1.3 }}>{step.title}</h3>
+                  <p style={{ fontSize: "13px", color: "#777", lineHeight: 1.7, margin: 0 }}>{step.desc}</p>
                 </div>
-
-                {/* Right content */}
-                <div style={{
-                  padding: "32px 0 32px 40px",
-                  textAlign: "left",
-                  opacity: step.align === "right" ? 1 : 0.15,
-                }}>
-                  {step.align === "right" && (
-                    <>
-                      <span style={{ fontSize: "11px", fontWeight: 700, color: "#dc1e3c", textTransform: "uppercase", letterSpacing: "0.15em", display: "block", marginBottom: "8px" }}>{step.tag}</span>
-                      <h3 className="font-playfair" style={{ fontSize: "22px", fontWeight: 700, color: "#1a0a14", marginBottom: "10px", lineHeight: 1.3 }}>{step.title}</h3>
-                      <p style={{ fontSize: "14px", color: "#777", lineHeight: 1.8, margin: 0, maxWidth: "340px" }}>{step.desc}</p>
-                    </>
-                  )}
-                </div>
-              </div>
-            ))}
+              ))}
+            </div>
           </div>
         </div>
       </section>

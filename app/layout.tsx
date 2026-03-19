@@ -1,5 +1,6 @@
 import type { Metadata, Viewport } from "next";
 import QueryProvider from "@/lib/providers/query-provider";
+import Preloader from "@/components/Preloader";
 import "./globals.css";
 
 export const metadata: Metadata = {
@@ -48,6 +49,7 @@ export default function RootLayout({
         />
       </head>
       <body>
+        <Preloader />
         <QueryProvider>{children}</QueryProvider>
       </body>
     </html>
