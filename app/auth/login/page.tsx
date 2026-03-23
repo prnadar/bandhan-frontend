@@ -11,15 +11,17 @@ export default function LoginPage() {
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
   const [loading, setLoading] = useState(false);
+  const [error, setError] = useState("");
 
   const handleLogin = async () => {
+    if (!email.includes("@")) { setError("Please enter a valid email address."); return; }
+    if (password.length < 6) { setError("Password must be at least 6 characters."); return; }
+    setError("");
     setLoading(true);
     await new Promise((r) => setTimeout(r, 800));
     setLoading(false);
     router.push("/dashboard");
   };
-
-  const isEmailValid = email.includes("@") && password.length >= 6;
 
   return (
     <div style={{ minHeight: "100vh", display: "flex", background: "#fdfbf9", fontFamily: "var(--font-poppins, sans-serif)" }}>
@@ -117,16 +119,22 @@ export default function LoginPage() {
               <a href="#" style={{ fontSize: "12px", color: "#dc1e3c", textDecoration: "none", fontWeight: 600 }}>Forgot password?</a>
             </div>
 
+            {error && (
+              <div style={{ marginBottom: "16px", padding: "12px 16px", background: "rgba(220,30,60,0.05)", border: "1px solid rgba(220,30,60,0.2)", borderRadius: "10px" }}>
+                <p style={{ fontSize: "12px", color: "#dc1e3c", margin: 0 }}>• {error}</p>
+              </div>
+            )}
+
             <button
               onClick={handleLogin}
-              disabled={!isEmailValid || loading}
+              disabled={loading}
               style={{
                 width: "100%", padding: "14px",
-                background: isEmailValid ? "linear-gradient(135deg, #dc1e3c, #a0153c)" : "rgba(0,0,0,0.08)",
-                color: isEmailValid ? "#fff" : "#aaa",
+                background: "linear-gradient(135deg, #dc1e3c, #a0153c)",
+                color: "#fff",
                 borderRadius: "10px", fontSize: "14px", fontWeight: 600,
-                border: "none", cursor: isEmailValid ? "pointer" : "not-allowed",
-                boxShadow: isEmailValid ? "0 4px 16px rgba(220,30,60,0.25)" : "none",
+                border: "none", cursor: "pointer",
+                boxShadow: "0 4px 16px rgba(220,30,60,0.25)",
               }}
             >
               {loading ? "Signing in…" : "Sign In →"}

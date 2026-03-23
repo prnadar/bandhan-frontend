@@ -24,6 +24,7 @@ export default function RegisterPage() {
   const [gender, setGender] = useState("");
   const [otp, setOtp] = useState(["", "", "", "", "", ""]);
   const [otpSent, setOtpSent] = useState(false);
+  const [errors, setErrors] = useState<string[]>([]);
 
   const handleSendOtp = async () => {
     setLoading(true);
@@ -33,6 +34,17 @@ export default function RegisterPage() {
   };
 
   const handleNext = async () => {
+    if (step === 0) {
+      const errs: string[] = [];
+      if (!name.trim()) errs.push("Please enter your full name.");
+      if (!gender) errs.push("Please select Bride or Groom.");
+      if (!email.includes("@")) errs.push("Please enter a valid email address.");
+      if (password.length < 6) errs.push("Password must be at least 6 characters.");
+      if (password !== confirmPassword) errs.push("Passwords do not match.");
+      if (!agreed) errs.push("Please accept the Terms & Conditions to continue.");
+      if (errs.length > 0) { setErrors(errs); return; }
+      setErrors([]);
+    }
     setLoading(true);
     await new Promise((r) => setTimeout(r, 600));
     setLoading(false);
@@ -50,7 +62,7 @@ export default function RegisterPage() {
     }
   };
 
-  const isStep0Valid = name.trim() && gender && email.includes("@") && password.length >= 6 && password === confirmPassword && agreed;
+  const isStep0Valid = !!(name.trim() && gender && email.includes("@") && password.length >= 6 && password === confirmPassword && agreed);
   const isStep1Valid = otp.every((d) => d !== "");
 
   return (
@@ -238,16 +250,24 @@ export default function RegisterPage() {
                 </label>
               </div>
 
+              {errors.length > 0 && (
+                <div style={{ marginBottom: "16px", padding: "12px 16px", background: "rgba(220,30,60,0.05)", border: "1px solid rgba(220,30,60,0.2)", borderRadius: "10px" }}>
+                  {errors.map((e, i) => (
+                    <p key={i} style={{ fontSize: "12px", color: "#dc1e3c", margin: i > 0 ? "4px 0 0" : "0" }}>• {e}</p>
+                  ))}
+                </div>
+              )}
+
               <button
                 onClick={handleNext}
-                disabled={!isStep0Valid || loading}
+                disabled={loading}
                 style={{
                   width: "100%", padding: "14px",
-                  background: isStep0Valid ? "linear-gradient(135deg, #dc1e3c, #a0153c)" : "rgba(0,0,0,0.08)",
-                  color: isStep0Valid ? "#fff" : "#aaa",
+                  background: "linear-gradient(135deg, #dc1e3c, #a0153c)",
+                  color: "#fff",
                   borderRadius: "10px", fontSize: "14px", fontWeight: 600,
-                  border: "none", cursor: isStep0Valid ? "pointer" : "not-allowed",
-                  boxShadow: isStep0Valid ? "0 4px 16px rgba(220,30,60,0.25)" : "none",
+                  border: "none", cursor: "pointer",
+                  boxShadow: "0 4px 16px rgba(220,30,60,0.25)",
                   transition: "all 0.2s",
                 }}
               >
