@@ -3,208 +3,301 @@
 import { useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { Heart, Phone, ArrowRight, Shield, Lock } from "lucide-react";
+
+type Method = "phone" | "email";
 
 export default function LoginPage() {
   const router = useRouter();
+  const [method, setMethod] = useState<Method>("phone");
   const [phone, setPhone] = useState("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [showPassword, setShowPassword] = useState(false);
+  const [step, setStep] = useState<"credentials" | "otp">("credentials");
   const [otp, setOtp] = useState(["", "", "", "", "", ""]);
-  const [step, setStep] = useState<"phone" | "otp">("phone");
   const [loading, setLoading] = useState(false);
 
-  const sendOtp = async () => {
-    if (phone.length < 10) return;
+  const handleSendOtp = async () => {
     setLoading(true);
-    // TODO: POST /api/v1/auth/send-otp
-    await new Promise((r) => setTimeout(r, 800));
+    await new Promise((r) => setTimeout(r, 700));
     setLoading(false);
     setStep("otp");
   };
 
-  const verifyOtp = async () => {
-    const code = otp.join("");
-    if (code.length < 6) return;
+  const handleLogin = async () => {
     setLoading(true);
-    // TODO: POST /api/v1/auth/verify-otp
     await new Promise((r) => setTimeout(r, 800));
     setLoading(false);
     router.push("/dashboard");
   };
 
-  const handleOtpChange = (i: number, val: string) => {
-    const v = val.replace(/\D/, "");
-    const next = [...otp];
-    next[i] = v;
-    setOtp(next);
-    if (v && i < 5) (document.getElementById(`otp-${i + 1}`) as HTMLInputElement)?.focus();
+  const handleOtpChange = (val: string, idx: number) => {
+    const updated = [...otp];
+    updated[idx] = val.replace(/\D/, "").slice(-1);
+    setOtp(updated);
+    if (val && idx < 5) document.getElementById(`otp-${idx + 1}`)?.focus();
+    if (!val && idx > 0) document.getElementById(`otp-${idx - 1}`)?.focus();
   };
 
+  const isPhoneValid = phone.length === 10;
+  const isEmailValid = email.includes("@") && password.length >= 6;
+  const isOtpValid = otp.every((d) => d !== "");
+
   return (
-    <div className="min-h-screen bg-mesh flex flex-col items-center justify-center px-4 py-12">
-      {/* Logo */}
-      <Link href="/" className="flex items-center gap-2 mb-10" style={{ minHeight: "auto" }}>
-        <Heart className="w-6 h-6 text-rose fill-rose" />
-        <span className="font-display text-2xl font-semibold text-deep">Match4Marriage</span>
-      </Link>
+    <div style={{ minHeight: "100vh", display: "flex", background: "#fdfbf9", fontFamily: "var(--font-poppins, sans-serif)" }}>
 
-      <div
-        className="w-full max-w-sm rounded-3xl p-8"
-        style={{ background: "rgba(250,246,238,0.96)", border: "1px solid rgba(154,107,0,0.16)", boxShadow: "0 8px 40px rgba(196,82,15,0.08)" }}
-      >
-        {step === "phone" ? (
-          <>
-            <div className="mb-6">
-              <p className="font-devanagari text-gold/60 text-sm mb-1">स्वागत है</p>
-              <h1 className="font-display text-2xl font-light text-deep">Welcome back</h1>
-              <p className="font-body text-sm text-deep/45 mt-1">Sign in with your mobile number</p>
-            </div>
+      {/* Left panel */}
+      <div className="hidden lg:flex" style={{
+        width: "45%", flexDirection: "column", justifyContent: "center", alignItems: "center",
+        background: "linear-gradient(160deg, #1a0a14 0%, #2d0f20 60%, #3b1428 100%)",
+        padding: "60px 48px", position: "relative", overflow: "hidden",
+      }}>
+        <div style={{ position: "absolute", top: "-80px", right: "-80px", width: "320px", height: "320px", borderRadius: "50%", border: "1px solid rgba(220,30,60,0.15)", pointerEvents: "none" }} />
+        <div style={{ position: "absolute", bottom: "-60px", left: "-60px", width: "240px", height: "240px", borderRadius: "50%", border: "1px solid rgba(220,30,60,0.1)", pointerEvents: "none" }} />
 
-            <div className="space-y-4">
-              <div>
-                <label className="font-body text-xs text-deep/50 uppercase tracking-wider block mb-1.5">Mobile Number</label>
-                <div
-                  className="flex items-center gap-2 px-4 rounded-xl"
-                  style={{ background: "rgba(255,255,255,0.7)", border: "1px solid rgba(154,107,0,0.2)", height: "48px" }}
-                >
-                  <div className="flex items-center gap-2 border-r pr-3" style={{ borderColor: "rgba(154,107,0,0.2)" }}>
-                    <span className="text-base">🇮🇳</span>
-                    <span className="font-body text-sm text-deep/60">+91</span>
-                  </div>
-                  <input
-                    type="tel"
-                    placeholder="9876543210"
-                    value={phone}
-                    onChange={(e) => setPhone(e.target.value.replace(/\D/, "").slice(0, 10))}
-                    onKeyDown={(e) => e.key === "Enter" && sendOtp()}
-                    className="flex-1 bg-transparent font-body text-sm text-deep outline-none tracking-wider"
-                  />
-                  <Phone className="w-4 h-4 text-deep/25" />
-                </div>
+        <div style={{ position: "relative", zIndex: 1, textAlign: "center", maxWidth: "360px" }}>
+          <Link href="/" style={{ textDecoration: "none" }}>
+            <span style={{ fontFamily: "var(--font-playfair, serif)", fontSize: "28px", fontWeight: 700, color: "#fff", display: "block", marginBottom: "48px" }}>
+              Match<span style={{ color: "#dc1e3c" }}>4</span>Marriage
+            </span>
+          </Link>
+          <div style={{ fontSize: "48px", marginBottom: "24px" }}>💍</div>
+          <h2 style={{ fontFamily: "var(--font-playfair, serif)", fontSize: "30px", fontWeight: 700, color: "#fff", lineHeight: 1.2, marginBottom: "16px" }}>
+            Welcome Back
+          </h2>
+          <p style={{ fontSize: "15px", color: "rgba(255,255,255,0.55)", lineHeight: 1.8, marginBottom: "40px" }}>
+            Your perfect match could be waiting. Sign in to continue your journey.
+          </p>
+          {[
+            "Hand-picked, verified profiles only",
+            "Complete discretion guaranteed",
+            "UK registered & GDPR compliant",
+            "Dedicated advisor support",
+          ].map((point) => (
+            <div key={point} style={{ display: "flex", alignItems: "center", gap: "12px", marginBottom: "14px", textAlign: "left" }}>
+              <div style={{ width: "20px", height: "20px", borderRadius: "50%", background: "rgba(220,30,60,0.3)", border: "1px solid rgba(220,30,60,0.5)", display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0 }}>
+                <span style={{ fontSize: "10px", color: "#dc1e3c" }}>✓</span>
               </div>
-
-              <button
-                onClick={sendOtp}
-                disabled={phone.length < 10 || loading}
-                className="w-full flex items-center justify-center gap-2 rounded-full font-body text-sm font-semibold text-white py-3.5 transition-all"
-                style={{
-                  background: "linear-gradient(135deg,#E8426A,#FF8FA3)",
-                  boxShadow: "0 4px 16px rgba(196,82,15,0.35)",
-                  opacity: phone.length < 10 ? 0.55 : 1,
-                  minHeight: "auto",
-                }}
-              >
-                {loading ? (
-                  <span className="flex items-center gap-2">
-                    <span className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin" />
-                    Sending OTP…
-                  </span>
-                ) : (
-                  <>Send OTP <ArrowRight className="w-4 h-4" /></>
-                )}
-              </button>
-
-              {/* Divider */}
-              <div className="flex items-center gap-3">
-                <div className="flex-1 h-px" style={{ background: "rgba(154,107,0,0.15)" }} />
-                <span className="font-body text-xs text-deep/35">or</span>
-                <div className="flex-1 h-px" style={{ background: "rgba(154,107,0,0.15)" }} />
-              </div>
-
-              {/* Auth0 social */}
-              <button
-                onClick={() => window.location.href = "/api/auth/login?connection=google-oauth2"}
-                className="w-full flex items-center justify-center gap-2 rounded-full font-body text-sm font-medium text-deep/65 py-3 transition-all hover:bg-deep/5"
-                style={{ border: "1px solid rgba(28,15,6,0.15)", minHeight: "auto" }}
-              >
-                <svg className="w-4 h-4" viewBox="0 0 24 24" fill="currentColor"><path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" fill="#4285F4"/><path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" fill="#34A853"/><path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z" fill="#FBBC05"/><path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z" fill="#EA4335"/></svg>
-                Continue with Google
-              </button>
+              <span style={{ fontSize: "13px", color: "rgba(255,255,255,0.65)" }}>{point}</span>
             </div>
-
-            <p className="font-body text-xs text-center text-deep/35 mt-6">
-              Don't have an account?{" "}
-              <Link href="/auth/register" className="text-rose font-medium hover:underline" style={{ minHeight: "auto" }}>
-                Create profile
-              </Link>
-            </p>
-          </>
-        ) : (
-          <>
-            <div className="mb-6">
-              <button onClick={() => setStep("phone")} className="font-body text-xs text-rose mb-3 block hover:underline" style={{ minHeight: "auto" }}>
-                ← Change number
-              </button>
-              <h1 className="font-display text-2xl font-light text-deep">Enter OTP</h1>
-              <p className="font-body text-sm text-deep/45 mt-1">
-                Sent to <strong>+91 {phone}</strong>
-              </p>
-            </div>
-
-            <div className="flex gap-2 justify-center mb-6">
-              {otp.map((digit, i) => (
-                <input
-                  key={i}
-                  id={`otp-${i}`}
-                  type="text"
-                  inputMode="numeric"
-                  maxLength={1}
-                  value={digit}
-                  onChange={(e) => handleOtpChange(i, e.target.value)}
-                  onKeyDown={(e) => {
-                    if (e.key === "Backspace" && !digit && i > 0)
-                      (document.getElementById(`otp-${i - 1}`) as HTMLInputElement)?.focus();
-                  }}
-                  className="w-11 h-12 text-center rounded-xl font-display text-xl font-bold text-deep outline-none transition-all"
-                  style={{
-                    background: "rgba(255,255,255,0.8)",
-                    border: digit ? "2px solid #E8426A" : "1px solid rgba(154,107,0,0.2)",
-                  }}
-                />
-              ))}
-            </div>
-
-            <button
-              onClick={verifyOtp}
-              disabled={otp.join("").length < 6 || loading}
-              className="w-full flex items-center justify-center gap-2 rounded-full font-body text-sm font-semibold text-white py-3.5 transition-all"
-              style={{
-                background: "linear-gradient(135deg,#E8426A,#FF8FA3)",
-                boxShadow: "0 4px 16px rgba(196,82,15,0.35)",
-                opacity: otp.join("").length < 6 ? 0.55 : 1,
-                minHeight: "auto",
-              }}
-            >
-              {loading ? (
-                <span className="flex items-center gap-2">
-                  <span className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin" />
-                  Verifying…
-                </span>
-              ) : (
-                <>Sign In <ArrowRight className="w-4 h-4" /></>
-              )}
-            </button>
-
-            <p className="font-body text-xs text-center text-deep/40 mt-4">
-              Didn't receive it?{" "}
-              <button className="text-rose font-medium hover:underline" style={{ minHeight: "auto" }}>
-                Resend in 30s
-              </button>
-            </p>
-          </>
-        )}
-
-        {/* Trust note */}
-        <div className="flex items-center justify-center gap-2 mt-6 pt-5" style={{ borderTop: "1px solid rgba(154,107,0,0.12)" }}>
-          <Lock className="w-3 h-3 text-deep/25" />
-          <span className="font-body text-[10px] text-deep/30">256-bit encrypted · PDPB compliant · Data in India</span>
+          ))}
         </div>
       </div>
 
-      <p className="font-body text-xs text-deep/30 mt-6 text-center max-w-sm">
-        By continuing, you agree to Match4Marriage's{" "}
-        <a href="#" className="text-rose/70 hover:underline">Terms</a> and{" "}
-        <a href="#" className="text-rose/70 hover:underline">Privacy Policy</a>
-      </p>
+      {/* Right panel */}
+      <div style={{ flex: 1, display: "flex", flexDirection: "column", justifyContent: "center", alignItems: "center", padding: "40px 24px" }}>
+
+        {/* Mobile logo */}
+        <Link href="/" className="lg:hidden" style={{ textDecoration: "none", marginBottom: "32px" }}>
+          <span style={{ fontFamily: "var(--font-playfair, serif)", fontSize: "24px", fontWeight: 700, color: "#1a0a14" }}>
+            Match<span style={{ color: "#dc1e3c" }}>4</span>Marriage
+          </span>
+        </Link>
+
+        <div style={{ width: "100%", maxWidth: "440px" }}>
+
+          {step === "credentials" && (
+            <>
+              <h1 style={{ fontFamily: "var(--font-playfair, serif)", fontSize: "28px", fontWeight: 700, color: "#1a0a14", marginBottom: "6px" }}>
+                Sign in
+              </h1>
+              <p style={{ fontSize: "13px", color: "#888", marginBottom: "28px" }}>
+                New here?{" "}
+                <Link href="/auth/register" style={{ color: "#dc1e3c", fontWeight: 600, textDecoration: "none" }}>Create a free profile</Link>
+              </p>
+
+              {/* Method toggle */}
+              <div style={{ marginBottom: "20px" }}>
+                <div style={{ display: "flex", background: "rgba(0,0,0,0.04)", borderRadius: "10px", padding: "4px", gap: "4px" }}>
+                  {(["phone", "email"] as Method[]).map((m) => (
+                    <button
+                      key={m}
+                      onClick={() => setMethod(m)}
+                      style={{
+                        flex: 1, padding: "9px", borderRadius: "8px", fontSize: "13px", fontWeight: 600,
+                        background: method === m ? "#fff" : "transparent",
+                        color: method === m ? "#dc1e3c" : "#888",
+                        border: "none", cursor: "pointer",
+                        boxShadow: method === m ? "0 1px 4px rgba(0,0,0,0.1)" : "none",
+                        transition: "all 0.15s",
+                      }}
+                    >
+                      {m === "phone" ? "📱 Mobile" : "✉️ Email"}
+                    </button>
+                  ))}
+                </div>
+              </div>
+
+              {method === "phone" ? (
+                <>
+                  <div style={{ marginBottom: "20px" }}>
+                    <label style={{ fontSize: "12px", fontWeight: 600, color: "#555", textTransform: "uppercase", letterSpacing: "0.08em", display: "block", marginBottom: "6px" }}>Mobile Number</label>
+                    <div style={{ display: "flex", alignItems: "center", border: "1px solid rgba(220,30,60,0.15)", borderRadius: "10px", background: "#fff", overflow: "hidden" }}>
+                      <span style={{ padding: "12px 14px", fontSize: "14px", color: "#555", borderRight: "1px solid rgba(220,30,60,0.1)", whiteSpace: "nowrap", background: "#fafafa" }}>🇮🇳 +91</span>
+                      <input
+                        type="tel"
+                        placeholder="9876543210"
+                        value={phone}
+                        onChange={(e) => setPhone(e.target.value.replace(/\D/, "").slice(0, 10))}
+                        style={{ flex: 1, padding: "12px 16px", fontSize: "14px", color: "#1a0a14", background: "transparent", border: "none", outline: "none" }}
+                      />
+                    </div>
+                  </div>
+                  <button
+                    onClick={handleSendOtp}
+                    disabled={!isPhoneValid || loading}
+                    style={{
+                      width: "100%", padding: "14px",
+                      background: isPhoneValid ? "linear-gradient(135deg, #dc1e3c, #a0153c)" : "rgba(0,0,0,0.08)",
+                      color: isPhoneValid ? "#fff" : "#aaa",
+                      borderRadius: "10px", fontSize: "14px", fontWeight: 600,
+                      border: "none", cursor: isPhoneValid ? "pointer" : "not-allowed",
+                      boxShadow: isPhoneValid ? "0 4px 16px rgba(220,30,60,0.25)" : "none",
+                    }}
+                  >
+                    {loading ? "Sending OTP…" : "Send OTP →"}
+                  </button>
+                </>
+              ) : (
+                <>
+                  <div style={{ marginBottom: "16px" }}>
+                    <label style={{ fontSize: "12px", fontWeight: 600, color: "#555", textTransform: "uppercase", letterSpacing: "0.08em", display: "block", marginBottom: "6px" }}>Email Address</label>
+                    <input
+                      type="email"
+                      placeholder="you@example.com"
+                      value={email}
+                      onChange={(e) => setEmail(e.target.value)}
+                      style={{ width: "100%", padding: "12px 16px", border: "1px solid rgba(220,30,60,0.15)", borderRadius: "10px", fontSize: "14px", color: "#1a0a14", background: "#fff", outline: "none", boxSizing: "border-box" }}
+                    />
+                  </div>
+                  <div style={{ marginBottom: "8px" }}>
+                    <label style={{ fontSize: "12px", fontWeight: 600, color: "#555", textTransform: "uppercase", letterSpacing: "0.08em", display: "block", marginBottom: "6px" }}>Password</label>
+                    <div style={{ position: "relative" }}>
+                      <input
+                        type={showPassword ? "text" : "password"}
+                        placeholder="Your password"
+                        value={password}
+                        onChange={(e) => setPassword(e.target.value)}
+                        style={{ width: "100%", padding: "12px 48px 12px 16px", border: "1px solid rgba(220,30,60,0.15)", borderRadius: "10px", fontSize: "14px", color: "#1a0a14", background: "#fff", outline: "none", boxSizing: "border-box" }}
+                      />
+                      <button
+                        onClick={() => setShowPassword(!showPassword)}
+                        style={{ position: "absolute", right: "12px", top: "50%", transform: "translateY(-50%)", background: "none", border: "none", cursor: "pointer", fontSize: "16px", color: "#aaa" }}
+                      >
+                        {showPassword ? "🙈" : "👁️"}
+                      </button>
+                    </div>
+                  </div>
+                  <div style={{ textAlign: "right", marginBottom: "20px" }}>
+                    <a href="#" style={{ fontSize: "12px", color: "#dc1e3c", textDecoration: "none", fontWeight: 600 }}>Forgot password?</a>
+                  </div>
+                  <button
+                    onClick={handleLogin}
+                    disabled={!isEmailValid || loading}
+                    style={{
+                      width: "100%", padding: "14px",
+                      background: isEmailValid ? "linear-gradient(135deg, #dc1e3c, #a0153c)" : "rgba(0,0,0,0.08)",
+                      color: isEmailValid ? "#fff" : "#aaa",
+                      borderRadius: "10px", fontSize: "14px", fontWeight: 600,
+                      border: "none", cursor: isEmailValid ? "pointer" : "not-allowed",
+                      boxShadow: isEmailValid ? "0 4px 16px rgba(220,30,60,0.25)" : "none",
+                    }}
+                  >
+                    {loading ? "Signing in…" : "Sign In →"}
+                  </button>
+                </>
+              )}
+
+              {/* Divider */}
+              <div style={{ display: "flex", alignItems: "center", gap: "12px", margin: "24px 0" }}>
+                <div style={{ flex: 1, height: "1px", background: "rgba(0,0,0,0.08)" }} />
+                <span style={{ fontSize: "12px", color: "#bbb" }}>or</span>
+                <div style={{ flex: 1, height: "1px", background: "rgba(0,0,0,0.08)" }} />
+              </div>
+
+              {/* Google */}
+              <button
+                onClick={() => window.location.href = "/api/auth/login?connection=google-oauth2"}
+                style={{
+                  width: "100%", padding: "12px", borderRadius: "10px",
+                  border: "1px solid rgba(0,0,0,0.12)", background: "#fff",
+                  fontSize: "14px", fontWeight: 500, color: "#333",
+                  cursor: "pointer", display: "flex", alignItems: "center", justifyContent: "center", gap: "10px",
+                }}
+              >
+                <svg width="18" height="18" viewBox="0 0 24 24">
+                  <path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" fill="#4285F4"/>
+                  <path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" fill="#34A853"/>
+                  <path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z" fill="#FBBC05"/>
+                  <path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z" fill="#EA4335"/>
+                </svg>
+                Continue with Google
+              </button>
+            </>
+          )}
+
+          {/* OTP step (phone login) */}
+          {step === "otp" && (
+            <>
+              <button onClick={() => setStep("credentials")} style={{ background: "none", border: "none", cursor: "pointer", fontSize: "13px", color: "#888", marginBottom: "20px", padding: 0 }}>
+                ← Back
+              </button>
+              <h1 style={{ fontFamily: "var(--font-playfair, serif)", fontSize: "26px", fontWeight: 700, color: "#1a0a14", marginBottom: "8px" }}>
+                Enter OTP
+              </h1>
+              <p style={{ fontSize: "13px", color: "#888", marginBottom: "28px" }}>
+                We sent a 6-digit code to <strong style={{ color: "#1a0a14" }}>+91 {phone}</strong>
+              </p>
+              <div style={{ display: "flex", gap: "10px", justifyContent: "center", marginBottom: "24px" }}>
+                {otp.map((digit, i) => (
+                  <input
+                    key={i}
+                    id={`otp-${i}`}
+                    type="text"
+                    inputMode="numeric"
+                    maxLength={1}
+                    value={digit}
+                    onChange={(e) => handleOtpChange(e.target.value, i)}
+                    style={{
+                      width: "48px", height: "56px", textAlign: "center",
+                      fontSize: "22px", fontWeight: 700, color: "#1a0a14",
+                      border: `2px solid ${digit ? "#dc1e3c" : "rgba(220,30,60,0.15)"}`,
+                      borderRadius: "10px", background: digit ? "rgba(220,30,60,0.04)" : "#fff",
+                      outline: "none",
+                    }}
+                  />
+                ))}
+              </div>
+              <button
+                onClick={handleLogin}
+                disabled={!isOtpValid || loading}
+                style={{
+                  width: "100%", padding: "14px",
+                  background: isOtpValid ? "linear-gradient(135deg, #dc1e3c, #a0153c)" : "rgba(0,0,0,0.08)",
+                  color: isOtpValid ? "#fff" : "#aaa",
+                  borderRadius: "10px", fontSize: "14px", fontWeight: 600,
+                  border: "none", cursor: isOtpValid ? "pointer" : "not-allowed",
+                  boxShadow: isOtpValid ? "0 4px 16px rgba(220,30,60,0.25)" : "none",
+                }}
+              >
+                {loading ? "Signing in…" : "Sign In →"}
+              </button>
+              <p style={{ textAlign: "center", fontSize: "12px", color: "#aaa", marginTop: "16px" }}>
+                Didn't receive it?{" "}
+                <button onClick={handleSendOtp} style={{ background: "none", border: "none", color: "#dc1e3c", fontWeight: 600, cursor: "pointer", fontSize: "12px", padding: 0 }}>
+                  Resend OTP
+                </button>
+              </p>
+            </>
+          )}
+
+          {/* Footer trust */}
+          <div style={{ marginTop: "32px", paddingTop: "20px", borderTop: "1px solid rgba(0,0,0,0.06)", textAlign: "center" }}>
+            <p style={{ fontSize: "11px", color: "#ccc" }}>🔒 SSL Secured · GDPR Compliant · UK Registered</p>
+          </div>
+
+        </div>
+      </div>
     </div>
   );
 }

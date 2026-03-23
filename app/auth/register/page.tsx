@@ -18,6 +18,9 @@ export default function RegisterPage() {
   // Form fields
   const [phone, setPhone] = useState("");
   const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
+  const [showPassword, setShowPassword] = useState(false);
   const [name, setName] = useState("");
   const [gender, setGender] = useState("");
   const [otp, setOtp] = useState(["", "", "", "", "", ""]);
@@ -48,7 +51,7 @@ export default function RegisterPage() {
     }
   };
 
-  const isStep0Valid = name.trim() && gender && (method === "phone" ? phone.length === 10 : email.includes("@")) && agreed;
+  const isStep0Valid = name.trim() && gender && (method === "phone" ? phone.length === 10 : (email.includes("@") && password.length >= 6 && password === confirmPassword)) && agreed;
   const isStep1Valid = otp.every((d) => d !== "");
 
   return (
@@ -216,14 +219,44 @@ export default function RegisterPage() {
                 </div>
               ) : (
                 <div style={{ marginBottom: "20px" }}>
-                  <label style={{ fontSize: "12px", fontWeight: 600, color: "#555", textTransform: "uppercase", letterSpacing: "0.08em", display: "block", marginBottom: "6px" }}>Email Address</label>
-                  <input
-                    type="email"
-                    placeholder="you@example.com"
-                    value={email}
-                    onChange={(e) => setEmail(e.target.value)}
-                    style={{ width: "100%", padding: "12px 16px", border: "1px solid rgba(220,30,60,0.15)", borderRadius: "10px", fontSize: "14px", color: "#1a0a14", background: "#fff", outline: "none", boxSizing: "border-box" }}
-                  />
+                  <div style={{ marginBottom: "14px" }}>
+                    <label style={{ fontSize: "12px", fontWeight: 600, color: "#555", textTransform: "uppercase", letterSpacing: "0.08em", display: "block", marginBottom: "6px" }}>Email Address</label>
+                    <input
+                      type="email"
+                      placeholder="you@example.com"
+                      value={email}
+                      onChange={(e) => setEmail(e.target.value)}
+                      style={{ width: "100%", padding: "12px 16px", border: "1px solid rgba(220,30,60,0.15)", borderRadius: "10px", fontSize: "14px", color: "#1a0a14", background: "#fff", outline: "none", boxSizing: "border-box" }}
+                    />
+                  </div>
+                  <div style={{ marginBottom: "14px" }}>
+                    <label style={{ fontSize: "12px", fontWeight: 600, color: "#555", textTransform: "uppercase", letterSpacing: "0.08em", display: "block", marginBottom: "6px" }}>Password</label>
+                    <div style={{ position: "relative" }}>
+                      <input
+                        type={showPassword ? "text" : "password"}
+                        placeholder="Min. 6 characters"
+                        value={password}
+                        onChange={(e) => setPassword(e.target.value)}
+                        style={{ width: "100%", padding: "12px 48px 12px 16px", border: "1px solid rgba(220,30,60,0.15)", borderRadius: "10px", fontSize: "14px", color: "#1a0a14", background: "#fff", outline: "none", boxSizing: "border-box" }}
+                      />
+                      <button onClick={() => setShowPassword(!showPassword)} style={{ position: "absolute", right: "12px", top: "50%", transform: "translateY(-50%)", background: "none", border: "none", cursor: "pointer", fontSize: "16px", color: "#aaa" }}>
+                        {showPassword ? "🙈" : "👁️"}
+                      </button>
+                    </div>
+                  </div>
+                  <div>
+                    <label style={{ fontSize: "12px", fontWeight: 600, color: "#555", textTransform: "uppercase", letterSpacing: "0.08em", display: "block", marginBottom: "6px" }}>Confirm Password</label>
+                    <input
+                      type={showPassword ? "text" : "password"}
+                      placeholder="Re-enter password"
+                      value={confirmPassword}
+                      onChange={(e) => setConfirmPassword(e.target.value)}
+                      style={{ width: "100%", padding: "12px 16px", border: `1px solid ${confirmPassword && confirmPassword !== password ? "#dc1e3c" : "rgba(220,30,60,0.15)"}`, borderRadius: "10px", fontSize: "14px", color: "#1a0a14", background: "#fff", outline: "none", boxSizing: "border-box" }}
+                    />
+                    {confirmPassword && confirmPassword !== password && (
+                      <p style={{ fontSize: "11px", color: "#dc1e3c", marginTop: "4px" }}>Passwords do not match</p>
+                    )}
+                  </div>
                 </div>
               )}
 
