@@ -4,19 +4,18 @@ import { useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 
-type Method = "phone" | "email";
+
 
 const steps = ["Your Details", "Verify", "Done"];
 
 export default function RegisterPage() {
   const router = useRouter();
-  const [method, setMethod] = useState<Method>("phone");
   const [step, setStep] = useState(0); // 0 = details, 1 = verify, 2 = done
   const [loading, setLoading] = useState(false);
   const [agreed, setAgreed] = useState(false);
 
   // Form fields
-  const [phone, setPhone] = useState("");
+
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
@@ -51,7 +50,7 @@ export default function RegisterPage() {
     }
   };
 
-  const isStep0Valid = name.trim() && gender && (method === "phone" ? phone.length === 10 : (email.includes("@") && password.length >= 6 && password === confirmPassword)) && agreed;
+  const isStep0Valid = name.trim() && gender && email.includes("@") && password.length >= 6 && password === confirmPassword && agreed;
   const isStep1Valid = otp.every((d) => d !== "");
 
   return (
@@ -179,46 +178,8 @@ export default function RegisterPage() {
                 </div>
               </div>
 
-              {/* Method toggle */}
-              <div style={{ marginBottom: "16px" }}>
-                <label style={{ fontSize: "12px", fontWeight: 600, color: "#555", textTransform: "uppercase", letterSpacing: "0.08em", display: "block", marginBottom: "8px" }}>Register via</label>
-                <div style={{ display: "flex", background: "rgba(0,0,0,0.04)", borderRadius: "10px", padding: "4px", gap: "4px" }}>
-                  {(["phone", "email"] as Method[]).map((m) => (
-                    <button
-                      key={m}
-                      onClick={() => setMethod(m)}
-                      style={{
-                        flex: 1, padding: "9px", borderRadius: "8px", fontSize: "13px", fontWeight: 600,
-                        background: method === m ? "#fff" : "transparent",
-                        color: method === m ? "#dc1e3c" : "#888",
-                        border: "none", cursor: "pointer",
-                        boxShadow: method === m ? "0 1px 4px rgba(0,0,0,0.1)" : "none",
-                        transition: "all 0.15s",
-                      }}
-                    >
-                      {m === "phone" ? "📱 Mobile" : "✉️ Email"}
-                    </button>
-                  ))}
-                </div>
-              </div>
-
-              {/* Phone or Email input */}
-              {method === "phone" ? (
-                <div style={{ marginBottom: "20px" }}>
-                  <label style={{ fontSize: "12px", fontWeight: 600, color: "#555", textTransform: "uppercase", letterSpacing: "0.08em", display: "block", marginBottom: "6px" }}>Mobile Number</label>
-                  <div style={{ display: "flex", alignItems: "center", border: "1px solid rgba(220,30,60,0.15)", borderRadius: "10px", background: "#fff", overflow: "hidden" }}>
-                    <span style={{ padding: "12px 14px", fontSize: "14px", color: "#555", borderRight: "1px solid rgba(220,30,60,0.1)", whiteSpace: "nowrap", background: "#fafafa" }}>🇮🇳 +91</span>
-                    <input
-                      type="tel"
-                      placeholder="9876543210"
-                      value={phone}
-                      onChange={(e) => setPhone(e.target.value.replace(/\D/, "").slice(0, 10))}
-                      style={{ flex: 1, padding: "12px 16px", fontSize: "14px", color: "#1a0a14", background: "transparent", border: "none", outline: "none" }}
-                    />
-                  </div>
-                </div>
-              ) : (
-                <div style={{ marginBottom: "20px" }}>
+              {/* Email + Password */}
+              <div style={{ marginBottom: "20px" }}>
                   <div style={{ marginBottom: "14px" }}>
                     <label style={{ fontSize: "12px", fontWeight: 600, color: "#555", textTransform: "uppercase", letterSpacing: "0.08em", display: "block", marginBottom: "6px" }}>Email Address</label>
                     <input
@@ -258,7 +219,6 @@ export default function RegisterPage() {
                     )}
                   </div>
                 </div>
-              )}
 
               {/* Terms checkbox */}
               <div style={{ display: "flex", alignItems: "flex-start", gap: "10px", marginBottom: "24px", padding: "14px", background: "rgba(220,30,60,0.03)", borderRadius: "10px", border: "1px solid rgba(220,30,60,0.08)" }}>
@@ -303,10 +263,10 @@ export default function RegisterPage() {
                 ← Back
               </button>
               <h1 style={{ fontFamily: "var(--font-playfair, serif)", fontSize: "26px", fontWeight: 700, color: "#1a0a14", marginBottom: "8px" }}>
-                Verify your {method === "phone" ? "number" : "email"}
+                Verify your email
               </h1>
               <p style={{ fontSize: "13px", color: "#888", marginBottom: "28px" }}>
-                We sent a 6-digit code to <strong style={{ color: "#1a0a14" }}>{method === "phone" ? `+91 ${phone}` : email}</strong>
+                We sent a 6-digit code to <strong style={{ color: "#1a0a14" }}>{email}</strong>
               </p>
 
               {!otpSent ? (
@@ -321,7 +281,7 @@ export default function RegisterPage() {
                     boxShadow: "0 4px 16px rgba(220,30,60,0.25)",
                   }}
                 >
-                  {loading ? "Sending…" : `Send OTP via ${method === "phone" ? "SMS" : "Email"}`}
+                  {loading ? "Sending…" : "Send Verification Code"}
                 </button>
               ) : (
                 <>
