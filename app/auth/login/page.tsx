@@ -130,7 +130,7 @@ export default function LoginPage() {
 
               {method === "phone" ? (
                 <>
-                  <div style={{ marginBottom: "20px" }}>
+                  <div style={{ marginBottom: "16px" }}>
                     <label style={{ fontSize: "12px", fontWeight: 600, color: "#555", textTransform: "uppercase", letterSpacing: "0.08em", display: "block", marginBottom: "6px" }}>Mobile Number</label>
                     <div style={{ display: "flex", alignItems: "center", border: "1px solid rgba(220,30,60,0.15)", borderRadius: "10px", background: "#fff", overflow: "hidden" }}>
                       <span style={{ padding: "12px 14px", fontSize: "14px", color: "#555", borderRight: "1px solid rgba(220,30,60,0.1)", whiteSpace: "nowrap", background: "#fafafa" }}>🇮🇳 +91</span>
@@ -143,19 +143,40 @@ export default function LoginPage() {
                       />
                     </div>
                   </div>
+                  <div style={{ marginBottom: "8px" }}>
+                    <label style={{ fontSize: "12px", fontWeight: 600, color: "#555", textTransform: "uppercase", letterSpacing: "0.08em", display: "block", marginBottom: "6px" }}>Password</label>
+                    <div style={{ position: "relative" }}>
+                      <input
+                        type={showPassword ? "text" : "password"}
+                        placeholder="Your password"
+                        value={password}
+                        onChange={(e) => setPassword(e.target.value)}
+                        style={{ width: "100%", padding: "12px 48px 12px 16px", border: "1px solid rgba(220,30,60,0.15)", borderRadius: "10px", fontSize: "14px", color: "#1a0a14", background: "#fff", outline: "none", boxSizing: "border-box" }}
+                      />
+                      <button
+                        onClick={() => setShowPassword(!showPassword)}
+                        style={{ position: "absolute", right: "12px", top: "50%", transform: "translateY(-50%)", background: "none", border: "none", cursor: "pointer", fontSize: "16px", color: "#aaa" }}
+                      >
+                        {showPassword ? "🙈" : "👁️"}
+                      </button>
+                    </div>
+                  </div>
+                  <div style={{ textAlign: "right", marginBottom: "20px" }}>
+                    <a href="#" style={{ fontSize: "12px", color: "#dc1e3c", textDecoration: "none", fontWeight: 600 }}>Forgot password?</a>
+                  </div>
                   <button
-                    onClick={handleSendOtp}
-                    disabled={!isPhoneValid || loading}
+                    onClick={handleLogin}
+                    disabled={!(isPhoneValid && password.length >= 6) || loading}
                     style={{
                       width: "100%", padding: "14px",
-                      background: isPhoneValid ? "linear-gradient(135deg, #dc1e3c, #a0153c)" : "rgba(0,0,0,0.08)",
-                      color: isPhoneValid ? "#fff" : "#aaa",
+                      background: (isPhoneValid && password.length >= 6) ? "linear-gradient(135deg, #dc1e3c, #a0153c)" : "rgba(0,0,0,0.08)",
+                      color: (isPhoneValid && password.length >= 6) ? "#fff" : "#aaa",
                       borderRadius: "10px", fontSize: "14px", fontWeight: 600,
-                      border: "none", cursor: isPhoneValid ? "pointer" : "not-allowed",
-                      boxShadow: isPhoneValid ? "0 4px 16px rgba(220,30,60,0.25)" : "none",
+                      border: "none", cursor: (isPhoneValid && password.length >= 6) ? "pointer" : "not-allowed",
+                      boxShadow: (isPhoneValid && password.length >= 6) ? "0 4px 16px rgba(220,30,60,0.25)" : "none",
                     }}
                   >
-                    {loading ? "Sending OTP…" : "Send OTP →"}
+                    {loading ? "Signing in…" : "Sign In →"}
                   </button>
                 </>
               ) : (
