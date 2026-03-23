@@ -24,6 +24,166 @@ const personalities = [
   { q: "My communication style is…",        a: ["Direct and honest",    "Thoughtful and measured", "Expressive and warm",  "Reserved but deep"] },
 ];
 
+// ── ID Verify Step Component ──────────────────────────────────────────────────
+
+const COUNTRIES = [
+  "United Kingdom", "India", "United States", "Canada", "Australia",
+  "UAE", "Singapore", "New Zealand", "South Africa", "Germany",
+  "Netherlands", "France", "Ireland", "Malaysia", "Kenya", "Other",
+];
+
+const DOCUMENTS_BY_COUNTRY: Record<string, string[]> = {
+  "United Kingdom":  ["Passport", "UK Driving Licence", "BRP (Biometric Residence Permit)", "National ID Card"],
+  "India":           ["Passport", "Driving Licence", "Voter ID Card", "National ID Card"],
+  "United States":   ["Passport", "US Driver's License", "US State ID", "Permanent Resident Card"],
+  "Canada":          ["Passport", "Canadian Driver's Licence", "Permanent Resident Card"],
+  "Australia":       ["Passport", "Australian Driver's Licence", "Medicare Card"],
+  "UAE":             ["Passport", "UAE Emirates ID", "UAE Driving Licence"],
+  "Singapore":       ["Passport", "Singapore NRIC", "Singapore Driving Licence"],
+  "New Zealand":     ["Passport", "NZ Driver's Licence"],
+  "South Africa":    ["Passport", "SA Smart ID Card", "SA Driver's Licence"],
+  "Germany":         ["Passport", "German National ID (Personalausweis)", "German Driving Licence"],
+  "Netherlands":     ["Passport", "Dutch National ID", "Dutch Driving Licence"],
+  "France":          ["Passport", "French National ID", "French Driving Licence"],
+  "Ireland":         ["Passport", "Irish Driving Licence", "Public Services Card"],
+  "Malaysia":        ["Passport", "Malaysian MyKad (National ID)"],
+  "Kenya":           ["Passport", "Kenyan National ID"],
+  "Other":           ["Passport", "National ID Card", "Driving Licence"],
+};
+
+function IdVerifyStep() {
+  const [country, setCountry] = useState("");
+  const [docType, setDocType] = useState("");
+  const [docNumber, setDocNumber] = useState("");
+  const [frontFile, setFrontFile] = useState<File | null>(null);
+  const [backFile, setBackFile] = useState<File | null>(null);
+  const [selfieFile, setSelfieFile] = useState<File | null>(null);
+
+  const availableDocs = country ? (DOCUMENTS_BY_COUNTRY[country] || DOCUMENTS_BY_COUNTRY["Other"]) : [];
+  const needsBack = docType && !["Passport"].includes(docType);
+
+  const UploadBox = ({
+    label, hint, file, onChange,
+  }: { label: string; hint: string; file: File | null; onChange: (f: File) => void }) => (
+    <div>
+      <label style={{ fontSize: "11px", fontWeight: 600, color: "#555", textTransform: "uppercase", letterSpacing: "0.08em", display: "block", marginBottom: "6px" }}>{label}</label>
+      <label style={{
+        display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", gap: "6px",
+        padding: "20px 16px",
+        border: file ? "2px solid rgba(220,30,60,0.4)" : "2px dashed rgba(220,30,60,0.2)",
+        borderRadius: "10px",
+        background: file ? "rgba(220,30,60,0.03)" : "#fff",
+        cursor: "pointer",
+      }}>
+        <input type="file" accept="image/*,.pdf" style={{ display: "none" }} onChange={(e) => e.target.files?.[0] && onChange(e.target.files[0])} />
+        <Upload style={{ width: "20px", height: "20px", color: file ? "#dc1e3c" : "rgba(220,30,60,0.35)" }} />
+        {file
+          ? <p style={{ fontSize: "12px", color: "#dc1e3c", fontWeight: 600 }}>{file.name}</p>
+          : <p style={{ fontSize: "12px", color: "#888" }}>{hint}</p>
+        }
+        <p style={{ fontSize: "11px", color: "#bbb" }}>JPG, PNG or PDF · Max 5MB</p>
+      </label>
+    </div>
+  );
+
+  return (
+    <div style={{ display: "flex", flexDirection: "column", gap: "16px" }}>
+
+      {/* Trust banner */}
+      <div style={{ background: "rgba(92,122,82,0.07)", border: "1px solid rgba(92,122,82,0.2)", borderRadius: "10px", padding: "14px 16px", display: "flex", gap: "12px" }}>
+        <Shield style={{ width: "18px", height: "18px", color: "#5C7A52", flexShrink: 0, marginTop: "2px" }} />
+        <div>
+          <p style={{ fontSize: "12px", fontWeight: 600, color: "#5C7A52", marginBottom: "2px" }}>Your data is protected</p>
+          <p style={{ fontSize: "11px", color: "rgba(92,122,82,0.75)", lineHeight: 1.5 }}>Documents are encrypted at rest and never shared. Only your verified ✓ status is visible to matches. UK GDPR & PDPA compliant.</p>
+        </div>
+      </div>
+
+      {/* Country selector */}
+      <div>
+        <label style={{ fontSize: "11px", fontWeight: 600, color: "#555", textTransform: "uppercase", letterSpacing: "0.08em", display: "block", marginBottom: "6px" }}>Your Country</label>
+        <select
+          value={country}
+          onChange={(e) => { setCountry(e.target.value); setDocType(""); }}
+          style={{ width: "100%", padding: "12px 16px", border: "1px solid rgba(220,30,60,0.15)", borderRadius: "10px", fontSize: "14px", color: country ? "#1a0a14" : "#aaa", background: "#fff", outline: "none", cursor: "pointer" }}
+        >
+          <option value="" disabled>Select your country…</option>
+          {COUNTRIES.map((c) => <option key={c} value={c}>{c}</option>)}
+        </select>
+      </div>
+
+      {/* Document type selector */}
+      {country && (
+        <div>
+          <label style={{ fontSize: "11px", fontWeight: 600, color: "#555", textTransform: "uppercase", letterSpacing: "0.08em", display: "block", marginBottom: "8px" }}>Document Type</label>
+          <div style={{ display: "flex", flexDirection: "column", gap: "8px" }}>
+            {availableDocs.map((doc) => (
+              <button
+                key={doc}
+                onClick={() => setDocType(doc)}
+                style={{
+                  textAlign: "left",
+                  padding: "12px 16px",
+                  borderRadius: "10px",
+                  fontSize: "13px",
+                  fontWeight: docType === doc ? 600 : 400,
+                  border: `${docType === doc ? "2px" : "1px"} solid ${docType === doc ? "#dc1e3c" : "rgba(220,30,60,0.15)"}`,
+                  background: docType === doc ? "rgba(220,30,60,0.05)" : "#fff",
+                  color: docType === doc ? "#dc1e3c" : "#555",
+                  cursor: "pointer",
+                  display: "flex", alignItems: "center", gap: "10px",
+                }}
+              >
+                <span style={{ fontSize: "16px" }}>🪪</span>
+                {doc}
+                {docType === doc && <span style={{ marginLeft: "auto", fontSize: "12px", color: "#dc1e3c" }}>✓</span>}
+              </button>
+            ))}
+          </div>
+        </div>
+      )}
+
+      {/* Document number */}
+      {docType && (
+        <div>
+          <label style={{ fontSize: "11px", fontWeight: 600, color: "#555", textTransform: "uppercase", letterSpacing: "0.08em", display: "block", marginBottom: "6px" }}>Document Number</label>
+          <input
+            value={docNumber}
+            onChange={(e) => setDocNumber(e.target.value)}
+            placeholder={`Enter your ${docType} number`}
+            style={{ width: "100%", padding: "12px 16px", border: "1px solid rgba(220,30,60,0.15)", borderRadius: "10px", fontSize: "14px", color: "#1a0a14", background: "#fff", outline: "none", boxSizing: "border-box", letterSpacing: "0.05em" }}
+          />
+        </div>
+      )}
+
+      {/* Upload boxes */}
+      {docType && (
+        <>
+          <UploadBox
+            label={`${docType} — Front`}
+            hint="Upload front of document"
+            file={frontFile}
+            onChange={setFrontFile}
+          />
+          {needsBack && (
+            <UploadBox
+              label={`${docType} — Back`}
+              hint="Upload back of document"
+              file={backFile}
+              onChange={setBackFile}
+            />
+          )}
+          <UploadBox
+            label="Selfie / Liveness Photo"
+            hint="Take or upload a clear selfie"
+            file={selfieFile}
+            onChange={setSelfieFile}
+          />
+        </>
+      )}
+    </div>
+  );
+}
+
 export default function OnboardingPage() {
   const router = useRouter();
   const [step, setStep] = useState(1);
@@ -331,47 +491,7 @@ export default function OnboardingPage() {
 
         {/* ── Step 4: ID Verification ── */}
         {step === 4 && (
-          <div style={{ display: "flex", flexDirection: "column", gap: "16px" }}>
-            <div style={{ background: "rgba(92,122,82,0.07)", border: "1px solid rgba(92,122,82,0.2)", borderRadius: "10px", padding: "16px", display: "flex", gap: "12px" }}>
-              <Shield style={{ width: "20px", height: "20px", color: "#5C7A52", flexShrink: 0, marginTop: "2px" }} />
-              <div>
-                <p style={{ fontSize: "13px", fontWeight: 600, color: "#5C7A52", marginBottom: "4px" }}>Your data is protected</p>
-                <p style={{ fontSize: "12px", color: "rgba(92,122,82,0.75)" }}>Aadhaar numbers are hashed and never stored in plain text. PDPB compliant. Only the verification status is shared with matches.</p>
-              </div>
-            </div>
-
-            {[
-              { label: "Aadhaar Card", sub: "12-digit Aadhaar number", placeholder: "XXXX XXXX XXXX", icon: "🪪" },
-              { label: "PAN Card",     sub: "10-character PAN number",  placeholder: "ABCDE1234F",     icon: "📄" },
-            ].map(({ label, sub, placeholder, icon }) => (
-              <div key={label}>
-                <label style={{ fontSize: "11px", fontWeight: 600, color: "#555", textTransform: "uppercase", letterSpacing: "0.08em", display: "block", marginBottom: "4px" }}>{label}</label>
-                <p style={{ fontSize: "11px", color: "#888", marginBottom: "8px" }}>{sub}</p>
-                <div style={{ display: "flex", alignItems: "center", gap: "10px", padding: "0 16px", border: "1px solid rgba(220,30,60,0.15)", borderRadius: "10px", height: "48px", background: "#fff" }}>
-                  <span style={{ fontSize: "18px" }}>{icon}</span>
-                  <input
-                    placeholder={placeholder}
-                    style={{ flex: 1, background: "transparent", fontSize: "14px", color: "#1a0a14", outline: "none", border: "none", letterSpacing: "0.1em" }}
-                  />
-                </div>
-              </div>
-            ))}
-
-            <div>
-              <label style={{ fontSize: "11px", fontWeight: 600, color: "#555", textTransform: "uppercase", letterSpacing: "0.08em", display: "block", marginBottom: "8px" }}>Profile Photo</label>
-              <div style={{
-                borderRadius: "10px",
-                padding: "24px",
-                display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", gap: "8px",
-                border: "2px dashed rgba(220,30,60,0.2)",
-                cursor: "pointer",
-              }}>
-                <Upload style={{ width: "24px", height: "24px", color: "rgba(220,30,60,0.4)" }} />
-                <p style={{ fontSize: "13px", color: "#888" }}>Upload selfie for liveness check</p>
-                <p style={{ fontSize: "11px", color: "#bbb" }}>JPG or PNG · Max 5MB</p>
-              </div>
-            </div>
-          </div>
+          <IdVerifyStep />
         )}
 
         {/* ── Step 5: Preferences ── */}
