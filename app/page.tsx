@@ -945,7 +945,6 @@ export default function HomePage() {
                 {[
                   { label: "Facebook", icon: "f", href: "https://www.facebook.com/profile.php?id=61579547022417" },
                   { label: "Instagram", icon: "ig", href: "https://www.instagram.com/match4marriage_uk_matrimony" },
-                  { label: "Twitter", icon: "𝕏", href: "https://x.com/Match4marriage" },
                 ].map((s) => (
                   <a key={s.label} href={s.href} title={s.label} target="_blank" rel="noopener noreferrer" style={{
                     width: "32px", height: "32px", borderRadius: "50%",
