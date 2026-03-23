@@ -47,7 +47,7 @@ export default function LoginPage() {
         }}
       >
         {/* Dark gradient overlay — bottom-up so text is readable */}
-        <div style={{ position: "absolute", inset: 0, background: "linear-gradient(to top, rgba(26,10,20,0.92) 0%, rgba(26,10,20,0.3) 50%, rgba(0,0,0,0) 100%)", pointerEvents: "none" }} />
+        <div style={{ position: "absolute", inset: 0, background: "linear-gradient(to top, rgba(26,10,20,0.82) 0%, rgba(26,10,20,0.1) 45%, rgba(0,0,0,0) 100%)", pointerEvents: "none" }} />
 
         {/* Bottom text overlay on image */}
         <div style={{ position: "relative", zIndex: 1, textAlign: "center", padding: "40px 40px", width: "100%" }}>
