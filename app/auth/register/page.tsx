@@ -68,48 +68,29 @@ export default function RegisterPage() {
   return (
     <div style={{ minHeight: "100vh", display: "flex", background: "#fdfbf9", fontFamily: "var(--font-poppins, sans-serif)" }}>
 
-      {/* Left panel — branding */}
+      {/* Left panel — hero image */}
       <div className="hidden lg:flex" style={{
-        width: "45%", flexDirection: "column", justifyContent: "center", alignItems: "center",
-        background: "linear-gradient(160deg, #1a0a14 0%, #2d0f20 60%, #3b1428 100%)",
-        padding: "60px 48px", position: "relative", overflow: "hidden",
+        width: "45%", flexDirection: "column", justifyContent: "flex-end", alignItems: "center",
+        backgroundImage: "url('/couples/couple-hero.png')",
+        backgroundSize: "cover", backgroundPosition: "center top",
+        position: "relative", overflow: "hidden",
       }}>
-        {/* Decorative rings */}
-        <div style={{ position: "absolute", top: "-80px", right: "-80px", width: "320px", height: "320px", borderRadius: "50%", border: "1px solid rgba(220,30,60,0.15)", pointerEvents: "none" }} />
-        <div style={{ position: "absolute", bottom: "-60px", left: "-60px", width: "240px", height: "240px", borderRadius: "50%", border: "1px solid rgba(220,30,60,0.1)", pointerEvents: "none" }} />
-        <div style={{ position: "absolute", top: "40%", left: "-120px", width: "280px", height: "280px", borderRadius: "50%", border: "1px solid rgba(255,216,122,0.08)", pointerEvents: "none" }} />
+        {/* Dark gradient overlay — bottom-up */}
+        <div style={{ position: "absolute", inset: 0, background: "linear-gradient(to top, rgba(26,10,20,0.92) 0%, rgba(26,10,20,0.3) 50%, rgba(0,0,0,0) 100%)", pointerEvents: "none" }} />
 
-        <div style={{ position: "relative", zIndex: 1, textAlign: "center", maxWidth: "360px" }}>
-          {/* Logo */}
+        {/* Bottom text */}
+        <div style={{ position: "relative", zIndex: 1, textAlign: "center", padding: "40px 40px", width: "100%" }}>
           <Link href="/" style={{ textDecoration: "none" }}>
-            <span style={{ fontFamily: "var(--font-playfair, serif)", fontSize: "28px", fontWeight: 700, color: "#fff", display: "block", marginBottom: "48px" }}>
+            <span style={{ fontFamily: "var(--font-playfair, serif)", fontSize: "26px", fontWeight: 700, color: "#fff", display: "block", marginBottom: "12px", textShadow: "0 2px 8px rgba(0,0,0,0.4)" }}>
               Match<span style={{ color: "#dc1e3c" }}>4</span>Marriage
             </span>
           </Link>
-
-          <div style={{ fontSize: "48px", marginBottom: "24px" }}>💍</div>
-
-          <h2 style={{ fontFamily: "var(--font-playfair, serif)", fontSize: "32px", fontWeight: 700, color: "#fff", lineHeight: 1.2, marginBottom: "16px" }}>
+          <h2 style={{ fontFamily: "var(--font-playfair, serif)", fontSize: "28px", fontWeight: 700, color: "#fff", lineHeight: 1.3, marginBottom: "10px", textShadow: "0 2px 12px rgba(0,0,0,0.5)" }}>
             Find Your Perfect Match
           </h2>
-          <p style={{ fontSize: "15px", color: "rgba(255,255,255,0.55)", lineHeight: 1.8, marginBottom: "40px" }}>
-            Join the UK's most trusted elite Indian matrimonial service. Every profile is personally verified by our team.
+          <p style={{ fontSize: "14px", color: "rgba(255,255,255,0.8)", lineHeight: 1.7, textShadow: "0 1px 6px rgba(0,0,0,0.4)" }}>
+            UK's most trusted elite Indian matrimonial service
           </p>
-
-          {/* Trust points */}
-          {[
-            "Hand-picked, verified profiles only",
-            "Complete discretion guaranteed",
-            "UK registered & GDPR compliant",
-            "Dedicated advisor support",
-          ].map((point) => (
-            <div key={point} style={{ display: "flex", alignItems: "center", gap: "12px", marginBottom: "14px", textAlign: "left" }}>
-              <div style={{ width: "20px", height: "20px", borderRadius: "50%", background: "rgba(220,30,60,0.3)", border: "1px solid rgba(220,30,60,0.5)", display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0 }}>
-                <span style={{ fontSize: "10px", color: "#dc1e3c" }}>✓</span>
-              </div>
-              <span style={{ fontSize: "13px", color: "rgba(255,255,255,0.65)" }}>{point}</span>
-            </div>
-          ))}
         </div>
       </div>
 
