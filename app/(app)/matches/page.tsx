@@ -51,34 +51,53 @@ export default function MatchesPage() {
   });
 
   return (
-    <div className="px-8 py-8">
+    <div style={{ background: "#fdfbf9", minHeight: "100vh", padding: "32px" }}>
       {/* Header */}
-      <div className="mb-6">
-        <h1 className="font-display text-3xl font-light text-deep mb-1">Browse Profiles</h1>
-        <p className="font-body text-sm text-deep/45">{filtered.length} profiles match your preferences</p>
+      <div style={{ marginBottom: "24px" }}>
+        <h1 style={{ fontFamily: "var(--font-playfair, serif)", fontSize: "30px", fontWeight: 300, color: "#1a0a14", margin: 0, lineHeight: 1.2 }}>
+          Browse Profiles
+        </h1>
+        <p style={{ fontFamily: "var(--font-poppins, sans-serif)", fontSize: "13px", color: "#888", marginTop: "4px", marginBottom: 0 }}>
+          {filtered.length} profiles match your preferences
+        </p>
       </div>
 
       {/* Search + Filter bar */}
-      <div className="flex items-center gap-3 mb-4">
+      <div style={{ display: "flex", alignItems: "center", gap: "12px", marginBottom: "16px" }}>
         <div
-          className="flex-1 flex items-center gap-2 px-4 rounded-full"
-          style={{ background: "rgba(250,246,238,0.9)", border: "1px solid rgba(154,107,0,0.18)", height: "44px" }}
+          style={{
+            flex: 1, display: "flex", alignItems: "center", gap: "8px",
+            padding: "0 16px", background: "#fff",
+            border: "1px solid rgba(220,30,60,0.15)", borderRadius: "10px", height: "44px",
+          }}
         >
-          <Search className="w-4 h-4 text-deep/35 flex-shrink-0" />
+          <Search style={{ width: "16px", height: "16px", color: "rgba(26,10,20,0.35)", flexShrink: 0 }} />
           <input
             type="text"
             placeholder="Search by name or city…"
             value={search}
             onChange={(e) => setSearch(e.target.value)}
-            className="flex-1 bg-transparent font-body text-sm text-deep placeholder-deep/35 outline-none"
+            style={{
+              flex: 1, background: "transparent",
+              fontFamily: "var(--font-poppins, sans-serif)", fontSize: "14px",
+              color: "#1a0a14", border: "none", outline: "none",
+            }}
           />
         </div>
         <button
           onClick={() => setShowFilters(!showFilters)}
-          className={`flex items-center gap-2 px-4 rounded-full font-body text-sm font-medium transition-all ${showFilters ? "bg-rose text-white" : "text-deep/60 hover:text-deep"}`}
-          style={{ height: "44px", border: showFilters ? "none" : "1px solid rgba(28,15,6,0.18)", minHeight: "auto" }}
+          style={{
+            display: "flex", alignItems: "center", gap: "8px",
+            padding: "0 16px", height: "44px", borderRadius: "10px",
+            fontFamily: "var(--font-poppins, sans-serif)", fontSize: "14px", fontWeight: 500,
+            cursor: "pointer", transition: "all 0.2s ease",
+            background: showFilters ? "linear-gradient(135deg,#dc1e3c,#a0153c)" : "#fff",
+            color: showFilters ? "#fff" : "rgba(26,10,20,0.60)",
+            border: showFilters ? "none" : "1px solid rgba(220,30,60,0.15)",
+            boxShadow: showFilters ? "0 4px 16px rgba(220,30,60,0.25)" : "none",
+          }}
         >
-          <SlidersHorizontal className="w-4 h-4" />
+          <SlidersHorizontal style={{ width: "16px", height: "16px" }} />
           Filters
         </button>
       </div>
@@ -86,21 +105,33 @@ export default function MatchesPage() {
       {/* Filter panel */}
       {showFilters && (
         <div
-          className="rounded-2xl p-5 mb-6"
-          style={{ background: "rgba(250,246,238,0.9)", border: "1px solid rgba(154,107,0,0.14)" }}
+          style={{
+            background: "#fff", border: "1px solid rgba(220,30,60,0.08)",
+            borderRadius: "16px", padding: "20px", marginBottom: "24px",
+            boxShadow: "0 2px 12px rgba(220,30,60,0.06)",
+          }}
         >
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+          <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(160px, 1fr))", gap: "16px" }}>
             <FilterSelect label="Religion" value={religion} options={religions} onChange={setReligion} />
             <FilterSelect label="Age Range" value={ageRange} options={ageRanges} onChange={setAgeRange} />
             <FilterSelect label="City" value={city} options={cities} onChange={setCity} />
-            <div className="flex flex-col gap-1">
-              <label className="font-body text-xs text-deep/50 uppercase tracking-wider">Options</label>
+            <div style={{ display: "flex", flexDirection: "column", gap: "4px" }}>
+              <label style={{ fontFamily: "var(--font-poppins, sans-serif)", fontSize: "11px", color: "rgba(26,10,20,0.5)", textTransform: "uppercase", letterSpacing: "0.05em" }}>
+                Options
+              </label>
               <button
                 onClick={() => setVerifiedOnly(!verifiedOnly)}
-                className={`flex items-center gap-2 px-3 py-2 rounded-lg font-body text-sm font-medium transition-colors ${verifiedOnly ? "bg-sage/15 text-sage border border-sage/25" : "bg-deep/5 text-deep/55 border border-deep/10"}`}
-                style={{ minHeight: "auto" }}
+                style={{
+                  display: "flex", alignItems: "center", gap: "8px",
+                  padding: "8px 12px", borderRadius: "10px", cursor: "pointer",
+                  fontFamily: "var(--font-poppins, sans-serif)", fontSize: "13px", fontWeight: 500,
+                  background: verifiedOnly ? "rgba(220,30,60,0.08)" : "rgba(26,10,20,0.04)",
+                  color: verifiedOnly ? "#dc1e3c" : "rgba(26,10,20,0.55)",
+                  border: verifiedOnly ? "1px solid rgba(220,30,60,0.2)" : "1px solid rgba(26,10,20,0.08)",
+                  transition: "all 0.2s ease",
+                }}
               >
-                <Shield className="w-3.5 h-3.5" />
+                <Shield style={{ width: "14px", height: "14px" }} />
                 Verified Only
               </button>
             </div>
@@ -109,79 +140,152 @@ export default function MatchesPage() {
       )}
 
       {/* Grid */}
-      <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+      <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(200px, 1fr))", gap: "16px" }}>
         {filtered.map((p) => (
-          <div
-            key={p.id}
-            className="rounded-2xl overflow-hidden group cursor-pointer"
-            style={{
-              background: "rgba(250,246,238,0.9)",
-              border: "1px solid rgba(154,107,0,0.12)",
-              boxShadow: "0 2px 16px rgba(196,82,15,0.05)",
-              transition: "all 0.2s ease",
-            }}
-            onMouseEnter={(e) => { (e.currentTarget as HTMLDivElement).style.boxShadow = "0 6px 24px rgba(196,82,15,0.12)"; (e.currentTarget as HTMLDivElement).style.transform = "translateY(-2px)"; }}
-            onMouseLeave={(e) => { (e.currentTarget as HTMLDivElement).style.boxShadow = "0 2px 16px rgba(196,82,15,0.05)"; (e.currentTarget as HTMLDivElement).style.transform = "translateY(0)"; }}
-          >
-            {/* Photo */}
-            <div className="relative h-36 flex items-center justify-center" style={{ background: p.grad }}>
-              <span className="font-display text-3xl font-light text-white/90">{p.photo}</span>
-              {/* Like button */}
-              <button
-                onClick={() => toggle(p.id)}
-                className="absolute top-2 right-2 w-7 h-7 rounded-full flex items-center justify-center transition-all"
-                style={{ background: liked.has(p.id) ? "rgba(196,82,15,0.9)" : "rgba(250,246,238,0.85)", minHeight: "auto", minWidth: "auto" }}
-              >
-                <Heart className={`w-3.5 h-3.5 ${liked.has(p.id) ? "fill-white text-white" : "text-deep/50"}`} />
-              </button>
-              {/* Trust */}
-              <div className="absolute bottom-2 left-2 flex items-center gap-1 px-1.5 py-0.5 rounded-full" style={{ background: "rgba(250,246,238,0.92)" }}>
-                <Shield className="w-2.5 h-2.5 text-sage" />
-                <span className="font-body text-[10px] font-bold text-deep">{p.trustScore}</span>
-              </div>
-              {p.verified && (
-                <div className="absolute top-2 left-2">
-                  <CheckCircle className="w-4 h-4 text-sage fill-sage/20" />
-                </div>
-              )}
-            </div>
-
-            {/* Info */}
-            <div className="p-3">
-              <h3 className="font-display text-sm font-semibold text-deep truncate">{p.name}, {p.age}</h3>
-              <div className="flex items-center gap-1 text-deep/45 mt-0.5 mb-1.5">
-                <MapPin className="w-2.5 h-2.5" />
-                <span className="font-body text-xs truncate">{p.city}</span>
-              </div>
-              <div className="flex items-center gap-1 text-deep/45 mb-2">
-                <Briefcase className="w-2.5 h-2.5" />
-                <span className="font-body text-xs truncate">{p.profession}</span>
-              </div>
-
-              {/* Compatibility */}
-              <div className="flex items-center justify-between mb-3">
-                <span className="font-body text-xs text-deep/40">Match</span>
-                <span className="font-display text-sm font-bold text-gradient-gold">{p.compatibility}%</span>
-              </div>
-
-              <Link
-                href={`/profile/${p.id}`}
-                className="block w-full text-center rounded-full font-body text-xs font-semibold py-2 transition-all"
-                style={{ background: "linear-gradient(135deg,#E8426A,#FF8FA3)", color: "#fff", boxShadow: "0 2px 8px rgba(196,82,15,0.3)", minHeight: "auto" }}
-              >
-                View Profile
-              </Link>
-            </div>
-          </div>
+          <ProfileCard key={p.id} profile={p} liked={liked} onToggleLike={toggle} />
         ))}
       </div>
 
       {filtered.length === 0 && (
-        <div className="py-20 text-center">
-          <X className="w-10 h-10 text-deep/20 mx-auto mb-3" />
-          <p className="font-body text-sm text-deep/40">No profiles match your filters</p>
+        <div style={{ padding: "80px 0", textAlign: "center" }}>
+          <X style={{ width: "40px", height: "40px", color: "rgba(26,10,20,0.2)", margin: "0 auto 12px" }} />
+          <p style={{ fontFamily: "var(--font-poppins, sans-serif)", fontSize: "14px", color: "#888" }}>
+            No profiles match your filters
+          </p>
         </div>
       )}
+    </div>
+  );
+}
+
+function ProfileCard({
+  profile,
+  liked,
+  onToggleLike,
+}: {
+  profile: typeof allProfiles[0];
+  liked: Set<string>;
+  onToggleLike: (id: string) => void;
+}) {
+  const isLiked = liked.has(profile.id);
+
+  return (
+    <div
+      style={{
+        background: "#fff",
+        border: "1px solid rgba(220,30,60,0.08)",
+        borderRadius: "16px",
+        overflow: "hidden",
+        cursor: "pointer",
+        transition: "all 0.2s ease",
+        boxShadow: "0 2px 12px rgba(220,30,60,0.06)",
+      }}
+      onMouseEnter={(e) => {
+        (e.currentTarget as HTMLDivElement).style.boxShadow = "0 8px 28px rgba(220,30,60,0.14)";
+        (e.currentTarget as HTMLDivElement).style.transform = "translateY(-2px)";
+      }}
+      onMouseLeave={(e) => {
+        (e.currentTarget as HTMLDivElement).style.boxShadow = "0 2px 12px rgba(220,30,60,0.06)";
+        (e.currentTarget as HTMLDivElement).style.transform = "translateY(0)";
+      }}
+    >
+      {/* Photo area */}
+      <div style={{ position: "relative", height: "144px", display: "flex", alignItems: "center", justifyContent: "center", background: profile.grad }}>
+        <span style={{ fontFamily: "var(--font-playfair, serif)", fontSize: "30px", fontWeight: 300, color: "rgba(255,255,255,0.9)" }}>
+          {profile.photo}
+        </span>
+
+        {/* Like button */}
+        <button
+          onClick={() => onToggleLike(profile.id)}
+          style={{
+            position: "absolute", top: "8px", right: "8px",
+            width: "28px", height: "28px", borderRadius: "50%",
+            display: "flex", alignItems: "center", justifyContent: "center",
+            background: isLiked ? "#dc1e3c" : "rgba(255,255,255,0.92)",
+            border: "none", cursor: "pointer",
+            boxShadow: "0 2px 8px rgba(0,0,0,0.12)",
+            transition: "all 0.2s ease",
+          }}
+        >
+          <Heart
+            style={{
+              width: "14px", height: "14px",
+              color: isLiked ? "#fff" : "rgba(26,10,20,0.5)",
+              fill: isLiked ? "#fff" : "none",
+            }}
+          />
+        </button>
+
+        {/* Trust score */}
+        <div
+          style={{
+            position: "absolute", bottom: "8px", left: "8px",
+            display: "flex", alignItems: "center", gap: "4px",
+            padding: "2px 6px", borderRadius: "20px",
+            background: "rgba(253,251,249,0.92)",
+          }}
+        >
+          <Shield style={{ width: "10px", height: "10px", color: "#C89020" }} />
+          <span style={{ fontFamily: "var(--font-poppins, sans-serif)", fontSize: "10px", fontWeight: 700, color: "#1a0a14" }}>
+            {profile.trustScore}
+          </span>
+        </div>
+
+        {/* Verified badge */}
+        {profile.verified && (
+          <div style={{ position: "absolute", top: "8px", left: "8px" }}>
+            <CheckCircle style={{ width: "16px", height: "16px", color: "#dc1e3c", fill: "rgba(220,30,60,0.15)" }} />
+          </div>
+        )}
+      </div>
+
+      {/* Info */}
+      <div style={{ padding: "12px" }}>
+        <h3 style={{
+          fontFamily: "var(--font-playfair, serif)", fontSize: "14px", fontWeight: 600,
+          color: "#1a0a14", margin: 0, whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis",
+        }}>
+          {profile.name}, {profile.age}
+        </h3>
+
+        <div style={{ display: "flex", alignItems: "center", gap: "4px", marginTop: "4px", marginBottom: "6px" }}>
+          <MapPin style={{ width: "10px", height: "10px", color: "#888", flexShrink: 0 }} />
+          <span style={{ fontFamily: "var(--font-poppins, sans-serif)", fontSize: "12px", color: "#888", overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>
+            {profile.city}
+          </span>
+        </div>
+
+        <div style={{ display: "flex", alignItems: "center", gap: "4px", marginBottom: "10px" }}>
+          <Briefcase style={{ width: "10px", height: "10px", color: "#888", flexShrink: 0 }} />
+          <span style={{ fontFamily: "var(--font-poppins, sans-serif)", fontSize: "12px", color: "#888", overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>
+            {profile.profession}
+          </span>
+        </div>
+
+        {/* Compatibility */}
+        <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: "12px" }}>
+          <span style={{ fontFamily: "var(--font-poppins, sans-serif)", fontSize: "12px", color: "rgba(26,10,20,0.4)" }}>Match</span>
+          <span style={{ fontFamily: "var(--font-playfair, serif)", fontSize: "14px", fontWeight: 700, color: "#C89020" }}>
+            {profile.compatibility}%
+          </span>
+        </div>
+
+        <Link
+          href={`/profile/${profile.id}`}
+          style={{
+            display: "block", width: "100%", textAlign: "center",
+            background: "linear-gradient(135deg,#dc1e3c,#a0153c)",
+            color: "#fff", borderRadius: "10px",
+            padding: "8px 0",
+            fontFamily: "var(--font-poppins, sans-serif)", fontSize: "12px", fontWeight: 600,
+            boxShadow: "0 2px 8px rgba(220,30,60,0.25)",
+            textDecoration: "none", transition: "all 0.2s ease",
+          }}
+        >
+          View Profile
+        </Link>
+      </div>
     </div>
   );
 }
@@ -190,18 +294,28 @@ function FilterSelect({ label, value, options, onChange }: {
   label: string; value: string; options: string[]; onChange: (v: string) => void;
 }) {
   return (
-    <div className="flex flex-col gap-1">
-      <label className="font-body text-xs text-deep/50 uppercase tracking-wider">{label}</label>
-      <div className="relative">
+    <div style={{ display: "flex", flexDirection: "column", gap: "4px" }}>
+      <label style={{
+        fontFamily: "var(--font-poppins, sans-serif)", fontSize: "11px",
+        color: "rgba(26,10,20,0.5)", textTransform: "uppercase", letterSpacing: "0.05em",
+      }}>
+        {label}
+      </label>
+      <div style={{ position: "relative" }}>
         <select
           value={value}
           onChange={(e) => onChange(e.target.value)}
-          className="w-full appearance-none font-body text-sm text-deep bg-white/60 rounded-lg px-3 py-2 border outline-none cursor-pointer"
-          style={{ border: "1px solid rgba(154,107,0,0.2)" }}
+          style={{
+            width: "100%", appearance: "none",
+            fontFamily: "var(--font-poppins, sans-serif)", fontSize: "13px", color: "#1a0a14",
+            background: "rgba(255,255,255,0.8)", borderRadius: "10px",
+            padding: "8px 32px 8px 12px",
+            border: "1px solid rgba(220,30,60,0.15)", outline: "none", cursor: "pointer",
+          }}
         >
           {options.map((o) => <option key={o}>{o}</option>)}
         </select>
-        <ChevronDown className="absolute right-2 top-1/2 -translate-y-1/2 w-3.5 h-3.5 text-deep/40 pointer-events-none" />
+        <ChevronDown style={{ position: "absolute", right: "8px", top: "50%", transform: "translateY(-50%)", width: "14px", height: "14px", color: "rgba(26,10,20,0.4)", pointerEvents: "none" }} />
       </div>
     </div>
   );

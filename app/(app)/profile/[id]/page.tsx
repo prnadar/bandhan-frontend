@@ -26,7 +26,7 @@ const profileData: Record<string, {
     education: "IIT Bombay · B.Tech CSE", religion: "Hindu", caste: "Brahmin",
     height: "5'4\"", language: "Hindi, English, Marathi", verified: true,
     trustScore: 96, compatibility: 92,
-    photo: "PS", grad: "linear-gradient(135deg,#E8426A,#E8A060)",
+    photo: "PS", grad: "linear-gradient(135deg,#dc1e3c,#a0153c)",
     about: "Love Carnatic music, trekking in Himalayas, and building side projects on weekends. Currently building a EdTech startup on the side. Looking for a partner who values growth, laughter, and deep conversations equally.",
     hobbies: ["Carnatic Music", "Trekking", "Side Projects", "Cooking", "Photography"],
     familyType: "Nuclear", siblings: "1 younger brother",
@@ -47,7 +47,7 @@ const profileData: Record<string, {
     education: "AIIMS Delhi · MBBS", religion: "Hindu", caste: "Patel",
     height: "5'3\"", language: "Gujarati, Hindi, English", verified: true,
     trustScore: 92, compatibility: 87,
-    photo: "AP", grad: "linear-gradient(135deg,#9A6B00,#C89020)",
+    photo: "AP", grad: "linear-gradient(135deg,#dc1e3c,#a0153c)",
     about: "Passionate about medicine and mental health advocacy. Enjoy cooking Gujarati food, reading, and travelling off the beaten path. Family-oriented, looking for a life partner who understands the demands of medicine.",
     hobbies: ["Cooking", "Reading", "Travel", "Mental Health", "Yoga"],
     familyType: "Joint", siblings: "1 elder sister",
@@ -72,85 +72,120 @@ export default function ProfilePage({ params }: { params: { id: string } }) {
   const [interestSent, setInterestSent] = useState(false);
 
   return (
-    <div className="px-8 py-8 max-w-4xl">
+    <div style={{ padding: "2rem", maxWidth: "56rem", background: "#fdfbf9", minHeight: "100%" }}>
+
       {/* Back */}
-      <Link href="/matches" className="inline-flex items-center gap-2 font-body text-sm text-deep/50 hover:text-deep mb-6 transition-colors" style={{ minHeight: "auto" }}>
-        <ArrowLeft className="w-4 h-4" />
+      <Link
+        href="/matches"
+        style={{ display: "inline-flex", alignItems: "center", gap: 8, fontFamily: "var(--font-poppins, sans-serif)", fontSize: "0.875rem", color: "#888", textDecoration: "none", marginBottom: "1.5rem" }}
+      >
+        <ArrowLeft style={{ width: 16, height: 16 }} />
         Back to Browse
       </Link>
 
-      <div className="grid md:grid-cols-[300px_1fr] gap-6">
-        {/* Left — Photo + quick stats */}
-        <div className="space-y-4">
+      <div style={{ display: "grid", gridTemplateColumns: "300px 1fr", gap: "1.5rem", alignItems: "start" }}>
+
+        {/* ── Left column ── */}
+        <div style={{ display: "flex", flexDirection: "column", gap: "1rem" }}>
+
           {/* Photo card */}
-          <div
-            className="rounded-2xl overflow-hidden"
-            style={{ border: "1px solid rgba(154,107,0,0.14)" }}
-          >
-            <div className="h-72 flex items-center justify-center relative" style={{ background: profile.grad }}>
-              <span className="font-display text-7xl font-light text-white/90">{profile.photo}</span>
-              {/* Compatibility ring */}
-              <div
-                className="absolute bottom-4 right-4 w-16 h-16 rounded-full flex items-center justify-center"
-                style={{ background: "rgba(250,246,238,0.96)", border: "2px solid rgba(154,107,0,0.3)", boxShadow: "0 4px 16px rgba(196,82,15,0.15)" }}
-              >
-                <div className="text-center">
-                  <p className="font-display text-lg font-bold text-gradient-gold leading-none">{profile.compatibility}%</p>
-                  <p className="font-body text-[9px] text-deep/40 leading-none mt-0.5">match</p>
-                </div>
+          <div style={{ borderRadius: 16, overflow: "hidden", background: "#fff", border: "1px solid rgba(220,30,60,0.08)", boxShadow: "0 4px 24px rgba(220,30,60,0.08)" }}>
+
+            {/* Crimson hero */}
+            <div style={{ height: 288, background: "linear-gradient(135deg,#dc1e3c,#a0153c)", display: "flex", alignItems: "center", justifyContent: "center", position: "relative" }}>
+
+              {/* Profile initial circle */}
+              <div style={{
+                width: 112, height: 112, borderRadius: "50%",
+                background: "rgba(255,255,255,0.18)",
+                border: "3px solid rgba(255,255,255,0.45)",
+                display: "flex", alignItems: "center", justifyContent: "center",
+                boxShadow: "0 8px 32px rgba(0,0,0,0.18)",
+              }}>
+                <span style={{ fontFamily: "var(--font-playfair, serif)", fontSize: "2.5rem", fontWeight: 400, color: "#fff" }}>
+                  {profile.photo}
+                </span>
+              </div>
+
+              {/* Badges */}
+              <div style={{ position: "absolute", bottom: 16, left: 16, right: 16, display: "flex", alignItems: "center", justifyContent: "space-between" }}>
+                <span style={{
+                  display: "inline-flex", alignItems: "center", gap: 6,
+                  fontFamily: "var(--font-poppins, sans-serif)", fontSize: "0.75rem", fontWeight: 600,
+                  color: "#fff", padding: "5px 12px", borderRadius: 9999,
+                  background: "rgba(255,255,255,0.2)", backdropFilter: "blur(8px)",
+                  border: "1px solid rgba(255,255,255,0.3)",
+                }}>
+                  <Shield style={{ width: 12, height: 12 }} />
+                  Trust {profile.trustScore}
+                </span>
+                <span style={{
+                  display: "inline-flex", alignItems: "center", gap: 6,
+                  fontFamily: "var(--font-poppins, sans-serif)", fontSize: "0.75rem", fontWeight: 600,
+                  color: "#fff", padding: "5px 12px", borderRadius: 9999,
+                  background: "rgba(200,144,32,0.85)", backdropFilter: "blur(8px)",
+                  border: "1px solid rgba(200,144,32,0.4)",
+                  boxShadow: "0 2px 8px rgba(200,144,32,0.4)",
+                }}>
+                  <Sparkles style={{ width: 12, height: 12 }} />
+                  {profile.compatibility}% match
+                </span>
               </div>
             </div>
 
-            <div className="p-4">
-              <h2 className="font-display text-xl font-semibold text-deep">{profile.name}, {profile.age}</h2>
-              <div className="flex items-center gap-1 text-deep/50 mt-1">
-                <MapPin className="w-3.5 h-3.5" />
-                <span className="font-body text-sm">{profile.city}, {profile.state}</span>
-              </div>
-
-              {/* Trust score */}
-              <div
-                className="mt-4 rounded-xl p-3 flex items-center justify-between"
-                style={{ background: "rgba(92,122,82,0.08)", border: "1px solid rgba(92,122,82,0.2)" }}
-              >
-                <div className="flex items-center gap-2">
-                  <Shield className="w-4 h-4 text-sage" />
-                  <span className="font-body text-sm font-semibold text-sage">Trust Score</span>
-                </div>
-                <span className="font-display text-2xl font-bold text-sage">{profile.trustScore}</span>
+            {/* Name / location */}
+            <div style={{ padding: "1rem 1.25rem" }}>
+              <h2 style={{ fontFamily: "var(--font-playfair, serif)", fontSize: "1.25rem", fontWeight: 600, color: "#1a0a14" }}>
+                {profile.name}, {profile.age}
+              </h2>
+              <div style={{ display: "flex", alignItems: "center", gap: 4, marginTop: 4, color: "#888" }}>
+                <MapPin style={{ width: 14, height: 14 }} />
+                <span style={{ fontFamily: "var(--font-poppins, sans-serif)", fontSize: "0.875rem" }}>
+                  {profile.city}, {profile.state}
+                </span>
               </div>
 
               {/* Verifications */}
-              <div className="mt-3 space-y-2">
+              <div style={{ marginTop: "1rem", display: "flex", flexDirection: "column", gap: "0.5rem" }}>
                 {profile.verifications.map((v) => (
-                  <div key={v.label} className="flex items-center gap-2">
-                    <CheckCircle className={`w-4 h-4 flex-shrink-0 ${v.done ? "text-sage" : "text-deep/20"}`} />
-                    <span className={`font-body text-xs ${v.done ? "text-deep/70" : "text-deep/30"}`}>{v.label}</span>
+                  <div key={v.label} style={{ display: "flex", alignItems: "center", gap: 8 }}>
+                    <CheckCircle style={{ width: 16, height: 16, flexShrink: 0, color: v.done ? "#dc1e3c" : "rgba(26,10,20,0.18)" }} />
+                    <span style={{ fontFamily: "var(--font-poppins, sans-serif)", fontSize: "0.75rem", color: v.done ? "rgba(26,10,20,0.7)" : "rgba(26,10,20,0.3)" }}>
+                      {v.label}
+                    </span>
                   </div>
                 ))}
               </div>
 
               {/* CTA buttons */}
-              <div className="mt-5 space-y-2">
+              <div style={{ marginTop: "1.25rem", display: "flex", flexDirection: "column", gap: "0.5rem" }}>
                 <button
                   onClick={() => setInterestSent(true)}
                   disabled={interestSent}
-                  className="w-full flex items-center justify-center gap-2 rounded-full font-body text-sm font-semibold text-white py-3 transition-all"
                   style={{
-                    background: interestSent ? "rgba(92,122,82,0.7)" : "linear-gradient(135deg,#E8426A,#FF8FA3)",
-                    boxShadow: interestSent ? "none" : "0 4px 16px rgba(196,82,15,0.35)",
-                    minHeight: "auto",
+                    width: "100%", display: "flex", alignItems: "center", justifyContent: "center", gap: 8,
+                    fontFamily: "var(--font-poppins, sans-serif)", fontSize: "0.875rem", fontWeight: 600,
+                    color: "#fff", padding: "12px 24px", borderRadius: 10,
+                    background: interestSent ? "rgba(220,30,60,0.4)" : "linear-gradient(135deg,#dc1e3c,#a0153c)",
+                    boxShadow: interestSent ? "none" : "0 4px 16px rgba(220,30,60,0.25)",
+                    border: "none", cursor: interestSent ? "default" : "pointer",
+                    transition: "all 0.2s ease",
                   }}
                 >
-                  <Heart className={`w-4 h-4 ${interestSent ? "" : "fill-white"}`} />
+                  <Heart style={{ width: 16, height: 16, fill: interestSent ? "transparent" : "#fff" }} />
                   {interestSent ? "Interest Sent ✓" : "Send Interest"}
                 </button>
                 <Link
                   href="/messages"
-                  className="w-full flex items-center justify-center gap-2 rounded-full font-body text-sm font-medium py-3 transition-colors"
-                  style={{ border: "1px solid rgba(28,15,6,0.18)", color: "rgba(28,15,6,0.6)", minHeight: "auto" }}
+                  style={{
+                    width: "100%", display: "flex", alignItems: "center", justifyContent: "center", gap: 8,
+                    fontFamily: "var(--font-poppins, sans-serif)", fontSize: "0.875rem", fontWeight: 500,
+                    color: "rgba(26,10,20,0.6)", padding: "12px 24px", borderRadius: 10,
+                    border: "1px solid rgba(220,30,60,0.15)", textDecoration: "none",
+                    transition: "border-color 0.2s ease",
+                  }}
                 >
-                  <MessageCircle className="w-4 h-4" />
+                  <MessageCircle style={{ width: 16, height: 16 }} />
                   Send Message
                 </Link>
               </div>
@@ -158,56 +193,65 @@ export default function ProfilePage({ params }: { params: { id: string } }) {
           </div>
         </div>
 
-        {/* Right — Full details */}
-        <div className="space-y-4">
+        {/* ── Right column ── */}
+        <div style={{ display: "flex", flexDirection: "column", gap: "1rem" }}>
+
           {/* About */}
-          <Section title="About" icon={<Sparkles className="w-4 h-4 text-rose" />}>
-            <p className="font-body text-sm text-deep/65 leading-relaxed">{profile.about}</p>
+          <Section title="About" icon={<Sparkles style={{ width: 16, height: 16, color: "#dc1e3c" }} />}>
+            <p style={{ fontFamily: "var(--font-poppins, sans-serif)", fontSize: "0.875rem", color: "rgba(26,10,20,0.65)", lineHeight: 1.7 }}>
+              {profile.about}
+            </p>
           </Section>
 
-          {/* Basic info */}
-          <Section title="Basic Info" icon={<Star className="w-4 h-4 text-gold" />}>
-            <div className="grid grid-cols-2 gap-3">
-              <InfoRow icon={<GraduationCap className="w-3.5 h-3.5" />} label="Education" value={profile.education} />
-              <InfoRow icon={<Briefcase className="w-3.5 h-3.5" />} label="Works at" value={`${profile.profession} · ${profile.company}`} />
-              <InfoRow icon={<Ruler className="w-3.5 h-3.5" />} label="Height" value={profile.height} />
-              <InfoRow icon={<Globe className="w-3.5 h-3.5" />} label="Languages" value={profile.language} />
-              <InfoRow icon={<Book className="w-3.5 h-3.5" />} label="Religion / Caste" value={`${profile.religion} · ${profile.caste}`} />
-              <InfoRow icon={<Users className="w-3.5 h-3.5" />} label="Family" value={`${profile.familyType} · ${profile.siblings}`} />
-              <InfoRow icon={<Calendar className="w-3.5 h-3.5" />} label="Diet" value={profile.diet} />
-              <InfoRow icon={<Star className="w-3.5 h-3.5" />} label="Income" value={profile.income} />
+          {/* Basic Info */}
+          <Section title="Basic Info" icon={<Star style={{ width: 16, height: 16, color: "#C89020" }} />}>
+            <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "0.75rem" }}>
+              <InfoRow icon={<GraduationCap style={{ width: 14, height: 14 }} />} label="Education"       value={profile.education} />
+              <InfoRow icon={<Briefcase     style={{ width: 14, height: 14 }} />} label="Works at"        value={`${profile.profession} · ${profile.company}`} />
+              <InfoRow icon={<Ruler         style={{ width: 14, height: 14 }} />} label="Height"          value={profile.height} />
+              <InfoRow icon={<Globe         style={{ width: 14, height: 14 }} />} label="Languages"       value={profile.language} />
+              <InfoRow icon={<Book          style={{ width: 14, height: 14 }} />} label="Religion / Caste" value={`${profile.religion} · ${profile.caste}`} />
+              <InfoRow icon={<Users         style={{ width: 14, height: 14 }} />} label="Family"          value={`${profile.familyType} · ${profile.siblings}`} />
+              <InfoRow icon={<Calendar      style={{ width: 14, height: 14 }} />} label="Diet"            value={profile.diet} />
+              <InfoRow icon={<Star          style={{ width: 14, height: 14 }} />} label="Income"          value={profile.income} />
             </div>
           </Section>
 
-          {/* Compatibility */}
-          <Section title="AI Compatibility Breakdown" icon={<Brain className="w-4 h-4 text-rose" />}>
-            <div className="space-y-3">
+          {/* AI Compatibility */}
+          <Section title="AI Compatibility Breakdown" icon={<Brain style={{ width: 16, height: 16, color: "#dc1e3c" }} />}>
+            <div style={{ display: "flex", flexDirection: "column", gap: "0.75rem" }}>
               {Object.entries(profile.dimensions).map(([dim, score]) => (
                 <div key={dim}>
-                  <div className="flex items-center justify-between mb-1">
-                    <span className="font-body text-xs font-medium text-deep/65 capitalize">{dim}</span>
-                    <span className="font-display text-sm font-bold text-gradient-gold">{score}%</span>
+                  <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: 4 }}>
+                    <span style={{ fontFamily: "var(--font-poppins, sans-serif)", fontSize: "0.75rem", fontWeight: 500, color: "rgba(26,10,20,0.65)", textTransform: "capitalize" }}>
+                      {dim}
+                    </span>
+                    <span style={{ fontFamily: "var(--font-playfair, serif)", fontSize: "0.875rem", fontWeight: 700, color: "#C89020" }}>
+                      {score}%
+                    </span>
                   </div>
-                  <div className="h-2 bg-deep/6 rounded-full overflow-hidden">
-                    <div
-                      className="h-full rounded-full"
-                      style={{ width: `${score}%`, background: "linear-gradient(90deg,#E8426A,#C89020)", transition: "width 0.8s ease" }}
-                    />
+                  <div style={{ height: 6, borderRadius: 99, overflow: "hidden", background: "rgba(26,10,20,0.06)" }}>
+                    <div style={{ height: "100%", borderRadius: 99, width: `${score}%`, background: "linear-gradient(90deg,#dc1e3c,#C89020)", transition: "width 0.8s ease" }} />
                   </div>
                 </div>
               ))}
             </div>
-            <p className="font-body text-xs text-deep/40 mt-3 italic">Based on 60-question psychometric assessment</p>
+            <p style={{ fontFamily: "var(--font-poppins, sans-serif)", fontSize: "0.75rem", color: "#888", marginTop: "0.75rem", fontStyle: "italic" }}>
+              Based on 60-question psychometric assessment
+            </p>
           </Section>
 
           {/* Hobbies */}
-          <Section title="Hobbies & Interests" icon={<Music className="w-4 h-4 text-gold" />}>
-            <div className="flex flex-wrap gap-2">
+          <Section title="Hobbies & Interests" icon={<Music style={{ width: 16, height: 16, color: "#C89020" }} />}>
+            <div style={{ display: "flex", flexWrap: "wrap", gap: "0.5rem" }}>
               {profile.hobbies.map((h) => (
                 <span
                   key={h}
-                  className="font-body text-xs font-medium px-3 py-1.5 rounded-full"
-                  style={{ background: "rgba(196,82,15,0.08)", border: "1px solid rgba(196,82,15,0.18)", color: "#E8426A" }}
+                  style={{
+                    fontFamily: "var(--font-poppins, sans-serif)", fontSize: "0.75rem", fontWeight: 500,
+                    padding: "0.375rem 0.875rem", borderRadius: 9999,
+                    background: "rgba(220,30,60,0.06)", border: "1px solid rgba(220,30,60,0.18)", color: "#dc1e3c",
+                  }}
                 >
                   {h}
                 </span>
@@ -215,9 +259,11 @@ export default function ProfilePage({ params }: { params: { id: string } }) {
             </div>
           </Section>
 
-          {/* Partner prefs */}
-          <Section title="Partner Preferences" icon={<Heart className="w-4 h-4 text-rose" />}>
-            <p className="font-body text-sm text-deep/65">{profile.partnerPrefs}</p>
+          {/* Partner Prefs */}
+          <Section title="Partner Preferences" icon={<Heart style={{ width: 16, height: 16, color: "#dc1e3c" }} />}>
+            <p style={{ fontFamily: "var(--font-poppins, sans-serif)", fontSize: "0.875rem", color: "rgba(26,10,20,0.65)", lineHeight: 1.7 }}>
+              {profile.partnerPrefs}
+            </p>
           </Section>
         </div>
       </div>
@@ -225,28 +271,31 @@ export default function ProfilePage({ params }: { params: { id: string } }) {
   );
 }
 
+/* ─── Section card ─── */
 function Section({ title, icon, children }: { title: string; icon: React.ReactNode; children: React.ReactNode }) {
   return (
-    <div
-      className="rounded-2xl p-5"
-      style={{ background: "rgba(250,246,238,0.9)", border: "1px solid rgba(154,107,0,0.12)" }}
-    >
-      <div className="flex items-center gap-2 mb-4">
+    <div style={{ padding: "1.25rem", background: "#fff", border: "1px solid rgba(220,30,60,0.08)", borderRadius: 16, boxShadow: "0 2px 16px rgba(220,30,60,0.06)" }}>
+      <div style={{ display: "flex", alignItems: "center", gap: 8, marginBottom: "1rem" }}>
         {icon}
-        <h3 className="font-display text-base font-semibold text-deep">{title}</h3>
+        <h3 style={{ fontFamily: "var(--font-playfair, serif)", fontSize: "1.125rem", fontWeight: 600, color: "#1a0a14" }}>{title}</h3>
       </div>
       {children}
     </div>
   );
 }
 
+/* ─── Info row ─── */
 function InfoRow({ icon, label, value }: { icon: React.ReactNode; label: string; value: string }) {
   return (
-    <div className="flex items-start gap-2">
-      <span className="text-deep/35 mt-0.5 flex-shrink-0">{icon}</span>
+    <div style={{ display: "flex", alignItems: "flex-start", gap: 8 }}>
+      <span style={{ marginTop: 2, flexShrink: 0, color: "rgba(26,10,20,0.35)" }}>{icon}</span>
       <div>
-        <p className="font-body text-[10px] text-deep/40 uppercase tracking-wider">{label}</p>
-        <p className="font-body text-sm text-deep/80 font-medium">{value}</p>
+        <p style={{ fontFamily: "var(--font-poppins, sans-serif)", fontSize: "0.625rem", color: "rgba(26,10,20,0.4)", textTransform: "uppercase", letterSpacing: "0.05em" }}>
+          {label}
+        </p>
+        <p style={{ fontFamily: "var(--font-poppins, sans-serif)", fontSize: "0.875rem", color: "rgba(26,10,20,0.8)", fontWeight: 500 }}>
+          {value}
+        </p>
       </div>
     </div>
   );

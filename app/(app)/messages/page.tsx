@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import { Shield, Search, CheckCheck, Clock } from "lucide-react";
+import { useState } from "react";
 
 const threads = [
   {
@@ -27,86 +28,307 @@ const threads = [
 ];
 
 export default function MessagesPage() {
+  const [searchValue, setSearchValue] = useState("");
+
+  const filtered = threads.filter((t) =>
+    t.name.toLowerCase().includes(searchValue.toLowerCase()) ||
+    t.lastMsg.toLowerCase().includes(searchValue.toLowerCase())
+  );
+
   return (
-    <div className="px-8 py-8 max-w-2xl">
-      <div className="mb-6">
-        <h1 className="font-display text-3xl font-light text-deep mb-1">Messages</h1>
-        <p className="font-body text-sm text-deep/45">Signal Protocol E2E encrypted · Private & secure</p>
+    <div
+      style={{
+        padding: "32px",
+        maxWidth: "672px",
+        background: "#fdfbf9",
+        minHeight: "100vh",
+        fontFamily: "var(--font-poppins, sans-serif)",
+      }}
+    >
+      {/* Page header */}
+      <div style={{ marginBottom: "24px" }}>
+        <h1
+          style={{
+            fontFamily: "var(--font-playfair, serif)",
+            fontSize: "1.875rem",
+            fontWeight: 300,
+            color: "#1a0a14",
+            margin: 0,
+            marginBottom: "4px",
+          }}
+        >
+          Messages
+        </h1>
+        <p
+          style={{
+            fontFamily: "var(--font-poppins, sans-serif)",
+            fontSize: "0.8125rem",
+            color: "rgba(26,10,20,0.45)",
+            margin: 0,
+            display: "flex",
+            alignItems: "center",
+            gap: "6px",
+          }}
+        >
+          <Shield
+            style={{ width: "13px", height: "13px", color: "#dc1e3c" }}
+          />
+          Signal Protocol E2E encrypted · Private &amp; secure
+        </p>
       </div>
 
       {/* Search */}
       <div
-        className="flex items-center gap-2 px-4 mb-5 rounded-full"
-        style={{ background: "rgba(250,246,238,0.9)", border: "1px solid rgba(154,107,0,0.18)", height: "44px" }}
+        style={{
+          display: "flex",
+          alignItems: "center",
+          gap: "8px",
+          padding: "0 16px",
+          marginBottom: "20px",
+          background: "#ffffff",
+          border: "1px solid rgba(220,30,60,0.18)",
+          borderRadius: "9999px",
+          height: "44px",
+          boxShadow: "0 2px 8px rgba(220,30,60,0.05)",
+        }}
       >
-        <Search className="w-4 h-4 text-deep/35" />
+        <Search
+          style={{ width: "16px", height: "16px", color: "rgba(26,10,20,0.35)", flexShrink: 0 }}
+        />
         <input
           type="text"
+          value={searchValue}
+          onChange={(e) => setSearchValue(e.target.value)}
           placeholder="Search conversations…"
-          className="flex-1 bg-transparent font-body text-sm text-deep placeholder-deep/35 outline-none"
+          style={{
+            flex: 1,
+            background: "transparent",
+            border: "none",
+            outline: "none",
+            fontFamily: "var(--font-poppins, sans-serif)",
+            fontSize: "0.875rem",
+            color: "#1a0a14",
+          }}
         />
       </div>
 
+      {/* Section label */}
+      {filtered.length > 0 && (
+        <p
+          style={{
+            fontFamily: "var(--font-poppins, sans-serif)",
+            fontSize: "0.6875rem",
+            fontWeight: 600,
+            color: "rgba(26,10,20,0.35)",
+            textTransform: "uppercase",
+            letterSpacing: "0.08em",
+            marginBottom: "12px",
+          }}
+        >
+          {filtered.length} conversation{filtered.length !== 1 ? "s" : ""}
+        </p>
+      )}
+
       {/* Thread list */}
-      <div className="space-y-2">
-        {threads.map((t) => (
+      <div style={{ display: "flex", flexDirection: "column", gap: "8px" }}>
+        {filtered.map((t) => (
           <Link
             key={t.id}
             href={`/messages/${t.id}`}
-            className="flex items-center gap-4 p-4 rounded-2xl transition-all cursor-pointer hover:shadow-sm block"
             style={{
-              minHeight: "auto",
-              background: t.unread > 0 ? "rgba(250,246,238,0.95)" : "rgba(250,246,238,0.7)",
-              border: t.unread > 0 ? "1px solid rgba(196,82,15,0.18)" : "1px solid rgba(154,107,0,0.10)",
-            } as React.CSSProperties}
+              display: "flex",
+              alignItems: "center",
+              gap: "16px",
+              padding: "16px",
+              borderRadius: "16px",
+              background: "#ffffff",
+              border: t.unread > 0
+                ? "1px solid rgba(220,30,60,0.22)"
+                : "1px solid rgba(220,30,60,0.08)",
+              boxShadow: t.unread > 0
+                ? "0 2px 16px rgba(220,30,60,0.09)"
+                : "0 1px 4px rgba(26,10,20,0.04)",
+              textDecoration: "none",
+              transition: "box-shadow 0.18s ease, border-color 0.18s ease",
+            }}
+            onMouseEnter={(e) => {
+              (e.currentTarget as HTMLAnchorElement).style.boxShadow =
+                "0 4px 20px rgba(220,30,60,0.13)";
+              (e.currentTarget as HTMLAnchorElement).style.borderColor =
+                "rgba(220,30,60,0.25)";
+            }}
+            onMouseLeave={(e) => {
+              (e.currentTarget as HTMLAnchorElement).style.boxShadow =
+                t.unread > 0
+                  ? "0 2px 16px rgba(220,30,60,0.09)"
+                  : "0 1px 4px rgba(26,10,20,0.04)";
+              (e.currentTarget as HTMLAnchorElement).style.borderColor =
+                t.unread > 0
+                  ? "rgba(220,30,60,0.22)"
+                  : "rgba(220,30,60,0.08)";
+            }}
           >
             {/* Avatar */}
-            <div className="relative flex-shrink-0">
+            <div style={{ position: "relative", flexShrink: 0 }}>
               <div
-                className="w-12 h-12 rounded-full flex items-center justify-center font-display text-base font-semibold text-white"
-                style={{ background: t.grad }}
+                style={{
+                  width: "48px",
+                  height: "48px",
+                  borderRadius: "50%",
+                  background: t.grad,
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                  fontFamily: "var(--font-playfair, serif)",
+                  fontSize: "0.9rem",
+                  fontWeight: 600,
+                  color: "#ffffff",
+                  boxShadow: "0 2px 8px rgba(0,0,0,0.15)",
+                }}
               >
                 {t.photo}
               </div>
               {t.verified && (
-                <div className="absolute -bottom-0.5 -right-0.5 w-4 h-4 bg-cream rounded-full flex items-center justify-center">
-                  <Shield className="w-3 h-3 text-sage" />
+                <div
+                  style={{
+                    position: "absolute",
+                    bottom: "-2px",
+                    right: "-2px",
+                    width: "18px",
+                    height: "18px",
+                    borderRadius: "50%",
+                    background: "#fdfbf9",
+                    border: "1px solid rgba(220,30,60,0.15)",
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "center",
+                  }}
+                >
+                  <Shield
+                    style={{ width: "11px", height: "11px", color: "#dc1e3c" }}
+                  />
                 </div>
               )}
             </div>
 
             {/* Content */}
-            <div className="flex-1 min-w-0">
-              <div className="flex items-center justify-between mb-0.5">
-                <span className={`font-body text-sm ${t.unread > 0 ? "font-semibold text-deep" : "font-medium text-deep/75"}`}>
+            <div style={{ flex: 1, minWidth: 0 }}>
+              <div
+                style={{
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "space-between",
+                  marginBottom: "2px",
+                }}
+              >
+                <span
+                  style={{
+                    fontFamily: "var(--font-poppins, sans-serif)",
+                    fontSize: "0.875rem",
+                    fontWeight: t.unread > 0 ? 700 : 500,
+                    color: t.unread > 0 ? "#1a0a14" : "rgba(26,10,20,0.75)",
+                  }}
+                >
                   {t.name}
                 </span>
-                <div className="flex items-center gap-1.5">
-                  <span className="font-body text-xs text-deep/40 flex items-center gap-1">
-                    {t.unread === 0 && <CheckCheck className="w-3 h-3 text-sage" />}
+                <div
+                  style={{
+                    display: "flex",
+                    alignItems: "center",
+                    gap: "4px",
+                    flexShrink: 0,
+                  }}
+                >
+                  {t.unread === 0 && (
+                    <CheckCheck
+                      style={{ width: "13px", height: "13px", color: "#dc1e3c" }}
+                    />
+                  )}
+                  <span
+                    style={{
+                      fontFamily: "var(--font-poppins, sans-serif)",
+                      fontSize: "0.6875rem",
+                      color: "rgba(26,10,20,0.4)",
+                    }}
+                  >
                     {t.time}
                   </span>
                 </div>
               </div>
-              <p className={`font-body text-xs truncate ${t.unread > 0 ? "text-deep/70" : "text-deep/40"}`}>
+
+              <p
+                style={{
+                  fontFamily: "var(--font-poppins, sans-serif)",
+                  fontSize: "0.75rem",
+                  color: t.unread > 0 ? "rgba(26,10,20,0.7)" : "rgba(26,10,20,0.4)",
+                  margin: 0,
+                  overflow: "hidden",
+                  textOverflow: "ellipsis",
+                  whiteSpace: "nowrap",
+                }}
+              >
                 {t.lastMsg}
               </p>
-              <div className="flex items-center gap-2 mt-1">
-                <span className="font-body text-[10px] text-gold font-medium">{t.compatibility}% match</span>
+
+              <div
+                style={{
+                  display: "flex",
+                  alignItems: "center",
+                  gap: "8px",
+                  marginTop: "4px",
+                }}
+              >
+                <span
+                  style={{
+                    fontFamily: "var(--font-poppins, sans-serif)",
+                    fontSize: "0.625rem",
+                    fontWeight: 600,
+                    color: "#C89020",
+                  }}
+                >
+                  {t.compatibility}% match
+                </span>
               </div>
             </div>
 
             {/* Unread badge */}
             {t.unread > 0 && (
               <div
-                className="w-5 h-5 rounded-full flex items-center justify-center font-body text-[10px] font-bold text-white flex-shrink-0"
-                style={{ background: "linear-gradient(135deg,#E8426A,#FF8FA3)" }}
+                style={{
+                  width: "22px",
+                  height: "22px",
+                  borderRadius: "50%",
+                  background: "linear-gradient(135deg, #dc1e3c, #a0153c)",
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                  fontFamily: "var(--font-poppins, sans-serif)",
+                  fontSize: "0.625rem",
+                  fontWeight: 700,
+                  color: "#ffffff",
+                  flexShrink: 0,
+                  boxShadow: "0 2px 8px rgba(220,30,60,0.35)",
+                }}
               >
                 {t.unread}
               </div>
             )}
           </Link>
         ))}
+
+        {filtered.length === 0 && (
+          <div
+            style={{
+              textAlign: "center",
+              padding: "48px 24px",
+              color: "rgba(26,10,20,0.4)",
+              fontFamily: "var(--font-poppins, sans-serif)",
+              fontSize: "0.875rem",
+            }}
+          >
+            No conversations found
+          </div>
+        )}
       </div>
     </div>
   );

@@ -9,19 +9,19 @@ import {
 } from "lucide-react";
 
 const steps = [
-  { id: 1, label: "Verify Phone",    icon: Phone,   title: "Let's start with your phone number", subtitle: "We'll send a one-time verification code" },
-  { id: 2, label: "Basic Profile",   icon: User,    title: "Tell us about yourself",              subtitle: "Your profile helps us find better matches" },
-  { id: 3, label: "Personality",     icon: Brain,   title: "Quick personality snapshot",          subtitle: "5 questions · takes 2 minutes · powers AI matching" },
-  { id: 4, label: "ID Verify",       icon: Shield,  title: "Verify your identity",                subtitle: "Government-grade trust — only you can see this data" },
-  { id: 5, label: "Preferences",     icon: Sliders, title: "Your partner preferences",            subtitle: "We'll use this to filter and rank your daily matches" },
+  { id: 1, label: "Verify Phone",   icon: Phone,   title: "Let's start with your phone number", subtitle: "We'll send a one-time verification code" },
+  { id: 2, label: "Basic Profile",  icon: User,    title: "Tell us about yourself",              subtitle: "Your profile helps us find better matches" },
+  { id: 3, label: "Personality",    icon: Brain,   title: "Quick personality snapshot",          subtitle: "5 questions · takes 2 minutes · powers AI matching" },
+  { id: 4, label: "ID Verify",      icon: Shield,  title: "Verify your identity",                subtitle: "Government-grade trust — only you can see this data" },
+  { id: 5, label: "Preferences",    icon: Sliders, title: "Your partner preferences",            subtitle: "We'll use this to filter and rank your daily matches" },
 ];
 
 const personalities = [
-  { q: "I prefer spending weekends…", a: ["At home with family", "Exploring new places", "Both equally", "With close friends"] },
-  { q: "My career ambitions are…",    a: ["Very important to me", "Important but balanced", "Secondary to family", "Still figuring out"] },
-  { q: "My ideal family life looks like…", a: ["Joint family", "Nuclear with close ties", "Nuclear independent", "Open to either"] },
-  { q: "I handle disagreements by…",  a: ["Discussing calmly", "Giving space first", "Seeking compromise", "Avoiding confrontation"] },
-  { q: "My communication style is…",  a: ["Direct and honest", "Thoughtful and measured", "Expressive and warm", "Reserved but deep"] },
+  { q: "I prefer spending weekends…",       a: ["At home with family", "Exploring new places",   "Both equally",           "With close friends"] },
+  { q: "My career ambitions are…",          a: ["Very important to me", "Important but balanced", "Secondary to family",    "Still figuring out"] },
+  { q: "My ideal family life looks like…",  a: ["Joint family",         "Nuclear with close ties", "Nuclear independent",   "Open to either"] },
+  { q: "I handle disagreements by…",        a: ["Discussing calmly",    "Giving space first",      "Seeking compromise",    "Avoiding confrontation"] },
+  { q: "My communication style is…",        a: ["Direct and honest",    "Thoughtful and measured", "Expressive and warm",  "Reserved but deep"] },
 ];
 
 export default function OnboardingPage() {
@@ -41,90 +41,157 @@ export default function OnboardingPage() {
   const back = () => step > 1 && setStep(step - 1);
 
   return (
-    <div className="min-h-screen bg-mesh flex flex-col items-center justify-center px-4 py-12">
-      {/* Logo */}
-      <div className="flex items-center gap-2 mb-10">
-        <Heart className="w-6 h-6 text-rose fill-rose" />
-        <span className="font-display text-2xl font-semibold text-deep">Match4Marriage</span>
-      </div>
+    <div style={{
+      minHeight: "100vh",
+      background: "#fdfbf9",
+      display: "flex",
+      flexDirection: "column",
+      alignItems: "center",
+      justifyContent: "center",
+      padding: "48px 16px",
+      fontFamily: "var(--font-poppins, sans-serif)",
+    }}>
 
-      {/* Progress */}
-      <div className="w-full max-w-lg mb-8">
-        {/* Step pills */}
-        <div className="flex items-center justify-between mb-3">
+      {/* Logo */}
+      <Link href="/" style={{ textDecoration: "none", marginBottom: "40px" }}>
+        <span style={{
+          fontFamily: "var(--font-playfair, serif)",
+          fontSize: "26px",
+          fontWeight: 700,
+          color: "#1a0a14",
+        }}>
+          Match<span style={{ color: "#dc1e3c" }}>4</span>Marriage
+        </span>
+      </Link>
+
+      {/* Progress stepper */}
+      <div style={{ width: "100%", maxWidth: "520px", marginBottom: "32px" }}>
+        <div style={{ display: "flex", alignItems: "flex-start", justifyContent: "space-between", marginBottom: "12px" }}>
           {steps.map((s) => {
             const Icon = s.icon;
             const done = s.id < step;
             const active = s.id === step;
             return (
-              <div key={s.id} className="flex flex-col items-center gap-1">
-                <div
-                  className="w-9 h-9 rounded-full flex items-center justify-center transition-all"
-                  style={{
-                    background: done ? "linear-gradient(135deg,#5C7A52,#8DB870)" : active ? "linear-gradient(135deg,#E8426A,#FF8FA3)" : "rgba(28,15,6,0.06)",
-                    border: done || active ? "none" : "1px solid rgba(28,15,6,0.12)",
-                  }}
-                >
+              <div key={s.id} style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: "6px" }}>
+                <div style={{
+                  width: "36px", height: "36px", borderRadius: "50%",
+                  display: "flex", alignItems: "center", justifyContent: "center",
+                  background: done
+                    ? "linear-gradient(135deg, #5C7A52, #8DB870)"
+                    : active
+                    ? "linear-gradient(135deg, #dc1e3c, #a0153c)"
+                    : "rgba(26,10,20,0.06)",
+                  border: done || active ? "none" : "1px solid rgba(26,10,20,0.12)",
+                  transition: "all 0.3s",
+                }}>
                   {done
-                    ? <Check className="w-4 h-4 text-white" />
-                    : <Icon className={`w-4 h-4 ${active ? "text-white" : "text-deep/30"}`} />
+                    ? <Check style={{ width: "16px", height: "16px", color: "#fff" }} />
+                    : <Icon style={{ width: "16px", height: "16px", color: active ? "#fff" : "rgba(26,10,20,0.3)" }} />
                   }
                 </div>
-                <span className={`font-body text-[10px] text-center ${active ? "text-rose font-semibold" : "text-deep/35"}`} style={{ maxWidth: "52px", lineHeight: "1.2" }}>
+                <span style={{
+                  fontSize: "10px",
+                  textAlign: "center",
+                  maxWidth: "52px",
+                  lineHeight: 1.2,
+                  fontWeight: active ? 600 : 400,
+                  color: active ? "#dc1e3c" : "rgba(26,10,20,0.35)",
+                }}>
                   {s.label}
                 </span>
               </div>
             );
           })}
         </div>
+
         {/* Progress bar */}
-        <div className="h-1 bg-deep/8 rounded-full overflow-hidden">
-          <div className="h-full rounded-full transition-all duration-500" style={{ width: `${progress}%`, background: "linear-gradient(90deg,#E8426A,#C89020)" }} />
+        <div style={{ height: "4px", background: "rgba(26,10,20,0.08)", borderRadius: "2px", overflow: "hidden" }}>
+          <div style={{
+            height: "100%",
+            width: `${progress}%`,
+            background: "linear-gradient(90deg, #dc1e3c, #C89020)",
+            borderRadius: "2px",
+            transition: "width 0.5s ease",
+          }} />
         </div>
       </div>
 
       {/* Card */}
-      <div
-        className="w-full max-w-lg rounded-3xl p-8"
-        style={{ background: "rgba(250,246,238,0.96)", border: "1px solid rgba(154,107,0,0.14)", boxShadow: "0 8px 40px rgba(196,82,15,0.08)" }}
-      >
-        <div className="mb-6">
-          <p className="font-devanagari text-gold/60 text-sm mb-1">चरण {step} / {steps.length}</p>
-          <h2 className="font-display text-2xl font-light text-deep mb-1">{currentStep.title}</h2>
-          <p className="font-body text-sm text-deep/45">{currentStep.subtitle}</p>
+      <div style={{
+        width: "100%",
+        maxWidth: "520px",
+        background: "#fff",
+        border: "1px solid rgba(220,30,60,0.08)",
+        borderRadius: "16px",
+        padding: "32px",
+        boxShadow: "0 8px 40px rgba(220,30,60,0.06)",
+      }}>
+
+        <div style={{ marginBottom: "24px" }}>
+          <p style={{ fontSize: "12px", color: "#C89020", marginBottom: "4px", opacity: 0.7 }}>
+            Step {step} of {steps.length}
+          </p>
+          <h2 style={{
+            fontFamily: "var(--font-playfair, serif)",
+            fontSize: "24px",
+            fontWeight: 600,
+            color: "#1a0a14",
+            marginBottom: "4px",
+          }}>
+            {currentStep.title}
+          </h2>
+          <p style={{ fontSize: "13px", color: "#888" }}>{currentStep.subtitle}</p>
         </div>
 
-        {/* Step 1 — Phone + OTP */}
+        {/* ── Step 1: Phone + OTP ── */}
         {step === 1 && (
-          <div className="space-y-4">
+          <div style={{ display: "flex", flexDirection: "column", gap: "16px" }}>
             {!otpSent ? (
               <>
                 <div>
-                  <label className="font-body text-xs text-deep/50 uppercase tracking-wider block mb-1.5">Mobile Number</label>
-                  <div className="flex items-center gap-2 px-4 rounded-xl" style={{ background: "rgba(255,255,255,0.7)", border: "1px solid rgba(154,107,0,0.2)", height: "48px" }}>
-                    <span className="font-body text-sm text-deep/60 border-r pr-3" style={{ borderColor: "rgba(154,107,0,0.2)" }}>+91</span>
+                  <label style={{ fontSize: "11px", fontWeight: 600, color: "#555", textTransform: "uppercase", letterSpacing: "0.08em", display: "block", marginBottom: "6px" }}>
+                    Mobile Number
+                  </label>
+                  <div style={{
+                    display: "flex", alignItems: "center", gap: "8px",
+                    padding: "0 16px",
+                    border: "1px solid rgba(220,30,60,0.15)",
+                    borderRadius: "10px",
+                    height: "48px",
+                    background: "#fff",
+                  }}>
+                    <span style={{ fontSize: "14px", color: "rgba(26,10,20,0.55)", borderRight: "1px solid rgba(220,30,60,0.15)", paddingRight: "12px" }}>+91</span>
                     <input
                       type="tel"
                       placeholder="9876543210"
                       value={phone}
                       onChange={(e) => setPhone(e.target.value)}
-                      className="flex-1 bg-transparent font-body text-sm text-deep outline-none"
+                      style={{ flex: 1, background: "transparent", fontSize: "14px", color: "#1a0a14", outline: "none", border: "none" }}
                     />
                   </div>
                 </div>
                 <button
                   onClick={() => setOtpSent(true)}
                   disabled={phone.length < 10}
-                  className="w-full flex items-center justify-center gap-2 rounded-full font-body text-sm font-semibold text-white py-3 transition-all"
-                  style={{ background: "linear-gradient(135deg,#E8426A,#FF8FA3)", opacity: phone.length < 10 ? 0.5 : 1, minHeight: "auto" }}
+                  style={{
+                    width: "100%", padding: "12px 24px",
+                    background: phone.length < 10 ? "rgba(26,10,20,0.08)" : "linear-gradient(135deg, #dc1e3c, #a0153c)",
+                    color: phone.length < 10 ? "#aaa" : "#fff",
+                    borderRadius: "10px", fontSize: "14px", fontWeight: 600,
+                    border: "none", cursor: phone.length < 10 ? "not-allowed" : "pointer",
+                    boxShadow: phone.length >= 10 ? "0 4px 16px rgba(220,30,60,0.25)" : "none",
+                    display: "flex", alignItems: "center", justifyContent: "center", gap: "8px",
+                  }}
                 >
-                  Send OTP <ArrowRight className="w-4 h-4" />
+                  Send OTP <ArrowRight style={{ width: "16px", height: "16px" }} />
                 </button>
               </>
             ) : (
               <>
-                <p className="font-body text-sm text-deep/60">Enter the 6-digit OTP sent to <strong>+91 {phone}</strong></p>
-                <div className="flex gap-2 justify-center">
+                <p style={{ fontSize: "13px", color: "#888" }}>
+                  Enter the 6-digit OTP sent to <strong style={{ color: "#1a0a14" }}>+91 {phone}</strong>
+                </p>
+                <div style={{ display: "flex", gap: "8px", justifyContent: "center" }}>
                   {otp.map((digit, i) => (
                     <input
                       key={i}
@@ -137,72 +204,90 @@ export default function OnboardingPage() {
                         if (val && i < 5) (document.getElementById(`otp-${i + 1}`) as HTMLInputElement)?.focus();
                       }}
                       id={`otp-${i}`}
-                      className="w-11 h-12 text-center rounded-xl font-display text-xl font-bold text-deep outline-none transition-all"
-                      style={{ background: "rgba(255,255,255,0.8)", border: digit ? "2px solid #E8426A" : "1px solid rgba(154,107,0,0.2)" }}
+                      style={{
+                        width: "44px", height: "52px", textAlign: "center",
+                        fontFamily: "var(--font-playfair, serif)",
+                        fontSize: "20px", fontWeight: 700, color: "#1a0a14",
+                        border: digit ? "2px solid #dc1e3c" : "1px solid rgba(220,30,60,0.15)",
+                        borderRadius: "10px",
+                        background: digit ? "rgba(220,30,60,0.04)" : "#fff",
+                        outline: "none",
+                      }}
                     />
                   ))}
                 </div>
-                <p className="font-body text-xs text-center text-deep/40">Didn't receive? <button className="text-rose font-medium" style={{ minHeight: "auto" }}>Resend in 30s</button></p>
+                <p style={{ fontSize: "12px", textAlign: "center", color: "#aaa" }}>
+                  Didn't receive?{" "}
+                  <button style={{ background: "none", border: "none", color: "#dc1e3c", fontWeight: 600, cursor: "pointer", fontSize: "12px", padding: 0 }}>
+                    Resend in 30s
+                  </button>
+                </p>
               </>
             )}
           </div>
         )}
 
-        {/* Step 2 — Basic Profile */}
+        {/* ── Step 2: Basic Profile ── */}
         {step === 2 && (
-          <div className="space-y-4">
-            <div className="grid grid-cols-2 gap-3">
+          <div style={{ display: "flex", flexDirection: "column", gap: "16px" }}>
+            <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "12px" }}>
               {[
-                { key: "name", label: "Full Name", placeholder: "Prabhakar Sharma" },
+                { key: "name", label: "Full Name",    placeholder: "Prabhakar Sharma" },
                 { key: "dob",  label: "Date of Birth", placeholder: "DD/MM/YYYY", type: "date" },
               ].map(({ key, label, placeholder, type }) => (
                 <div key={key}>
-                  <label className="font-body text-xs text-deep/50 uppercase tracking-wider block mb-1.5">{label}</label>
+                  <label style={{ fontSize: "11px", fontWeight: 600, color: "#555", textTransform: "uppercase", letterSpacing: "0.08em", display: "block", marginBottom: "6px" }}>{label}</label>
                   <input
                     type={type || "text"}
                     placeholder={placeholder}
                     value={(form as Record<string, string>)[key]}
                     onChange={(e) => setForm({ ...form, [key]: e.target.value })}
-                    className="w-full px-3 py-2.5 rounded-xl font-body text-sm text-deep outline-none"
-                    style={{ background: "rgba(255,255,255,0.7)", border: "1px solid rgba(154,107,0,0.18)" }}
+                    style={{ width: "100%", padding: "12px 16px", border: "1px solid rgba(220,30,60,0.15)", borderRadius: "10px", fontSize: "13px", color: "#1a0a14", background: "#fff", outline: "none", boxSizing: "border-box" }}
                   />
                 </div>
               ))}
             </div>
-            <div className="grid grid-cols-3 gap-2">
-              {["Male", "Female", "Other"].map((g) => (
-                <button
-                  key={g}
-                  onClick={() => setForm({ ...form, gender: g })}
-                  className="py-2.5 rounded-xl font-body text-sm font-medium transition-all"
-                  style={{
-                    background: form.gender === g ? "linear-gradient(135deg,#E8426A,#FF8FA3)" : "rgba(255,255,255,0.6)",
-                    border: form.gender === g ? "none" : "1px solid rgba(154,107,0,0.18)",
-                    color: form.gender === g ? "#fff" : "rgba(28,15,6,0.6)",
-                    minHeight: "auto",
-                  }}
-                >
-                  {g}
-                </button>
-              ))}
+
+            <div>
+              <label style={{ fontSize: "11px", fontWeight: 600, color: "#555", textTransform: "uppercase", letterSpacing: "0.08em", display: "block", marginBottom: "8px" }}>Gender</label>
+              <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr 1fr", gap: "8px" }}>
+                {["Male", "Female", "Other"].map((g) => (
+                  <button
+                    key={g}
+                    onClick={() => setForm({ ...form, gender: g })}
+                    style={{
+                      padding: "10px",
+                      borderRadius: "10px",
+                      fontSize: "13px",
+                      fontWeight: 600,
+                      border: `2px solid ${form.gender === g ? "#dc1e3c" : "rgba(220,30,60,0.15)"}`,
+                      background: form.gender === g ? "rgba(220,30,60,0.06)" : "#fff",
+                      color: form.gender === g ? "#dc1e3c" : "#888",
+                      cursor: "pointer",
+                    }}
+                  >
+                    {g}
+                  </button>
+                ))}
+              </div>
             </div>
-            <div className="grid grid-cols-2 gap-3">
+
+            <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "12px" }}>
               {[
-                { key: "religion", label: "Religion", placeholder: "Hindu" },
-                { key: "caste",    label: "Caste / Community", placeholder: "Brahmin" },
-                { key: "city",     label: "City", placeholder: "Mumbai" },
-                { key: "height",   label: "Height", placeholder: "5'8\"" },
-                { key: "education",label: "Education", placeholder: "B.Tech, IIT" },
-                { key: "profession",label: "Profession", placeholder: "Software Engineer" },
+                { key: "religion",   label: "Religion",          placeholder: "Hindu" },
+                { key: "caste",      label: "Caste / Community",  placeholder: "Brahmin" },
+                { key: "city",       label: "City",               placeholder: "Mumbai" },
+                { key: "height",     label: "Height",             placeholder: "5'8\"" },
+                { key: "education",  label: "Education",          placeholder: "B.Tech, IIT" },
+                { key: "profession", label: "Profession",         placeholder: "Software Engineer" },
               ].map(({ key, label, placeholder }) => (
                 <div key={key}>
-                  <label className="font-body text-xs text-deep/50 uppercase tracking-wider block mb-1.5">{label}</label>
+                  <label style={{ fontSize: "11px", fontWeight: 600, color: "#555", textTransform: "uppercase", letterSpacing: "0.08em", display: "block", marginBottom: "6px" }}>{label}</label>
                   <input
                     placeholder={placeholder}
                     value={(form as Record<string, string>)[key]}
                     onChange={(e) => setForm({ ...form, [key]: e.target.value })}
-                    className="w-full px-3 py-2.5 rounded-xl font-body text-sm text-deep outline-none"
-                    style={{ background: "rgba(255,255,255,0.7)", border: "1px solid rgba(154,107,0,0.18)" }}
+                    style={{ width: "100%", padding: "12px 16px", border: "1px solid rgba(220,30,60,0.15)", borderRadius: "10px", fontSize: "13px", color: "#1a0a14", background: "#fff", outline: "none", boxSizing: "border-box" }}
                   />
                 </div>
               ))}
@@ -210,23 +295,29 @@ export default function OnboardingPage() {
           </div>
         )}
 
-        {/* Step 3 — Personality Quiz */}
+        {/* ── Step 3: Personality Quiz ── */}
         {step === 3 && (
-          <div className="space-y-5">
+          <div style={{ display: "flex", flexDirection: "column", gap: "20px" }}>
             {personalities.map((p, qi) => (
               <div key={qi}>
-                <p className="font-body text-sm font-semibold text-deep mb-2">{qi + 1}. {p.q}</p>
-                <div className="grid grid-cols-2 gap-2">
+                <p style={{ fontSize: "13px", fontWeight: 600, color: "#1a0a14", marginBottom: "10px" }}>
+                  {qi + 1}. {p.q}
+                </p>
+                <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "8px" }}>
                   {p.a.map((ans, ai) => (
                     <button
                       key={ai}
                       onClick={() => setQuizAnswers({ ...quizAnswers, [qi]: ai })}
-                      className="text-left px-3 py-2.5 rounded-xl font-body text-xs leading-snug transition-all"
                       style={{
-                        background: quizAnswers[qi] === ai ? "rgba(196,82,15,0.1)" : "rgba(255,255,255,0.6)",
-                        border: quizAnswers[qi] === ai ? "1.5px solid #E8426A" : "1px solid rgba(154,107,0,0.15)",
-                        color: quizAnswers[qi] === ai ? "#E8426A" : "rgba(28,15,6,0.6)",
-                        minHeight: "auto",
+                        textAlign: "left",
+                        padding: "10px 12px",
+                        borderRadius: "10px",
+                        fontSize: "12px",
+                        lineHeight: 1.4,
+                        border: quizAnswers[qi] === ai ? "1.5px solid #dc1e3c" : "1px solid rgba(220,30,60,0.15)",
+                        background: quizAnswers[qi] === ai ? "rgba(220,30,60,0.06)" : "#fff",
+                        color: quizAnswers[qi] === ai ? "#dc1e3c" : "rgba(26,10,20,0.6)",
+                        cursor: "pointer",
                       }}
                     >
                       {ans}
@@ -238,19 +329,14 @@ export default function OnboardingPage() {
           </div>
         )}
 
-        {/* Step 4 — ID Verification */}
+        {/* ── Step 4: ID Verification ── */}
         {step === 4 && (
-          <div className="space-y-4">
-            <div
-              className="rounded-2xl p-4"
-              style={{ background: "rgba(92,122,82,0.08)", border: "1px solid rgba(92,122,82,0.2)" }}
-            >
-              <div className="flex items-start gap-3">
-                <Shield className="w-5 h-5 text-sage flex-shrink-0 mt-0.5" />
-                <div>
-                  <p className="font-body text-sm font-semibold text-sage">Your data is protected</p>
-                  <p className="font-body text-xs text-sage/70 mt-0.5">Aadhaar numbers are hashed and never stored in plain text. PDPB compliant. Only the verification status is shared with matches.</p>
-                </div>
+          <div style={{ display: "flex", flexDirection: "column", gap: "16px" }}>
+            <div style={{ background: "rgba(92,122,82,0.07)", border: "1px solid rgba(92,122,82,0.2)", borderRadius: "10px", padding: "16px", display: "flex", gap: "12px" }}>
+              <Shield style={{ width: "20px", height: "20px", color: "#5C7A52", flexShrink: 0, marginTop: "2px" }} />
+              <div>
+                <p style={{ fontSize: "13px", fontWeight: 600, color: "#5C7A52", marginBottom: "4px" }}>Your data is protected</p>
+                <p style={{ fontSize: "12px", color: "rgba(92,122,82,0.75)" }}>Aadhaar numbers are hashed and never stored in plain text. PDPB compliant. Only the verification status is shared with matches.</p>
               </div>
             </div>
 
@@ -259,54 +345,55 @@ export default function OnboardingPage() {
               { label: "PAN Card",     sub: "10-character PAN number",  placeholder: "ABCDE1234F",     icon: "📄" },
             ].map(({ label, sub, placeholder, icon }) => (
               <div key={label}>
-                <label className="font-body text-xs text-deep/50 uppercase tracking-wider block mb-1.5">{label}</label>
-                <p className="font-body text-xs text-deep/40 mb-2">{sub}</p>
-                <div className="flex items-center gap-2 px-4 rounded-xl" style={{ background: "rgba(255,255,255,0.7)", border: "1px solid rgba(154,107,0,0.18)", height: "48px" }}>
-                  <span className="text-lg">{icon}</span>
+                <label style={{ fontSize: "11px", fontWeight: 600, color: "#555", textTransform: "uppercase", letterSpacing: "0.08em", display: "block", marginBottom: "4px" }}>{label}</label>
+                <p style={{ fontSize: "11px", color: "#888", marginBottom: "8px" }}>{sub}</p>
+                <div style={{ display: "flex", alignItems: "center", gap: "10px", padding: "0 16px", border: "1px solid rgba(220,30,60,0.15)", borderRadius: "10px", height: "48px", background: "#fff" }}>
+                  <span style={{ fontSize: "18px" }}>{icon}</span>
                   <input
                     placeholder={placeholder}
-                    className="flex-1 bg-transparent font-body text-sm text-deep outline-none tracking-widest"
+                    style={{ flex: 1, background: "transparent", fontSize: "14px", color: "#1a0a14", outline: "none", border: "none", letterSpacing: "0.1em" }}
                   />
                 </div>
               </div>
             ))}
 
             <div>
-              <label className="font-body text-xs text-deep/50 uppercase tracking-wider block mb-1.5">Profile Photo</label>
-              <div
-                className="rounded-xl p-6 flex flex-col items-center justify-center gap-2 cursor-pointer hover:bg-rose/5 transition-colors"
-                style={{ border: "2px dashed rgba(154,107,0,0.25)" }}
-              >
-                <Upload className="w-6 h-6 text-rose/50" />
-                <p className="font-body text-sm text-deep/50">Upload selfie for liveness check</p>
-                <p className="font-body text-xs text-deep/30">JPG or PNG · Max 5MB</p>
+              <label style={{ fontSize: "11px", fontWeight: 600, color: "#555", textTransform: "uppercase", letterSpacing: "0.08em", display: "block", marginBottom: "8px" }}>Profile Photo</label>
+              <div style={{
+                borderRadius: "10px",
+                padding: "24px",
+                display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", gap: "8px",
+                border: "2px dashed rgba(220,30,60,0.2)",
+                cursor: "pointer",
+              }}>
+                <Upload style={{ width: "24px", height: "24px", color: "rgba(220,30,60,0.4)" }} />
+                <p style={{ fontSize: "13px", color: "#888" }}>Upload selfie for liveness check</p>
+                <p style={{ fontSize: "11px", color: "#bbb" }}>JPG or PNG · Max 5MB</p>
               </div>
             </div>
           </div>
         )}
 
-        {/* Step 5 — Preferences */}
+        {/* ── Step 5: Preferences ── */}
         {step === 5 && (
-          <div className="space-y-5">
+          <div style={{ display: "flex", flexDirection: "column", gap: "20px" }}>
             <div>
-              <label className="font-body text-xs text-deep/50 uppercase tracking-wider block mb-2">Partner Age Range</label>
-              <div className="flex items-center gap-3">
+              <label style={{ fontSize: "11px", fontWeight: 600, color: "#555", textTransform: "uppercase", letterSpacing: "0.08em", display: "block", marginBottom: "10px" }}>Partner Age Range</label>
+              <div style={{ display: "flex", alignItems: "center", gap: "12px" }}>
                 <input
                   type="number"
                   value={prefs.ageMin}
                   onChange={(e) => setPrefs({ ...prefs, ageMin: e.target.value })}
-                  className="w-20 text-center px-2 py-2.5 rounded-xl font-display text-lg font-semibold text-deep outline-none"
-                  style={{ background: "rgba(255,255,255,0.7)", border: "1px solid rgba(154,107,0,0.18)" }}
+                  style={{ width: "72px", textAlign: "center", padding: "10px 8px", border: "1px solid rgba(220,30,60,0.15)", borderRadius: "10px", fontFamily: "var(--font-playfair, serif)", fontSize: "18px", fontWeight: 600, color: "#1a0a14", background: "#fff", outline: "none" }}
                 />
-                <span className="font-body text-sm text-deep/40">to</span>
+                <span style={{ fontSize: "13px", color: "#888" }}>to</span>
                 <input
                   type="number"
                   value={prefs.ageMax}
                   onChange={(e) => setPrefs({ ...prefs, ageMax: e.target.value })}
-                  className="w-20 text-center px-2 py-2.5 rounded-xl font-display text-lg font-semibold text-deep outline-none"
-                  style={{ background: "rgba(255,255,255,0.7)", border: "1px solid rgba(154,107,0,0.18)" }}
+                  style={{ width: "72px", textAlign: "center", padding: "10px 8px", border: "1px solid rgba(220,30,60,0.15)", borderRadius: "10px", fontFamily: "var(--font-playfair, serif)", fontSize: "18px", fontWeight: 600, color: "#1a0a14", background: "#fff", outline: "none" }}
                 />
-                <span className="font-body text-sm text-deep/40">years</span>
+                <span style={{ fontSize: "13px", color: "#888" }}>years</span>
               </div>
             </div>
 
@@ -315,18 +402,22 @@ export default function OnboardingPage() {
               { key: "city",     label: "Location Preference", options: ["Any India", "Same city", "Same state", "Metro cities", "NRI / Abroad"] },
             ].map(({ key, label, options }) => (
               <div key={key}>
-                <label className="font-body text-xs text-deep/50 uppercase tracking-wider block mb-2">{label}</label>
-                <div className="flex flex-wrap gap-2">
+                <label style={{ fontSize: "11px", fontWeight: 600, color: "#555", textTransform: "uppercase", letterSpacing: "0.08em", display: "block", marginBottom: "10px" }}>{label}</label>
+                <div style={{ display: "flex", flexWrap: "wrap", gap: "8px" }}>
                   {options.map((opt) => (
                     <button
                       key={opt}
                       onClick={() => setPrefs({ ...prefs, [key]: opt })}
-                      className="px-3 py-1.5 rounded-full font-body text-xs font-medium transition-all"
                       style={{
-                        background: (prefs as Record<string, string>)[key] === opt ? "linear-gradient(135deg,#E8426A,#FF8FA3)" : "rgba(255,255,255,0.6)",
-                        border: (prefs as Record<string, string>)[key] === opt ? "none" : "1px solid rgba(154,107,0,0.15)",
-                        color: (prefs as Record<string, string>)[key] === opt ? "#fff" : "rgba(28,15,6,0.55)",
-                        minHeight: "auto",
+                        padding: "6px 14px",
+                        borderRadius: "20px",
+                        fontSize: "12px",
+                        fontWeight: 500,
+                        border: (prefs as Record<string, string>)[key] === opt ? "none" : "1px solid rgba(220,30,60,0.15)",
+                        background: (prefs as Record<string, string>)[key] === opt ? "linear-gradient(135deg, #dc1e3c, #a0153c)" : "#fff",
+                        color: (prefs as Record<string, string>)[key] === opt ? "#fff" : "rgba(26,10,20,0.55)",
+                        cursor: "pointer",
+                        boxShadow: (prefs as Record<string, string>)[key] === opt ? "0 2px 8px rgba(220,30,60,0.2)" : "none",
                       }}
                     >
                       {opt}
@@ -336,12 +427,9 @@ export default function OnboardingPage() {
               </div>
             ))}
 
-            <div
-              className="rounded-2xl p-4 flex items-start gap-3"
-              style={{ background: "rgba(196,82,15,0.06)", border: "1px solid rgba(196,82,15,0.15)" }}
-            >
-              <Star className="w-4 h-4 text-rose flex-shrink-0 mt-0.5" />
-              <p className="font-body text-xs text-deep/60">
+            <div style={{ background: "rgba(220,30,60,0.04)", border: "1px solid rgba(220,30,60,0.12)", borderRadius: "10px", padding: "14px", display: "flex", alignItems: "flex-start", gap: "10px" }}>
+              <Star style={{ width: "16px", height: "16px", color: "#dc1e3c", flexShrink: 0, marginTop: "2px" }} />
+              <p style={{ fontSize: "12px", color: "rgba(26,10,20,0.6)", lineHeight: 1.6 }}>
                 Your preferences guide our AI — they're not hard filters. We may show highly compatible profiles outside these criteria.
               </p>
             </div>
@@ -349,37 +437,55 @@ export default function OnboardingPage() {
         )}
 
         {/* Navigation */}
-        <div className="flex items-center gap-3 mt-8">
+        <div style={{ display: "flex", alignItems: "center", gap: "12px", marginTop: "32px" }}>
           {step > 1 && (
             <button
               onClick={back}
-              className="flex items-center gap-2 px-5 py-3 rounded-full font-body text-sm font-medium text-deep/55 transition-colors hover:text-deep"
-              style={{ border: "1px solid rgba(28,15,6,0.15)", minHeight: "auto" }}
+              style={{
+                display: "flex", alignItems: "center", gap: "6px",
+                padding: "12px 20px",
+                borderRadius: "10px",
+                fontSize: "13px", fontWeight: 500,
+                color: "rgba(26,10,20,0.5)",
+                border: "1px solid rgba(26,10,20,0.12)",
+                background: "#fff",
+                cursor: "pointer",
+              }}
             >
-              <ArrowLeft className="w-4 h-4" />
+              <ArrowLeft style={{ width: "16px", height: "16px" }} />
               Back
             </button>
           )}
           <button
             onClick={next}
-            className="flex-1 flex items-center justify-center gap-2 rounded-full font-body text-sm font-semibold text-white py-3 transition-all"
-            style={{ background: "linear-gradient(135deg,#E8426A,#FF8FA3)", boxShadow: "0 4px 16px rgba(196,82,15,0.35)", minHeight: "auto" }}
+            style={{
+              flex: 1,
+              display: "flex", alignItems: "center", justifyContent: "center", gap: "8px",
+              padding: "12px 24px",
+              borderRadius: "10px",
+              fontSize: "14px", fontWeight: 600,
+              color: "#fff",
+              background: "linear-gradient(135deg, #dc1e3c, #a0153c)",
+              border: "none",
+              cursor: "pointer",
+              boxShadow: "0 4px 16px rgba(220,30,60,0.25)",
+            }}
           >
             {step === steps.length ? "Go to Dashboard" : "Continue"}
-            <ArrowRight className="w-4 h-4" />
+            <ArrowRight style={{ width: "16px", height: "16px" }} />
           </button>
         </div>
 
         {step === 1 && (
-          <p className="font-body text-xs text-center text-deep/30 mt-4">
+          <p style={{ fontSize: "12px", textAlign: "center", color: "#aaa", marginTop: "16px" }}>
             Already have an account?{" "}
-            <Link href="/dashboard" className="text-rose font-medium hover:underline" style={{ minHeight: "auto" }}>Sign in</Link>
+            <Link href="/auth/login" style={{ color: "#dc1e3c", fontWeight: 600, textDecoration: "none" }}>Sign in</Link>
           </p>
         )}
       </div>
 
-      {/* Step indicator */}
-      <p className="font-body text-xs text-deep/30 mt-6">Step {step} of {steps.length}</p>
+      {/* Footer */}
+      <p style={{ fontSize: "11px", color: "#ccc", marginTop: "24px" }}>Step {step} of {steps.length}</p>
     </div>
   );
 }

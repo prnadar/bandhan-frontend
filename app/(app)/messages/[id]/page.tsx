@@ -36,6 +36,7 @@ export default function ChatPage({ params }: { params: { id: string } }) {
   const profile = threadProfiles[params.id] || threadProfiles["1"];
   const [messages, setMessages] = useState(initialMessages[params.id] || []);
   const [input, setInput] = useState("");
+  const [inputFocused, setInputFocused] = useState(false);
   const bottomRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -52,82 +53,336 @@ export default function ChatPage({ params }: { params: { id: string } }) {
   };
 
   return (
-    <div className="h-screen flex flex-col max-w-2xl">
-      {/* Header */}
+    <div
+      style={{
+        height: "100vh",
+        display: "flex",
+        flexDirection: "column",
+        maxWidth: "672px",
+        background: "#fdfbf9",
+        fontFamily: "var(--font-poppins, sans-serif)",
+      }}
+    >
+      {/* ── Header ── */}
       <div
-        className="flex items-center gap-4 px-6 py-4 flex-shrink-0"
-        style={{ background: "rgba(250,246,238,0.96)", borderBottom: "1px solid rgba(154,107,0,0.12)", backdropFilter: "blur(20px)" }}
+        style={{
+          display: "flex",
+          alignItems: "center",
+          gap: "16px",
+          padding: "16px 24px",
+          flexShrink: 0,
+          background: "#ffffff",
+          borderBottom: "1px solid rgba(220,30,60,0.12)",
+          backdropFilter: "blur(20px)",
+        }}
       >
-        <Link href="/messages" className="text-deep/50 hover:text-deep transition-colors" style={{ minHeight: "auto", minWidth: "auto" }}>
-          <ArrowLeft className="w-5 h-5" />
+        {/* Back */}
+        <Link
+          href="/messages"
+          style={{
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+            width: "36px",
+            height: "36px",
+            borderRadius: "50%",
+            color: "rgba(26,10,20,0.5)",
+            background: "rgba(220,30,60,0.05)",
+            border: "1px solid rgba(220,30,60,0.12)",
+            textDecoration: "none",
+            flexShrink: 0,
+            transition: "background 0.15s ease",
+          }}
+          onMouseEnter={(e) => {
+            (e.currentTarget as HTMLAnchorElement).style.background =
+              "rgba(220,30,60,0.1)";
+          }}
+          onMouseLeave={(e) => {
+            (e.currentTarget as HTMLAnchorElement).style.background =
+              "rgba(220,30,60,0.05)";
+          }}
+        >
+          <ArrowLeft style={{ width: "18px", height: "18px" }} />
         </Link>
 
+        {/* Avatar */}
         <div
-          className="w-10 h-10 rounded-full flex items-center justify-center font-display text-sm font-semibold text-white flex-shrink-0"
-          style={{ background: profile.grad }}
+          style={{
+            width: "42px",
+            height: "42px",
+            borderRadius: "50%",
+            background: profile.grad,
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+            fontFamily: "var(--font-playfair, serif)",
+            fontSize: "0.9rem",
+            fontWeight: 700,
+            color: "#ffffff",
+            flexShrink: 0,
+            border: "2px solid rgba(220,30,60,0.25)",
+            boxShadow: "0 2px 10px rgba(220,30,60,0.2)",
+          }}
         >
           {profile.photo}
         </div>
 
-        <div className="flex-1 min-w-0">
-          <div className="flex items-center gap-2">
-            <h2 className="font-display text-base font-semibold text-deep">{profile.name}</h2>
-            <Shield className="w-3.5 h-3.5 text-sage" />
+        {/* Name & status */}
+        <div style={{ flex: 1, minWidth: 0 }}>
+          <div
+            style={{
+              display: "flex",
+              alignItems: "center",
+              gap: "6px",
+            }}
+          >
+            <h2
+              style={{
+                fontFamily: "var(--font-playfair, serif)",
+                fontSize: "1rem",
+                fontWeight: 600,
+                color: "#1a0a14",
+                margin: 0,
+              }}
+            >
+              {profile.name}
+            </h2>
+            <Shield
+              style={{ width: "14px", height: "14px", color: "#dc1e3c", flexShrink: 0 }}
+            />
           </div>
-          <div className="flex items-center gap-2">
-            <span className="w-2 h-2 rounded-full bg-sage inline-block" />
-            <span className="font-body text-xs text-deep/45">{profile.city} · {profile.compatibility}% match</span>
+          <div
+            style={{
+              display: "flex",
+              alignItems: "center",
+              gap: "6px",
+              marginTop: "1px",
+            }}
+          >
+            <span
+              style={{
+                width: "7px",
+                height: "7px",
+                borderRadius: "50%",
+                background: "#dc1e3c",
+                boxShadow: "0 0 0 2px rgba(220,30,60,0.2)",
+                display: "inline-block",
+                flexShrink: 0,
+              }}
+            />
+            <span
+              style={{
+                fontFamily: "var(--font-poppins, sans-serif)",
+                fontSize: "0.75rem",
+                color: "rgba(26,10,20,0.45)",
+              }}
+            >
+              {profile.city} ·{" "}
+              <span style={{ color: "#C89020", fontWeight: 600 }}>
+                {profile.compatibility}% match
+              </span>
+            </span>
           </div>
         </div>
 
-        <div className="flex items-center gap-2">
-          <button className="w-9 h-9 rounded-full flex items-center justify-center text-deep/40 hover:text-deep hover:bg-rose/8 transition-colors" style={{ minHeight: "auto", minWidth: "auto" }}>
-            <Phone className="w-4 h-4" />
-          </button>
-          <button className="w-9 h-9 rounded-full flex items-center justify-center text-deep/40 hover:text-deep hover:bg-rose/8 transition-colors" style={{ minHeight: "auto", minWidth: "auto" }}>
-            <Video className="w-4 h-4" />
-          </button>
-          <Link href={`/profile/${params.id}`} className="w-9 h-9 rounded-full flex items-center justify-center text-deep/40 hover:text-deep hover:bg-rose/8 transition-colors" style={{ minHeight: "auto", minWidth: "auto" }}>
-            <MoreHorizontal className="w-4 h-4" />
+        {/* Action buttons */}
+        <div style={{ display: "flex", alignItems: "center", gap: "4px" }}>
+          {[
+            { icon: <Phone style={{ width: "16px", height: "16px" }} />, label: "Call" },
+            { icon: <Video style={{ width: "16px", height: "16px" }} />, label: "Video" },
+          ].map((btn) => (
+            <button
+              key={btn.label}
+              aria-label={btn.label}
+              style={{
+                width: "36px",
+                height: "36px",
+                borderRadius: "50%",
+                background: "transparent",
+                border: "1px solid rgba(220,30,60,0.12)",
+                color: "rgba(26,10,20,0.45)",
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+                cursor: "pointer",
+                transition: "background 0.15s ease, color 0.15s ease",
+              }}
+              onMouseEnter={(e) => {
+                (e.currentTarget as HTMLButtonElement).style.background =
+                  "rgba(220,30,60,0.07)";
+                (e.currentTarget as HTMLButtonElement).style.color = "#dc1e3c";
+              }}
+              onMouseLeave={(e) => {
+                (e.currentTarget as HTMLButtonElement).style.background =
+                  "transparent";
+                (e.currentTarget as HTMLButtonElement).style.color =
+                  "rgba(26,10,20,0.45)";
+              }}
+            >
+              {btn.icon}
+            </button>
+          ))}
+          <Link
+            href={`/profile/${params.id}`}
+            aria-label="View profile"
+            style={{
+              width: "36px",
+              height: "36px",
+              borderRadius: "50%",
+              background: "transparent",
+              border: "1px solid rgba(220,30,60,0.12)",
+              color: "rgba(26,10,20,0.45)",
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+              textDecoration: "none",
+              transition: "background 0.15s ease, color 0.15s ease",
+            }}
+            onMouseEnter={(e) => {
+              (e.currentTarget as HTMLAnchorElement).style.background =
+                "rgba(220,30,60,0.07)";
+              (e.currentTarget as HTMLAnchorElement).style.color = "#dc1e3c";
+            }}
+            onMouseLeave={(e) => {
+              (e.currentTarget as HTMLAnchorElement).style.background =
+                "transparent";
+              (e.currentTarget as HTMLAnchorElement).style.color =
+                "rgba(26,10,20,0.45)";
+            }}
+          >
+            <MoreHorizontal style={{ width: "16px", height: "16px" }} />
           </Link>
         </div>
       </div>
 
-      {/* E2E notice */}
-      <div className="flex items-center justify-center gap-1.5 py-2 px-4" style={{ background: "rgba(92,122,82,0.06)", borderBottom: "1px solid rgba(92,122,82,0.1)" }}>
-        <Lock className="w-3 h-3 text-sage" />
-        <span className="font-body text-xs text-sage/80">Messages are end-to-end encrypted · Signal Protocol</span>
+      {/* ── E2E encryption notice ── */}
+      <div
+        style={{
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
+          gap: "6px",
+          padding: "8px 16px",
+          background: "rgba(220,30,60,0.03)",
+          borderBottom: "1px solid rgba(220,30,60,0.08)",
+          flexShrink: 0,
+        }}
+      >
+        <Lock style={{ width: "11px", height: "11px", color: "#dc1e3c" }} />
+        <span
+          style={{
+            fontFamily: "var(--font-poppins, sans-serif)",
+            fontSize: "0.6875rem",
+            color: "rgba(220,30,60,0.65)",
+          }}
+        >
+          Messages are end-to-end encrypted · Signal Protocol
+        </span>
       </div>
 
-      {/* Messages */}
-      <div className="flex-1 overflow-y-auto px-6 py-4 space-y-3" style={{ background: "rgba(250,246,238,0.5)" }}>
-        {messages.map((msg) => (
-          <div key={msg.id} className={`flex ${msg.from === "me" ? "justify-end" : "justify-start"}`}>
-            <div className="max-w-[75%]">
-              <div
-                className="rounded-2xl px-4 py-2.5 font-body text-sm leading-relaxed"
-                style={
-                  msg.from === "me"
-                    ? { background: "linear-gradient(135deg,#E8426A,#FF8FA3)", color: "#fff", borderBottomRightRadius: "6px" }
-                    : { background: "rgba(250,246,238,0.98)", color: "#1A0A12", border: "1px solid rgba(154,107,0,0.14)", borderBottomLeftRadius: "6px" }
-                }
-              >
-                {msg.text}
-              </div>
-              <div className={`flex items-center gap-1 mt-1 ${msg.from === "me" ? "justify-end" : "justify-start"}`}>
-                <span className="font-body text-[10px] text-deep/35">{msg.time}</span>
-                {msg.from === "me" && <CheckCheck className="w-3 h-3 text-sage" />}
+      {/* ── Message list ── */}
+      <div
+        style={{
+          flex: 1,
+          overflowY: "auto",
+          padding: "20px 24px",
+          display: "flex",
+          flexDirection: "column",
+          gap: "12px",
+          background: "#fdfbf9",
+        }}
+      >
+        {messages.map((msg, idx) => {
+          const isMe = msg.from === "me";
+          // Group consecutive same-sender messages
+          const prevMsg = messages[idx - 1];
+          const isSameSenderAsPrev = prevMsg?.from === msg.from;
+
+          return (
+            <div
+              key={msg.id}
+              style={{
+                display: "flex",
+                justifyContent: isMe ? "flex-end" : "flex-start",
+                marginTop: isSameSenderAsPrev ? "4px" : "12px",
+              }}
+            >
+              <div style={{ maxWidth: "75%" }}>
+                {/* Bubble */}
+                <div
+                  style={
+                    isMe
+                      ? {
+                          background: "linear-gradient(135deg, #dc1e3c, #a0153c)",
+                          color: "#ffffff",
+                          borderRadius: "18px",
+                          borderBottomRightRadius: "5px",
+                          padding: "10px 16px",
+                          fontFamily: "var(--font-poppins, sans-serif)",
+                          fontSize: "0.875rem",
+                          lineHeight: 1.55,
+                          boxShadow: "0 2px 12px rgba(220,30,60,0.25)",
+                        }
+                      : {
+                          background: "#ffffff",
+                          color: "#1a0a14",
+                          borderRadius: "18px",
+                          borderBottomLeftRadius: "5px",
+                          padding: "10px 16px",
+                          fontFamily: "var(--font-poppins, sans-serif)",
+                          fontSize: "0.875rem",
+                          lineHeight: 1.55,
+                          border: "1px solid rgba(220,30,60,0.1)",
+                          boxShadow: "0 1px 6px rgba(26,10,20,0.07)",
+                        }
+                  }
+                >
+                  {msg.text}
+                </div>
+
+                {/* Timestamp + read receipt */}
+                <div
+                  style={{
+                    display: "flex",
+                    alignItems: "center",
+                    gap: "4px",
+                    marginTop: "4px",
+                    justifyContent: isMe ? "flex-end" : "flex-start",
+                  }}
+                >
+                  <span
+                    style={{
+                      fontFamily: "var(--font-poppins, sans-serif)",
+                      fontSize: "0.625rem",
+                      color: "rgba(26,10,20,0.35)",
+                    }}
+                  >
+                    {msg.time}
+                  </span>
+                  {isMe && (
+                    <CheckCheck
+                      style={{ width: "12px", height: "12px", color: "#dc1e3c" }}
+                    />
+                  )}
+                </div>
               </div>
             </div>
-          </div>
-        ))}
+          );
+        })}
         <div ref={bottomRef} />
       </div>
 
-      {/* Input */}
+      {/* ── Input bar ── */}
       <div
-        className="px-4 py-3 flex items-center gap-3 flex-shrink-0"
-        style={{ background: "rgba(250,246,238,0.96)", borderTop: "1px solid rgba(154,107,0,0.12)" }}
+        style={{
+          padding: "12px 16px",
+          display: "flex",
+          alignItems: "center",
+          gap: "12px",
+          flexShrink: 0,
+          background: "#ffffff",
+          borderTop: "1px solid rgba(220,30,60,0.12)",
+        }}
       >
         <input
           type="text"
@@ -135,18 +390,50 @@ export default function ChatPage({ params }: { params: { id: string } }) {
           onChange={(e) => setInput(e.target.value)}
           onKeyDown={(e) => e.key === "Enter" && send()}
           placeholder="Type a message…"
-          className="flex-1 rounded-full px-4 py-2.5 font-body text-sm text-deep placeholder-deep/35 outline-none"
-          style={{ background: "rgba(255,255,255,0.8)", border: "1px solid rgba(154,107,0,0.18)", height: "44px" }}
+          onFocus={() => setInputFocused(true)}
+          onBlur={() => setInputFocused(false)}
+          style={{
+            flex: 1,
+            height: "44px",
+            padding: "0 16px",
+            fontFamily: "var(--font-poppins, sans-serif)",
+            fontSize: "0.875rem",
+            color: "#1a0a14",
+            background: "#fdfbf9",
+            border: inputFocused
+              ? "1px solid rgba(220,30,60,0.55)"
+              : "1px solid rgba(220,30,60,0.18)",
+            borderRadius: "9999px",
+            outline: "none",
+            boxShadow: inputFocused
+              ? "0 0 0 3px rgba(220,30,60,0.08)"
+              : "none",
+            transition: "border-color 0.18s ease, box-shadow 0.18s ease",
+          }}
         />
+
         <button
           onClick={send}
-          className="w-10 h-10 rounded-full flex items-center justify-center text-white transition-all flex-shrink-0"
+          aria-label="Send message"
           style={{
-            background: input.trim() ? "linear-gradient(135deg,#E8426A,#FF8FA3)" : "rgba(196,82,15,0.25)",
-            minHeight: "auto", minWidth: "auto",
+            width: "44px",
+            height: "44px",
+            borderRadius: "50%",
+            border: "none",
+            background: input.trim()
+              ? "linear-gradient(135deg, #dc1e3c, #a0153c)"
+              : "rgba(220,30,60,0.15)",
+            color: input.trim() ? "#ffffff" : "rgba(220,30,60,0.5)",
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+            cursor: input.trim() ? "pointer" : "default",
+            flexShrink: 0,
+            boxShadow: input.trim() ? "0 3px 12px rgba(220,30,60,0.35)" : "none",
+            transition: "background 0.18s ease, box-shadow 0.18s ease",
           }}
         >
-          <Send className="w-4 h-4" />
+          <Send style={{ width: "18px", height: "18px" }} />
         </button>
       </div>
     </div>
