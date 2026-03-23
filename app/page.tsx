@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useRef, useEffect } from "react";
 import Link from "next/link";
 
 /* ── Data ──────────────────────────────────────────────────────────── */
@@ -89,6 +89,18 @@ const filterTabs = ["All", "Hindu", "Muslim", "Christian", "Sikh"];
 
 export default function HomePage() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [helpOpen, setHelpOpen] = useState(false);
+  const helpRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    function handleClick(e: MouseEvent) {
+      if (helpRef.current && !helpRef.current.contains(e.target as Node)) {
+        setHelpOpen(false);
+      }
+    }
+    document.addEventListener("mousedown", handleClick);
+    return () => document.removeEventListener("mousedown", handleClick);
+  }, []);
 
 
   return (
@@ -125,7 +137,6 @@ export default function HomePage() {
               { label: "Success Stories", href: "#success-stories" },
               { label: "Pricing", href: "#pricing" },
               { label: "About Us", href: "/about" },
-            { label: "Help", href: "#faq" },
             ].map((item) => (
               <a
                 key={item.label}
@@ -136,6 +147,58 @@ export default function HomePage() {
                 {item.label}
               </a>
             ))}
+
+            {/* Help dropdown */}
+            <div ref={helpRef} style={{ position: "relative" }}>
+              <button
+                onClick={() => setHelpOpen(!helpOpen)}
+                className="text-sm font-medium transition-colors duration-200 hover:text-[#dc1e3c] flex items-center gap-1"
+                style={{ color: helpOpen ? "#dc1e3c" : "#333", background: "none", border: "none", cursor: "pointer", padding: 0 }}
+              >
+                Help
+                <svg width="12" height="12" viewBox="0 0 12 12" fill="none" style={{ transition: "transform 0.2s", transform: helpOpen ? "rotate(180deg)" : "rotate(0deg)" }}>
+                  <path d="M2 4l4 4 4-4" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+                </svg>
+              </button>
+
+              {helpOpen && (
+                <div style={{
+                  position: "absolute", top: "calc(100% + 12px)", left: "50%", transform: "translateX(-50%)",
+                  background: "#fff", borderRadius: "12px", minWidth: "180px",
+                  boxShadow: "0 8px 32px rgba(0,0,0,0.12)", border: "1px solid rgba(220,30,60,0.1)",
+                  overflow: "hidden", zIndex: 100,
+                }}>
+                  {/* Arrow */}
+                  <div style={{
+                    position: "absolute", top: "-6px", left: "50%", transform: "translateX(-50%)",
+                    width: "12px", height: "12px", background: "#fff",
+                    borderTop: "1px solid rgba(220,30,60,0.1)", borderLeft: "1px solid rgba(220,30,60,0.1)",
+                    rotate: "45deg",
+                  }} />
+                  {[
+                    { label: "❓ FAQ", href: "#faq" },
+                    { label: "✉️ Contact Us", href: "#contact" },
+                  ].map((item) => (
+                    <a
+                      key={item.label}
+                      href={item.href}
+                      onClick={() => setHelpOpen(false)}
+                      style={{
+                        display: "block", padding: "12px 20px",
+                        fontSize: "13px", fontWeight: 500, color: "#333",
+                        textDecoration: "none",
+                        borderBottom: "1px solid rgba(220,30,60,0.06)",
+                        transition: "background 0.15s",
+                      }}
+                      onMouseOver={(e) => { e.currentTarget.style.background = "rgba(220,30,60,0.05)"; e.currentTarget.style.color = "#dc1e3c"; }}
+                      onMouseOut={(e) => { e.currentTarget.style.background = "transparent"; e.currentTarget.style.color = "#333"; }}
+                    >
+                      {item.label}
+                    </a>
+                  ))}
+                </div>
+              )}
+            </div>
           </div>
 
           <div className="flex items-center gap-3">
@@ -178,7 +241,6 @@ export default function HomePage() {
               { label: "Success Stories", href: "#success-stories" },
               { label: "Pricing", href: "#pricing" },
               { label: "About Us", href: "/about" },
-            { label: "Help", href: "#faq" },
             ].map((item) => (
               <a
                 key={item.label}
@@ -190,6 +252,12 @@ export default function HomePage() {
                 {item.label}
               </a>
             ))}
+            {/* Mobile Help submenu */}
+            <div style={{ borderTop: "1px solid rgba(220,30,60,0.08)", paddingTop: "8px" }}>
+              <p className="text-xs font-bold uppercase tracking-widest mb-2" style={{ color: "#bbb" }}>Help</p>
+              <a href="#faq" className="block text-sm font-medium py-1.5 pl-3" style={{ color: "#1a0a14" }} onClick={() => setMobileMenuOpen(false)}>❓ FAQ</a>
+              <a href="#contact" className="block text-sm font-medium py-1.5 pl-3" style={{ color: "#1a0a14" }} onClick={() => setMobileMenuOpen(false)}>✉️ Contact Us</a>
+            </div>
             <Link href="/auth/login" className="block text-center px-5 py-2 text-sm mt-2 rounded-lg border font-medium" style={{ color: "#dc1e3c", borderColor: "#dc1e3c" }}>
               Log In
             </Link>
@@ -802,7 +870,7 @@ export default function HomePage() {
       </section>
 
       {/* ── 8d. Contact / Enquiry ────────────────────────────────────── */}
-      <section style={{ padding: "80px 24px", background: "#fdfbf9" }}>
+      <section id="contact" style={{ padding: "80px 24px", background: "#fdfbf9" }}>
         <div className="max-w-5xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
           <div>
             <span style={{ fontSize: "12px", fontWeight: 700, color: "#dc1e3c", textTransform: "uppercase", letterSpacing: "0.15em" }}>Get in Touch</span>
