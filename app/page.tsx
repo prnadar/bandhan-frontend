@@ -176,8 +176,8 @@ export default function HomePage() {
                     rotate: "45deg",
                   }} />
                   {[
-                    { label: "❓ FAQ", href: "#faq" },
-                    { label: "✉️ Contact Us", href: "#contact" },
+                    { label: "FAQ", href: "#faq" },
+                    { label: "Contact Us", href: "#contact" },
                   ].map((item) => (
                     <a
                       key={item.label}
@@ -255,8 +255,8 @@ export default function HomePage() {
             {/* Mobile Help submenu */}
             <div style={{ borderTop: "1px solid rgba(220,30,60,0.08)", paddingTop: "8px" }}>
               <p className="text-xs font-bold uppercase tracking-widest mb-2" style={{ color: "#bbb" }}>Help</p>
-              <a href="#faq" className="block text-sm font-medium py-1.5 pl-3" style={{ color: "#1a0a14" }} onClick={() => setMobileMenuOpen(false)}>❓ FAQ</a>
-              <a href="#contact" className="block text-sm font-medium py-1.5 pl-3" style={{ color: "#1a0a14" }} onClick={() => setMobileMenuOpen(false)}>✉️ Contact Us</a>
+              <a href="#faq" className="block text-sm font-medium py-1.5 pl-3" style={{ color: "#1a0a14" }} onClick={() => setMobileMenuOpen(false)}>FAQ</a>
+              <a href="#contact" className="block text-sm font-medium py-1.5 pl-3" style={{ color: "#1a0a14" }} onClick={() => setMobileMenuOpen(false)}>Contact Us</a>
             </div>
             <Link href="/auth/login" className="block text-center px-5 py-2 text-sm mt-2 rounded-lg border font-medium" style={{ color: "#dc1e3c", borderColor: "#dc1e3c" }}>
               Log In
