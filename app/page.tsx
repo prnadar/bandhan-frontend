@@ -138,6 +138,9 @@ export default function HomePage() {
           </div>
 
           <div className="flex items-center gap-3">
+            <Link href="/auth/login" className="hidden sm:inline-block text-sm font-medium px-4 py-2 rounded-lg border transition-colors duration-200 hover:border-[#dc1e3c] hover:text-[#dc1e3c]" style={{ color: "#555", borderColor: "#e5e5e5" }}>
+              Log In
+            </Link>
             <Link href="/auth/register" className="btn-gold px-5 py-2 text-sm hidden sm:inline-block">
               Register Free
             </Link>
@@ -185,6 +188,9 @@ export default function HomePage() {
                 {item.label}
               </a>
             ))}
+            <Link href="/auth/login" className="block text-center px-5 py-2 text-sm mt-2 rounded-lg border font-medium" style={{ color: "#dc1e3c", borderColor: "#dc1e3c" }}>
+              Log In
+            </Link>
             <Link href="/auth/register" className="btn-gold block text-center px-5 py-2 text-sm mt-2">
               Register Free
             </Link>
