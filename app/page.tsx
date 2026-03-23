@@ -125,6 +125,7 @@ export default function HomePage() {
               { label: "Success Stories", href: "#success-stories" },
               { label: "Pricing", href: "#pricing" },
               { label: "About Us", href: "/about" },
+            { label: "Help", href: "#faq" },
             ].map((item) => (
               <a
                 key={item.label}
@@ -177,6 +178,7 @@ export default function HomePage() {
               { label: "Success Stories", href: "#success-stories" },
               { label: "Pricing", href: "#pricing" },
               { label: "About Us", href: "/about" },
+            { label: "Help", href: "#faq" },
             ].map((item) => (
               <a
                 key={item.label}
@@ -748,7 +750,7 @@ export default function HomePage() {
       </section>
 
       {/* ── 8c. FAQ ──────────────────────────────────────────────────── */}
-      <section style={{ padding: "80px 24px", background: "#fff" }}>
+      <section id="faq" style={{ padding: "80px 24px", background: "#fff" }}>
         <div className="max-w-3xl mx-auto">
           <div style={{ textAlign: "center", marginBottom: "56px" }}>
             <span style={{ fontSize: "12px", fontWeight: 700, color: "#dc1e3c", textTransform: "uppercase", letterSpacing: "0.15em" }}>Common Questions</span>
