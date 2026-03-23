@@ -323,7 +323,7 @@ export default function HomePage() {
               width: "100%",
             }}
           >
-            <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 items-end">
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 items-end">
               <div>
                 <label className="text-xs font-medium mb-1 block" style={{ color: "#888" }}>Looking for</label>
                 <select className="w-full border rounded-lg px-3 py-2.5 text-sm" style={{ borderColor: "#e5e5e5", color: "#333" }}>
@@ -341,6 +341,21 @@ export default function HomePage() {
                   <option>36+</option>
                 </select>
               </div>
+
+              <div>
+                <label className="text-xs font-medium mb-1 block" style={{ color: "#888" }}>Religion</label>
+                <select className="w-full border rounded-lg px-3 py-2.5 text-sm" style={{ borderColor: "#e5e5e5", color: "#333" }}>
+                  <option value="">Any Religion</option>
+                  <option>Hindu</option>
+                  <option>Muslim</option>
+                  <option>Christian</option>
+                  <option>Sikh</option>
+                  <option>Jain</option>
+                  <option>Buddhist</option>
+                  <option>Other</option>
+                </select>
+              </div>
+
               <a
                 href="/auth/register"
                 className="w-full py-2.5 text-sm font-semibold rounded-lg text-white text-center transition-all duration-200 hover:opacity-90 block"
@@ -912,49 +927,67 @@ export default function HomePage() {
       </section>
 
       {/* ── 11. Footer ───────────────────────────────────────────────── */}
-      <footer className="py-16 px-4 sm:px-6" style={{ backgroundColor: "#1a0a14" }}>
-        <div className="max-w-6xl mx-auto">
-          <div className="grid grid-cols-1 md:grid-cols-4 gap-10 mb-10">
+      <footer style={{ backgroundColor: "#1a0a14", padding: "48px 24px 24px" }}>
+        <div style={{ maxWidth: "1152px", margin: "0 auto" }}>
+
+          {/* Main row */}
+          <div style={{ display: "grid", gridTemplateColumns: "1fr auto auto auto", gap: "48px", marginBottom: "36px", alignItems: "start" }}>
 
             {/* Brand */}
-            <div className="md:col-span-2">
-              <img
-                src="/images/WhatsApp Image 2026-02-15 at 8.00.16 PM (2).jpeg"
-                alt="Match 4 Marriage"
-                style={{ height: "52px", width: "auto", objectFit: "contain", filter: "brightness(0) invert(1)", marginBottom: "14px" }}
-              />
-              <p className="text-sm" style={{ color: "rgba(255,255,255,0.6)", lineHeight: 1.8, marginBottom: "20px" }}>
-                Elite Indian Matrimony — established in the United Kingdom, connecting the global Indian community with trust, discretion, and care.
+            <div>
+              <span className="font-playfair" style={{ fontSize: "22px", fontWeight: 700, color: "#fff" }}>
+                Match<span style={{ color: "#dc1e3c" }}>4</span>Marriage
+              </span>
+              <p style={{ fontSize: "13px", color: "rgba(255,255,255,0.45)", lineHeight: 1.7, margin: "12px 0 16px", maxWidth: "280px" }}>
+                Elite Indian Matrimony — UK registered, connecting the global Indian community with trust and discretion.
               </p>
-              {/* Registered company info */}
-              <div style={{
-                borderTop: "1px solid rgba(255,255,255,0.1)",
-                paddingTop: "16px",
-                display: "flex", flexDirection: "column", gap: "6px",
-              }}>
-                <p style={{ fontSize: "11px", color: "rgba(255,255,255,0.35)", letterSpacing: "0.1em", textTransform: "uppercase", fontWeight: 600 }}>Registered Company</p>
-                <p style={{ fontSize: "13px", color: "rgba(255,255,255,0.7)", fontWeight: 600 }}>MATCH4MARRIAGE LIMITED</p>
-                <p style={{ fontSize: "12px", color: "rgba(255,255,255,0.45)" }}>Company No. 15272378</p>
-                <p style={{ fontSize: "12px", color: "rgba(255,255,255,0.45)" }}>282 Warwick Road, Solihull, England, B92 7AF</p>
-                <p style={{ fontSize: "11px", color: "rgba(255,255,255,0.3)" }}>Incorporated 9 November 2023 · Active</p>
+              <div style={{ display: "flex", gap: "10px" }}>
+                {[
+                  { label: "Facebook", icon: "f", href: "https://www.facebook.com/profile.php?id=61579547022417" },
+                  { label: "Instagram", icon: "ig", href: "https://www.instagram.com/match4marriage_uk_matrimony" },
+                  { label: "Twitter", icon: "𝕏", href: "https://x.com/Match4marriage" },
+                ].map((s) => (
+                  <a key={s.label} href={s.href} title={s.label} target="_blank" rel="noopener noreferrer" style={{
+                    width: "32px", height: "32px", borderRadius: "50%",
+                    border: "1px solid rgba(255,255,255,0.15)",
+                    display: "flex", alignItems: "center", justifyContent: "center",
+                    fontSize: "11px", fontWeight: 700, color: "rgba(255,255,255,0.5)",
+                    textDecoration: "none",
+                  }}>
+                    {s.icon}
+                  </a>
+                ))}
               </div>
             </div>
 
-            {/* Links */}
+            {/* Quick Links */}
             <div>
-              <p className="text-sm font-semibold text-white mb-4 uppercase tracking-wide">Quick Links</p>
-              <div className="space-y-2">
+              <p style={{ fontSize: "11px", fontWeight: 700, color: "rgba(255,255,255,0.6)", textTransform: "uppercase", letterSpacing: "0.15em", marginBottom: "14px" }}>Links</p>
+              <div style={{ display: "flex", flexDirection: "column", gap: "10px" }}>
                 {[
-                  { label: "About Us", href: "/about" },
+                  { label: "Home", href: "#home" },
+                  { label: "Browse Profiles", href: "#browse-profiles" },
                   { label: "Success Stories", href: "#success-stories" },
-                  { label: "How It Works", href: "#how-it-works" },
-                  { label: "Contact", href: "#contact" },
-                  { label: "Privacy Policy", href: "#" },
-                  { label: "Terms of Service", href: "#" },
+                  { label: "About Us", href: "/about" },
                 ].map((link) => (
-                  <a key={link.label} href={link.href}
-                    className="block text-sm transition-colors duration-200 hover:text-white"
-                    style={{ color: "rgba(255,255,255,0.55)" }}>
+                  <a key={link.label} href={link.href} style={{ fontSize: "13px", color: "rgba(255,255,255,0.45)", textDecoration: "none" }}>
+                    {link.label}
+                  </a>
+                ))}
+              </div>
+            </div>
+
+            {/* Legal */}
+            <div>
+              <p style={{ fontSize: "11px", fontWeight: 700, color: "rgba(255,255,255,0.6)", textTransform: "uppercase", letterSpacing: "0.15em", marginBottom: "14px" }}>Legal</p>
+              <div style={{ display: "flex", flexDirection: "column", gap: "10px" }}>
+                {[
+                  { label: "Privacy Policy", href: "/privacy" },
+                  { label: "Terms of Service", href: "/terms" },
+                  { label: "Cookie Policy", href: "#" },
+                  { label: "GDPR", href: "#" },
+                ].map((link) => (
+                  <a key={link.label} href={link.href} style={{ fontSize: "13px", color: "rgba(255,255,255,0.45)", textDecoration: "none" }}>
                     {link.label}
                   </a>
                 ))}
@@ -963,37 +996,23 @@ export default function HomePage() {
 
             {/* Contact */}
             <div>
-              <p className="text-sm font-semibold text-white mb-4 uppercase tracking-wide">Contact</p>
-              <div className="space-y-3">
-                <div>
-                  <p style={{ fontSize: "11px", color: "rgba(255,255,255,0.35)", textTransform: "uppercase", letterSpacing: "0.1em", marginBottom: "2px" }}>Email</p>
-                  <a href="mailto:hello@match4marriage.com" style={{ fontSize: "13px", color: "rgba(255,255,255,0.65)" }}>hello@match4marriage.com</a>
-                </div>
-                <div>
-                  <p style={{ fontSize: "11px", color: "rgba(255,255,255,0.35)", textTransform: "uppercase", letterSpacing: "0.1em", marginBottom: "2px" }}>Registered Office</p>
-                  <p style={{ fontSize: "13px", color: "rgba(255,255,255,0.65)", lineHeight: 1.6 }}>282 Warwick Road,<br />Solihull, England, B92 7AF</p>
-                </div>
-                <div style={{ paddingTop: "8px", display: "flex", gap: "12px" }}>
-                  {["Facebook", "Instagram", "LinkedIn"].map((s) => (
-                    <a key={s} href="#"
-                      className="text-xs transition-colors duration-200 hover:text-white"
-                      style={{ color: "rgba(255,255,255,0.4)" }}>
-                      {s}
-                    </a>
-                  ))}
-                </div>
+              <p style={{ fontSize: "11px", fontWeight: 700, color: "rgba(255,255,255,0.6)", textTransform: "uppercase", letterSpacing: "0.15em", marginBottom: "14px" }}>Contact</p>
+              <div style={{ display: "flex", flexDirection: "column", gap: "8px" }}>
+                <a href="mailto:hello@match4marriage.com" style={{ fontSize: "13px", color: "rgba(255,255,255,0.45)", textDecoration: "none" }}>✉️ hello@match4marriage.com</a>
+                <p style={{ fontSize: "13px", color: "rgba(255,255,255,0.45)", margin: 0 }}>📍 Solihull, England, B92 7AF</p>
+                <p style={{ fontSize: "12px", color: "rgba(255,255,255,0.25)", margin: 0 }}>Co. No. 15272378</p>
               </div>
             </div>
           </div>
 
-          <div className="pt-8" style={{ borderTop: "1px solid rgba(255,255,255,0.1)", display: "flex", flexWrap: "wrap", justifyContent: "space-between", alignItems: "center", gap: "12px" }}>
-            <p style={{ fontSize: "12px", color: "rgba(255,255,255,0.35)" }}>
+          {/* Bottom bar */}
+          <div style={{ borderTop: "1px solid rgba(255,255,255,0.07)", paddingTop: "20px", display: "flex", flexWrap: "wrap", justifyContent: "space-between", alignItems: "center", gap: "8px" }}>
+            <p style={{ fontSize: "12px", color: "rgba(255,255,255,0.25)", margin: 0 }}>
               © 2026 Match4Marriage Limited. All rights reserved. Registered in England & Wales.
             </p>
-            <p style={{ fontSize: "11px", color: "rgba(255,255,255,0.25)" }}>
-              Company No. 15272378
-            </p>
+            <p style={{ fontSize: "11px", color: "rgba(255,255,255,0.2)", margin: 0 }}>🔒 SSL Secured · GDPR Compliant</p>
           </div>
+
         </div>
       </footer>
     </div>
