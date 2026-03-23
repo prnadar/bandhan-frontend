@@ -3,247 +3,369 @@
 import { useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { Heart, ArrowRight, ArrowLeft, Check, Phone, User, Shield } from "lucide-react";
 
-const steps = [
-  { id: 1, label: "Phone" },
-  { id: 2, label: "About You" },
-  { id: 3, label: "Verify" },
-];
+type Method = "phone" | "email";
+
+const steps = ["Your Details", "Verify", "Done"];
 
 export default function RegisterPage() {
   const router = useRouter();
-  const [step, setStep] = useState(1);
+  const [method, setMethod] = useState<Method>("phone");
+  const [step, setStep] = useState(0); // 0 = details, 1 = verify, 2 = done
   const [loading, setLoading] = useState(false);
+  const [agreed, setAgreed] = useState(false);
+
+  // Form fields
   const [phone, setPhone] = useState("");
+  const [email, setEmail] = useState("");
+  const [name, setName] = useState("");
+  const [gender, setGender] = useState("");
   const [otp, setOtp] = useState(["", "", "", "", "", ""]);
   const [otpSent, setOtpSent] = useState(false);
-  const [form, setForm] = useState({
-    name: "", dob: "", gender: "", religion: "", city: "", profession: "",
-  });
 
-  const next = async () => {
-    setLoading(true);
-    await new Promise((r) => setTimeout(r, 600));
-    setLoading(false);
-    if (step < 3) setStep(step + 1);
-    else router.push("/onboarding");
-  };
-
-  const sendOtp = async () => {
+  const handleSendOtp = async () => {
     setLoading(true);
     await new Promise((r) => setTimeout(r, 700));
     setLoading(false);
     setOtpSent(true);
   };
 
-  const set = (k: string, v: string) => setForm((p) => ({ ...p, [k]: v }));
+  const handleNext = async () => {
+    setLoading(true);
+    await new Promise((r) => setTimeout(r, 600));
+    setLoading(false);
+    if (step < 2) setStep(step + 1);
+    else router.push("/onboarding");
+  };
+
+  const handleOtpChange = (val: string, idx: number) => {
+    const updated = [...otp];
+    updated[idx] = val.replace(/\D/, "").slice(-1);
+    setOtp(updated);
+    if (val && idx < 5) {
+      const next = document.getElementById(`otp-${idx + 1}`);
+      next?.focus();
+    }
+  };
+
+  const isStep0Valid = name.trim() && gender && (method === "phone" ? phone.length === 10 : email.includes("@")) && agreed;
+  const isStep1Valid = otp.every((d) => d !== "");
 
   return (
-    <div className="min-h-screen bg-mesh flex flex-col items-center justify-center px-4 py-12">
-      <Link href="/" className="flex items-center gap-2 mb-10" style={{ minHeight: "auto" }}>
-        <Heart className="w-6 h-6 text-rose fill-rose" />
-        <span className="font-display text-2xl font-semibold text-deep">Match4Marriage</span>
-      </Link>
+    <div style={{ minHeight: "100vh", display: "flex", background: "#fdfbf9", fontFamily: "var(--font-poppins, sans-serif)" }}>
 
-      {/* Step indicators */}
-      <div className="flex items-center gap-3 mb-8">
-        {steps.map((s, i) => {
-          const done = s.id < step;
-          const active = s.id === step;
-          return (
-            <div key={s.id} className="flex items-center gap-3">
-              <div className="flex items-center gap-2">
-                <div
-                  className="w-7 h-7 rounded-full flex items-center justify-center font-body text-xs font-bold transition-all"
-                  style={{
-                    background: done ? "linear-gradient(135deg,#5C7A52,#8DB870)" : active ? "linear-gradient(135deg,#E8426A,#FF8FA3)" : "rgba(28,15,6,0.08)",
-                    color: done || active ? "#fff" : "rgba(28,15,6,0.3)",
-                  }}
-                >
-                  {done ? <Check className="w-3.5 h-3.5" /> : s.id}
-                </div>
-                <span className={`font-body text-xs ${active ? "text-rose font-semibold" : "text-deep/35"}`}>{s.label}</span>
+      {/* Left panel — branding */}
+      <div className="hidden lg:flex" style={{
+        width: "45%", flexDirection: "column", justifyContent: "center", alignItems: "center",
+        background: "linear-gradient(160deg, #1a0a14 0%, #2d0f20 60%, #3b1428 100%)",
+        padding: "60px 48px", position: "relative", overflow: "hidden",
+      }}>
+        {/* Decorative rings */}
+        <div style={{ position: "absolute", top: "-80px", right: "-80px", width: "320px", height: "320px", borderRadius: "50%", border: "1px solid rgba(220,30,60,0.15)", pointerEvents: "none" }} />
+        <div style={{ position: "absolute", bottom: "-60px", left: "-60px", width: "240px", height: "240px", borderRadius: "50%", border: "1px solid rgba(220,30,60,0.1)", pointerEvents: "none" }} />
+        <div style={{ position: "absolute", top: "40%", left: "-120px", width: "280px", height: "280px", borderRadius: "50%", border: "1px solid rgba(255,216,122,0.08)", pointerEvents: "none" }} />
+
+        <div style={{ position: "relative", zIndex: 1, textAlign: "center", maxWidth: "360px" }}>
+          {/* Logo */}
+          <Link href="/" style={{ textDecoration: "none" }}>
+            <span style={{ fontFamily: "var(--font-playfair, serif)", fontSize: "28px", fontWeight: 700, color: "#fff", display: "block", marginBottom: "48px" }}>
+              Match<span style={{ color: "#dc1e3c" }}>4</span>Marriage
+            </span>
+          </Link>
+
+          <div style={{ fontSize: "48px", marginBottom: "24px" }}>💍</div>
+
+          <h2 style={{ fontFamily: "var(--font-playfair, serif)", fontSize: "32px", fontWeight: 700, color: "#fff", lineHeight: 1.2, marginBottom: "16px" }}>
+            Find Your Perfect Match
+          </h2>
+          <p style={{ fontSize: "15px", color: "rgba(255,255,255,0.55)", lineHeight: 1.8, marginBottom: "40px" }}>
+            Join the UK's most trusted elite Indian matrimonial service. Every profile is personally verified by our team.
+          </p>
+
+          {/* Trust points */}
+          {[
+            "Hand-picked, verified profiles only",
+            "Complete discretion guaranteed",
+            "UK registered & GDPR compliant",
+            "Dedicated advisor support",
+          ].map((point) => (
+            <div key={point} style={{ display: "flex", alignItems: "center", gap: "12px", marginBottom: "14px", textAlign: "left" }}>
+              <div style={{ width: "20px", height: "20px", borderRadius: "50%", background: "rgba(220,30,60,0.3)", border: "1px solid rgba(220,30,60,0.5)", display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0 }}>
+                <span style={{ fontSize: "10px", color: "#dc1e3c" }}>✓</span>
               </div>
-              {i < steps.length - 1 && (
-                <div className="w-8 h-px" style={{ background: done ? "rgba(92,122,82,0.4)" : "rgba(28,15,6,0.1)" }} />
-              )}
+              <span style={{ fontSize: "13px", color: "rgba(255,255,255,0.65)" }}>{point}</span>
             </div>
-          );
-        })}
+          ))}
+        </div>
       </div>
 
-      <div
-        className="w-full max-w-sm rounded-3xl p-8"
-        style={{ background: "rgba(250,246,238,0.96)", border: "1px solid rgba(154,107,0,0.16)", boxShadow: "0 8px 40px rgba(196,82,15,0.08)" }}
-      >
-        {/* Step 1 — Phone */}
-        {step === 1 && (
-          <>
-            <div className="mb-6">
-              <p className="font-devanagari text-gold/60 text-sm mb-1">शुरुआत करें</p>
-              <h1 className="font-display text-2xl font-light text-deep">Create your profile</h1>
-              <p className="font-body text-sm text-deep/45 mt-1">Join 2 million verified Indian families</p>
-            </div>
+      {/* Right panel — form */}
+      <div style={{ flex: 1, display: "flex", flexDirection: "column", justifyContent: "center", alignItems: "center", padding: "40px 24px" }}>
 
-            {!otpSent ? (
-              <div className="space-y-4">
-                <div>
-                  <label className="font-body text-xs text-deep/50 uppercase tracking-wider block mb-1.5">Mobile Number</label>
-                  <div className="flex items-center gap-2 px-4 rounded-xl" style={{ background: "rgba(255,255,255,0.7)", border: "1px solid rgba(154,107,0,0.2)", height: "48px" }}>
-                    <span className="text-base border-r pr-3 font-body text-sm text-deep/60" style={{ borderColor: "rgba(154,107,0,0.2)" }}>🇮🇳 +91</span>
+        {/* Mobile logo */}
+        <Link href="/" className="lg:hidden" style={{ textDecoration: "none", marginBottom: "32px" }}>
+          <span style={{ fontFamily: "var(--font-playfair, serif)", fontSize: "24px", fontWeight: 700, color: "#1a0a14" }}>
+            Match<span style={{ color: "#dc1e3c" }}>4</span>Marriage
+          </span>
+        </Link>
+
+        <div style={{ width: "100%", maxWidth: "440px" }}>
+
+          {/* Step indicator */}
+          <div style={{ display: "flex", alignItems: "center", justifyContent: "center", gap: "8px", marginBottom: "36px" }}>
+            {steps.map((s, i) => (
+              <div key={s} style={{ display: "flex", alignItems: "center", gap: "8px" }}>
+                <div style={{ display: "flex", alignItems: "center", gap: "6px" }}>
+                  <div style={{
+                    width: "28px", height: "28px", borderRadius: "50%",
+                    background: i < step ? "#22c55e" : i === step ? "#dc1e3c" : "rgba(0,0,0,0.08)",
+                    display: "flex", alignItems: "center", justifyContent: "center",
+                    fontSize: "11px", fontWeight: 700, color: i <= step ? "#fff" : "#aaa",
+                    flexShrink: 0,
+                  }}>
+                    {i < step ? "✓" : i + 1}
+                  </div>
+                  <span style={{ fontSize: "12px", fontWeight: i === step ? 600 : 400, color: i === step ? "#dc1e3c" : "#aaa" }}>{s}</span>
+                </div>
+                {i < steps.length - 1 && <div style={{ width: "32px", height: "1px", background: i < step ? "#22c55e" : "rgba(0,0,0,0.1)" }} />}
+              </div>
+            ))}
+          </div>
+
+          {/* ── STEP 0: Details ── */}
+          {step === 0 && (
+            <div>
+              <h1 style={{ fontFamily: "var(--font-playfair, serif)", fontSize: "26px", fontWeight: 700, color: "#1a0a14", marginBottom: "6px" }}>
+                Create your profile
+              </h1>
+              <p style={{ fontSize: "13px", color: "#888", marginBottom: "28px" }}>
+                Already registered? <Link href="/auth/login" style={{ color: "#dc1e3c", fontWeight: 600, textDecoration: "none" }}>Log in</Link>
+              </p>
+
+              {/* Name */}
+              <div style={{ marginBottom: "16px" }}>
+                <label style={{ fontSize: "12px", fontWeight: 600, color: "#555", textTransform: "uppercase", letterSpacing: "0.08em", display: "block", marginBottom: "6px" }}>Full Name</label>
+                <input
+                  type="text"
+                  placeholder="Your full name"
+                  value={name}
+                  onChange={(e) => setName(e.target.value)}
+                  style={{ width: "100%", padding: "12px 16px", border: "1px solid rgba(220,30,60,0.15)", borderRadius: "10px", fontSize: "14px", color: "#1a0a14", background: "#fff", outline: "none", boxSizing: "border-box" }}
+                />
+              </div>
+
+              {/* Gender */}
+              <div style={{ marginBottom: "16px" }}>
+                <label style={{ fontSize: "12px", fontWeight: 600, color: "#555", textTransform: "uppercase", letterSpacing: "0.08em", display: "block", marginBottom: "8px" }}>I am a</label>
+                <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "10px" }}>
+                  {["Bride", "Groom"].map((g) => (
+                    <button
+                      key={g}
+                      onClick={() => setGender(g)}
+                      style={{
+                        padding: "12px", borderRadius: "10px", fontSize: "14px", fontWeight: 600,
+                        border: `2px solid ${gender === g ? "#dc1e3c" : "rgba(220,30,60,0.15)"}`,
+                        background: gender === g ? "rgba(220,30,60,0.06)" : "#fff",
+                        color: gender === g ? "#dc1e3c" : "#888",
+                        cursor: "pointer", transition: "all 0.15s",
+                      }}
+                    >
+                      {g === "Bride" ? "👰 Bride" : "🤵 Groom"}
+                    </button>
+                  ))}
+                </div>
+              </div>
+
+              {/* Method toggle */}
+              <div style={{ marginBottom: "16px" }}>
+                <label style={{ fontSize: "12px", fontWeight: 600, color: "#555", textTransform: "uppercase", letterSpacing: "0.08em", display: "block", marginBottom: "8px" }}>Register via</label>
+                <div style={{ display: "flex", background: "rgba(0,0,0,0.04)", borderRadius: "10px", padding: "4px", gap: "4px" }}>
+                  {(["phone", "email"] as Method[]).map((m) => (
+                    <button
+                      key={m}
+                      onClick={() => setMethod(m)}
+                      style={{
+                        flex: 1, padding: "9px", borderRadius: "8px", fontSize: "13px", fontWeight: 600,
+                        background: method === m ? "#fff" : "transparent",
+                        color: method === m ? "#dc1e3c" : "#888",
+                        border: "none", cursor: "pointer",
+                        boxShadow: method === m ? "0 1px 4px rgba(0,0,0,0.1)" : "none",
+                        transition: "all 0.15s",
+                      }}
+                    >
+                      {m === "phone" ? "📱 Mobile" : "✉️ Email"}
+                    </button>
+                  ))}
+                </div>
+              </div>
+
+              {/* Phone or Email input */}
+              {method === "phone" ? (
+                <div style={{ marginBottom: "20px" }}>
+                  <label style={{ fontSize: "12px", fontWeight: 600, color: "#555", textTransform: "uppercase", letterSpacing: "0.08em", display: "block", marginBottom: "6px" }}>Mobile Number</label>
+                  <div style={{ display: "flex", alignItems: "center", border: "1px solid rgba(220,30,60,0.15)", borderRadius: "10px", background: "#fff", overflow: "hidden" }}>
+                    <span style={{ padding: "12px 14px", fontSize: "14px", color: "#555", borderRight: "1px solid rgba(220,30,60,0.1)", whiteSpace: "nowrap", background: "#fafafa" }}>🇮🇳 +91</span>
                     <input
                       type="tel"
                       placeholder="9876543210"
                       value={phone}
                       onChange={(e) => setPhone(e.target.value.replace(/\D/, "").slice(0, 10))}
-                      className="flex-1 bg-transparent font-body text-sm text-deep outline-none tracking-wider"
+                      style={{ flex: 1, padding: "12px 16px", fontSize: "14px", color: "#1a0a14", background: "transparent", border: "none", outline: "none" }}
                     />
                   </div>
                 </div>
-                <button
-                  onClick={sendOtp}
-                  disabled={phone.length < 10 || loading}
-                  className="w-full flex items-center justify-center gap-2 rounded-full font-body text-sm font-semibold text-white py-3.5"
-                  style={{ background: "linear-gradient(135deg,#E8426A,#FF8FA3)", opacity: phone.length < 10 ? 0.55 : 1, minHeight: "auto" }}
-                >
-                  {loading ? <span className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin" /> : <>Send OTP <ArrowRight className="w-4 h-4" /></>}
-                </button>
-              </div>
-            ) : (
-              <div className="space-y-4">
-                <p className="font-body text-sm text-deep/55">OTP sent to <strong>+91 {phone}</strong></p>
-                <div className="flex gap-2 justify-center">
-                  {otp.map((d, i) => (
-                    <input
-                      key={i} id={`rotp-${i}`} type="text" inputMode="numeric" maxLength={1} value={d}
-                      onChange={(e) => {
-                        const v = e.target.value.replace(/\D/, "");
-                        const n = [...otp]; n[i] = v; setOtp(n);
-                        if (v && i < 5) (document.getElementById(`rotp-${i + 1}`) as HTMLInputElement)?.focus();
-                      }}
-                      className="w-11 h-12 text-center rounded-xl font-display text-xl font-bold text-deep outline-none"
-                      style={{ background: "rgba(255,255,255,0.8)", border: d ? "2px solid #E8426A" : "1px solid rgba(154,107,0,0.2)" }}
-                    />
-                  ))}
-                </div>
-                <button
-                  onClick={next}
-                  disabled={otp.join("").length < 6 || loading}
-                  className="w-full flex items-center justify-center gap-2 rounded-full font-body text-sm font-semibold text-white py-3.5"
-                  style={{ background: "linear-gradient(135deg,#E8426A,#FF8FA3)", opacity: otp.join("").length < 6 ? 0.55 : 1, minHeight: "auto" }}
-                >
-                  {loading ? <span className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin" /> : <>Verify & Continue <ArrowRight className="w-4 h-4" /></>}
-                </button>
-              </div>
-            )}
-          </>
-        )}
-
-        {/* Step 2 — Basic info */}
-        {step === 2 && (
-          <>
-            <div className="mb-5">
-              <h1 className="font-display text-2xl font-light text-deep">Tell us about you</h1>
-              <p className="font-body text-sm text-deep/45 mt-1">This powers your AI-matched profile</p>
-            </div>
-            <div className="space-y-3">
-              {[
-                { k: "name", label: "Full Name", ph: "Prabhakar Sharma" },
-                { k: "dob",  label: "Date of Birth", ph: "", type: "date" },
-                { k: "city", label: "City", ph: "Mumbai" },
-                { k: "religion", label: "Religion", ph: "Hindu" },
-                { k: "profession", label: "Profession", ph: "Software Engineer" },
-              ].map(({ k, label, ph, type }) => (
-                <div key={k}>
-                  <label className="font-body text-xs text-deep/45 uppercase tracking-wider block mb-1">{label}</label>
+              ) : (
+                <div style={{ marginBottom: "20px" }}>
+                  <label style={{ fontSize: "12px", fontWeight: 600, color: "#555", textTransform: "uppercase", letterSpacing: "0.08em", display: "block", marginBottom: "6px" }}>Email Address</label>
                   <input
-                    type={type || "text"} placeholder={ph}
-                    value={(form as Record<string, string>)[k]}
-                    onChange={(e) => set(k, e.target.value)}
-                    className="w-full px-3 py-2.5 rounded-xl font-body text-sm text-deep outline-none"
-                    style={{ background: "rgba(255,255,255,0.7)", border: "1px solid rgba(154,107,0,0.18)" }}
+                    type="email"
+                    placeholder="you@example.com"
+                    value={email}
+                    onChange={(e) => setEmail(e.target.value)}
+                    style={{ width: "100%", padding: "12px 16px", border: "1px solid rgba(220,30,60,0.15)", borderRadius: "10px", fontSize: "14px", color: "#1a0a14", background: "#fff", outline: "none", boxSizing: "border-box" }}
                   />
                 </div>
-              ))}
-              <div>
-                <label className="font-body text-xs text-deep/45 uppercase tracking-wider block mb-1">Gender</label>
-                <div className="grid grid-cols-3 gap-2">
-                  {["Male", "Female", "Other"].map((g) => (
-                    <button key={g} onClick={() => set("gender", g)}
-                      className="py-2.5 rounded-xl font-body text-sm font-medium transition-all"
-                      style={{
-                        background: form.gender === g ? "linear-gradient(135deg,#E8426A,#FF8FA3)" : "rgba(255,255,255,0.6)",
-                        border: form.gender === g ? "none" : "1px solid rgba(154,107,0,0.18)",
-                        color: form.gender === g ? "#fff" : "rgba(28,15,6,0.6)",
-                        minHeight: "auto",
-                      }}>{g}</button>
-                  ))}
-                </div>
-              </div>
-            </div>
-          </>
-        )}
+              )}
 
-        {/* Step 3 — ID verify teaser */}
-        {step === 3 && (
-          <>
-            <div className="mb-5">
-              <h1 className="font-display text-2xl font-light text-deep">Quick ID check</h1>
-              <p className="font-body text-sm text-deep/45 mt-1">Makes your profile 3× more trusted</p>
-            </div>
-            <div className="space-y-3">
-              <div className="rounded-2xl p-4" style={{ background: "rgba(92,122,82,0.08)", border: "1px solid rgba(92,122,82,0.2)" }}>
-                <div className="flex items-start gap-3">
-                  <Shield className="w-5 h-5 text-sage flex-shrink-0 mt-0.5" />
-                  <div>
-                    <p className="font-body text-sm font-semibold text-sage">Your data is safe</p>
-                    <p className="font-body text-xs text-sage/70 mt-0.5">Aadhaar is hashed — never stored in plain text. PDPB compliant.</p>
-                  </div>
-                </div>
+              {/* Terms checkbox */}
+              <div style={{ display: "flex", alignItems: "flex-start", gap: "10px", marginBottom: "24px", padding: "14px", background: "rgba(220,30,60,0.03)", borderRadius: "10px", border: "1px solid rgba(220,30,60,0.08)" }}>
+                <input
+                  type="checkbox"
+                  id="agree"
+                  checked={agreed}
+                  onChange={(e) => setAgreed(e.target.checked)}
+                  style={{ marginTop: "2px", accentColor: "#dc1e3c", width: "16px", height: "16px", flexShrink: 0, cursor: "pointer" }}
+                />
+                <label htmlFor="agree" style={{ fontSize: "12px", color: "#666", lineHeight: 1.7, cursor: "pointer" }}>
+                  I agree to the{" "}
+                  <Link href="/terms" target="_blank" style={{ color: "#dc1e3c", fontWeight: 600, textDecoration: "none" }}>Terms & Conditions</Link>
+                  {" "}and{" "}
+                  <Link href="/privacy" target="_blank" style={{ color: "#dc1e3c", fontWeight: 600, textDecoration: "none" }}>Privacy Policy</Link>
+                  . I confirm I am 18+ and legally eligible to use this service.
+                </label>
               </div>
-              {[
-                { label: "Aadhaar Number", ph: "XXXX XXXX XXXX", icon: "🪪" },
-                { label: "PAN Card", ph: "ABCDE1234F", icon: "📄" },
-              ].map(({ label, ph, icon }) => (
-                <div key={label}>
-                  <label className="font-body text-xs text-deep/45 uppercase tracking-wider block mb-1">{label}</label>
-                  <div className="flex items-center gap-2 px-4 rounded-xl" style={{ background: "rgba(255,255,255,0.7)", border: "1px solid rgba(154,107,0,0.18)", height: "48px" }}>
-                    <span>{icon}</span>
-                    <input placeholder={ph} className="flex-1 bg-transparent font-body text-sm text-deep outline-none tracking-widest" />
-                  </div>
-                </div>
-              ))}
-              <button className="w-full font-body text-sm text-rose font-medium py-2" style={{ minHeight: "auto" }}>
-                Skip for now — verify later
+
+              <button
+                onClick={handleNext}
+                disabled={!isStep0Valid || loading}
+                style={{
+                  width: "100%", padding: "14px",
+                  background: isStep0Valid ? "linear-gradient(135deg, #dc1e3c, #a0153c)" : "rgba(0,0,0,0.08)",
+                  color: isStep0Valid ? "#fff" : "#aaa",
+                  borderRadius: "10px", fontSize: "14px", fontWeight: 600,
+                  border: "none", cursor: isStep0Valid ? "pointer" : "not-allowed",
+                  boxShadow: isStep0Valid ? "0 4px 16px rgba(220,30,60,0.25)" : "none",
+                  transition: "all 0.2s",
+                }}
+              >
+                {loading ? "Please wait…" : "Continue →"}
               </button>
             </div>
-          </>
-        )}
+          )}
 
-        {/* Nav buttons */}
-        <div className="flex items-center gap-3 mt-6">
-          {step > 1 && (
-            <button onClick={() => setStep(step - 1)} className="flex items-center gap-2 px-4 py-3 rounded-full font-body text-sm font-medium text-deep/50 hover:text-deep transition-colors" style={{ border: "1px solid rgba(28,15,6,0.15)", minHeight: "auto" }}>
-              <ArrowLeft className="w-4 h-4" /> Back
-            </button>
+          {/* ── STEP 1: Verify ── */}
+          {step === 1 && (
+            <div>
+              <button onClick={() => setStep(0)} style={{ background: "none", border: "none", cursor: "pointer", fontSize: "13px", color: "#888", marginBottom: "20px", padding: 0, display: "flex", alignItems: "center", gap: "4px" }}>
+                ← Back
+              </button>
+              <h1 style={{ fontFamily: "var(--font-playfair, serif)", fontSize: "26px", fontWeight: 700, color: "#1a0a14", marginBottom: "8px" }}>
+                Verify your {method === "phone" ? "number" : "email"}
+              </h1>
+              <p style={{ fontSize: "13px", color: "#888", marginBottom: "28px" }}>
+                We sent a 6-digit code to <strong style={{ color: "#1a0a14" }}>{method === "phone" ? `+91 ${phone}` : email}</strong>
+              </p>
+
+              {!otpSent ? (
+                <button
+                  onClick={handleSendOtp}
+                  disabled={loading}
+                  style={{
+                    width: "100%", padding: "14px",
+                    background: "linear-gradient(135deg, #dc1e3c, #a0153c)",
+                    color: "#fff", borderRadius: "10px", fontSize: "14px", fontWeight: 600,
+                    border: "none", cursor: "pointer",
+                    boxShadow: "0 4px 16px rgba(220,30,60,0.25)",
+                  }}
+                >
+                  {loading ? "Sending…" : `Send OTP via ${method === "phone" ? "SMS" : "Email"}`}
+                </button>
+              ) : (
+                <>
+                  {/* OTP boxes */}
+                  <div style={{ display: "flex", gap: "10px", justifyContent: "center", marginBottom: "24px" }}>
+                    {otp.map((digit, i) => (
+                      <input
+                        key={i}
+                        id={`otp-${i}`}
+                        type="text"
+                        inputMode="numeric"
+                        maxLength={1}
+                        value={digit}
+                        onChange={(e) => handleOtpChange(e.target.value, i)}
+                        style={{
+                          width: "48px", height: "56px", textAlign: "center",
+                          fontSize: "22px", fontWeight: 700, color: "#1a0a14",
+                          border: `2px solid ${digit ? "#dc1e3c" : "rgba(220,30,60,0.15)"}`,
+                          borderRadius: "10px", background: digit ? "rgba(220,30,60,0.04)" : "#fff",
+                          outline: "none",
+                        }}
+                      />
+                    ))}
+                  </div>
+
+                  <button
+                    onClick={handleNext}
+                    disabled={!isStep1Valid || loading}
+                    style={{
+                      width: "100%", padding: "14px",
+                      background: isStep1Valid ? "linear-gradient(135deg, #dc1e3c, #a0153c)" : "rgba(0,0,0,0.08)",
+                      color: isStep1Valid ? "#fff" : "#aaa",
+                      borderRadius: "10px", fontSize: "14px", fontWeight: 600,
+                      border: "none", cursor: isStep1Valid ? "pointer" : "not-allowed",
+                      boxShadow: isStep1Valid ? "0 4px 16px rgba(220,30,60,0.25)" : "none",
+                    }}
+                  >
+                    {loading ? "Verifying…" : "Verify & Continue →"}
+                  </button>
+
+                  <p style={{ textAlign: "center", fontSize: "12px", color: "#aaa", marginTop: "16px" }}>
+                    Didn't receive it?{" "}
+                    <button onClick={handleSendOtp} style={{ background: "none", border: "none", color: "#dc1e3c", fontWeight: 600, cursor: "pointer", fontSize: "12px", padding: 0 }}>
+                      Resend OTP
+                    </button>
+                  </p>
+                </>
+              )}
+            </div>
           )}
-          {(step !== 1 || otpSent) && step !== 1 && (
-            <button
-              onClick={next}
-              disabled={loading}
-              className="flex-1 flex items-center justify-center gap-2 rounded-full font-body text-sm font-semibold text-white py-3 transition-all"
-              style={{ background: "linear-gradient(135deg,#E8426A,#FF8FA3)", boxShadow: "0 4px 16px rgba(196,82,15,0.35)", minHeight: "auto" }}
-            >
-              {loading ? <span className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin" /> : <>{step === 3 ? "Go to Dashboard" : "Continue"} <ArrowRight className="w-4 h-4" /></>}
-            </button>
+
+          {/* ── STEP 2: Done ── */}
+          {step === 2 && (
+            <div style={{ textAlign: "center" }}>
+              <div style={{ fontSize: "56px", marginBottom: "20px" }}>🎉</div>
+              <h1 style={{ fontFamily: "var(--font-playfair, serif)", fontSize: "28px", fontWeight: 700, color: "#1a0a14", marginBottom: "12px" }}>
+                Welcome, {name.split(" ")[0]}!
+              </h1>
+              <p style={{ fontSize: "14px", color: "#888", marginBottom: "32px", lineHeight: 1.7 }}>
+                Your profile has been created. Complete your profile to start connecting with verified matches.
+              </p>
+              <button
+                onClick={() => router.push("/onboarding")}
+                style={{
+                  width: "100%", padding: "14px",
+                  background: "linear-gradient(135deg, #dc1e3c, #a0153c)",
+                  color: "#fff", borderRadius: "10px", fontSize: "14px", fontWeight: 600,
+                  border: "none", cursor: "pointer",
+                  boxShadow: "0 4px 16px rgba(220,30,60,0.25)",
+                }}
+              >
+                Complete My Profile →
+              </button>
+            </div>
           )}
+
         </div>
-
-        <p className="font-body text-xs text-center text-deep/35 mt-5">
-          Already registered?{" "}
-          <Link href="/auth/login" className="text-rose font-medium hover:underline" style={{ minHeight: "auto" }}>Sign in</Link>
-        </p>
       </div>
     </div>
   );
