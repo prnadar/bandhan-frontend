@@ -9,8 +9,8 @@ export const metadata: Metadata = {
     template: "%s | Match4Marriage",
   },
   description:
-    "India's most trusted matrimony platform. Connect with verified, compatible profiles from families who share your values.",
-  keywords: ["matrimony", "shaadi", "Indian marriage", "rishta", "match4marriage", "wedding"],
+    "UK's most trusted Indian matrimonial service. Connect with verified, compatible profiles from families who share your values.",
+  keywords: ["matrimonial", "Indian marriage", "match4marriage", "wedding", "UK Indian matrimony", "find a match"],
   manifest: "/manifest.json",
   appleWebApp: {
     capable: true,
@@ -22,7 +22,7 @@ export const metadata: Metadata = {
     type: "website",
     siteName: "Match4Marriage",
     title: "Match4Marriage — Find Your Perfect Match",
-    description: "India's most trusted matrimony platform for families.",
+    description: "UK's most trusted Indian matrimonial service for families.",
   },
 };
 
