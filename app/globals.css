@@ -14,6 +14,11 @@
     --card-bg: #fff8f9;
     --border-gold: rgba(220, 30, 60, 0.12);
     --shadow-warm: 0 4px 20px rgba(220, 30, 60, 0.06);
+
+    /* Font variables — used by all inner app pages */
+    --font-playfair: 'Playfair Display', Georgia, serif;
+    --font-poppins: 'Poppins', system-ui, sans-serif;
+    --font-cinzel: 'Cinzel Decorative', Georgia, serif;
   }
 
   html {
@@ -22,10 +27,11 @@
   }
 
   body {
-    font-family: 'Poppins', system-ui, sans-serif;
+    font-family: var(--font-poppins);
     background: linear-gradient(135deg, #fdfbf9 0%, #fff5f7 100%) fixed;
     color: var(--text-primary);
     -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
     font-weight: 400;
     font-size: 1rem;
     line-height: 1.6;
@@ -48,8 +54,14 @@
 /* ── Typography ────────────────────────────────────────────────────── */
 
 h1, h2, h3, h4 {
-  font-family: 'Playfair Display', serif;
+  font-family: var(--font-playfair);
   color: var(--text-primary);
+}
+
+/* Ensure font variables work in all inline styles */
+* {
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
 /* ── Keyframes ─────────────────────────────────────────────────────── */
