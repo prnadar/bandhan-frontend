@@ -18,7 +18,9 @@
     /* Font variables — used by all inner app pages */
     --font-playfair: 'Playfair Display', Georgia, serif;
     --font-poppins: 'Poppins', system-ui, sans-serif;
-    --font-cinzel: 'Cinzel Decorative', Georgia, serif;
+    --font-lato: 'Lato', system-ui, sans-serif;
+    --font-great-vibes: 'Great Vibes', cursive;
+    --font-cinzel: 'Playfair Display', Georgia, serif;
   }
 
   html {
@@ -35,6 +37,11 @@
     font-weight: 400;
     font-size: 1rem;
     line-height: 1.6;
+  }
+
+  /* Great Vibes — for hero taglines, script accents */
+  .font-script {
+    font-family: var(--font-great-vibes);
   }
 
   :focus-visible {

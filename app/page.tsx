@@ -370,7 +370,7 @@ export default function HomePage() {
             }}
           >
             Where Two Families<br />
-            <span style={{ color: "#ffd87a" }}>Become One</span>
+            <span style={{ color: "#ffd87a", fontFamily: "var(--font-great-vibes)", fontSize: "clamp(48px, 7vw, 88px)", fontWeight: 400 }}>Become One</span>
           </h1>
 
           <p
@@ -580,7 +580,7 @@ export default function HomePage() {
             <div>
               <span style={{ fontSize: "12px", fontWeight: 700, color: "#dc1e3c", textTransform: "uppercase", letterSpacing: "0.2em", display: "block", marginBottom: "12px" }}>Your Journey</span>
               <h2 className="font-playfair" style={{ fontSize: "clamp(32px, 4vw, 52px)", fontWeight: 700, color: "#1a0a14", lineHeight: 1.1, margin: 0 }}>
-                From First Step to <span style={{ color: "#dc1e3c", fontStyle: "italic" }}>Forever</span>
+                From First Step to <span style={{ color: "#dc1e3c", fontFamily: "var(--font-great-vibes)", fontSize: "clamp(40px, 5vw, 64px)", fontStyle: "normal", fontWeight: 400 }}>Forever</span>
               </h2>
             </div>
             <a href="/auth/register" style={{
