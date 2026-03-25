@@ -285,7 +285,7 @@ function ThemePreview({ theme: t }: { theme: (typeof themes)[0] }) {
 
         {/* Devanagari */}
         <p style={{ fontFamily: "'Noto Serif Devanagari', serif", color: `${t.accent}99`, fontSize: "16px", letterSpacing: "4px", marginBottom: "16px" }}>
-          बंधन · The Sacred Bond
+          Match4Marriage · The Sacred Bond
         </p>
 
         {/* Headline */}

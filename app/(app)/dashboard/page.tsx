@@ -105,7 +105,7 @@ export default function DashboardPage() {
       <div style={{ display: "flex", alignItems: "flex-start", justifyContent: "space-between", marginBottom: "32px" }}>
         <div>
           <p style={{ fontFamily: brand.poppins, fontSize: "15px", marginBottom: "4px", color: brand.gold }}>
-            नमस्ते, Prabhakar 🙏
+            Welcome, Prabhakar 👋
           </p>
           <h1 style={{ fontFamily: brand.playfair, fontSize: "30px", fontWeight: 300, color: brand.textPrimary, margin: "0 0 8px 0" }}>
             Your Daily Matches

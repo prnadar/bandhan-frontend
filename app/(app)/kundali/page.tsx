@@ -281,7 +281,7 @@ export default function KundaliPage() {
                   margin: "0 0 12px",
                 }}
               >
-                गुण मिलान
+                Compatibility Score
               </p>
               <div style={{ position: "relative", width: 128, height: 128, margin: "0 auto 12px" }}>
                 <svg viewBox="0 0 120 120" style={{ width: "100%", height: "100%", transform: "rotate(-90deg)" }}>

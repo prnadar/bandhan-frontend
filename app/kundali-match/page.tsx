@@ -250,7 +250,7 @@ export default function KundaliMatchPage() {
               className="rounded-3xl p-8 text-center relative overflow-hidden"
               style={{ background: "linear-gradient(135deg,rgba(196,82,15,0.08),rgba(154,107,0,0.14))", border: "1px solid rgba(196,82,15,0.25)" }}
             >
-              <p className="font-devanagari text-gold/70 text-base mb-2">गुण मिलान परिणाम</p>
+              <p className="font-devanagari text-gold/70 text-base mb-2">Compatibility Score Results</p>
               <h2 className="font-display text-2xl font-light text-deep mb-4">
                 {p1.name || "Person 1"} <span className="text-rose">♥</span> {p2.name || "Person 2"}
               </h2>

@@ -7,7 +7,6 @@ const plans = [
   {
     id: "free",
     name: "Freemium",
-    nameHindi: "मुफ़्त",
     price: 0,
     priceLabel: "Forever free",
     description: "Explore and get verified",
@@ -31,7 +30,6 @@ const plans = [
   {
     id: "silver",
     name: "Silver",
-    nameHindi: "चाँदी",
     price: 999,
     priceLabel: "/ month",
     description: "Start meaningful conversations",
@@ -55,7 +53,6 @@ const plans = [
   {
     id: "gold",
     name: "Gold",
-    nameHindi: "सोना",
     price: 2499,
     priceLabel: "/ month",
     description: "The full Match4Marriage experience",
@@ -80,7 +77,6 @@ const plans = [
   {
     id: "platinum",
     name: "Platinum",
-    nameHindi: "प्लेटिनम",
     price: 7999,
     priceLabel: "/ month",
     description: "White-glove matrimony service",
@@ -172,7 +168,6 @@ export default function PricingPage() {
               <div className="p-6 flex-1 flex flex-col">
                 {/* Plan header */}
                 <div className="mb-5">
-                  <p className="font-devanagari text-gold/60 text-sm mb-1">{plan.nameHindi}</p>
                   <h3 className="font-display text-2xl font-semibold text-deep mb-1">{plan.name}</h3>
                   <p className="font-body text-xs text-deep/45">{plan.description}</p>
                 </div>
