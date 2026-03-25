@@ -50,11 +50,11 @@ const INTERESTS_CONFIG: Record<string, string[]> = {
 };
 
 const VERIFICATIONS = [
-  { label: "Aadhaar Card",     done: true,  pts: 40 },
-  { label: "Photo Liveness",   done: true,  pts: 20 },
-  { label: "Profile Complete", done: false, pts: 20 },
-  { label: "Response Rate",    done: false, pts: 10 },
-  { label: "LinkedIn",         done: false, pts: 10 },
+  { label: "Email Verified",    done: true,  pts: 20 },
+  { label: "Mobile Verified",   done: true,  pts: 20 },
+  { label: "ID Verified",       done: false, pts: 30 },
+  { label: "Profile Complete",  done: false, pts: 20 },
+  { label: "LinkedIn",          done: false, pts: 10 },
 ];
 
 const TABS = [
@@ -216,7 +216,7 @@ export default function MyProfilePage() {
         {/* ── Left Sidebar ── */}
         <div style={{ display: "flex", flexDirection: "column", gap: "1rem" }}>
           <PhotoCard name={general.name || "Your Name"} />
-          <TrustScoreCard score={84} />
+          <TrustScoreCard score={40} />
           <CompletenessCard completeness={68} />
         </div>
 
