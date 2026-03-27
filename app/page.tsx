@@ -112,7 +112,6 @@ export default function HomePage() {
         <div className="max-w-7xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-1">
           <span>💍 Elite Indian Matrimony — Established in the UK 🇬🇧</span>
           <div className="flex items-center gap-4 text-xs sm:text-sm">
-            <span className="hidden sm:inline">|</span>
             <span>✉️ enquiry@match4marriage.com</span>
           </div>
         </div>
