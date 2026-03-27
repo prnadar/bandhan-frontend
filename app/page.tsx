@@ -946,14 +946,14 @@ export default function HomePage() {
             </p>
             <div style={{ display: "flex", flexDirection: "column", gap: "16px" }}>
               {[
-                { icon: "✉️", label: "Email Us", value: "enquiry@match4marriage.com" },
-                { icon: "📞", label: "Call Us", value: "+44 7476 212655" },
-                { icon: "💬", label: "WhatsApp", value: "Message us on WhatsApp" },
+                { icon: "✉️", label: "Email Us", value: "enquiry@match4marriage.com", href: "mailto:enquiry@match4marriage.com" },
+                { icon: "📞", label: "Call Us", value: "+44 7476 212655", href: "tel:+447476212655" },
+                { icon: "💬", label: "WhatsApp", value: "Message us on WhatsApp", href: "https://wa.me/447476212655" },
               ].map((c) => (
-                <div key={c.label} style={{ display: "flex", alignItems: "center", gap: "16px" }}>
+                <a key={c.label} href={c.href} target={c.href.startsWith("http") ? "_blank" : undefined} rel="noopener noreferrer" style={{ display: "flex", alignItems: "center", gap: "16px", textDecoration: "none" }}>
                   <div style={{
                     width: "44px", height: "44px", borderRadius: "12px",
-                    background: "rgba(220,30,60,0.07)",
+                    background: c.label === "WhatsApp" ? "rgba(37,211,102,0.1)" : "rgba(220,30,60,0.07)",
                     display: "flex", alignItems: "center", justifyContent: "center",
                     fontSize: "18px", flexShrink: 0,
                   }}>
@@ -961,9 +961,9 @@ export default function HomePage() {
                   </div>
                   <div>
                     <p style={{ fontSize: "11px", fontWeight: 700, color: "#bbb", textTransform: "uppercase", letterSpacing: "0.1em", margin: 0 }}>{c.label}</p>
-                    <p style={{ fontSize: "14px", color: "#1a0a14", fontWeight: 600, margin: 0 }}>{c.value}</p>
+                    <p style={{ fontSize: "14px", color: c.label === "WhatsApp" ? "#25d366" : "#1a0a14", fontWeight: 600, margin: 0 }}>{c.value}</p>
                   </div>
-                </div>
+                </a>
               ))}
             </div>
           </div>
