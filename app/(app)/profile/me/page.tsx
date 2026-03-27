@@ -907,7 +907,9 @@ function PartnerTab({
             <FInput value={form.denomination} onChange={(v) => update("denomination", v)} placeholder="Any or specify, e.g. Nair" />
           </Field>
           <Field label="Education">
-            <FInput value={form.education} onChange={(v) => update("education", v)} placeholder="e.g. Graduate and above" />
+            <FSelect value={form.education} onChange={(v) => update("education", v)} placeholder="Any">
+              {["Any", "High School", "Diploma", "Graduate / Bachelor's", "Post Graduate / Master's", "Doctorate / PhD", "Professional Degree (MBBS / LLB / CA)", "Trade / Vocational"].map((o) => <option key={o} value={o}>{o}</option>)}
+            </FSelect>
           </Field>
           <Field label="Occupation">
             <FInput value={form.occupation} onChange={(v) => update("occupation", v)} placeholder="e.g. Software / Doctor / Business" />
