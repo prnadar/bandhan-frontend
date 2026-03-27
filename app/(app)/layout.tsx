@@ -9,15 +9,15 @@ import {
 } from "lucide-react";
 
 const navItems = [
-  { href: "/dashboard",    label: "My Matches",  icon: LayoutDashboard },
-  { href: "/matches",      label: "Browse",       icon: Heart           },
-  { href: "/interests",    label: "Interests",    icon: Star, badge: 6  },
-  { href: "/messages",     label: "Messages",     icon: MessageCircle, badge: 3 },
-  { href: "/kundali",      label: "Kundali",      icon: BookOpen        },
-  { href: "/nri-hub",      label: "NRI Hub",      icon: Globe           },
-  { href: "/family",       label: "Family Mode",  icon: Users           },
   { href: "/profile/me",   label: "My Profile",   icon: User            },
-  { href: "/subscription", label: "Subscription", icon: CreditCard      },
+  { href: "/dashboard",    label: "My Matches",   icon: LayoutDashboard },
+  { href: "/matches",      label: "Browse",        icon: Heart           },
+  { href: "/interests",    label: "Interests",     icon: Star, badge: 6  },
+  { href: "/messages",     label: "Messages",      icon: MessageCircle, badge: 3 },
+  { href: "/kundali",      label: "Kundali",       icon: BookOpen        },
+  { href: "/nri-hub",      label: "NRI Hub",       icon: Globe           },
+  { href: "/family",       label: "Family Mode",   icon: Users           },
+  { href: "/subscription", label: "Subscription",  icon: CreditCard      },
 ];
 
 export default function AppLayout({ children }: { children: React.ReactNode }) {
