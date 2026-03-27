@@ -11,7 +11,8 @@ import {
 const navItems = [
   { href: "/profile/me",   label: "My Profile",   icon: User            },
   { href: "/dashboard",    label: "My Matches",   icon: LayoutDashboard },
-  { href: "/matches",      label: "Browse",        icon: Heart           },
+  { href: "/matches",           label: "Browse Profiles",  icon: Heart    },
+  { href: "/success-stories",   label: "Success Stories",  icon: StarIcon },
   { href: "/interests",    label: "Interests",     icon: Star, badge: 6  },
   { href: "/messages",     label: "Messages",      icon: MessageCircle, badge: 3 },
   { href: "/nri-hub",      label: "NRI Hub",       icon: Globe           },
