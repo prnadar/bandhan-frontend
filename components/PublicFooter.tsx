@@ -8,8 +8,9 @@ export default function PublicFooter() {
         <div style={{ display: "grid", gridTemplateColumns: "2fr 1fr 1fr 1fr", gap: "32px", marginBottom: "32px" }}>
           {/* Brand */}
           <div>
-            <div style={{ marginBottom: "12px" }}>
-              <img src="/images/logo.jpeg" alt="Match4Marriage" style={{ height: "48px", width: "auto", objectFit: "contain" }} />
+            <div style={{ display: "flex", alignItems: "center", gap: "8px", marginBottom: "12px" }}>
+              <Heart style={{ width: "18px", height: "18px", color: "#dc1e3c" }} />
+              <span style={{ fontFamily: "var(--font-playfair, serif)", fontSize: "20px", fontWeight: 700, color: "#fff" }}>Match4Marriage</span>
             </div>
             <p style={{ fontSize: "13px", color: "rgba(255,255,255,0.4)", lineHeight: 1.7, maxWidth: "260px" }}>
               Elite Indian matrimony service — hand-picked, personally verified profiles for the global Indian community.

@@ -232,8 +232,9 @@ export default function AppLayout({ children }: { children: React.ReactNode }) {
             <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr 1fr", gap: "24px", marginBottom: "24px" }}>
               {/* Brand */}
               <div>
-                <div style={{ marginBottom: "10px" }}>
-                  <img src="/images/logo.jpeg" alt="Match4Marriage" style={{ height: "44px", width: "auto", objectFit: "contain" }} />
+                <div style={{ display: "flex", alignItems: "center", gap: "8px", marginBottom: "10px" }}>
+                  <Heart className="w-4 h-4" style={{ color: "#dc1e3c" }} />
+                  <span style={{ fontFamily: "var(--font-playfair, serif)", fontSize: "18px", fontWeight: 700, color: "#fff" }}>Match4Marriage</span>
                 </div>
                 <p style={{ fontSize: "12px", color: "rgba(255,255,255,0.4)", lineHeight: 1.6 }}>
                   Elite Indian Matrimony<br />United Kingdom
