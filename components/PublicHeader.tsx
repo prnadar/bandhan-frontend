@@ -19,7 +19,7 @@ export default function PublicHeader() {
   const navLinks = [
     { label: "Home",            href: "/" },
     { label: "Browse Profiles", href: "/#browse-profiles" },
-    { label: "Success Stories", href: "/#success-stories" },
+    { label: "Success Stories", href: "/success-stories" },
     { label: "Pricing",         href: "/pricing" },
     { label: "About Us",        href: "/about" },
   ];
