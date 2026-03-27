@@ -150,6 +150,37 @@ export default function FamilyPage() {
                     </button>
                   ))}
                 </div>
+                {/* Permissions — select before sending invite */}
+                <div className="pt-3" style={{ borderTop: "1px solid rgba(220,30,60,0.08)" }}>
+                  <div className="flex items-center gap-2 mb-2">
+                    <Lock className="w-3.5 h-3.5" style={{ color: "#dc1e3c" }} />
+                    <p className="text-xs font-semibold uppercase tracking-wider" style={{ color: "rgba(26,10,20,0.55)" }}>
+                      Set Permissions
+                    </p>
+                  </div>
+                  <p className="text-xs mb-3" style={{ color: "rgba(26,10,20,0.4)" }}>Choose what this member can do on your behalf</p>
+                  <div className="space-y-2">
+                    {PERMISSIONS.map((p) => (
+                      <label key={p.key} className="flex items-center gap-3 cursor-pointer">
+                        <div
+                          onClick={() => togglePerm(p.key)}
+                          className="w-5 h-5 rounded-md flex-shrink-0 flex items-center justify-center border transition-all cursor-pointer"
+                          style={{
+                            background: selectedPerms.has(p.key) ? "linear-gradient(135deg,#dc1e3c,#a0153c)" : "white",
+                            border: selectedPerms.has(p.key) ? "none" : "1px solid rgba(220,30,60,0.2)",
+                          }}
+                        >
+                          {selectedPerms.has(p.key) && <CheckCircle className="w-3 h-3 text-white" />}
+                        </div>
+                        <div>
+                          <p className="text-sm font-medium" style={{ color: "rgba(26,10,20,0.8)" }}>{p.label}</p>
+                          <p className="text-xs" style={{ color: "rgba(26,10,20,0.4)" }}>{p.desc}</p>
+                        </div>
+                      </label>
+                    ))}
+                  </div>
+                </div>
+
                 <button
                   onClick={() => { if (email) { setInvited(true); setEmail(""); } }}
                   className="w-full flex items-center justify-center gap-2 py-2.5 rounded-xl text-sm font-semibold text-white"
@@ -159,43 +190,6 @@ export default function FamilyPage() {
                   {invited ? "Invitation sent!" : "Send Invitation"}
                 </button>
               </div>
-            </div>
-          </div>
-
-          {/* Permissions */}
-          <div
-            className="rounded-2xl p-5"
-            style={{ background: "white", border: "1px solid rgba(220,30,60,0.08)", borderRadius: 16 }}
-          >
-            <div className="flex items-center gap-2 mb-4">
-              <Lock className="w-4 h-4" style={{ color: "#dc1e3c" }} />
-              <h3
-                className="text-base font-semibold"
-                style={{ fontFamily: "var(--font-playfair, serif)", color: "#1a0a14" }}
-              >
-                Permissions
-              </h3>
-            </div>
-            <p className="text-xs mb-4" style={{ color: "rgba(26,10,20,0.45)" }}>Choose what family members can do on your behalf</p>
-            <div className="space-y-2">
-              {PERMISSIONS.map((p) => (
-                <label key={p.key} className="flex items-center gap-3 cursor-pointer group">
-                  <div
-                    onClick={() => togglePerm(p.key)}
-                    className="w-5 h-5 rounded-md flex-shrink-0 flex items-center justify-center border transition-all cursor-pointer"
-                    style={{
-                      background: selectedPerms.has(p.key) ? "linear-gradient(135deg,#dc1e3c,#a0153c)" : "white",
-                      border: selectedPerms.has(p.key) ? "none" : "1px solid rgba(220,30,60,0.2)",
-                    }}
-                  >
-                    {selectedPerms.has(p.key) && <CheckCircle className="w-3 h-3 text-white" />}
-                  </div>
-                  <div>
-                    <p className="text-sm font-medium" style={{ color: "rgba(26,10,20,0.8)" }}>{p.label}</p>
-                    <p className="text-xs" style={{ color: "rgba(26,10,20,0.4)" }}>{p.desc}</p>
-                  </div>
-                </label>
-              ))}
             </div>
           </div>
         </div>
