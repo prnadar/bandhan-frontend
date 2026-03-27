@@ -714,7 +714,7 @@ export default function HomePage() {
               fontSize: "14px", fontWeight: 600, textDecoration: "none",
               boxShadow: "0 4px 20px rgba(220,30,60,0.25)",
             }}>
-              Register to View All Profiles
+              Register to View Profiles
             </Link>
           </div>
         </div>
@@ -1054,12 +1054,9 @@ export default function HomePage() {
           <p className="text-lg mb-8" style={{ color: "#555" }}>
             Join the UK&apos;s most trusted boutique Indian matrimonial service — where every connection is personal, verified, and meaningful.
           </p>
-          <div className="flex flex-col sm:flex-row gap-4 justify-center">
+          <div className="flex justify-center">
             <Link href="/auth/register" className="btn-gold px-10 py-3 text-base">
-              Register Free
-            </Link>
-            <Link href="/profiles" className="btn-outline-gold px-10 py-3 text-base">
-              Browse Profiles
+              Register to View Profiles
             </Link>
           </div>
         </div>
