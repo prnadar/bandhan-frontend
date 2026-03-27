@@ -883,10 +883,10 @@ export default function HomePage() {
           </div>
 
           {/* ── Plan cards ── */}
-          <div style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: "20px", marginBottom: "56px" }}>
+          <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(260px, 1fr))", gap: "24px" }}>
             {plans.map((plan) => (
               <div key={plan.name} style={{
-                borderRadius: "20px", padding: "32px 24px",
+                borderRadius: "20px", padding: "36px 28px",
                 border: plan.highlighted ? "2px solid #dc1e3c" : "1px solid rgba(220,30,60,0.12)",
                 background: plan.highlighted ? "linear-gradient(160deg,#fff5f7,#fff)" : "#fdfbf9",
                 position: "relative",
@@ -896,13 +896,25 @@ export default function HomePage() {
                 {plan.badge && (
                   <span style={{ position: "absolute", top: "-14px", left: "50%", transform: "translateX(-50%)", background: "linear-gradient(135deg,#dc1e3c,#a0153c)", color: "#fff", fontSize: "11px", fontWeight: 700, padding: "4px 16px", borderRadius: "20px", whiteSpace: "nowrap" }}>{plan.badge}</span>
                 )}
-                <p style={{ fontSize: "12px", fontWeight: 700, color: "#dc1e3c", textTransform: "uppercase", letterSpacing: "0.1em", marginBottom: "8px" }}>{plan.name}</p>
-                <div style={{ display: "flex", alignItems: "baseline", gap: "4px", marginBottom: "20px" }}>
-                  <span style={{ fontFamily: "var(--font-playfair, serif)", fontSize: "32px", fontWeight: 700, color: "#1a0a14" }}>{plan.price}</span>
-                  {plan.period && <span style={{ fontSize: "13px", color: "#aaa" }}>{plan.period}</span>}
+                <p style={{ fontSize: "13px", fontWeight: 700, color: "#dc1e3c", textTransform: "uppercase", letterSpacing: "0.1em", marginBottom: "8px" }}>{plan.name}</p>
+                <div style={{ display: "flex", alignItems: "baseline", gap: "4px", marginBottom: "6px" }}>
+                  <span style={{ fontFamily: "var(--font-playfair, serif)", fontSize: "36px", fontWeight: 700, color: "#1a0a14" }}>{plan.price}</span>
+                  {plan.period && <span style={{ fontSize: "14px", color: "#aaa" }}>{plan.period}</span>}
                 </div>
+                <div style={{ height: "1px", background: "rgba(220,30,60,0.1)", margin: "20px 0" }} />
+                <ul style={{ listStyle: "none", padding: 0, margin: "0 0 28px", flex: 1 }}>
+                  {plan.features.map((f) => (
+                    <li key={f} style={{ display: "flex", alignItems: "center", gap: "10px", marginBottom: "10px", fontSize: "14px", color: "#555" }}>
+                      <span style={{ width: "18px", height: "18px", borderRadius: "50%", background: "rgba(220,30,60,0.1)", display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0 }}>
+                        <svg width="10" height="8" viewBox="0 0 10 8" fill="none"><path d="M1 4L3.5 6.5L9 1" stroke="#dc1e3c" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/></svg>
+                      </span>
+                      {f}
+                    </li>
+                  ))}
+                </ul>
                 <a href="/auth/register" style={{
-                  display: "block", textAlign: "center", padding: "12px 20px", borderRadius: "10px", fontSize: "13px", fontWeight: 600,
+                  display: "block", textAlign: "center", padding: "13px 24px",
+                  borderRadius: "10px", fontSize: "14px", fontWeight: 600,
                   background: plan.highlighted ? "linear-gradient(135deg,#dc1e3c,#a0153c)" : "transparent",
                   color: plan.highlighted ? "#fff" : "#dc1e3c",
                   border: plan.highlighted ? "none" : "1.5px solid #dc1e3c",
@@ -911,35 +923,6 @@ export default function HomePage() {
                 }}>
                   {plan.name === "Basic" ? "Get Started Free" : `Choose ${plan.name}`}
                 </a>
-              </div>
-            ))}
-          </div>
-
-          {/* ── Feature comparison table ── */}
-          <div style={{ borderRadius: "16px", overflow: "hidden", border: "1px solid rgba(220,30,60,0.1)", boxShadow: "0 2px 20px rgba(0,0,0,0.04)" }}>
-            {/* Table header */}
-            <div style={{ display: "grid", gridTemplateColumns: "2fr 1fr 1fr 1fr", background: "#1a0a14" }}>
-              <div style={{ padding: "16px 20px", fontSize: "13px", fontWeight: 700, color: "rgba(255,255,255,0.5)", textTransform: "uppercase", letterSpacing: "0.08em" }}>Feature</div>
-              {["Basic", "Premium", "Elite"].map((name, i) => (
-                <div key={name} style={{ padding: "16px 20px", textAlign: "center", fontSize: "13px", fontWeight: 700, color: i === 1 ? "#dc1e3c" : "#fff" }}>{name}</div>
-              ))}
-            </div>
-
-            {/* Rows */}
-            {[
-              { feature: "Profile & Photos",      free: "Yes",                   premium: "Yes",                         elite: "Yes + professional help" },
-              { feature: "Search & Filters",       free: "Basic",                 premium: "Advanced",                    elite: "Advanced + manual scouting" },
-              { feature: "Messaging",              free: "Limited, no contacts",  premium: "Unlimited",                   elite: "Fully managed introductions" },
-              { feature: "Visibility",             free: "Standard",              premium: "High priority",               elite: "Mostly private / anonymised" },
-              { feature: "Verification",           free: "Self-verify",           premium: "ID / job / education",        elite: "Deep background checks" },
-              { feature: "Human Matchmaker",       free: "—",                     premium: "Light support",               elite: "Dedicated RM / concierge" },
-              { feature: "Extra Services",         free: "—",                     premium: "Basic tips",                  elite: "Counselling · Astrology · Events" },
-            ].map((row, i) => (
-              <div key={row.feature} style={{ display: "grid", gridTemplateColumns: "2fr 1fr 1fr 1fr", background: i % 2 === 0 ? "#fff" : "#fdfbf9", borderTop: "1px solid rgba(220,30,60,0.06)" }}>
-                <div style={{ padding: "14px 20px", fontSize: "14px", fontWeight: 600, color: "#1a0a14" }}>{row.feature}</div>
-                <div style={{ padding: "14px 20px", textAlign: "center", fontSize: "13px", color: "#666" }}>{row.free}</div>
-                <div style={{ padding: "14px 20px", textAlign: "center", fontSize: "13px", color: "#dc1e3c", fontWeight: 500 }}>{row.premium}</div>
-                <div style={{ padding: "14px 20px", textAlign: "center", fontSize: "13px", color: "#1a0a14", fontWeight: 600 }}>{row.elite}</div>
               </div>
             ))}
           </div>
