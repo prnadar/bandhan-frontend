@@ -59,7 +59,7 @@ const plans = [
   {
     name: "Premium",
     price: "£100",
-    period: "/mo",
+    period: "/3 months",
     badge: "Most Popular",
     features: ["Unlimited views", "Advanced search", "Unlimited interests", "Photo access", "Priority matching"],
     highlighted: true,
@@ -67,7 +67,7 @@ const plans = [
   {
     name: "Elite",
     price: "£300",
-    period: "/mo",
+    period: "/3 months",
     features: ["Everything in Premium", "Dedicated advisor", "Family background check", "Horoscope matching"],
     highlighted: false,
   },

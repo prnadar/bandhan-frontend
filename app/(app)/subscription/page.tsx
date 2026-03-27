@@ -23,7 +23,7 @@ const plans = [
     id: "silver",
     name: "Premium",
     price: 100,
-    priceLabel: "/month",
+    priceLabel: "/ 3 months",
     popular: true,
     highlights: [
       "Unlimited daily matches",
@@ -39,7 +39,7 @@ const plans = [
     id: "gold",
     name: "Elite",
     price: 300,
-    priceLabel: "/month",
+    priceLabel: "/ 3 months",
     highlights: [
       "Everything in Premium",
       "Dedicated relationship advisor",
@@ -166,7 +166,7 @@ export default function SubscriptionPage() {
                   Gold Plan
                 </h2>
                 <p style={{ fontFamily: "var(--font-poppins, sans-serif)", fontSize: 14, color: "rgba(255,255,255,0.65)", margin: "4px 0 0" }}>
-                  Renews on April 1, 2026 · £300/month
+                  Renews on July 1, 2026 · £300 / 3 months
                 </p>
               </div>
 
