@@ -357,6 +357,11 @@ function GeneralTab({
 }) {
   return (
     <>
+      {/* Mandatory notice */}
+      <div style={{ display: "flex", alignItems: "center", gap: 8, padding: "10px 16px", borderRadius: 10, background: "rgba(220,30,60,0.04)", border: "1px solid rgba(220,30,60,0.12)", marginBottom: 4 }}>
+        <span style={{ color: "#dc1e3c", fontWeight: 700, fontSize: 14 }}>*</span>
+        <span style={{ fontSize: 12, color: "#888" }}>Fields marked with an asterisk are mandatory and must be completed before your profile can go live.</span>
+      </div>
       {/* Personal Details */}
       <SubSection title="Personal Details">
         <TwoCol>
@@ -365,15 +370,15 @@ function GeneralTab({
               {["Self","Parent","Sibling","Friend","Relative"].map((o) => <option key={o} value={o}>{o}</option>)}
             </FSelect>
           </Field>
-          <Field label="Full Name">
+          <Field label="Full Name" required>
             <FInput value={form.name} onChange={(v) => update("name", v)} placeholder="e.g. Priya Menon" />
           </Field>
-          <Field label="Gender">
+          <Field label="Gender" required>
             <FSelect value={form.gender} onChange={(v) => update("gender", v)} placeholder="Select">
               {["Male","Female"].map((o) => <option key={o} value={o}>{o}</option>)}
             </FSelect>
           </Field>
-          <Field label="Marital Status">
+          <Field label="Marital Status" required>
             <FSelect value={form.maritalStatus} onChange={(v) => update("maritalStatus", v)} placeholder="Select">
               {["Never Married","Divorced","Widowed","Awaiting Divorce"].map((o) => <option key={o} value={o}>{o}</option>)}
             </FSelect>
@@ -382,7 +387,7 @@ function GeneralTab({
 
         {/* Date of Birth */}
         <div style={{ marginTop: 16 }}>
-          <label style={LABEL_STYLE}>Date of Birth</label>
+          <label style={LABEL_STYLE}>Date of Birth <span style={{ color: "#dc1e3c", fontWeight: 700 }}>*</span></label>
           <div style={{ display: "grid", gridTemplateColumns: "1fr 2fr 1fr", gap: 10 }}>
             <FSelect value={form.dobDay} onChange={(v) => update("dobDay", v)} placeholder="Day">
               {Array.from({ length: 31 }, (_, i) => String(i + 1)).map((d) => (
@@ -401,7 +406,7 @@ function GeneralTab({
         </div>
 
         <TwoCol style={{ marginTop: 16 }}>
-          <Field label="Height">
+          <Field label="Height" required>
             <FSelect value={form.height} onChange={(v) => update("height", v)} placeholder="e.g. 5ft 8in">
               {HEIGHTS.map((h) => <option key={h} value={h}>{h}</option>)}
             </FSelect>
@@ -446,17 +451,17 @@ function GeneralTab({
       {/* Religious & Cultural */}
       <SubSection title="Religious & Cultural">
         <TwoCol>
-          <Field label="Mother Tongue">
+          <Field label="Mother Tongue" required>
             <FSelect value={form.motherTongue} onChange={(v) => update("motherTongue", v)} placeholder="Select">
               {["Malayalam","Tamil","Telugu","Kannada","Hindi","English","Other"].map((o) => <option key={o} value={o}>{o}</option>)}
             </FSelect>
           </Field>
-          <Field label="Religion">
+          <Field label="Religion" required>
             <FSelect value={form.religion} onChange={(v) => update("religion", v)} placeholder="Select">
               {["Hindu","Christian","Sikh","Jain","Buddhist","Muslim","Other"].map((o) => <option key={o} value={o}>{o}</option>)}
             </FSelect>
           </Field>
-          <Field label="Denomination / Caste">
+          <Field label="Denomination / Caste" required>
             <FInput value={form.denomination} onChange={(v) => update("denomination", v)} placeholder="e.g. Nair, Iyer, Syrian Christian" />
           </Field>
           <Field label="Sub Caste">
@@ -478,20 +483,20 @@ function GeneralTab({
       {/* Location & Lifestyle */}
       <SubSection title="Location & Lifestyle">
         <TwoCol>
-          <Field label="Country Living In">
+          <Field label="Country Living In" required>
             <FSelect value={form.countryLivingIn} onChange={(v) => update("countryLivingIn", v)} placeholder="Select">
               {COUNTRIES.map((c) => <option key={c} value={c}>{c}</option>)}
             </FSelect>
           </Field>
-          <Field label="Residential Status">
+          <Field label="Residential Status" required>
             <FSelect value={form.residentialStatus} onChange={(v) => update("residentialStatus", v)} placeholder="Select">
               {["Citizen","Permanent Resident","Work Permit","Student Visa","Temporary Visa"].map((o) => <option key={o} value={o}>{o}</option>)}
             </FSelect>
           </Field>
-          <Field label="Native Place">
+          <Field label="Native Place" required>
             <FInput value={form.nativePlace} onChange={(v) => update("nativePlace", v)} placeholder="e.g. Thrissur, Kerala" />
           </Field>
-          <Field label="Current Location / City">
+          <Field label="Current Location / City" required>
             <FInput value={form.currentLocation} onChange={(v) => update("currentLocation", v)} placeholder="e.g. London, UK" />
           </Field>
           <Field label="Diet">
@@ -534,7 +539,7 @@ function EducationTab({
     <>
       <SubSection title="Education">
         <TwoCol>
-          <Field label="Education Level">
+          <Field label="Education Level" required>
             <FSelect value={form.educationLevel} onChange={(v) => update("educationLevel", v)} placeholder="Select">
               {["High School","Diploma","Bachelor's","Master's","Doctorate","Professional Degree","Other"].map((o) => (
                 <option key={o} value={o}>{o}</option>
@@ -664,14 +669,14 @@ function EducationTab({
         </div>
 
         <TwoCol>
-          <Field label="Occupation">
+          <Field label="Occupation" required>
             <FSelect value={form.occupation} onChange={(v) => update("occupation", v)} placeholder="Select">
               {["Software Engineer","Doctor","Engineer","Business","Teacher","Accountant","Lawyer","Other"].map((o) => (
                 <option key={o} value={o}>{o}</option>
               ))}
             </FSelect>
           </Field>
-          <Field label="Employed In">
+          <Field label="Employed In" required>
             <FSelect value={form.employedIn} onChange={(v) => update("employedIn", v)} placeholder="Select">
               {["Government","Private","Business/Self-Employed","Not Employed","Other"].map((o) => (
                 <option key={o} value={o}>{o}</option>
@@ -703,7 +708,7 @@ function FamilyTab({
   return (
     <>
       <SubSection title="Family Overview">
-        <Field label="About My Family">
+        <Field label="About My Family" required>
           <FTextarea
             value={form.aboutFamily}
             onChange={(v) => update("aboutFamily", v)}
@@ -740,7 +745,7 @@ function FamilyTab({
           <Field label="Name">
             <FInput value={form.fatherName} onChange={(v) => update("fatherName", v)} placeholder="Father's full name" />
           </Field>
-          <Field label="Occupation">
+          <Field label="Occupation" required>
             <FInput value={form.fatherOccupation} onChange={(v) => update("fatherOccupation", v)} placeholder="e.g. Retired Government Officer" />
           </Field>
           <Field label="Company / Organisation">
@@ -760,7 +765,7 @@ function FamilyTab({
           <Field label="Name">
             <FInput value={form.motherName} onChange={(v) => update("motherName", v)} placeholder="Mother's full name" />
           </Field>
-          <Field label="Occupation">
+          <Field label="Occupation" required>
             <FInput value={form.motherOccupation} onChange={(v) => update("motherOccupation", v)} placeholder="e.g. Homemaker, Teacher" />
           </Field>
           <Field label="Company / Organisation">
@@ -878,7 +883,7 @@ function PartnerTab({
           </Field>
         </div>
         <TwoCol style={{ marginTop: 16 }}>
-          <Field label="Marital Status">
+          <Field label="Marital Status" required>
             <FSelect value={form.maritalStatus} onChange={(v) => update("maritalStatus", v)} placeholder="Any">
               {["Any","Never Married","Divorced","Widowed"].map((o) => <option key={o} value={o}>{o}</option>)}
             </FSelect>
@@ -898,12 +903,12 @@ function PartnerTab({
               {["Any","Hindu","Christian","Sikh","Jain","Buddhist","Muslim"].map((o) => <option key={o} value={o}>{o}</option>)}
             </FSelect>
           </Field>
-          <Field label="Mother Tongue">
+          <Field label="Mother Tongue" required>
             <FSelect value={form.motherTongue} onChange={(v) => update("motherTongue", v)} placeholder="Any">
               {["Any","Malayalam","Tamil","Telugu","Kannada","Hindi","English"].map((o) => <option key={o} value={o}>{o}</option>)}
             </FSelect>
           </Field>
-          <Field label="Denomination / Caste">
+          <Field label="Denomination / Caste" required>
             <FInput value={form.denomination} onChange={(v) => update("denomination", v)} placeholder="Any or specify, e.g. Nair" />
           </Field>
           <Field label="Education">
@@ -911,7 +916,7 @@ function PartnerTab({
               {["Any", "High School", "Diploma", "Graduate / Bachelor's", "Post Graduate / Master's", "Doctorate / PhD", "Professional Degree (MBBS / LLB / CA)", "Trade / Vocational"].map((o) => <option key={o} value={o}>{o}</option>)}
             </FSelect>
           </Field>
-          <Field label="Occupation">
+          <Field label="Occupation" required>
             <FInput value={form.occupation} onChange={(v) => update("occupation", v)} placeholder="e.g. Software / Doctor / Business" />
           </Field>
           <Field label="Country Preference">
@@ -919,7 +924,7 @@ function PartnerTab({
               {["Any", ...COUNTRIES].map((c) => <option key={c} value={c}>{c}</option>)}
             </FSelect>
           </Field>
-          <Field label="Residential Status">
+          <Field label="Residential Status" required>
             <FSelect value={form.residentialStatus} onChange={(v) => update("residentialStatus", v)} placeholder="Any">
               {["Any","Citizen","Permanent Resident","Work Permit","Student Visa"].map((o) => <option key={o} value={o}>{o}</option>)}
             </FSelect>
@@ -956,7 +961,7 @@ function ContactTab({
     <>
       <SubSection title="Phone & Contact">
         <TwoCol>
-          <Field label="Mobile Number">
+          <Field label="Mobile Number" required>
             <div style={{ display: "flex", gap: 8 }}>
               <FSelect
                 value={form.countryCode}
@@ -989,7 +994,7 @@ function ContactTab({
 
       <SubSection title="Contact Person">
         <TwoCol>
-          <Field label="Contact Person Name">
+          <Field label="Contact Person Name" required>
             <FInput value={form.contactPersonName} onChange={(v) => update("contactPersonName", v)} placeholder="e.g. Rajan Menon" />
           </Field>
           <Field label="Relationship to Profile">
@@ -1002,20 +1007,20 @@ function ContactTab({
 
       <SubSection title="Address">
         <div style={{ display: "flex", flexDirection: "column", gap: 14 }}>
-          <Field label="Address Line 1">
+          <Field label="Address Line 1" required>
             <FInput value={form.address1} onChange={(v) => update("address1", v)} placeholder="e.g. 12 Maple Road" />
           </Field>
           <Field label="Address Line 2">
             <FInput value={form.address2} onChange={(v) => update("address2", v)} placeholder="Flat / Apartment / Area" />
           </Field>
           <TwoCol>
-            <Field label="City">
+            <Field label="City" required>
               <FInput value={form.city} onChange={(v) => update("city", v)} placeholder="e.g. Birmingham" />
             </Field>
-            <Field label="Postcode">
+            <Field label="Postcode" required>
               <FInput value={form.postcode} onChange={(v) => update("postcode", v)} placeholder="e.g. B1 1AA" />
             </Field>
-            <Field label="Country">
+            <Field label="Country" required>
               <FSelect value={form.country} onChange={(v) => update("country", v)} placeholder="Select country">
                 {COUNTRIES.map((c) => <option key={c} value={c}>{c}</option>)}
               </FSelect>
@@ -1068,10 +1073,13 @@ function TwoCol({ children, style }: { children: React.ReactNode; style?: React.
   );
 }
 
-function Field({ label, children }: { label: string; children: React.ReactNode }) {
+function Field({ label, children, required }: { label: string; children: React.ReactNode; required?: boolean }) {
   return (
     <div style={{ display: "flex", flexDirection: "column" }}>
-      <label style={LABEL_STYLE}>{label}</label>
+      <label style={LABEL_STYLE}>
+        {label}
+        {required && <span style={{ color: "#dc1e3c", marginLeft: 3, fontWeight: 700 }}>*</span>}
+      </label>
       {children}
     </div>
   );
