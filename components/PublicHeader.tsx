@@ -1,65 +1,136 @@
 "use client";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { Heart } from "lucide-react";
-
-const links = [
-  { href: "/", label: "Home" },
-  { href: "/about", label: "About" },
-  { href: "/pricing", label: "Pricing" },
-  { href: "/nri-hub", label: "NRI Hub" },
-];
+import { useState, useRef, useEffect } from "react";
 
 export default function PublicHeader() {
   const pathname = usePathname();
-  return (
-    <nav className="sticky top-0 z-50 bg-white" style={{ borderBottom: "1px solid rgba(220,30,60,0.12)" }}>
-      <div style={{ maxWidth: "1152px", margin: "0 auto", padding: "0 24px", height: "64px", display: "flex", alignItems: "center", justifyContent: "space-between" }}>
-        {/* Logo */}
-        <Link href="/" style={{ display: "flex", alignItems: "center", textDecoration: "none", minHeight: "auto" }}>
-          <img src="/images/logo.jpeg" alt="Match4Marriage" style={{ height: "52px", width: "auto", objectFit: "contain" }} />
-        </Link>
+  const [helpOpen, setHelpOpen] = useState(false);
+  const helpRef = useRef<HTMLDivElement>(null);
 
-        {/* Nav links */}
-        <div style={{ display: "flex", alignItems: "center", gap: "28px" }}>
-          {links.map(({ href, label }) => (
+  useEffect(() => {
+    const handler = (e: MouseEvent) => {
+      if (helpRef.current && !helpRef.current.contains(e.target as Node)) setHelpOpen(false);
+    };
+    document.addEventListener("mousedown", handler);
+    return () => document.removeEventListener("mousedown", handler);
+  }, []);
+
+  const navLinks = [
+    { label: "Home",            href: "/" },
+    { label: "Browse Profiles", href: "/#browse-profiles" },
+    { label: "Success Stories", href: "/#success-stories" },
+    { label: "Pricing",         href: "/pricing" },
+    { label: "About Us",        href: "/about" },
+  ];
+
+  const helpLinks = [
+    { label: "FAQs",        href: "/#faq" },
+    { label: "Contact Us",  href: "mailto:enquiry@match4marriage.com" },
+    { label: "How It Works",href: "/#how-it-works" },
+  ];
+
+  return (
+    <>
+      {/* ── Top Bar ── */}
+      <div className="w-full text-white text-sm py-2 px-4" style={{ backgroundColor: "#dc1e3c" }}>
+        <div className="max-w-7xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-1">
+          <span>💍 Elite Indian Matrimony — Established in the UK 🇬🇧</span>
+          <span className="text-xs sm:text-sm">✉️ enquiry@match4marriage.com</span>
+        </div>
+      </div>
+
+      {/* ── Main Nav ── */}
+      <nav className="sticky top-0 z-50 bg-white" style={{ borderBottom: "1px solid rgba(220,30,60,0.12)" }}>
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 h-16 flex items-center justify-between">
+
+          {/* Logo */}
+          <Link href="/" style={{ display: "flex", alignItems: "center", textDecoration: "none", minHeight: "auto" }}>
+            <img src="/images/logo.jpeg" alt="Match4Marriage" style={{ height: "52px", width: "auto", objectFit: "contain" }} />
+          </Link>
+
+          {/* Nav links */}
+          <div className="hidden lg:flex items-center gap-7">
+            {navLinks.map(({ label, href }) => (
+              <Link
+                key={label}
+                href={href}
+                className="text-sm font-medium transition-colors duration-200 hover:text-[#dc1e3c]"
+                style={{
+                  color: pathname === href || (href !== "/" && pathname.startsWith(href.split("#")[0]) && href !== "/") ? "#dc1e3c" : "#333",
+                  textDecoration: "none", minHeight: "auto",
+                }}
+              >
+                {label}
+              </Link>
+            ))}
+
+            {/* Help dropdown */}
+            <div ref={helpRef} style={{ position: "relative" }}>
+              <button
+                onClick={() => setHelpOpen(!helpOpen)}
+                className="text-sm font-medium transition-colors hover:text-[#dc1e3c] flex items-center gap-1"
+                style={{ color: helpOpen ? "#dc1e3c" : "#333", background: "none", border: "none", cursor: "pointer", padding: 0, minHeight: "auto" }}
+              >
+                Help
+                <svg width="12" height="12" viewBox="0 0 12 12" fill="none" style={{ transition: "transform 0.2s", transform: helpOpen ? "rotate(180deg)" : "rotate(0deg)" }}>
+                  <path d="M2 4l4 4 4-4" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+                </svg>
+              </button>
+              {helpOpen && (
+                <div style={{
+                  position: "absolute", top: "calc(100% + 12px)", left: "50%", transform: "translateX(-50%)",
+                  background: "#fff", borderRadius: "12px", minWidth: "180px",
+                  boxShadow: "0 8px 32px rgba(0,0,0,0.12)", border: "1px solid rgba(220,30,60,0.1)",
+                  overflow: "hidden", zIndex: 100,
+                }}>
+                  <div style={{ position: "absolute", top: "-6px", left: "50%", transform: "translateX(-50%) rotate(45deg)",
+                    width: "12px", height: "12px", background: "#fff",
+                    borderTop: "1px solid rgba(220,30,60,0.1)", borderLeft: "1px solid rgba(220,30,60,0.1)",
+                  }} />
+                  {helpLinks.map(({ label, href }) => (
+                    <Link
+                      key={label}
+                      href={href}
+                      onClick={() => setHelpOpen(false)}
+                      style={{ display: "block", padding: "10px 16px", fontSize: "13px", color: "#333", textDecoration: "none", minHeight: "auto" }}
+                      className="hover:bg-[#fff5f6] hover:text-[#dc1e3c] transition-colors"
+                    >
+                      {label}
+                    </Link>
+                  ))}
+                </div>
+              )}
+            </div>
+          </div>
+
+          {/* CTA */}
+          <div className="flex items-center gap-3">
             <Link
-              key={href}
-              href={href}
+              href="/auth/login"
+              style={{ fontSize: "14px", fontWeight: 600, color: "#333", textDecoration: "none", minHeight: "auto" }}
+              className="hover:text-[#dc1e3c] transition-colors hidden sm:inline"
+            >
+              Log In
+            </Link>
+            <Link
+              href="/auth/register"
               style={{
-                fontSize: "14px",
-                fontWeight: 500,
-                color: pathname === href ? "#dc1e3c" : "rgba(26,10,20,0.65)",
+                fontSize: "13px", fontWeight: 600,
+                padding: "9px 22px",
+                borderRadius: "9999px",
+                background: "linear-gradient(135deg,#dc1e3c,#a0153c)",
+                color: "#fff",
                 textDecoration: "none",
                 minHeight: "auto",
               }}
             >
-              {label}
+              Register Free
             </Link>
-          ))}
-        </div>
+          </div>
 
-        {/* CTA */}
-        <div style={{ display: "flex", gap: "12px", alignItems: "center" }}>
-          <Link href="/auth/login" style={{ fontSize: "14px", fontWeight: 600, color: "#dc1e3c", textDecoration: "none", minHeight: "auto" }}>
-            Sign In
-          </Link>
-          <Link
-            href="/auth/register"
-            style={{
-              fontSize: "13px", fontWeight: 600,
-              padding: "9px 20px",
-              borderRadius: "9999px",
-              background: "linear-gradient(135deg,#dc1e3c,#a0153c)",
-              color: "#fff",
-              textDecoration: "none",
-              minHeight: "auto",
-            }}
-          >
-            Register Free
-          </Link>
         </div>
-      </div>
-    </nav>
+      </nav>
+    </>
   );
 }
