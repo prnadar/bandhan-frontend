@@ -49,7 +49,7 @@ const features = [
 
 const plans = [
   {
-    name: "Free",
+    name: "Basic",
     price: "₹0",
     period: "",
     features: ["5 profile views", "Basic search", "Send 3 interests"],
@@ -109,9 +109,8 @@ export default function HomePage() {
       {/* ── 1. Top Bar ───────────────────────────────────────────────── */}
       <div className="w-full text-white text-sm py-2 px-4" style={{ backgroundColor: "#dc1e3c" }}>
         <div className="max-w-7xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-1">
-          <span>💍 Elite Indian Matrimony — Established in the United Kingdom 🇬🇧</span>
+          <span>💍 Elite Indian Matrimony — Established in the UK 🇬🇧</span>
           <div className="flex items-center gap-4 text-xs sm:text-sm">
-            <span>📞 +91 98765 43210</span>
             <span className="hidden sm:inline">|</span>
             <span>✉️ hello@match4marriage.com</span>
           </div>
@@ -934,7 +933,7 @@ export default function HomePage() {
                     boxShadow: plan.highlighted ? "0 4px 16px rgba(220,30,60,0.25)" : "none",
                   }}
                 >
-                  {plan.name === "Free" ? "Get Started Free" : `Choose ${plan.name}`}
+                  {plan.name === "Basic" ? "Get Started Free" : `Choose ${plan.name}`}
                 </a>
               </div>
             ))}

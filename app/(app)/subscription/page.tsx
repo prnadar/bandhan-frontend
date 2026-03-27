@@ -9,21 +9,21 @@ const CURRENT_PLAN = "gold";
 const plans = [
   {
     id: "free",
-    name: "Freemium",
+    name: "Basic",
     price: 0,
     priceLabel: "Forever free",
     highlights: ["5 daily matches", "3 interests/month", "AI compatibility score"],
   },
   {
     id: "silver",
-    name: "Silver",
+    name: "Premium",
     price: 999,
     priceLabel: "/month",
     highlights: ["20 interests/month", "Direct messaging (20 threads)", "1 contact/day"],
   },
   {
     id: "gold",
-    name: "Gold",
+    name: "Elite",
     price: 2499,
     priceLabel: "/month",
     popular: true,
@@ -31,7 +31,7 @@ const plans = [
   },
   {
     id: "platinum",
-    name: "Platinum",
+    name: "Elite Plus",
     price: 7999,
     priceLabel: "/month",
     highlights: ["Dedicated relationship manager", "Background verification", "Astrologer (2/mo)", "Privacy shield"],

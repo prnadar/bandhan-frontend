@@ -28,7 +28,7 @@ const plans = [
   },
   {
     id: "silver",
-    name: "Silver",
+    name: "Premium",
     price: 999,
     priceLabel: "/ month",
     description: "Start meaningful conversations",
@@ -50,7 +50,7 @@ const plans = [
   },
   {
     id: "gold",
-    name: "Gold",
+    name: "Elite",
     price: 2499,
     priceLabel: "/ month",
     description: "The full Match4Marriage experience",
@@ -73,7 +73,7 @@ const plans = [
   },
   {
     id: "platinum",
-    name: "Platinum",
+    name: "Elite Plus",
     price: 7999,
     priceLabel: "/ month",
     description: "White-glove matrimony service",
