@@ -33,14 +33,6 @@ const mockMatches = [
   { id: "M3", name: "Ishita Singh", age: 27, city: "Bangalore", compatibility: 78 },
 ];
 
-const mockKundali = {
-  rashi: "Simha (Leo)",
-  nakshatra: "Magha",
-  manglik: "Non-Manglik",
-  gan: "Deva",
-  nadi: "Madhya",
-  varna: "Kshatriya",
-};
 
 export default function ProfileDetailPage() {
   const { toast } = useToast();
@@ -167,8 +159,7 @@ export default function ProfileDetailPage() {
                 ["Height", user.height],
                 ["Marital Status", user.maritalStatus],
                 ["Mother Tongue", user.motherTongue],
-                ["Manglik", user.manglik],
-              ].map(([label, value]) => (
+                              ].map(([label, value]) => (
                 <div key={label} className="bg-blush/50 rounded-xl px-3 py-2">
                   <p className="font-body text-[10px] text-muted uppercase tracking-wider">{label}</p>
                   <p className="font-body text-sm font-medium text-deep">{value}</p>
@@ -288,21 +279,7 @@ export default function ProfileDetailPage() {
           </div>
         </div>
 
-        {/* Kundali Details */}
-        <div className="glass-card p-6">
-          <h3 className="font-display text-base font-semibold text-deep mb-4 flex items-center gap-2">
-            <Star className="w-4 h-4 text-rose" />
-            Kundali Details
-          </h3>
-          <div className="grid grid-cols-2 sm:grid-cols-3 gap-3">
-            {Object.entries(mockKundali).map(([label, value]) => (
-              <div key={label} className="bg-blush/50 rounded-xl px-3 py-2">
-                <p className="font-body text-[10px] text-muted uppercase tracking-wider">{label}</p>
-                <p className="font-body text-sm font-medium text-deep">{value}</p>
-              </div>
-            ))}
-          </div>
-        </div>
+
 
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
           {/* Status Change */}

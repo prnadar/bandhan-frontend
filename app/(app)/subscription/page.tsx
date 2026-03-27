@@ -27,7 +27,7 @@ const plans = [
     price: 2499,
     priceLabel: "/month",
     popular: true,
-    highlights: ["Unlimited interests", "Unlimited messaging", "Kundali matching", "Video calling"],
+    highlights: ["Unlimited interests", "Unlimited messaging", "5 contacts/day", "Priority matching", "Photo access"],
   },
   {
     id: "platinum",
@@ -304,7 +304,6 @@ export default function SubscriptionPage() {
                   margin: "0 0 12px",
                 }}
               >
-                You'll lose unlimited messaging, Kundali matching, and video calling on April 1, 2026.
               </p>
               <div style={{ display: "flex", gap: 8 }}>
                 <button

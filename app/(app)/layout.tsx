@@ -5,7 +5,7 @@ import { usePathname } from "next/navigation";
 import {
   LayoutDashboard, Heart, MessageCircle, User, Star, Globe,
   Shield, Bell, Settings, LogOut, ChevronRight, Users, Star as StarIcon,
-  BookOpen, CreditCard,
+  CreditCard,
 } from "lucide-react";
 
 const navItems = [
@@ -14,7 +14,6 @@ const navItems = [
   { href: "/matches",      label: "Browse",        icon: Heart           },
   { href: "/interests",    label: "Interests",     icon: Star, badge: 6  },
   { href: "/messages",     label: "Messages",      icon: MessageCircle, badge: 3 },
-  { href: "/kundali",      label: "Kundali",       icon: BookOpen        },
   { href: "/nri-hub",      label: "NRI Hub",       icon: Globe           },
   { href: "/family",       label: "Family Mode",   icon: Users           },
   { href: "/subscription", label: "Subscription",  icon: CreditCard      },
