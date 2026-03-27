@@ -11,20 +11,20 @@ const plans = [
     id: "free",
     name: "Basic",
     price: 0,
-    priceLabel: "Forever free",
+    priceLabel: "Free forever",
     highlights: ["5 daily matches", "3 interests/month", "AI compatibility score"],
   },
   {
     id: "silver",
     name: "Premium",
-    price: 999,
+    price: 100,
     priceLabel: "/month",
     highlights: ["20 interests/month", "Direct messaging (20 threads)", "1 contact/day"],
   },
   {
     id: "gold",
     name: "Elite",
-    price: 2499,
+    price: 300,
     priceLabel: "/month",
     popular: true,
     highlights: ["Unlimited interests", "Unlimited messaging", "5 contacts/day", "Priority matching", "Photo access"],
@@ -32,17 +32,17 @@ const plans = [
   {
     id: "platinum",
     name: "Elite Plus",
-    price: 7999,
+    price: 300,
     priceLabel: "/month",
     highlights: ["Dedicated relationship manager", "Background verification", "Astrologer (2/mo)", "Privacy shield"],
   },
 ];
 
 const currentBillingHistory = [
-  { date: "Feb 1, 2026",  plan: "Gold",   amount: "₹2,499", status: "Paid", id: "INV-2026-002" },
-  { date: "Jan 1, 2026",  plan: "Gold",   amount: "₹2,499", status: "Paid", id: "INV-2026-001" },
-  { date: "Dec 1, 2025",  plan: "Silver", amount: "₹999",   status: "Paid", id: "INV-2025-012" },
-  { date: "Nov 1, 2025",  plan: "Silver", amount: "₹999",   status: "Paid", id: "INV-2025-011" },
+  { date: "Feb 1, 2026",  plan: "Gold",   amount: "£300", status: "Paid", id: "INV-2026-002" },
+  { date: "Jan 1, 2026",  plan: "Gold",   amount: "£300", status: "Paid", id: "INV-2026-001" },
+  { date: "Dec 1, 2025",  plan: "Silver", amount: "£100",   status: "Paid", id: "INV-2025-012" },
+  { date: "Nov 1, 2025",  plan: "Silver", amount: "£100",   status: "Paid", id: "INV-2025-011" },
 ];
 
 const CREDITS = [
@@ -152,7 +152,7 @@ export default function SubscriptionPage() {
                   Gold Plan
                 </h2>
                 <p style={{ fontFamily: "var(--font-poppins, sans-serif)", fontSize: 14, color: "rgba(255,255,255,0.65)", margin: "4px 0 0" }}>
-                  Renews on April 1, 2026 · ₹2,499/month
+                  Renews on April 1, 2026 · £300/month
                 </p>
               </div>
 
@@ -528,7 +528,7 @@ export default function SubscriptionPage() {
                           margin: 0,
                         }}
                       >
-                        ₹{price.toLocaleString("en-IN")}
+                        £{price.toLocaleString("en-GB")}
                         <span
                           style={{
                             fontSize: 11,

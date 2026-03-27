@@ -50,14 +50,15 @@ const features = [
 const plans = [
   {
     name: "Basic",
-    price: "₹0",
+    price: "Free",
     period: "",
+
     features: ["5 profile views", "Basic search", "Send 3 interests"],
     highlighted: false,
   },
   {
     name: "Premium",
-    price: "₹1,999",
+    price: "£100",
     period: "/mo",
     badge: "Most Popular",
     features: ["Unlimited views", "Advanced search", "Unlimited interests", "Photo access", "Priority matching"],
@@ -65,7 +66,7 @@ const plans = [
   },
   {
     name: "Elite",
-    price: "₹4,999",
+    price: "£300",
     period: "/mo",
     features: ["Everything in Premium", "Dedicated advisor", "Family background check", "Horoscope matching"],
     highlighted: false,
