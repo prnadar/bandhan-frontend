@@ -1032,30 +1032,30 @@ export default function HomePage() {
       </section>
 
       {/* ── 10. CTA Section ──────────────────────────────────────────── */}
-      <section className="py-24 px-4 sm:px-6 section-cream text-center relative overflow-hidden">
-        {/* Decorative rings */}
-        <div
-          className="absolute top-10 left-10 w-32 h-32 rounded-full border-2 opacity-10 pointer-events-none"
-          style={{ borderColor: "#dc1e3c" }}
+      <section style={{ position: "relative", overflow: "hidden", minHeight: "380px", display: "flex", alignItems: "center", justifyContent: "center", textAlign: "center" }}>
+        {/* Background photo */}
+        <img
+          src="/images/about-hero.jpg"
+          alt="Wedding couple"
+          style={{ position: "absolute", inset: 0, width: "100%", height: "100%", objectFit: "cover", objectPosition: "center 20%" }}
         />
-        <div
-          className="absolute bottom-10 right-10 w-48 h-48 rounded-full border-2 opacity-10 pointer-events-none"
-          style={{ borderColor: "#dc1e3c" }}
-        />
-        <div
-          className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-96 h-96 rounded-full border opacity-5 pointer-events-none"
-          style={{ borderColor: "#dc1e3c" }}
-        />
+        {/* Dark overlay */}
+        <div style={{ position: "absolute", inset: 0, background: "linear-gradient(to bottom, rgba(26,10,20,0.55), rgba(26,10,20,0.75))" }} />
 
-        <div className="relative z-10 max-w-2xl mx-auto">
-          <h2 className="font-playfair text-3xl sm:text-5xl font-bold mb-4" style={{ color: "#1a0a14" }}>
+        <div style={{ position: "relative", zIndex: 10, maxWidth: "680px", padding: "80px 24px" }}>
+          <h2 className="font-playfair" style={{ fontSize: "clamp(28px, 4vw, 52px)", fontWeight: 700, color: "#fff", marginBottom: "16px" }}>
             Begin Your Journey Today
           </h2>
-          <p className="text-lg mb-8" style={{ color: "#555" }}>
+          <p style={{ fontSize: "17px", color: "rgba(255,255,255,0.75)", marginBottom: "36px", lineHeight: 1.7 }}>
             Join the UK&apos;s most trusted boutique Indian matrimonial service — where every connection is personal, verified, and meaningful.
           </p>
           <div className="flex justify-center">
-            <Link href="/auth/register" className="btn-gold px-10 py-3 text-base">
+            <Link href="/auth/register" style={{
+              display: "inline-block", padding: "14px 40px", borderRadius: "9999px",
+              background: "linear-gradient(135deg,#dc1e3c,#a0153c)",
+              color: "#fff", fontWeight: 700, fontSize: "15px", textDecoration: "none",
+              boxShadow: "0 4px 24px rgba(220,30,60,0.4)",
+            }}>
               Register to View Profiles
             </Link>
           </div>
