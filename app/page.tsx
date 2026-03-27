@@ -113,7 +113,7 @@ export default function HomePage() {
           <span>💍 Elite Indian Matrimony — Established in the UK 🇬🇧</span>
           <div className="flex items-center gap-4 text-xs sm:text-sm">
             <span className="hidden sm:inline">|</span>
-            <span>✉️ hello@match4marriage.com</span>
+            <span>✉️ enquiry@match4marriage.com</span>
           </div>
         </div>
       </div>
@@ -946,7 +946,7 @@ export default function HomePage() {
             </p>
             <div style={{ display: "flex", flexDirection: "column", gap: "16px" }}>
               {[
-                { icon: "✉️", label: "Email Us", value: "hello@match4marriage.com" },
+                { icon: "✉️", label: "Email Us", value: "enquiry@match4marriage.com" },
                 { icon: "📞", label: "Call Us", value: "+44 (0) 7700 000 000" },
                 { icon: "💬", label: "WhatsApp", value: "Message us on WhatsApp" },
               ].map((c) => (
@@ -1137,7 +1137,7 @@ export default function HomePage() {
             <div>
               <p style={{ fontSize: "11px", fontWeight: 700, color: "rgba(255,255,255,0.6)", textTransform: "uppercase", letterSpacing: "0.15em", marginBottom: "14px" }}>Contact</p>
               <div style={{ display: "flex", flexDirection: "column", gap: "8px" }}>
-                <a href="mailto:hello@match4marriage.com" style={{ fontSize: "13px", color: "rgba(255,255,255,0.45)", textDecoration: "none" }}>✉️ hello@match4marriage.com</a>
+                <a href="mailto:enquiry@match4marriage.com" style={{ fontSize: "13px", color: "rgba(255,255,255,0.45)", textDecoration: "none" }}>✉️ enquiry@match4marriage.com</a>
                 <p style={{ fontSize: "13px", color: "rgba(255,255,255,0.45)", margin: 0 }}>📍 Solihull, England, B92 7AF</p>
                 <p style={{ fontSize: "12px", color: "rgba(255,255,255,0.25)", margin: 0 }}>Co. No. 15272378</p>
               </div>

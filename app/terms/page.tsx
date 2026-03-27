@@ -30,7 +30,7 @@ const sections = [
     content: [
       "To become a member, you must register by submitting a valid email address, selecting a password, and providing the personal information requested during the registration process.",
       "You are solely responsible for maintaining the confidentiality of your login credentials. All activity that occurs under your account is your responsibility, whether or not you have authorised such use.",
-      "You agree to notify Match4Marriage immediately of any unauthorised use of your account or any other breach of security at hello@match4marriage.com.",
+      "You agree to notify Match4Marriage immediately of any unauthorised use of your account or any other breach of security at enquiry@match4marriage.com.",
       "You must not create more than one account, impersonate any person or entity, or misrepresent your identity or affiliation.",
     ],
   },
@@ -58,7 +58,7 @@ const sections = [
     content: [
       "Match4Marriage offers both free and paid membership plans. The features available under each plan are described on our Pricing page and are subject to change.",
       "All fees are displayed in the currency shown at checkout and are inclusive of applicable taxes unless otherwise stated.",
-      "Fees once paid are non-refundable except where required by applicable law, including your statutory rights as a consumer under UK law. If you believe you are entitled to a refund, please contact us at hello@match4marriage.com.",
+      "Fees once paid are non-refundable except where required by applicable law, including your statutory rights as a consumer under UK law. If you believe you are entitled to a refund, please contact us at enquiry@match4marriage.com.",
       "Subscriptions will auto-renew at the end of each billing period unless cancelled before the renewal date. You may cancel at any time via your account settings.",
     ],
   },
@@ -85,7 +85,7 @@ const sections = [
     id: "termination",
     title: "9. Termination",
     content: [
-      "You may close your account at any time by contacting us at hello@match4marriage.com or via your account settings.",
+      "You may close your account at any time by contacting us at enquiry@match4marriage.com or via your account settings.",
       "Match4Marriage reserves the right to suspend or permanently terminate your account, with or without notice, if you breach these Terms or if we reasonably believe your continued use poses a risk to other members or the service.",
       "Upon termination, your right to use the service will immediately cease. Provisions of these Terms that by their nature should survive termination will do so, including ownership, warranty disclaimers, and limitations of liability.",
     ],
@@ -183,7 +183,7 @@ export default function TermsPage() {
             <span style={{ fontSize: "20px", flexShrink: 0 }}>📋</span>
             <p style={{ fontSize: "13px", color: "#555", lineHeight: 1.7, margin: 0 }}>
               Please read these Terms and Conditions carefully before using the Match4Marriage service. By registering or continuing to use our platform, you agree to be bound by these terms. If you have any questions, contact us at{" "}
-              <a href="mailto:hello@match4marriage.com" style={{ color: "#dc1e3c", textDecoration: "none", fontWeight: 600 }}>hello@match4marriage.com</a>.
+              <a href="mailto:enquiry@match4marriage.com" style={{ color: "#dc1e3c", textDecoration: "none", fontWeight: 600 }}>enquiry@match4marriage.com</a>.
             </p>
           </div>
 
@@ -217,7 +217,7 @@ export default function TermsPage() {
                         { icon: "🏢", label: "Company", value: "Match4Marriage Limited" },
                         { icon: "📋", label: "Company No.", value: "15272378" },
                         { icon: "📍", label: "Address", value: "282 Warwick Road, Solihull, England, B92 7AF" },
-                        { icon: "✉️", label: "Email", value: "hello@match4marriage.com", href: "mailto:hello@match4marriage.com" },
+                        { icon: "✉️", label: "Email", value: "enquiry@match4marriage.com", href: "mailto:enquiry@match4marriage.com" },
                       ].map((item) => (
                         <div key={item.label} style={{ display: "flex", gap: "16px", marginBottom: "14px", alignItems: "flex-start" }}>
                           <span style={{ fontSize: "16px", flexShrink: 0, marginTop: "1px" }}>{item.icon}</span>

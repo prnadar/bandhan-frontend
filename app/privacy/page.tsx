@@ -23,7 +23,7 @@ const sections = [
       "Match4Marriage collects information from its Users at the time of registration as well as at certain specific instances of usage of our services, wherein they are requested to provide their personal information including contact information.",
       "These forms usually seek information such as name, gender, email address, date of birth, educational qualification, employment details, photos, marital status, and your interests, contact modes and specifics.",
       "As a User using the free or paid services of Match4Marriage, it is deemed that the User has granted Match4Marriage the right to use, without any restriction, the posted information and publish the desired details throughout its platform — including all divisions, sister concerns, ventures, directories, listing, website pages, and associated media.",
-      "The personal information requested by Match4Marriage is for usage at Match4Marriage to provide the necessary chosen services and enhancement of services by itself or by any authorised third party of Match4Marriage. If you choose to share it with some User, Visitor, or Third Party explicitly, then Match4Marriage has no role in data protection in such cases. Further, if you think that the information we hold about you is inaccurate or we are not entitled or require the same, you can contact us at hello@match4marriage.com.",
+      "The personal information requested by Match4Marriage is for usage at Match4Marriage to provide the necessary chosen services and enhancement of services by itself or by any authorised third party of Match4Marriage. If you choose to share it with some User, Visitor, or Third Party explicitly, then Match4Marriage has no role in data protection in such cases. Further, if you think that the information we hold about you is inaccurate or we are not entitled or require the same, you can contact us at enquiry@match4marriage.com.",
     ],
   },
   {
@@ -66,7 +66,7 @@ const sections = [
     id: "retention",
     title: "7. Data Retention",
     content: [
-      "We retain your personal information for as long as your account is active or as needed to provide you with our services. You may request deletion of your account and personal data at any time by contacting us at hello@match4marriage.com.",
+      "We retain your personal information for as long as your account is active or as needed to provide you with our services. You may request deletion of your account and personal data at any time by contacting us at enquiry@match4marriage.com.",
       "Even after deletion, we may retain certain information as required by law or for legitimate business purposes such as fraud prevention, resolving disputes, and enforcing our agreements.",
       "Anonymised and aggregated data, which cannot identify you personally, may be retained indefinitely for analytical purposes.",
     ],
@@ -76,7 +76,7 @@ const sections = [
     title: "8. Your Rights Under UK GDPR",
     content: [
       "As a data subject under UK GDPR, you have the following rights: (a) the right to access the personal data we hold about you; (b) the right to rectify inaccurate or incomplete data; (c) the right to erasure ('right to be forgotten'); (d) the right to restrict processing; (e) the right to data portability; (f) the right to object to processing; and (g) rights in relation to automated decision making and profiling.",
-      "To exercise any of these rights, please contact us at hello@match4marriage.com. We will respond to your request within 30 days as required by law.",
+      "To exercise any of these rights, please contact us at enquiry@match4marriage.com. We will respond to your request within 30 days as required by law.",
       "You also have the right to lodge a complaint with the Information Commissioner's Office (ICO) at ico.org.uk if you believe your data protection rights have been violated.",
     ],
   },
@@ -93,7 +93,7 @@ const sections = [
     title: "10. Children's Privacy",
     content: [
       "Match4Marriage is intended for users who are 18 years of age or older. We do not knowingly collect personal information from individuals under the age of 18.",
-      "If you believe that we have inadvertently collected personal information from a minor, please contact us immediately at hello@match4marriage.com and we will take steps to delete such information.",
+      "If you believe that we have inadvertently collected personal information from a minor, please contact us immediately at enquiry@match4marriage.com and we will take steps to delete such information.",
     ],
   },
   {
@@ -184,7 +184,7 @@ export default function PrivacyPage() {
             <p style={{ fontSize: "13px", color: "#555", lineHeight: 1.7, margin: 0 }}>
               Your privacy matters to us. This policy explains how Match4Marriage collects, uses, and protects your personal information in accordance with the{" "}
               <strong>UK General Data Protection Regulation (UK GDPR)</strong> and the Data Protection Act 2018. If you have any questions, contact us at{" "}
-              <a href="mailto:hello@match4marriage.com" style={{ color: "#dc1e3c", textDecoration: "none", fontWeight: 600 }}>hello@match4marriage.com</a>.
+              <a href="mailto:enquiry@match4marriage.com" style={{ color: "#dc1e3c", textDecoration: "none", fontWeight: 600 }}>enquiry@match4marriage.com</a>.
             </p>
           </div>
 
@@ -218,7 +218,7 @@ export default function PrivacyPage() {
                         { icon: "🏢", label: "Company", value: "Match4Marriage Limited" },
                         { icon: "📋", label: "Company No.", value: "15272378" },
                         { icon: "📍", label: "Address", value: "282 Warwick Road, Solihull, England, B92 7AF" },
-                        { icon: "✉️", label: "Email", value: "hello@match4marriage.com", href: "mailto:hello@match4marriage.com" },
+                        { icon: "✉️", label: "Email", value: "enquiry@match4marriage.com", href: "mailto:enquiry@match4marriage.com" },
                         { icon: "⚖️", label: "Regulator", value: "Information Commissioner's Office (ICO) — ico.org.uk", href: "https://ico.org.uk" },
                       ].map((item) => (
                         <div key={item.label} style={{ display: "flex", gap: "16px", marginBottom: "14px", alignItems: "flex-start" }}>
