@@ -869,6 +869,82 @@ export default function HomePage() {
         </div>
       </section>
 
+      {/* ── Subscription / Pricing ───────────────────────────────────── */}
+      <section id="pricing" style={{ padding: "96px 24px", background: "#fff" }}>
+        <div className="max-w-5xl mx-auto">
+          <div style={{ textAlign: "center", marginBottom: "56px" }}>
+            <span style={{ fontSize: "12px", fontWeight: 700, color: "#dc1e3c", textTransform: "uppercase", letterSpacing: "0.15em" }}>Membership Plans</span>
+            <h2 style={{ fontFamily: "var(--font-playfair, serif)", fontSize: "clamp(28px, 4vw, 40px)", fontWeight: 700, color: "#1a0a14", marginTop: "12px", marginBottom: "12px" }}>
+              Begin Your Journey
+            </h2>
+            <p style={{ fontSize: "16px", color: "#888", maxWidth: "520px", margin: "0 auto" }}>
+              Choose the plan that fits your journey. Upgrade or cancel any time.
+            </p>
+          </div>
+
+          <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(260px, 1fr))", gap: "24px" }}>
+            {plans.map((plan) => (
+              <div
+                key={plan.name}
+                style={{
+                  borderRadius: "20px",
+                  padding: "36px 28px",
+                  border: plan.highlighted ? "2px solid #dc1e3c" : "1px solid rgba(220,30,60,0.12)",
+                  background: plan.highlighted ? "linear-gradient(160deg,#fff5f7,#fff)" : "#fdfbf9",
+                  position: "relative",
+                  boxShadow: plan.highlighted ? "0 8px 40px rgba(220,30,60,0.12)" : "0 2px 12px rgba(0,0,0,0.04)",
+                  display: "flex",
+                  flexDirection: "column",
+                }}
+              >
+                {plan.badge && (
+                  <span style={{
+                    position: "absolute", top: "-14px", left: "50%", transform: "translateX(-50%)",
+                    background: "linear-gradient(135deg,#dc1e3c,#a0153c)",
+                    color: "#fff", fontSize: "11px", fontWeight: 700,
+                    padding: "4px 16px", borderRadius: "20px", whiteSpace: "nowrap",
+                  }}>{plan.badge}</span>
+                )}
+                <p style={{ fontSize: "13px", fontWeight: 700, color: "#dc1e3c", textTransform: "uppercase", letterSpacing: "0.1em", marginBottom: "8px" }}>{plan.name}</p>
+                <div style={{ display: "flex", alignItems: "baseline", gap: "4px", marginBottom: "6px" }}>
+                  <span style={{ fontFamily: "var(--font-playfair, serif)", fontSize: "36px", fontWeight: 700, color: "#1a0a14" }}>{plan.price}</span>
+                  {plan.period && <span style={{ fontSize: "14px", color: "#aaa" }}>{plan.period}</span>}
+                </div>
+                <div style={{ height: "1px", background: "rgba(220,30,60,0.1)", margin: "20px 0" }} />
+                <ul style={{ listStyle: "none", padding: 0, margin: "0 0 28px", flex: 1 }}>
+                  {plan.features.map((f) => (
+                    <li key={f} style={{ display: "flex", alignItems: "center", gap: "10px", marginBottom: "10px", fontSize: "14px", color: "#555" }}>
+                      <span style={{ width: "18px", height: "18px", borderRadius: "50%", background: "rgba(220,30,60,0.1)", display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0 }}>
+                        <svg width="10" height="8" viewBox="0 0 10 8" fill="none"><path d="M1 4L3.5 6.5L9 1" stroke="#dc1e3c" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/></svg>
+                      </span>
+                      {f}
+                    </li>
+                  ))}
+                </ul>
+                <a
+                  href="/auth/register"
+                  style={{
+                    display: "block", textAlign: "center", padding: "13px 24px",
+                    borderRadius: "10px", fontSize: "14px", fontWeight: 600,
+                    background: plan.highlighted ? "linear-gradient(135deg,#dc1e3c,#a0153c)" : "transparent",
+                    color: plan.highlighted ? "#fff" : "#dc1e3c",
+                    border: plan.highlighted ? "none" : "1.5px solid #dc1e3c",
+                    textDecoration: "none",
+                    transition: "all 0.2s",
+                    boxShadow: plan.highlighted ? "0 4px 16px rgba(220,30,60,0.25)" : "none",
+                  }}
+                >
+                  {plan.name === "Free" ? "Get Started Free" : `Choose ${plan.name}`}
+                </a>
+              </div>
+            ))}
+          </div>
+          <p style={{ textAlign: "center", marginTop: "32px", fontSize: "13px", color: "#bbb" }}>
+            🔒 Secure payment · Cancel anytime · GDPR compliant
+          </p>
+        </div>
+      </section>
+
       {/* ── 8d. Contact / Enquiry ────────────────────────────────────── */}
       <section id="contact" style={{ padding: "80px 24px", background: "#fdfbf9" }}>
         <div className="max-w-5xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
