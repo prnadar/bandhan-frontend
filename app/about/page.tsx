@@ -185,7 +185,7 @@ export default function AboutPage() {
           </div>
           <div style={{ position: "relative" }}>
             <img
-              src="/images/DSC04881.jpeg"
+              src="/images/about-hero.jpg"
               alt="Indian wedding couple"
               style={{ width: "100%", borderRadius: "20px", objectFit: "cover", aspectRatio: "4/3", boxShadow: "0 20px 60px rgba(102,69,28,0.12)" }}
             />
