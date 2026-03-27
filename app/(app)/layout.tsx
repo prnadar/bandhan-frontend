@@ -28,7 +28,7 @@ export default function AppLayout({ children }: { children: React.ReactNode }) {
       <aside
         className="fixed top-0 left-0 h-full w-64 z-40 flex flex-col"
         style={{
-          background: "linear-gradient(160deg, #1a0a14 0%, #2d0f20 60%, #3b1428 100%)",
+          background: "linear-gradient(160deg, #2e2660 0%, #4e3d8a 60%, #5a478f 100%)",
           borderRight: "1px solid rgba(255,255,255,0.06)",
         }}
       >
@@ -224,8 +224,8 @@ export default function AppLayout({ children }: { children: React.ReactNode }) {
 
         {/* ── Footer ── */}
         <footer style={{
-          borderTop: "1px solid rgba(220,30,60,0.10)",
-          background: "#1a0a14",
+          borderTop: "1px solid rgba(78,61,138,0.3)",
+          background: "#4e3d8a",
           padding: "32px",
         }}>
           <div style={{ maxWidth: "960px", margin: "0 auto" }}>
