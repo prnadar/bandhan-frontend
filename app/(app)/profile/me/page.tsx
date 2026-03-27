@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useRef } from "react";
 import {
   Shield, CheckCircle, AlertCircle, Camera, Upload,
   Plus, X, Edit3, Heart, Star, Users, Briefcase, GraduationCap,
@@ -64,6 +64,7 @@ const TABS = [
   { id: "interests", label: "Interests",            total: 6  },
   { id: "partner",   label: "Partner Preferences",  total: 10 },
   { id: "contact",   label: "Contact Details",      total: 11 },
+  { id: "photos",    label: "My Photos",            total: 6  },
 ];
 
 // ─── Types ────────────────────────────────────────────────────────────────────
@@ -174,6 +175,7 @@ export default function MyProfilePage() {
     interests: { filled: Object.values(interests).filter((a) => a.length > 0).length, total: 6 },
     partner:   { filled: countFilled(partner),   total: 10 },
     contact:   { filled: countFilled(contact),   total: 11 },
+    photos:    { filled: 0, total: 6 },
   };
 
   const handleSave = (tabId: string) => {
@@ -332,6 +334,9 @@ export default function MyProfilePage() {
                 form={contact} update={upContact}
                 onSave={() => handleSave("contact")} saving={savedTab === "contact"}
               />
+            )}
+            {activeTab === "photos" && (
+              <PhotosTab />
             )}
           </div>
         </div>
@@ -1284,6 +1289,202 @@ function SaveButton({
 }
 
 // ─── Left Sidebar Components ───────────────────────────────────────────────────
+
+// ─── Photos Tab ──────────────────────────────────────────────────────────────
+
+function PhotosTab() {
+  const [photos, setPhotos] = useState<{ id: string; url: string; isPrimary: boolean }[]>([]);
+  const [uploading, setUploading] = useState(false);
+  const [dragOver, setDragOver] = useState(false);
+  const fileInputRef = useRef<HTMLInputElement>(null);
+
+  const handleFiles = (files: FileList | null) => {
+    if (!files) return;
+    setUploading(true);
+    const newPhotos = Array.from(files).slice(0, 6 - photos.length).map((file) => ({
+      id: crypto.randomUUID(),
+      url: URL.createObjectURL(file),
+      isPrimary: photos.length === 0,
+    }));
+    setTimeout(() => {
+      setPhotos((prev) => [...prev, ...newPhotos]);
+      setUploading(false);
+    }, 800);
+  };
+
+  const makePrimary = (id: string) => {
+    setPhotos((prev) => prev.map((p) => ({ ...p, isPrimary: p.id === id })));
+  };
+
+  const removePhoto = (id: string) => {
+    setPhotos((prev) => {
+      const filtered = prev.filter((p) => p.id !== id);
+      if (filtered.length > 0 && !filtered.some((p) => p.isPrimary)) {
+        filtered[0].isPrimary = true;
+      }
+      return filtered;
+    });
+  };
+
+  const remaining = 6 - photos.length;
+
+  return (
+    <div style={{ display: "flex", flexDirection: "column", gap: 28 }}>
+
+      {/* Header */}
+      <div>
+        <h3 style={{ fontFamily: "var(--font-playfair, serif)", fontSize: "1.1rem", fontWeight: 700, color: "#1a0a14", marginBottom: 6 }}>
+          My Photos
+        </h3>
+        <p style={{ fontSize: "0.8125rem", color: "#888", fontFamily: "var(--font-poppins, sans-serif)" }}>
+          Upload up to 6 photos. Your primary photo appears on your profile card.
+          Profiles with photos get <strong style={{ color: "#dc1e3c" }}>8× more responses</strong>.
+        </p>
+      </div>
+
+      {/* Upload zone */}
+      <div
+        onClick={() => fileInputRef.current?.click()}
+        onDragOver={(e) => { e.preventDefault(); setDragOver(true); }}
+        onDragLeave={() => setDragOver(false)}
+        onDrop={(e) => { e.preventDefault(); setDragOver(false); handleFiles(e.dataTransfer.files); }}
+        style={{
+          border: `2px dashed ${dragOver ? "#dc1e3c" : "rgba(220,30,60,0.25)"}`,
+          borderRadius: 16,
+          padding: "40px 24px",
+          textAlign: "center",
+          cursor: remaining === 0 ? "not-allowed" : "pointer",
+          background: dragOver ? "rgba(220,30,60,0.04)" : "#fdfbf9",
+          transition: "all 0.2s",
+          opacity: remaining === 0 ? 0.5 : 1,
+        }}
+      >
+        <input
+          ref={fileInputRef}
+          type="file"
+          accept="image/jpeg,image/png,image/webp"
+          multiple
+          style={{ display: "none" }}
+          onChange={(e) => handleFiles(e.target.files)}
+          disabled={remaining === 0}
+        />
+        <div style={{ marginBottom: 12 }}>
+          <div style={{
+            width: 56, height: 56, borderRadius: "50%",
+            background: "rgba(220,30,60,0.08)",
+            display: "flex", alignItems: "center", justifyContent: "center",
+            margin: "0 auto 12px",
+          }}>
+            <Upload style={{ width: 24, height: 24, color: "#dc1e3c" }} />
+          </div>
+          <p style={{ fontFamily: "var(--font-poppins, sans-serif)", fontWeight: 600, fontSize: "0.9375rem", color: "#1a0a14", marginBottom: 4 }}>
+            {uploading ? "Uploading…" : remaining === 0 ? "Photo limit reached" : "Drop photos here or click to browse"}
+          </p>
+          <p style={{ fontSize: "0.8125rem", color: "#aaa" }}>
+            JPG, PNG, WebP · Max 5MB each · {remaining} slot{remaining !== 1 ? "s" : ""} remaining
+          </p>
+        </div>
+        {!uploading && remaining > 0 && (
+          <button style={{
+            padding: "10px 24px", borderRadius: 8, fontSize: "0.875rem", fontWeight: 600,
+            background: "linear-gradient(135deg,#dc1e3c,#a0153c)", color: "#fff",
+            border: "none", cursor: "pointer", boxShadow: "0 4px 14px rgba(220,30,60,0.25)",
+          }}>
+            Select Photos
+          </button>
+        )}
+      </div>
+
+      {/* Photo grid */}
+      {photos.length > 0 && (
+        <div>
+          <p style={{ fontFamily: "var(--font-poppins, sans-serif)", fontSize: "0.8125rem", fontWeight: 600, color: "#555", marginBottom: 14, textTransform: "uppercase", letterSpacing: "0.08em" }}>
+            Your Photos ({photos.length}/6)
+          </p>
+          <div style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: 14 }}>
+            {photos.map((photo) => (
+              <div key={photo.id} style={{ position: "relative", borderRadius: 12, overflow: "hidden", aspectRatio: "1", boxShadow: photo.isPrimary ? "0 0 0 3px #dc1e3c" : "0 2px 10px rgba(0,0,0,0.1)" }}>
+                {/* eslint-disable-next-line @next/next/no-img-element */}
+                <img src={photo.url} alt="Profile photo" style={{ width: "100%", height: "100%", objectFit: "cover" }} />
+
+                {/* Primary badge */}
+                {photo.isPrimary && (
+                  <div style={{ position: "absolute", top: 8, left: 8, background: "#dc1e3c", color: "#fff", fontSize: "10px", fontWeight: 700, padding: "3px 8px", borderRadius: 20 }}>
+                    PRIMARY
+                  </div>
+                )}
+
+                {/* Actions overlay */}
+                <div style={{
+                  position: "absolute", inset: 0,
+                  background: "rgba(0,0,0,0)", transition: "background 0.2s",
+                  display: "flex", alignItems: "flex-end", justifyContent: "center",
+                  gap: 8, padding: 10,
+                }}
+                  onMouseEnter={(e) => (e.currentTarget as HTMLDivElement).style.background = "rgba(0,0,0,0.45)"}
+                  onMouseLeave={(e) => (e.currentTarget as HTMLDivElement).style.background = "rgba(0,0,0,0)"}
+                >
+                  {!photo.isPrimary && (
+                    <button
+                      onClick={() => makePrimary(photo.id)}
+                      style={{ padding: "5px 10px", borderRadius: 6, fontSize: "11px", fontWeight: 600, background: "rgba(255,255,255,0.9)", color: "#dc1e3c", border: "none", cursor: "pointer" }}
+                    >
+                      Set Primary
+                    </button>
+                  )}
+                  <button
+                    onClick={() => removePhoto(photo.id)}
+                    style={{ padding: "5px 10px", borderRadius: 6, fontSize: "11px", fontWeight: 600, background: "rgba(220,30,60,0.85)", color: "#fff", border: "none", cursor: "pointer" }}
+                  >
+                    Remove
+                  </button>
+                </div>
+              </div>
+            ))}
+
+            {/* Empty slots */}
+            {Array.from({ length: remaining }).map((_, i) => (
+              <div
+                key={`empty-${i}`}
+                onClick={() => fileInputRef.current?.click()}
+                style={{
+                  aspectRatio: "1", borderRadius: 12, border: "1.5px dashed rgba(220,30,60,0.18)",
+                  background: "#fdfbf9", display: "flex", flexDirection: "column",
+                  alignItems: "center", justifyContent: "center", gap: 6, cursor: "pointer",
+                }}
+              >
+                <Camera style={{ width: 22, height: 22, color: "rgba(220,30,60,0.3)" }} />
+                <span style={{ fontSize: "11px", color: "#ccc", fontFamily: "var(--font-poppins, sans-serif)" }}>Add Photo</span>
+              </div>
+            ))}
+          </div>
+        </div>
+      )}
+
+      {/* Privacy note */}
+      <div style={{ padding: "14px 16px", borderRadius: 12, background: "rgba(220,30,60,0.04)", border: "1px solid rgba(220,30,60,0.1)", display: "flex", gap: 10, alignItems: "flex-start" }}>
+        <Shield style={{ width: 16, height: 16, color: "#dc1e3c", flexShrink: 0, marginTop: 1 }} />
+        <div>
+          <p style={{ fontFamily: "var(--font-poppins, sans-serif)", fontSize: "0.8125rem", fontWeight: 600, color: "#1a0a14", marginBottom: 2 }}>Privacy Protected</p>
+          <p style={{ fontSize: "0.75rem", color: "#888" }}>Your photos are only visible to verified members. You can set any photo as your primary profile picture.</p>
+        </div>
+      </div>
+
+      {/* Save button */}
+      {photos.length > 0 && (
+        <div style={{ display: "flex", justifyContent: "flex-end" }}>
+          <button style={{
+            padding: "12px 32px", borderRadius: 10, fontSize: "0.9375rem", fontWeight: 600,
+            background: "linear-gradient(135deg,#dc1e3c,#a0153c)", color: "#fff",
+            border: "none", cursor: "pointer", boxShadow: "0 4px 16px rgba(220,30,60,0.3)",
+          }}>
+            Save Photos
+          </button>
+        </div>
+      )}
+    </div>
+  );
+}
 
 function PhotoCard({ name }: { name: string }) {
   const [hovered, setHovered] = useState(false);
