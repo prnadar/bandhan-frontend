@@ -299,18 +299,12 @@ export default function AboutPage() {
         <p style={{ color: "rgba(255,255,255,0.85)", fontSize: "16px", marginBottom: "36px", maxWidth: "540px", margin: "0 auto 36px" }}>
           Join the UK&apos;s most trusted boutique Indian matrimonial service. Hand-picked profiles. Personal guidance. Meaningful connections.
         </p>
-        <div style={{ display: "flex", gap: "16px", justifyContent: "center", flexWrap: "wrap" }}>
+        <div style={{ display: "flex", justifyContent: "center" }}>
           <Link
             href="/auth/register"
-            style={{ background: "#fff", color: "#dc1e3c", padding: "14px 36px", borderRadius: "9999px", fontWeight: 700, fontSize: "15px", textDecoration: "none" }}
+            style={{ background: "#fff", color: "#dc1e3c", padding: "14px 40px", borderRadius: "9999px", fontWeight: 700, fontSize: "15px", textDecoration: "none" }}
           >
-            Register Free
-          </Link>
-          <Link
-            href="/"
-            style={{ background: "rgba(255,255,255,0.15)", color: "#fff", padding: "14px 36px", borderRadius: "9999px", fontWeight: 600, fontSize: "15px", textDecoration: "none", border: "1px solid rgba(255,255,255,0.3)" }}
-          >
-            Browse Profiles
+            Register to View Profiles
           </Link>
         </div>
       </section>
