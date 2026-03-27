@@ -35,7 +35,7 @@ export default function AppLayout({ children }: { children: React.ReactNode }) {
         {/* Logo */}
         <div className="px-6 py-5 border-b" style={{ borderColor: "rgba(255,255,255,0.08)" }}>
           <Link href="/dashboard" className="flex items-center gap-2.5" style={{ minHeight: "auto" }}>
-            <img src="/images/logo.jpeg" alt="Match4Marriage" style={{ height: "40px", width: "auto", objectFit: "contain", filter: "brightness(0) invert(1)" }} />
+            <img src="/images/logo.jpeg" alt="Match4Marriage" style={{ height: "40px", width: "auto", objectFit: "contain" }} />
           </Link>
         </div>
 
@@ -233,7 +233,7 @@ export default function AppLayout({ children }: { children: React.ReactNode }) {
               {/* Brand */}
               <div>
                 <div style={{ marginBottom: "10px" }}>
-                  <img src="/images/logo.jpeg" alt="Match4Marriage" style={{ height: "44px", width: "auto", objectFit: "contain", filter: "brightness(0) invert(1)" }} />
+                  <img src="/images/logo.jpeg" alt="Match4Marriage" style={{ height: "44px", width: "auto", objectFit: "contain" }} />
                 </div>
                 <p style={{ fontSize: "12px", color: "rgba(255,255,255,0.4)", lineHeight: 1.6 }}>
                   Elite Indian Matrimony<br />United Kingdom

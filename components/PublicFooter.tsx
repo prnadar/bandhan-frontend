@@ -9,7 +9,7 @@ export default function PublicFooter() {
           {/* Brand */}
           <div>
             <div style={{ marginBottom: "12px" }}>
-              <img src="/images/logo.jpeg" alt="Match4Marriage" style={{ height: "48px", width: "auto", objectFit: "contain", filter: "brightness(0) invert(1)" }} />
+              <img src="/images/logo.jpeg" alt="Match4Marriage" style={{ height: "48px", width: "auto", objectFit: "contain" }} />
             </div>
             <p style={{ fontSize: "13px", color: "rgba(255,255,255,0.4)", lineHeight: 1.7, maxWidth: "260px" }}>
               Elite Indian matrimony service — hand-picked, personally verified profiles for the global Indian community.
