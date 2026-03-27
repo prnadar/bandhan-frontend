@@ -166,8 +166,132 @@ export default function AppLayout({ children }: { children: React.ReactNode }) {
       </aside>
 
       {/* ── Main ── */}
-      <main className="flex-1 ml-64 min-h-screen" style={{ background: "#fdfbf9" }}>
-        {children}
+      <main className="flex-1 ml-64 min-h-screen flex flex-col" style={{ background: "#fdfbf9" }}>
+
+        {/* ── Top Header ── */}
+        <header style={{
+          position: "sticky", top: 0, zIndex: 30,
+          background: "rgba(253,251,249,0.92)",
+          backdropFilter: "blur(12px)",
+          borderBottom: "1px solid rgba(220,30,60,0.10)",
+          padding: "0 32px",
+          height: "60px",
+          display: "flex", alignItems: "center", justifyContent: "space-between",
+        }}>
+          {/* Brand */}
+          <Link href="/dashboard" style={{ textDecoration: "none", display: "flex", alignItems: "center", gap: "8px", minHeight: "auto" }}>
+            <Heart className="w-4 h-4" style={{ color: "#dc1e3c" }} />
+            <span style={{ fontFamily: "var(--font-playfair, serif)", fontSize: "18px", fontWeight: 700, color: "#1a0a14" }}>
+              Match<span style={{ color: "#dc1e3c" }}>4</span>Marriage
+            </span>
+          </Link>
+
+          {/* Right side */}
+          <div style={{ display: "flex", alignItems: "center", gap: "20px" }}>
+            <Link href="/notifications" style={{ position: "relative", textDecoration: "none", display: "flex", alignItems: "center", color: "#1a0a14", minHeight: "auto" }}>
+              <Bell className="w-5 h-5" style={{ color: "rgba(26,10,20,0.55)" }} />
+              <span style={{
+                position: "absolute", top: "-4px", right: "-6px",
+                background: "#dc1e3c", color: "#fff",
+                fontSize: "10px", fontWeight: 700,
+                width: "16px", height: "16px",
+                borderRadius: "50%",
+                display: "flex", alignItems: "center", justifyContent: "center",
+              }}>2</span>
+            </Link>
+            <Link href="/messages" style={{ position: "relative", textDecoration: "none", display: "flex", alignItems: "center", minHeight: "auto" }}>
+              <MessageCircle className="w-5 h-5" style={{ color: "rgba(26,10,20,0.55)" }} />
+              <span style={{
+                position: "absolute", top: "-4px", right: "-6px",
+                background: "#dc1e3c", color: "#fff",
+                fontSize: "10px", fontWeight: 700,
+                width: "16px", height: "16px",
+                borderRadius: "50%",
+                display: "flex", alignItems: "center", justifyContent: "center",
+              }}>3</span>
+            </Link>
+            <Link href="/profile/me" style={{ textDecoration: "none", minHeight: "auto" }}>
+              <div style={{
+                width: "34px", height: "34px", borderRadius: "50%",
+                background: "linear-gradient(135deg,#dc1e3c,#a0153c)",
+                display: "flex", alignItems: "center", justifyContent: "center",
+                color: "#fff", fontWeight: 700, fontSize: "13px",
+              }}>P</div>
+            </Link>
+          </div>
+        </header>
+
+        {/* ── Page Content ── */}
+        <div style={{ flex: 1 }}>
+          {children}
+        </div>
+
+        {/* ── Footer ── */}
+        <footer style={{
+          borderTop: "1px solid rgba(220,30,60,0.10)",
+          background: "#1a0a14",
+          padding: "32px",
+        }}>
+          <div style={{ maxWidth: "960px", margin: "0 auto" }}>
+            <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr 1fr", gap: "24px", marginBottom: "24px" }}>
+              {/* Brand */}
+              <div>
+                <div style={{ display: "flex", alignItems: "center", gap: "8px", marginBottom: "10px" }}>
+                  <Heart className="w-4 h-4" style={{ color: "#dc1e3c" }} />
+                  <span style={{ fontFamily: "var(--font-playfair, serif)", fontSize: "16px", fontWeight: 700, color: "#fff" }}>Match4Marriage</span>
+                </div>
+                <p style={{ fontSize: "12px", color: "rgba(255,255,255,0.4)", lineHeight: 1.6 }}>
+                  Elite Indian Matrimony<br />United Kingdom
+                </p>
+              </div>
+
+              {/* Quick Links */}
+              <div>
+                <p style={{ fontSize: "11px", fontWeight: 700, color: "rgba(255,255,255,0.5)", textTransform: "uppercase", letterSpacing: "0.1em", marginBottom: "10px" }}>Quick Links</p>
+                {[
+                  { label: "My Profile", href: "/profile/me" },
+                  { label: "Browse Matches", href: "/matches" },
+                  { label: "Messages", href: "/messages" },
+                  { label: "Subscription", href: "/subscription" },
+                ].map(({ label, href }) => (
+                  <Link key={href} href={href} style={{ display: "block", fontSize: "13px", color: "rgba(255,255,255,0.45)", textDecoration: "none", marginBottom: "6px", minHeight: "auto" }}
+                    onMouseEnter={(e) => (e.currentTarget as HTMLAnchorElement).style.color = "#fff"}
+                    onMouseLeave={(e) => (e.currentTarget as HTMLAnchorElement).style.color = "rgba(255,255,255,0.45)"}
+                  >{label}</Link>
+                ))}
+              </div>
+
+              {/* Support */}
+              <div>
+                <p style={{ fontSize: "11px", fontWeight: 700, color: "rgba(255,255,255,0.5)", textTransform: "uppercase", letterSpacing: "0.1em", marginBottom: "10px" }}>Support</p>
+                {[
+                  { label: "Privacy Policy", href: "/privacy" },
+                  { label: "Terms of Service", href: "/terms" },
+                  { label: "Settings", href: "/settings" },
+                ].map(({ label, href }) => (
+                  <Link key={href} href={href} style={{ display: "block", fontSize: "13px", color: "rgba(255,255,255,0.45)", textDecoration: "none", marginBottom: "6px", minHeight: "auto" }}
+                    onMouseEnter={(e) => (e.currentTarget as HTMLAnchorElement).style.color = "#fff"}
+                    onMouseLeave={(e) => (e.currentTarget as HTMLAnchorElement).style.color = "rgba(255,255,255,0.45)"}
+                  >{label}</Link>
+                ))}
+                <a href="mailto:enquiry@match4marriage.com" style={{ display: "block", fontSize: "13px", color: "rgba(255,255,255,0.45)", textDecoration: "none", marginBottom: "6px" }}>
+                  ✉️ enquiry@match4marriage.com
+                </a>
+              </div>
+            </div>
+
+            {/* Bottom bar */}
+            <div style={{ borderTop: "1px solid rgba(255,255,255,0.08)", paddingTop: "16px", display: "flex", alignItems: "center", justifyContent: "space-between" }}>
+              <p style={{ fontSize: "12px", color: "rgba(255,255,255,0.25)" }}>
+                © {new Date().getFullYear()} Match4Marriage. All rights reserved.
+              </p>
+              <p style={{ fontSize: "12px", color: "rgba(255,255,255,0.25)" }}>
+                Made with ❤️ for love
+              </p>
+            </div>
+          </div>
+        </footer>
+
       </main>
     </div>
   );
