@@ -9,11 +9,9 @@ import {
 } from "lucide-react";
 
 const steps = [
-  { id: 1, label: "Verify Phone",   icon: Phone,   title: "Let's start with your phone number", subtitle: "We'll send a one-time verification code" },
-  { id: 2, label: "Basic Profile",  icon: User,    title: "Tell us about yourself",              subtitle: "Your profile helps us find better matches" },
-  { id: 3, label: "Personality",    icon: Brain,   title: "Quick personality snapshot",          subtitle: "5 questions · takes 2 minutes · powers AI matching" },
-  { id: 4, label: "ID Verify",      icon: Shield,  title: "Verify your identity",                subtitle: "Government-grade trust — only you can see this data" },
-  { id: 5, label: "Preferences",    icon: Sliders, title: "Your partner preferences",            subtitle: "We'll use this to filter and rank your daily matches" },
+  { id: 1, label: "Basic Profile",  icon: User,    title: "Tell us about yourself",              subtitle: "Your profile helps us find better matches" },
+  { id: 2, label: "Verify Phone",   icon: Phone,   title: "Verify your phone number",            subtitle: "We'll send a one-time verification code" },
+  { id: 3, label: "ID Verify",      icon: Shield,  title: "Verify your identity",                subtitle: "Government-grade trust — only you can see this data" },
 ];
 
 const personalities = [
@@ -303,8 +301,8 @@ export default function OnboardingPage() {
           <p style={{ fontSize: "13px", color: "#888" }}>{currentStep.subtitle}</p>
         </div>
 
-        {/* ── Step 1: Phone + OTP ── */}
-        {step === 1 && (
+        {/* ── Step 2: Phone + OTP ── */}
+        {step === 2 && (
           <div style={{ display: "flex", flexDirection: "column", gap: "16px" }}>
             {!otpSent ? (
               <>
@@ -387,8 +385,8 @@ export default function OnboardingPage() {
           </div>
         )}
 
-        {/* ── Step 2: Basic Profile ── */}
-        {step === 2 && (
+        {/* ── Step 1: Basic Profile ── */}
+        {step === 1 && (
           <div style={{ display: "flex", flexDirection: "column", gap: "16px" }}>
             <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "12px" }}>
               {[
@@ -455,105 +453,9 @@ export default function OnboardingPage() {
           </div>
         )}
 
-        {/* ── Step 3: Personality Quiz ── */}
+        {/* ── Step 3: ID Verification ── */}
         {step === 3 && (
-          <div style={{ display: "flex", flexDirection: "column", gap: "20px" }}>
-            {personalities.map((p, qi) => (
-              <div key={qi}>
-                <p style={{ fontSize: "13px", fontWeight: 600, color: "#1a0a14", marginBottom: "10px" }}>
-                  {qi + 1}. {p.q}
-                </p>
-                <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "8px" }}>
-                  {p.a.map((ans, ai) => (
-                    <button
-                      key={ai}
-                      onClick={() => setQuizAnswers({ ...quizAnswers, [qi]: ai })}
-                      style={{
-                        textAlign: "left",
-                        padding: "10px 12px",
-                        borderRadius: "10px",
-                        fontSize: "12px",
-                        lineHeight: 1.4,
-                        border: quizAnswers[qi] === ai ? "1.5px solid #dc1e3c" : "1px solid rgba(220,30,60,0.15)",
-                        background: quizAnswers[qi] === ai ? "rgba(220,30,60,0.06)" : "#fff",
-                        color: quizAnswers[qi] === ai ? "#dc1e3c" : "rgba(26,10,20,0.6)",
-                        cursor: "pointer",
-                      }}
-                    >
-                      {ans}
-                    </button>
-                  ))}
-                </div>
-              </div>
-            ))}
-          </div>
-        )}
-
-        {/* ── Step 4: ID Verification ── */}
-        {step === 4 && (
           <IdVerifyStep />
-        )}
-
-        {/* ── Step 5: Preferences ── */}
-        {step === 5 && (
-          <div style={{ display: "flex", flexDirection: "column", gap: "20px" }}>
-            <div>
-              <label style={{ fontSize: "11px", fontWeight: 600, color: "#555", textTransform: "uppercase", letterSpacing: "0.08em", display: "block", marginBottom: "10px" }}>Partner Age Range</label>
-              <div style={{ display: "flex", alignItems: "center", gap: "12px" }}>
-                <input
-                  type="number"
-                  value={prefs.ageMin}
-                  onChange={(e) => setPrefs({ ...prefs, ageMin: e.target.value })}
-                  style={{ width: "72px", textAlign: "center", padding: "10px 8px", border: "1px solid rgba(220,30,60,0.15)", borderRadius: "10px", fontFamily: "var(--font-playfair, serif)", fontSize: "18px", fontWeight: 600, color: "#1a0a14", background: "#fff", outline: "none" }}
-                />
-                <span style={{ fontSize: "13px", color: "#888" }}>to</span>
-                <input
-                  type="number"
-                  value={prefs.ageMax}
-                  onChange={(e) => setPrefs({ ...prefs, ageMax: e.target.value })}
-                  style={{ width: "72px", textAlign: "center", padding: "10px 8px", border: "1px solid rgba(220,30,60,0.15)", borderRadius: "10px", fontFamily: "var(--font-playfair, serif)", fontSize: "18px", fontWeight: 600, color: "#1a0a14", background: "#fff", outline: "none" }}
-                />
-                <span style={{ fontSize: "13px", color: "#888" }}>years</span>
-              </div>
-            </div>
-
-            {[
-              { key: "religion", label: "Religion Preference", options: ["Any", "Hindu", "Sikh", "Christian", "Jain", "Muslim"] },
-              { key: "city",     label: "Location Preference", options: ["Any India", "Same city", "Same state", "Metro cities", "NRI / Abroad"] },
-            ].map(({ key, label, options }) => (
-              <div key={key}>
-                <label style={{ fontSize: "11px", fontWeight: 600, color: "#555", textTransform: "uppercase", letterSpacing: "0.08em", display: "block", marginBottom: "10px" }}>{label}</label>
-                <div style={{ display: "flex", flexWrap: "wrap", gap: "8px" }}>
-                  {options.map((opt) => (
-                    <button
-                      key={opt}
-                      onClick={() => setPrefs({ ...prefs, [key]: opt })}
-                      style={{
-                        padding: "6px 14px",
-                        borderRadius: "20px",
-                        fontSize: "12px",
-                        fontWeight: 500,
-                        border: (prefs as Record<string, string>)[key] === opt ? "none" : "1px solid rgba(220,30,60,0.15)",
-                        background: (prefs as Record<string, string>)[key] === opt ? "linear-gradient(135deg, #dc1e3c, #a0153c)" : "#fff",
-                        color: (prefs as Record<string, string>)[key] === opt ? "#fff" : "rgba(26,10,20,0.55)",
-                        cursor: "pointer",
-                        boxShadow: (prefs as Record<string, string>)[key] === opt ? "0 2px 8px rgba(220,30,60,0.2)" : "none",
-                      }}
-                    >
-                      {opt}
-                    </button>
-                  ))}
-                </div>
-              </div>
-            ))}
-
-            <div style={{ background: "rgba(220,30,60,0.04)", border: "1px solid rgba(220,30,60,0.12)", borderRadius: "10px", padding: "14px", display: "flex", alignItems: "flex-start", gap: "10px" }}>
-              <Star style={{ width: "16px", height: "16px", color: "#dc1e3c", flexShrink: 0, marginTop: "2px" }} />
-              <p style={{ fontSize: "12px", color: "rgba(26,10,20,0.6)", lineHeight: 1.6 }}>
-                Your preferences guide our AI — they're not hard filters. We may show highly compatible profiles outside these criteria.
-              </p>
-            </div>
-          </div>
         )}
 
         {/* Navigation */}
@@ -596,7 +498,7 @@ export default function OnboardingPage() {
           </button>
         </div>
 
-        {step === 1 && (
+        {step === 2 && (
           <p style={{ fontSize: "12px", textAlign: "center", color: "#aaa", marginTop: "16px" }}>
             Already have an account?{" "}
             <Link href="/auth/login" style={{ color: "#dc1e3c", fontWeight: 600, textDecoration: "none" }}>Sign in</Link>
