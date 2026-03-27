@@ -947,7 +947,7 @@ export default function HomePage() {
             <div style={{ display: "flex", flexDirection: "column", gap: "16px" }}>
               {[
                 { icon: "✉️", label: "Email Us", value: "enquiry@match4marriage.com" },
-                { icon: "📞", label: "Call Us", value: "+44 (0) 7700 000 000" },
+                { icon: "📞", label: "Call Us", value: "+44 7476 212655" },
                 { icon: "💬", label: "WhatsApp", value: "Message us on WhatsApp" },
               ].map((c) => (
                 <div key={c.label} style={{ display: "flex", alignItems: "center", gap: "16px" }}>

@@ -386,7 +386,7 @@ export default function SettingsPage() {
               <>
                 <Card>
                   {[
-                    { label: "Change Phone Number",      desc: "+91 98765 43210"           },
+                    { label: "Change Phone Number",      desc: "+44 7476 212655"           },
                     { label: "Change Email",             desc: "prabhakar@example.com"     },
                     { label: "Change Password",          desc: "Last changed 3 months ago" },
                     { label: "Two-Factor Authentication",desc: "Add extra security"        },
