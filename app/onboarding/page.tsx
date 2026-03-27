@@ -188,7 +188,7 @@ export default function OnboardingPage() {
   const [phone, setPhone] = useState("");
   const [otp, setOtp] = useState(["", "", "", "", "", ""]);
   const [otpSent, setOtpSent] = useState(false);
-  const [form, setForm] = useState({ name: "", dob: "", gender: "", religion: "", caste: "", height: "", city: "", education: "", profession: "" });
+  const [form, setForm] = useState({ name: "", dob: "", gender: "", religion: "", caste: "", height: "", country: "", motherTongue: "", education: "", profession: "" });
   const [quizAnswers, setQuizAnswers] = useState<Record<number, number>>({});
   const [prefs, setPrefs] = useState({ ageMin: "25", ageMax: "32", religion: "Any", city: "Any India" });
 
@@ -431,24 +431,129 @@ export default function OnboardingPage() {
             </div>
 
             <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "12px" }}>
-              {[
-                { key: "religion",   label: "Religion",          placeholder: "Hindu" },
-                { key: "caste",      label: "Caste / Community",  placeholder: "Brahmin" },
-                { key: "city",       label: "City",               placeholder: "Mumbai" },
-                { key: "height",     label: "Height",             placeholder: "5'8\"" },
-                { key: "education",  label: "Education",          placeholder: "B.Tech, IIT" },
-                { key: "profession", label: "Profession",         placeholder: "Software Engineer" },
-              ].map(({ key, label, placeholder }) => (
-                <div key={key}>
-                  <label style={{ fontSize: "11px", fontWeight: 600, color: "#555", textTransform: "uppercase", letterSpacing: "0.08em", display: "block", marginBottom: "6px" }}>{label}</label>
-                  <input
-                    placeholder={placeholder}
-                    value={(form as Record<string, string>)[key]}
-                    onChange={(e) => setForm({ ...form, [key]: e.target.value })}
-                    style={{ width: "100%", padding: "12px 16px", border: "1px solid rgba(220,30,60,0.15)", borderRadius: "10px", fontSize: "13px", color: "#1a0a14", background: "#fff", outline: "none", boxSizing: "border-box" }}
-                  />
-                </div>
-              ))}
+
+              {/* Religion — Dropdown */}
+              <div>
+                <label style={{ fontSize: "11px", fontWeight: 600, color: "#555", textTransform: "uppercase", letterSpacing: "0.08em", display: "block", marginBottom: "6px" }}>Religion</label>
+                <select
+                  value={form.religion}
+                  onChange={(e) => setForm({ ...form, religion: e.target.value })}
+                  style={{ width: "100%", padding: "12px 16px", border: "1px solid rgba(220,30,60,0.15)", borderRadius: "10px", fontSize: "13px", color: form.religion ? "#1a0a14" : "#aaa", background: "#fff", outline: "none", boxSizing: "border-box", appearance: "none", WebkitAppearance: "none", cursor: "pointer" }}
+                >
+                  <option value="" disabled>Select Religion</option>
+                  <option>Hindu</option>
+                  <option>Muslim</option>
+                  <option>Christian</option>
+                  <option>Sikh</option>
+                  <option>Jain</option>
+                  <option>Buddhist</option>
+                  <option>Parsi / Zoroastrian</option>
+                  <option>Jewish</option>
+                  <option>No Religion</option>
+                  <option>Other</option>
+                </select>
+              </div>
+
+              {/* Caste / Community */}
+              <div>
+                <label style={{ fontSize: "11px", fontWeight: 600, color: "#555", textTransform: "uppercase", letterSpacing: "0.08em", display: "block", marginBottom: "6px" }}>Caste / Community</label>
+                <input
+                  placeholder="Brahmin"
+                  value={form.caste}
+                  onChange={(e) => setForm({ ...form, caste: e.target.value })}
+                  style={{ width: "100%", padding: "12px 16px", border: "1px solid rgba(220,30,60,0.15)", borderRadius: "10px", fontSize: "13px", color: "#1a0a14", background: "#fff", outline: "none", boxSizing: "border-box" }}
+                />
+              </div>
+
+              {/* Country — Dropdown */}
+              <div>
+                <label style={{ fontSize: "11px", fontWeight: 600, color: "#555", textTransform: "uppercase", letterSpacing: "0.08em", display: "block", marginBottom: "6px" }}>Country</label>
+                <select
+                  value={form.country}
+                  onChange={(e) => setForm({ ...form, country: e.target.value })}
+                  style={{ width: "100%", padding: "12px 16px", border: "1px solid rgba(220,30,60,0.15)", borderRadius: "10px", fontSize: "13px", color: form.country ? "#1a0a14" : "#aaa", background: "#fff", outline: "none", boxSizing: "border-box", appearance: "none", WebkitAppearance: "none", cursor: "pointer" }}
+                >
+                  <option value="" disabled>Select Country</option>
+                  <option>United Kingdom</option>
+                  <option>India</option>
+                  <option>United States</option>
+                  <option>Canada</option>
+                  <option>Australia</option>
+                  <option>UAE</option>
+                  <option>Singapore</option>
+                  <option>Germany</option>
+                  <option>France</option>
+                  <option>Netherlands</option>
+                  <option>New Zealand</option>
+                  <option>Malaysia</option>
+                  <option>Sri Lanka</option>
+                  <option>South Africa</option>
+                  <option>Other</option>
+                </select>
+              </div>
+
+              {/* Height */}
+              <div>
+                <label style={{ fontSize: "11px", fontWeight: 600, color: "#555", textTransform: "uppercase", letterSpacing: "0.08em", display: "block", marginBottom: "6px" }}>Height</label>
+                <input
+                  placeholder="5&apos;8&quot;"
+                  value={form.height}
+                  onChange={(e) => setForm({ ...form, height: e.target.value })}
+                  style={{ width: "100%", padding: "12px 16px", border: "1px solid rgba(220,30,60,0.15)", borderRadius: "10px", fontSize: "13px", color: "#1a0a14", background: "#fff", outline: "none", boxSizing: "border-box" }}
+                />
+              </div>
+
+              {/* Mother Tongue — Dropdown */}
+              <div>
+                <label style={{ fontSize: "11px", fontWeight: 600, color: "#555", textTransform: "uppercase", letterSpacing: "0.08em", display: "block", marginBottom: "6px" }}>Mother Tongue</label>
+                <select
+                  value={form.motherTongue}
+                  onChange={(e) => setForm({ ...form, motherTongue: e.target.value })}
+                  style={{ width: "100%", padding: "12px 16px", border: "1px solid rgba(220,30,60,0.15)", borderRadius: "10px", fontSize: "13px", color: form.motherTongue ? "#1a0a14" : "#aaa", background: "#fff", outline: "none", boxSizing: "border-box", appearance: "none", WebkitAppearance: "none", cursor: "pointer" }}
+                >
+                  <option value="" disabled>Select Language</option>
+                  <option>Tamil</option>
+                  <option>Hindi</option>
+                  <option>Telugu</option>
+                  <option>Kannada</option>
+                  <option>Malayalam</option>
+                  <option>Marathi</option>
+                  <option>Bengali</option>
+                  <option>Gujarati</option>
+                  <option>Punjabi</option>
+                  <option>Urdu</option>
+                  <option>Sindhi</option>
+                  <option>Odia</option>
+                  <option>Konkani</option>
+                  <option>Tulu</option>
+                  <option>Sinhala</option>
+                  <option>English</option>
+                  <option>Other</option>
+                </select>
+              </div>
+
+              {/* Education */}
+              <div>
+                <label style={{ fontSize: "11px", fontWeight: 600, color: "#555", textTransform: "uppercase", letterSpacing: "0.08em", display: "block", marginBottom: "6px" }}>Education</label>
+                <input
+                  placeholder="B.Tech, IIT"
+                  value={form.education}
+                  onChange={(e) => setForm({ ...form, education: e.target.value })}
+                  style={{ width: "100%", padding: "12px 16px", border: "1px solid rgba(220,30,60,0.15)", borderRadius: "10px", fontSize: "13px", color: "#1a0a14", background: "#fff", outline: "none", boxSizing: "border-box" }}
+                />
+              </div>
+
+              {/* Profession */}
+              <div style={{ gridColumn: "1 / -1" }}>
+                <label style={{ fontSize: "11px", fontWeight: 600, color: "#555", textTransform: "uppercase", letterSpacing: "0.08em", display: "block", marginBottom: "6px" }}>Profession</label>
+                <input
+                  placeholder="Software Engineer"
+                  value={form.profession}
+                  onChange={(e) => setForm({ ...form, profession: e.target.value })}
+                  style={{ width: "100%", padding: "12px 16px", border: "1px solid rgba(220,30,60,0.15)", borderRadius: "10px", fontSize: "13px", color: "#1a0a14", background: "#fff", outline: "none", boxSizing: "border-box" }}
+                />
+              </div>
+
             </div>
           </div>
         )}
