@@ -49,7 +49,7 @@ const DOCUMENTS_BY_COUNTRY: Record<string, string[]> = {
   "Other":           ["Passport", "National ID Card", "Driving Licence"],
 };
 
-function IdVerifyStep() {
+function IdVerifyStep({ onComplete }: { onComplete?: (done: boolean) => void }) {
   const [country, setCountry] = useState("");
   const [docType, setDocType] = useState("");
   const [docNumber, setDocNumber] = useState("");
@@ -59,6 +59,12 @@ function IdVerifyStep() {
 
   const availableDocs = country ? (DOCUMENTS_BY_COUNTRY[country] || DOCUMENTS_BY_COUNTRY["Other"]) : [];
   const needsBack = docType && !["Passport"].includes(docType);
+
+  // Notify parent whenever completion state changes
+  const checkComplete = (front: File | null, back: File | null, selfie: File | null, doc: string, ct: string) => {
+    const done = !!(ct && doc && front && selfie);
+    onComplete?.(done);
+  };
 
   const UploadBox = ({
     label, hint, file, onChange,
@@ -160,21 +166,21 @@ function IdVerifyStep() {
             label={`${docType} — Front`}
             hint="Upload front of document"
             file={frontFile}
-            onChange={setFrontFile}
+            onChange={(f) => { setFrontFile(f); checkComplete(f, backFile, selfieFile, docType, country); }}
           />
           {needsBack && (
             <UploadBox
               label={`${docType} — Back`}
               hint="Upload back of document"
               file={backFile}
-              onChange={setBackFile}
+              onChange={(f) => { setBackFile(f); checkComplete(frontFile, f, selfieFile, docType, country); }}
             />
           )}
           <UploadBox
             label="Selfie / Liveness Photo"
             hint="Take or upload a clear selfie"
             file={selfieFile}
-            onChange={setSelfieFile}
+            onChange={(f) => { setSelfieFile(f); checkComplete(frontFile, backFile, f, docType, country); }}
           />
         </>
       )}
@@ -188,6 +194,8 @@ export default function OnboardingPage() {
   const [phone, setPhone] = useState("");
   const [otp, setOtp] = useState(["", "", "", "", "", ""]);
   const [otpSent, setOtpSent] = useState(false);
+  const [otpVerified, setOtpVerified] = useState(false);
+  const [idUploaded, setIdUploaded] = useState(false);
   const [form, setForm] = useState({ name: "", dob: "", gender: "", religion: "", caste: "", country: "", motherTongue: "", education: "", profession: "" });
   const [quizAnswers, setQuizAnswers] = useState<Record<number, number>>({});
   const [prefs, setPrefs] = useState({ ageMin: "25", ageMax: "32", religion: "Any", city: "Any India" });
@@ -360,6 +368,9 @@ export default function OnboardingPage() {
                         const val = e.target.value.replace(/\D/, "");
                         const next = [...otp]; next[i] = val; setOtp(next);
                         if (val && i < 5) (document.getElementById(`otp-${i + 1}`) as HTMLInputElement)?.focus();
+                        const filled = [...next].every(d => d !== "");
+                        if (filled) setOtpVerified(true);
+                        else setOtpVerified(false);
                       }}
                       id={`otp-${i}`}
                       style={{
@@ -551,7 +562,7 @@ export default function OnboardingPage() {
 
         {/* ── Step 3: ID Verification ── */}
         {step === 3 && (
-          <IdVerifyStep />
+          <IdVerifyStep onComplete={setIdUploaded} />
         )}
 
         {/* Navigation */}
@@ -574,24 +585,32 @@ export default function OnboardingPage() {
               Back
             </button>
           )}
-          <button
-            onClick={next}
-            style={{
-              flex: 1,
-              display: "flex", alignItems: "center", justifyContent: "center", gap: "8px",
-              padding: "12px 24px",
-              borderRadius: "10px",
-              fontSize: "14px", fontWeight: 600,
-              color: "#fff",
-              background: "linear-gradient(135deg, #dc1e3c, #a0153c)",
-              border: "none",
-              cursor: "pointer",
-              boxShadow: "0 4px 16px rgba(220,30,60,0.25)",
-            }}
-          >
-            {step === steps.length ? "Go to Dashboard" : "Continue"}
-            <ArrowRight style={{ width: "16px", height: "16px" }} />
-          </button>
+          {(() => {
+            const blocked =
+              (step === 2 && !otpVerified) ||
+              (step === 3 && !idUploaded);
+            return (
+              <button
+                onClick={blocked ? undefined : next}
+                disabled={blocked}
+                style={{
+                  flex: 1,
+                  display: "flex", alignItems: "center", justifyContent: "center", gap: "8px",
+                  padding: "12px 24px",
+                  borderRadius: "10px",
+                  fontSize: "14px", fontWeight: 600,
+                  color: blocked ? "#aaa" : "#fff",
+                  background: blocked ? "rgba(26,10,20,0.08)" : "linear-gradient(135deg, #dc1e3c, #a0153c)",
+                  border: "none",
+                  cursor: blocked ? "not-allowed" : "pointer",
+                  boxShadow: blocked ? "none" : "0 4px 16px rgba(220,30,60,0.25)",
+                }}
+              >
+                {step === steps.length ? "Go to Dashboard" : "Continue"}
+                <ArrowRight style={{ width: "16px", height: "16px" }} />
+              </button>
+            );
+          })()}
         </div>
 
         {step === 2 && (
