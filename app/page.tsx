@@ -131,10 +131,10 @@ export default function HomePage() {
           {/* Desktop nav */}
           <div className="hidden lg:flex items-center gap-8">
             {[
-              { label: "Home", href: "#home" },
-              { label: "Browse Profiles", href: "#browse-profiles" },
-              { label: "Success Stories", href: "#success-stories" },
-              { label: "Pricing", href: "#pricing" },
+              { label: "Home", href: "/" },
+              { label: "Browse Profiles", href: "/profiles" },
+              { label: "Success Stories", href: "/success-stories" },
+              { label: "Pricing", href: "/pricing" },
               { label: "About Us", href: "/about" },
             ].map((item) => (
               <a
@@ -235,10 +235,10 @@ export default function HomePage() {
         {mobileMenuOpen && (
           <div className="lg:hidden bg-white border-t px-6 py-4 space-y-3" style={{ borderColor: "rgba(161,99,4,0.12)" }}>
             {[
-              { label: "Home", href: "#home" },
-              { label: "Browse Profiles", href: "#browse-profiles" },
-              { label: "Success Stories", href: "#success-stories" },
-              { label: "Pricing", href: "#pricing" },
+              { label: "Home", href: "/" },
+              { label: "Browse Profiles", href: "/profiles" },
+              { label: "Success Stories", href: "/success-stories" },
+              { label: "Pricing", href: "/pricing" },
               { label: "About Us", href: "/about" },
             ].map((item) => (
               <a
@@ -1091,9 +1091,9 @@ export default function HomePage() {
               <p style={{ fontSize: "11px", fontWeight: 700, color: "rgba(255,255,255,0.6)", textTransform: "uppercase", letterSpacing: "0.15em", marginBottom: "14px" }}>Links</p>
               <div style={{ display: "flex", flexDirection: "column", gap: "10px" }}>
                 {[
-                  { label: "Home", href: "#home" },
-                  { label: "Browse Profiles", href: "#browse-profiles" },
-                  { label: "Success Stories", href: "#success-stories" },
+                  { label: "Home", href: "/" },
+                  { label: "Browse Profiles", href: "/profiles" },
+                  { label: "Success Stories", href: "/success-stories" },
                   { label: "About Us", href: "/about" },
                 ].map((link) => (
                   <a key={link.label} href={link.href} style={{ fontSize: "13px", color: "rgba(255,255,255,0.45)", textDecoration: "none" }}>
