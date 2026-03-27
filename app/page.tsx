@@ -49,40 +49,27 @@ const features = [
 
 const plans = [
   {
-    name: "Freemium",
+    name: "Basic",
     price: "Free",
-    period: "Forever free",
-    badge: null,
-    features: ["Create your profile", "Aadhaar + PAN verification", "View 5 daily matches", "Send 3 interests per month", "AI compatibility score"],
+    period: "",
+
+    features: ["5 profile views", "Basic search", "Send 3 interests"],
     highlighted: false,
-    cta: "Get Started",
   },
   {
     name: "Premium",
-    price: "£999",
-    period: "/month",
-    badge: null,
-    features: ["Everything in Free", "Send 20 interests/month", "Direct messaging (20 threads)", "View 1 contact detail/day", "Advanced filters"],
-    highlighted: false,
-    cta: "Start Silver",
+    price: "£100",
+    period: "/3 months",
+    badge: "Most Popular",
+    features: ["Unlimited views", "Advanced search", "Unlimited interests", "Photo access", "Priority matching"],
+    highlighted: true,
   },
   {
     name: "Elite",
-    price: "£2,499",
-    period: "/month",
-    badge: "Most Popular",
-    features: ["Everything in Silver", "Unlimited interests & messaging", "View all contact details", "Profile boost (2× weekly)", "Video calling", "Family mode access"],
-    highlighted: true,
-    cta: "Start Gold",
-  },
-  {
-    name: "Elite Plus",
-    price: "£7,999",
-    period: "/month",
-    badge: null,
-    features: ["Everything in Gold", "Dedicated relationship manager", "Concierge introductions", "Background verification", "In-person meeting coordination", "Astrologer consultation"],
+    price: "£300",
+    period: "/3 months",
+    features: ["Everything in Premium", "Dedicated advisor", "Family background check", "Horoscope matching"],
     highlighted: false,
-    cta: "Start Platinum",
   },
 ];
 
@@ -883,7 +870,7 @@ export default function HomePage() {
 
       {/* ── Subscription / Pricing ───────────────────────────────────── */}
       <section id="pricing" style={{ padding: "96px 24px", background: "#fff" }}>
-        <div className="max-w-6xl mx-auto">
+        <div className="max-w-5xl mx-auto">
           <div style={{ textAlign: "center", marginBottom: "56px" }}>
             <span style={{ fontSize: "12px", fontWeight: 700, color: "#dc1e3c", textTransform: "uppercase", letterSpacing: "0.15em" }}>Membership Plans</span>
             <h2 style={{ fontFamily: "var(--font-playfair, serif)", fontSize: "clamp(28px, 4vw, 40px)", fontWeight: 700, color: "#1a0a14", marginTop: "12px", marginBottom: "12px" }}>
@@ -895,7 +882,7 @@ export default function HomePage() {
           </div>
 
           {/* ── Plan cards ── */}
-          <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(220px, 1fr))", gap: "20px" }}>
+          <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(260px, 1fr))", gap: "24px" }}>
             {plans.map((plan) => (
               <div key={plan.name} style={{
                 borderRadius: "20px", padding: "36px 28px",
@@ -933,7 +920,7 @@ export default function HomePage() {
                   textDecoration: "none",
                   boxShadow: plan.highlighted ? "0 4px 16px rgba(220,30,60,0.25)" : "none",
                 }}>
-                  {plan.cta}
+                  {plan.name === "Basic" ? "Get Started Free" : `Choose ${plan.name}`}
                 </a>
               </div>
             ))}
