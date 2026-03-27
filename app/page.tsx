@@ -422,9 +422,9 @@ export default function HomePage() {
                 <select className="w-full border rounded-lg px-3 py-2.5 text-sm" style={{ borderColor: "#e5e5e5", color: "#333" }}>
                   <option value="">Any Religion</option>
                   <option>Hindu</option>
-                  <option>Muslim</option>
                   <option>Christian</option>
                   <option>Sikh</option>
+                  <option>Muslim</option>
                   <option>Jain</option>
                   <option>Buddhist</option>
                   <option>Other</option>
