@@ -1,26 +1,78 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect, useCallback } from "react";
 import Link from "next/link";
 import {
   Search, SlidersHorizontal, Shield, MapPin, Briefcase,
-  GraduationCap, CheckCircle, Heart, X, ChevronDown,
+  GraduationCap, CheckCircle, Heart, X, ChevronDown, Loader2,
 } from "lucide-react";
+import { matchApi } from "@/lib/api";
 
-const allProfiles = [
-  { id: "1",  name: "Priya Sharma",    age: 27, city: "Mumbai",     profession: "Software Engineer", company: "Google",    education: "IIT Bombay",    religion: "Hindu", caste: "Brahmin", height: "5'4\"", verified: true, trustScore: 96, compatibility: 92, photo: "PS", grad: "linear-gradient(135deg,#E8426A,#E8A060)" },
-  { id: "2",  name: "Anjali Patel",    age: 26, city: "Ahmedabad",  profession: "Doctor",            company: "AIIMS",     education: "AIIMS Delhi",   religion: "Hindu", caste: "Patel",   height: "5'3\"", verified: true, trustScore: 92, compatibility: 87, photo: "AP", grad: "linear-gradient(135deg,#9A6B00,#C89020)" },
-  { id: "3",  name: "Kavya Nair",      age: 28, city: "Bangalore",  profession: "Product Manager",   company: "Flipkart",  education: "IIM Ahmedabad", religion: "Hindu", caste: "Nair",    height: "5'5\"", verified: true, trustScore: 89, compatibility: 84, photo: "KN", grad: "linear-gradient(135deg,#5C7A52,#8DB870)" },
-  { id: "4",  name: "Shruti Agarwal",  age: 25, city: "Delhi",      profession: "CA",                company: "Deloitte",  education: "DU + CA",       religion: "Hindu", caste: "Agarwal", height: "5'2\"", verified: true, trustScore: 88, compatibility: 79, photo: "SA", grad: "linear-gradient(135deg,#E8426A99,#9A6B0099)" },
-  { id: "5",  name: "Deepika Iyer",    age: 29, city: "Chennai",    profession: "Data Scientist",    company: "Amazon",    education: "IIT Madras",    religion: "Hindu", caste: "Iyer",    height: "5'4\"", verified: true, trustScore: 91, compatibility: 76, photo: "DI", grad: "linear-gradient(135deg,#7A5200,#C89020)" },
-  { id: "6",  name: "Meera Krishnan",  age: 27, city: "Hyderabad",  profession: "UX Designer",       company: "Microsoft", education: "NID Ahmedabad", religion: "Hindu", caste: "Nair",    height: "5'3\"", verified: true, trustScore: 85, compatibility: 73, photo: "MK", grad: "linear-gradient(135deg,#0F766E,#14B8A6)" },
-  { id: "7",  name: "Ritu Gupta",      age: 26, city: "Pune",       profession: "MBA Finance",       company: "HDFC",      education: "ISB Hyderabad", religion: "Hindu", caste: "Gupta",   height: "5'2\"", verified: false, trustScore: 71, compatibility: 68, photo: "RG", grad: "linear-gradient(135deg,#9B1C1C,#C9952A)" },
-  { id: "8",  name: "Pooja Reddy",     age: 30, city: "Hyderabad",  profession: "Architect",         company: "Self",      education: "SPA Delhi",     religion: "Hindu", caste: "Reddy",   height: "5'5\"", verified: true, trustScore: 87, compatibility: 71, photo: "PR", grad: "linear-gradient(135deg,#E8426A,#9A6B00)" },
-  { id: "9",  name: "Nisha Mehta",     age: 25, city: "Surat",      profession: "Dentist",           company: "Private",   education: "SDC Ahmedabad", religion: "Hindu", caste: "Mehta",   height: "5'1\"", verified: true, trustScore: 83, compatibility: 65, photo: "NM", grad: "linear-gradient(135deg,#5C7A52,#C89020)" },
-  { id: "10", name: "Aisha Khan",      age: 28, city: "Lucknow",    profession: "Civil Services",    company: "IAS",       education: "JNU Delhi",     religion: "Muslim", caste: "—",      height: "5'4\"", verified: true, trustScore: 94, compatibility: 62, photo: "AK", grad: "linear-gradient(135deg,#0F766E,#9A6B00)" },
-  { id: "11", name: "Simran Kaur",     age: 27, city: "Chandigarh", profession: "Lawyer",            company: "HC Punjab", education: "NLU Jodhpur",   religion: "Sikh",   caste: "Jat",    height: "5'6\"", verified: true, trustScore: 90, compatibility: 58, photo: "SK", grad: "linear-gradient(135deg,#7A5200,#E8426A)" },
-  { id: "12", name: "Sneha Joshi",     age: 24, city: "Nashik",     profession: "Teacher",           company: "IB School", education: "Pune Univ",     religion: "Hindu", caste: "Joshi",   height: "5'2\"", verified: false, trustScore: 68, compatibility: 55, photo: "SJ", grad: "linear-gradient(135deg,#C89020,#FF8FA3)" },
+interface Profile {
+  id: string;
+  name: string;
+  age: number;
+  city: string;
+  profession: string;
+  education: string;
+  religion: string;
+  height: string;
+  verified: boolean;
+  trustScore: number;
+  compatibility: number;
+  photo: string;
+  grad: string;
+}
+
+function cmToFeetInches(cm: number): string {
+  const totalInches = cm / 2.54;
+  const feet = Math.floor(totalInches / 12);
+  const inches = Math.round(totalInches % 12);
+  return `${feet}'${inches}"`;
+}
+
+const GRADIENTS = [
+  "linear-gradient(135deg,#E8426A,#E8A060)",
+  "linear-gradient(135deg,#9A6B00,#C89020)",
+  "linear-gradient(135deg,#5C7A52,#8DB870)",
+  "linear-gradient(135deg,#0F766E,#14B8A6)",
+  "linear-gradient(135deg,#7A5200,#C89020)",
+  "linear-gradient(135deg,#E8426A99,#9A6B0099)",
+  "linear-gradient(135deg,#9B1C1C,#C9952A)",
+  "linear-gradient(135deg,#7C3AED,#A78BFA)",
 ];
+
+function getInitials(name: string): string {
+  return name
+    .split(" ")
+    .map((w) => w[0])
+    .join("")
+    .toUpperCase()
+    .slice(0, 2);
+}
+
+/* eslint-disable @typescript-eslint/no-explicit-any */
+function mapApiProfile(p: any, idx: number): Profile {
+  const firstName = p.first_name || p.firstName || "";
+  const lastName = p.last_name || p.lastName || "";
+  const name = `${firstName} ${lastName}`.trim() || "Unknown";
+  return {
+    id: p.id || p.user_id || String(idx),
+    name,
+    age: p.age ?? 0,
+    city: p.city || p.location || "",
+    profession: p.profession || p.occupation || "",
+    education: p.education_level || p.education || "",
+    religion: p.religion || "",
+    height: p.height_cm ? cmToFeetInches(p.height_cm) : p.height || "",
+    verified: p.is_verified ?? p.verified ?? false,
+    trustScore: p.trust_score ?? p.trustScore ?? 0,
+    compatibility: p.compatibility ?? p.match_score ?? 0,
+    photo: getInitials(name),
+    grad: GRADIENTS[idx % GRADIENTS.length],
+  };
+}
+/* eslint-enable @typescript-eslint/no-explicit-any */
 
 const religions = ["All", "Hindu", "Muslim", "Sikh", "Christian", "Jain"];
 const ageRanges = ["All", "22–25", "25–28", "28–32", "32+"];
@@ -35,16 +87,60 @@ export default function MatchesPage() {
   const [showFilters, setShowFilters] = useState(false);
   const [liked, setLiked] = useState<Set<string>>(new Set());
 
-  const toggle = (id: string) =>
-    setLiked((prev) => { const s = new Set(prev); s.has(id) ? s.delete(id) : s.add(id); return s; });
+  const [profiles, setProfiles] = useState<Profile[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
 
-  const filtered = allProfiles.filter((p) => {
+  const fetchProfiles = useCallback(async () => {
+    setLoading(true);
+    setError(null);
+    try {
+      const params: Record<string, string> = {};
+      if (religion !== "All") params.religion = religion;
+      if (city !== "All") params.city = city;
+      if (verifiedOnly) params.verified = "true";
+
+      const res = await matchApi.browseProfiles(params);
+      const data = res.data;
+      const list = Array.isArray(data) ? data : data?.results ?? data?.profiles ?? data?.data ?? [];
+      setProfiles(list.map(mapApiProfile));
+    } catch (err: unknown) {
+      const msg = err instanceof Error ? err.message : "Failed to load profiles";
+      setError(msg);
+    } finally {
+      setLoading(false);
+    }
+  }, [religion, city, verifiedOnly]);
+
+  useEffect(() => {
+    fetchProfiles();
+  }, [fetchProfiles]);
+
+  const handleLike = async (id: string) => {
+    const wasLiked = liked.has(id);
+    setLiked((prev) => {
+      const s = new Set(prev);
+      wasLiked ? s.delete(id) : s.add(id);
+      return s;
+    });
+    if (!wasLiked) {
+      try {
+        await matchApi.sendInterest(id);
+      } catch {
+        // revert on failure
+        setLiked((prev) => {
+          const s = new Set(prev);
+          s.delete(id);
+          return s;
+        });
+      }
+    }
+  };
+
+  const filtered = profiles.filter((p) => {
     if (search && !p.name.toLowerCase().includes(search.toLowerCase()) && !p.city.toLowerCase().includes(search.toLowerCase())) return false;
-    if (religion !== "All" && p.religion !== religion) return false;
-    if (city !== "All" && p.city !== city) return false;
-    if (verifiedOnly && !p.verified) return false;
     if (ageRange !== "All") {
-      const [lo, hi] = ageRange.replace("+", "-99").split("–").map(Number);
+      const [lo, hi] = ageRange.replace("+", "–99").split("–").map(Number);
       if (p.age < lo || p.age > hi) return false;
     }
     return true;
@@ -58,7 +154,7 @@ export default function MatchesPage() {
           Browse Profiles
         </h1>
         <p style={{ fontFamily: "var(--font-poppins, sans-serif)", fontSize: "13px", color: "#888", marginTop: "4px", marginBottom: 0 }}>
-          {filtered.length} profiles match your preferences
+          {loading ? "Loading…" : `${filtered.length} profiles match your preferences`}
         </p>
       </div>
 
@@ -139,20 +235,61 @@ export default function MatchesPage() {
         </div>
       )}
 
-      {/* Grid */}
-      <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(200px, 1fr))", gap: "16px" }}>
-        {filtered.map((p) => (
-          <ProfileCard key={p.id} profile={p} liked={liked} onToggleLike={toggle} />
-        ))}
-      </div>
-
-      {filtered.length === 0 && (
+      {/* Loading state */}
+      {loading && (
         <div style={{ padding: "80px 0", textAlign: "center" }}>
-          <X style={{ width: "40px", height: "40px", color: "rgba(26,10,20,0.2)", margin: "0 auto 12px" }} />
+          <Loader2
+            style={{
+              width: "36px", height: "36px", color: "#dc1e3c",
+              margin: "0 auto 12px", animation: "spin 1s linear infinite",
+            }}
+          />
           <p style={{ fontFamily: "var(--font-poppins, sans-serif)", fontSize: "14px", color: "#888" }}>
-            No profiles match your filters
+            Finding your best matches…
           </p>
+          <style>{`@keyframes spin { to { transform: rotate(360deg) } }`}</style>
         </div>
+      )}
+
+      {/* Error state */}
+      {!loading && error && (
+        <div style={{ padding: "60px 0", textAlign: "center" }}>
+          <X style={{ width: "40px", height: "40px", color: "#dc1e3c", margin: "0 auto 12px" }} />
+          <p style={{ fontFamily: "var(--font-poppins, sans-serif)", fontSize: "14px", color: "#888", marginBottom: "12px" }}>
+            {error}
+          </p>
+          <button
+            onClick={fetchProfiles}
+            style={{
+              padding: "8px 20px", borderRadius: "10px", cursor: "pointer",
+              background: "linear-gradient(135deg,#dc1e3c,#a0153c)", color: "#fff",
+              fontFamily: "var(--font-poppins, sans-serif)", fontSize: "13px", fontWeight: 600,
+              border: "none", boxShadow: "0 4px 16px rgba(220,30,60,0.25)",
+            }}
+          >
+            Retry
+          </button>
+        </div>
+      )}
+
+      {/* Grid */}
+      {!loading && !error && (
+        <>
+          <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(200px, 1fr))", gap: "16px" }}>
+            {filtered.map((p) => (
+              <ProfileCard key={p.id} profile={p} liked={liked} onToggleLike={handleLike} />
+            ))}
+          </div>
+
+          {filtered.length === 0 && (
+            <div style={{ padding: "80px 0", textAlign: "center" }}>
+              <Heart style={{ width: "40px", height: "40px", color: "rgba(26,10,20,0.2)", margin: "0 auto 12px" }} />
+              <p style={{ fontFamily: "var(--font-poppins, sans-serif)", fontSize: "14px", color: "#888" }}>
+                No profiles match your filters. Try adjusting your criteria.
+              </p>
+            </div>
+          )}
+        </>
       )}
     </div>
   );
@@ -163,7 +300,7 @@ function ProfileCard({
   liked,
   onToggleLike,
 }: {
-  profile: typeof allProfiles[0];
+  profile: Profile;
   liked: Set<string>;
   onToggleLike: (id: string) => void;
 }) {
@@ -197,7 +334,7 @@ function ProfileCard({
 
         {/* Like button */}
         <button
-          onClick={() => onToggleLike(profile.id)}
+          onClick={(e) => { e.stopPropagation(); onToggleLike(profile.id); }}
           style={{
             position: "absolute", top: "8px", right: "8px",
             width: "28px", height: "28px", borderRadius: "50%",
@@ -218,19 +355,21 @@ function ProfileCard({
         </button>
 
         {/* Trust score */}
-        <div
-          style={{
-            position: "absolute", bottom: "8px", left: "8px",
-            display: "flex", alignItems: "center", gap: "4px",
-            padding: "2px 6px", borderRadius: "20px",
-            background: "rgba(253,251,249,0.92)",
-          }}
-        >
-          <Shield style={{ width: "10px", height: "10px", color: "#C89020" }} />
-          <span style={{ fontFamily: "var(--font-poppins, sans-serif)", fontSize: "10px", fontWeight: 700, color: "#1a0a14" }}>
-            {profile.trustScore}
-          </span>
-        </div>
+        {profile.trustScore > 0 && (
+          <div
+            style={{
+              position: "absolute", bottom: "8px", left: "8px",
+              display: "flex", alignItems: "center", gap: "4px",
+              padding: "2px 6px", borderRadius: "20px",
+              background: "rgba(253,251,249,0.92)",
+            }}
+          >
+            <Shield style={{ width: "10px", height: "10px", color: "#C89020" }} />
+            <span style={{ fontFamily: "var(--font-poppins, sans-serif)", fontSize: "10px", fontWeight: 700, color: "#1a0a14" }}>
+              {profile.trustScore}
+            </span>
+          </div>
+        )}
 
         {/* Verified badge */}
         {profile.verified && (
@@ -246,30 +385,36 @@ function ProfileCard({
           fontFamily: "var(--font-playfair, serif)", fontSize: "14px", fontWeight: 600,
           color: "#1a0a14", margin: 0, whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis",
         }}>
-          {profile.name}, {profile.age}
+          {profile.name}{profile.age > 0 ? `, ${profile.age}` : ""}
         </h3>
 
-        <div style={{ display: "flex", alignItems: "center", gap: "4px", marginTop: "4px", marginBottom: "6px" }}>
-          <MapPin style={{ width: "10px", height: "10px", color: "#888", flexShrink: 0 }} />
-          <span style={{ fontFamily: "var(--font-poppins, sans-serif)", fontSize: "12px", color: "#888", overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>
-            {profile.city}
-          </span>
-        </div>
+        {profile.city && (
+          <div style={{ display: "flex", alignItems: "center", gap: "4px", marginTop: "4px", marginBottom: "6px" }}>
+            <MapPin style={{ width: "10px", height: "10px", color: "#888", flexShrink: 0 }} />
+            <span style={{ fontFamily: "var(--font-poppins, sans-serif)", fontSize: "12px", color: "#888", overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>
+              {profile.city}
+            </span>
+          </div>
+        )}
 
-        <div style={{ display: "flex", alignItems: "center", gap: "4px", marginBottom: "10px" }}>
-          <Briefcase style={{ width: "10px", height: "10px", color: "#888", flexShrink: 0 }} />
-          <span style={{ fontFamily: "var(--font-poppins, sans-serif)", fontSize: "12px", color: "#888", overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>
-            {profile.profession}
-          </span>
-        </div>
+        {profile.profession && (
+          <div style={{ display: "flex", alignItems: "center", gap: "4px", marginBottom: "10px" }}>
+            <Briefcase style={{ width: "10px", height: "10px", color: "#888", flexShrink: 0 }} />
+            <span style={{ fontFamily: "var(--font-poppins, sans-serif)", fontSize: "12px", color: "#888", overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>
+              {profile.profession}
+            </span>
+          </div>
+        )}
 
         {/* Compatibility */}
-        <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: "12px" }}>
-          <span style={{ fontFamily: "var(--font-poppins, sans-serif)", fontSize: "12px", color: "rgba(26,10,20,0.4)" }}>Match</span>
-          <span style={{ fontFamily: "var(--font-playfair, serif)", fontSize: "14px", fontWeight: 700, color: "#C89020" }}>
-            {profile.compatibility}%
-          </span>
-        </div>
+        {profile.compatibility > 0 && (
+          <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: "12px" }}>
+            <span style={{ fontFamily: "var(--font-poppins, sans-serif)", fontSize: "12px", color: "rgba(26,10,20,0.4)" }}>Match</span>
+            <span style={{ fontFamily: "var(--font-playfair, serif)", fontSize: "14px", fontWeight: 700, color: "#C89020" }}>
+              {profile.compatibility}%
+            </span>
+          </div>
+        )}
 
         <Link
           href={`/profile/${profile.id}`}
