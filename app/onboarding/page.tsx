@@ -188,7 +188,7 @@ export default function OnboardingPage() {
   const [phone, setPhone] = useState("");
   const [otp, setOtp] = useState(["", "", "", "", "", ""]);
   const [otpSent, setOtpSent] = useState(false);
-  const [form, setForm] = useState({ name: "", dob: "", gender: "", religion: "", caste: "", height: "", country: "", motherTongue: "", education: "", profession: "" });
+  const [form, setForm] = useState({ name: "", dob: "", gender: "", religion: "", caste: "", country: "", motherTongue: "", education: "", profession: "" });
   const [quizAnswers, setQuizAnswers] = useState<Record<number, number>>({});
   const [prefs, setPrefs] = useState({ ageMin: "25", ageMax: "32", religion: "Any", city: "Any India" });
 
@@ -492,16 +492,7 @@ export default function OnboardingPage() {
                 </select>
               </div>
 
-              {/* Height */}
-              <div>
-                <label style={{ fontSize: "11px", fontWeight: 600, color: "#555", textTransform: "uppercase", letterSpacing: "0.08em", display: "block", marginBottom: "6px" }}>Height</label>
-                <input
-                  placeholder="5&apos;8&quot;"
-                  value={form.height}
-                  onChange={(e) => setForm({ ...form, height: e.target.value })}
-                  style={{ width: "100%", padding: "12px 16px", border: "1px solid rgba(220,30,60,0.15)", borderRadius: "10px", fontSize: "13px", color: "#1a0a14", background: "#fff", outline: "none", boxSizing: "border-box" }}
-                />
-              </div>
+
 
               {/* Mother Tongue — Dropdown */}
               <div>
