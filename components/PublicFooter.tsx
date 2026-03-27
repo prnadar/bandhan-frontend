@@ -43,7 +43,7 @@ export default function PublicFooter() {
           {/* Legal */}
           <div>
             <p style={{ fontSize: "11px", fontWeight: 700, color: "rgba(255,255,255,0.4)", textTransform: "uppercase", letterSpacing: "0.1em", marginBottom: "12px" }}>Legal</p>
-            {[{ label: "Privacy Policy", href: "/privacy" }, { label: "Terms of Service", href: "/terms" }].map(({ label, href }) => (
+            {[{ label: "Privacy Policy", href: "/privacy" }, { label: "Terms of Service", href: "/terms" }, { label: "FAQ", href: "/faq" }, { label: "Contact Us", href: "/contact" }].map(({ label, href }) => (
               <Link key={href} href={href} style={{ display: "block", fontSize: "13px", color: "rgba(255,255,255,0.45)", textDecoration: "none", marginBottom: "8px", minHeight: "auto" }}>
                 {label}
               </Link>

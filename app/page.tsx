@@ -175,8 +175,8 @@ export default function HomePage() {
                     rotate: "45deg",
                   }} />
                   {[
-                    { label: "FAQ", href: "#faq" },
-                    { label: "Contact Us", href: "#contact" },
+                    { label: "FAQ", href: "/faq" },
+                    { label: "Contact Us", href: "/contact" },
                   ].map((item) => (
                     <a
                       key={item.label}

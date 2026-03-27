@@ -25,8 +25,8 @@ export default function PublicHeader() {
   ];
 
   const helpLinks = [
-    { label: "FAQs",         href: "/#faq" },
-    { label: "Contact Us",   href: "mailto:enquiry@match4marriage.com" },
+    { label: "FAQs",         href: "/faq" },
+    { label: "Contact Us",   href: "/contact" },
     { label: "How It Works", href: "/#how-it-works" },
   ];
 
