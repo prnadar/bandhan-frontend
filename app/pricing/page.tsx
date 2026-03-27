@@ -2,6 +2,8 @@
 
 import Link from "next/link";
 import { Heart, Check, X, Star, Zap, Shield, ArrowRight, Crown } from "lucide-react";
+import PublicHeader from "@/components/PublicHeader";
+import PublicFooter from "@/components/PublicFooter";
 
 const plans = [
   {
@@ -100,18 +102,7 @@ export default function PricingPage() {
   return (
     <div className="min-h-screen bg-mesh text-deep">
       {/* Navbar */}
-      <nav className="navbar-glass sticky top-0 z-50">
-        <div className="max-w-7xl mx-auto px-6 h-16 flex items-center justify-between">
-          <Link href="/" className="flex items-center gap-2" style={{ minHeight: "auto" }}>
-            <Heart className="w-5 h-5 text-rose fill-rose" />
-            <span className="font-display text-xl font-semibold text-deep">Match4Marriage</span>
-          </Link>
-          <div className="flex items-center gap-3">
-            <Link href="/dashboard" className="btn-ghost text-sm px-5 py-2" style={{ minHeight: "auto" }}>Dashboard</Link>
-            <Link href="/auth/register" className="btn-primary text-sm px-5 py-2" style={{ minHeight: "auto" }}>Get Started</Link>
-          </div>
-        </div>
-      </nav>
+      <PublicHeader />
 
       <div className="max-w-6xl mx-auto px-6 py-16">
         {/* Hero */}
@@ -238,6 +229,7 @@ export default function PricingPage() {
           </p>
         </div>
       </div>
+      <PublicFooter />
     </div>
   );
 }

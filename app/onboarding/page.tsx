@@ -3,6 +3,8 @@
 import { useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
+import PublicHeader from "@/components/PublicHeader";
+import PublicFooter from "@/components/PublicFooter";
 import {
   Heart, Phone, User, Brain, Shield, Sliders,
   Check, ArrowRight, ArrowLeft, Upload, Star,
@@ -212,23 +214,10 @@ export default function OnboardingPage() {
       background: "#fdfbf9",
       display: "flex",
       flexDirection: "column",
-      alignItems: "center",
-      justifyContent: "center",
-      padding: "48px 16px",
       fontFamily: "var(--font-poppins, sans-serif)",
     }}>
-
-      {/* Logo */}
-      <Link href="/" style={{ textDecoration: "none", marginBottom: "40px" }}>
-        <span style={{
-          fontFamily: "var(--font-playfair, serif)",
-          fontSize: "26px",
-          fontWeight: 700,
-          color: "#1a0a14",
-        }}>
-          Match<span style={{ color: "#dc1e3c" }}>4</span>Marriage
-        </span>
-      </Link>
+      <PublicHeader />
+      <div style={{ flex: 1, display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", padding: "48px 16px" }}>
 
       {/* Progress stepper */}
       <div style={{ width: "100%", maxWidth: "520px", marginBottom: "32px" }}>
@@ -623,6 +612,8 @@ export default function OnboardingPage() {
 
       {/* Footer */}
       <p style={{ fontSize: "11px", color: "#ccc", marginTop: "24px" }}>Step {step} of {steps.length}</p>
+      </div>
+      <PublicFooter />
     </div>
   );
 }

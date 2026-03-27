@@ -1,5 +1,7 @@
 import Link from "next/link";
 import type { Metadata } from "next";
+import PublicHeader from "@/components/PublicHeader";
+import PublicFooter from "@/components/PublicFooter";
 
 export const metadata: Metadata = {
   title: "About Us | Match4Marriage — Elite Indian Matrimony",
@@ -87,38 +89,7 @@ export default function AboutPage() {
     <div className="min-h-screen overflow-x-hidden font-poppins" style={{ backgroundColor: "#fdfbf9" }}>
 
       {/* ── Nav ── */}
-      <nav className="sticky top-0 z-50 bg-white" style={{ borderBottom: "1px solid rgba(220,30,60,0.12)" }}>
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 h-16 flex items-center justify-between">
-          <Link href="/" className="flex items-center">
-            <img
-              src="/images/WhatsApp Image 2026-02-15 at 8.00.16 PM (2).jpeg"
-              alt="Match 4 Marriage"
-              style={{ height: "48px", width: "auto", objectFit: "contain" }}
-            />
-          </Link>
-          <div className="hidden lg:flex items-center gap-8">
-            {[
-              { label: "Home", href: "/" },
-              { label: "Browse Profiles", href: "/#browse-profiles" },
-              { label: "Success Stories", href: "/#success-stories" },
-              { label: "Pricing", href: "/#pricing" },
-              { label: "About Us", href: "/about" },
-            ].map((item) => (
-              <Link
-                key={item.label}
-                href={item.href}
-                className="text-sm font-medium transition-colors duration-200 hover:text-[#dc1e3c]"
-                style={{ color: item.label === "About Us" ? "#dc1e3c" : "#333" }}
-              >
-                {item.label}
-              </Link>
-            ))}
-          </div>
-          <Link href="/auth/register" className="btn-gold px-5 py-2 text-sm hidden sm:inline-block">
-            Register Free
-          </Link>
-        </div>
-      </nav>
+      <PublicHeader />
 
       {/* ── Hero ── */}
       <section
@@ -345,15 +316,7 @@ export default function AboutPage() {
       </section>
 
       {/* ── Footer ── */}
-      <footer style={{ backgroundColor: "#1a0a14", padding: "40px 24px", textAlign: "center" }}>
-        <img
-          src="/images/WhatsApp Image 2026-02-15 at 8.00.16 PM (2).jpeg"
-          alt="Match 4 Marriage"
-          style={{ height: "44px", width: "auto", objectFit: "contain", filter: "brightness(0) invert(1)", marginBottom: "16px" }}
-        />
-        <p style={{ color: "rgba(255,255,255,0.5)", fontSize: "13px", marginBottom: "6px" }}>© 2026 Match4Marriage Limited. All rights reserved. Registered in England & Wales.</p>
-        <p style={{ color: "rgba(255,255,255,0.3)", fontSize: "12px" }}>MATCH4MARRIAGE LIMITED · Company No. 15272378 · 282 Warwick Road, Solihull, England, B92 7AF</p>
-      </footer>
+      <PublicFooter />
     </div>
   );
 }

@@ -1,4 +1,6 @@
 import Link from "next/link";
+import PublicHeader from "@/components/PublicHeader";
+import PublicFooter from "@/components/PublicFooter";
 
 export const metadata = {
   title: "Terms & Conditions | Match4Marriage",
@@ -114,21 +116,7 @@ export default function TermsPage() {
     <div style={{ minHeight: "100vh", background: "#fdfbf9", fontFamily: "var(--font-poppins, sans-serif)" }}>
 
       {/* Nav */}
-      <nav style={{ background: "#fff", borderBottom: "1px solid rgba(220,30,60,0.1)", padding: "0 24px", position: "sticky", top: 0, zIndex: 50 }}>
-        <div style={{ maxWidth: "1152px", margin: "0 auto", height: "64px", display: "flex", alignItems: "center", justifyContent: "space-between" }}>
-          <Link href="/" style={{ textDecoration: "none" }}>
-            <span style={{ fontFamily: "var(--font-playfair, serif)", fontSize: "22px", fontWeight: 700, color: "#1a0a14" }}>
-              Match<span style={{ color: "#dc1e3c" }}>4</span>Marriage
-            </span>
-          </Link>
-          <Link href="/" style={{
-            fontSize: "13px", color: "#dc1e3c", textDecoration: "none", fontWeight: 600,
-            display: "flex", alignItems: "center", gap: "6px",
-          }}>
-            ← Back to Home
-          </Link>
-        </div>
-      </nav>
+      <PublicHeader />
 
       {/* Hero */}
       <div style={{ background: "linear-gradient(135deg, #1a0a14 0%, #2d0f20 100%)", padding: "72px 24px 56px" }}>
@@ -260,11 +248,7 @@ export default function TermsPage() {
       </div>
 
       {/* Footer */}
-      <footer style={{ background: "#1a0a14", padding: "32px 24px", textAlign: "center" }}>
-        <p style={{ fontSize: "12px", color: "rgba(255,255,255,0.3)", margin: 0 }}>
-          © 2026 Match4Marriage Limited. All rights reserved. Registered in England & Wales. Company No. 15272378
-        </p>
-      </footer>
+      <PublicFooter />
 
     </div>
   );
