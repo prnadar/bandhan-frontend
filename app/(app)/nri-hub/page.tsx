@@ -60,19 +60,7 @@ export default function NriHubPage() {
           <p className="text-sm max-w-xl mb-6" style={{ color: "rgba(26,10,20,0.5)" }}>
             Find your perfect match across 40+ countries. NRI-verified profiles, timezone-aware messaging, and India visit coordination.
           </p>
-          <div className="flex items-center gap-6">
-            {[{ n: "1.2L+", l: "NRI Profiles" }, { n: "40+", l: "Countries" }, { n: "8,400+", l: "Matches Made" }].map(({ n, l }) => (
-              <div key={l}>
-                <p
-                  className="text-2xl font-bold"
-                  style={{ fontFamily: "var(--font-playfair, serif)", color: "#1a0a14" }}
-                >
-                  {n}
-                </p>
-                <p className="text-xs" style={{ color: "rgba(26,10,20,0.45)" }}>{l}</p>
-              </div>
-            ))}
-          </div>
+
         </div>
         {/* Decorative globe */}
         <div className="absolute right-8 top-1/2 -translate-y-1/2 opacity-10 text-9xl select-none">🌏</div>
