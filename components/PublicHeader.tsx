@@ -57,7 +57,7 @@ export default function PublicHeader() {
                 href={href}
                 className="text-sm font-medium transition-colors duration-200 hover:text-[#dc1e3c]"
                 style={{
-                  color: pathname === href || (href !== "/" && pathname.startsWith(href.split("#")[0]) && href !== "/") ? "#dc1e3c" : "#333",
+                  color: pathname === href || (!href.includes("#") && href !== "/" && pathname.startsWith(href)) ? "#dc1e3c" : "#333",
                   textDecoration: "none", minHeight: "auto",
                 }}
               >
