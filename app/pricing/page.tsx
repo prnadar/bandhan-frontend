@@ -109,7 +109,7 @@ export default function PricingPage() {
         <img
           src="/images/about-hero.jpg"
           alt="Match4Marriage couple"
-          style={{ width: "100%", height: "100%", objectFit: "cover", objectPosition: "center top" }}
+          style={{ width: "100%", height: "100%", objectFit: "cover", objectPosition: "center 20%" }}
         />
         <div style={{ position: "absolute", inset: 0, background: "linear-gradient(to bottom, rgba(26,10,20,0.45), rgba(26,10,20,0.75))" }} />
         <div style={{ position: "absolute", inset: 0, display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", textAlign: "center", padding: "0 24px" }}>

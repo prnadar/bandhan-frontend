@@ -187,7 +187,7 @@ export default function AboutPage() {
             <img
               src="/images/about-hero.jpg"
               alt="Indian wedding couple"
-              style={{ width: "100%", borderRadius: "20px", objectFit: "cover", aspectRatio: "4/3", boxShadow: "0 20px 60px rgba(102,69,28,0.12)" }}
+              style={{ width: "100%", borderRadius: "20px", objectFit: "cover", objectPosition: "center 20%", aspectRatio: "4/3", boxShadow: "0 20px 60px rgba(102,69,28,0.12)" }}
             />
             <div style={{ position: "absolute", bottom: -20, left: -20, background: "#fff", borderRadius: "16px", padding: "16px 24px", boxShadow: "0 8px 32px rgba(0,0,0,0.1)", display: "flex", alignItems: "center", gap: "12px" }}>
               <span style={{ fontSize: "28px" }}>💍</span>
