@@ -35,8 +35,7 @@ export default function AppLayout({ children }: { children: React.ReactNode }) {
         {/* Logo */}
         <div className="px-6 py-5 border-b" style={{ borderColor: "rgba(255,255,255,0.08)" }}>
           <Link href="/dashboard" className="flex items-center gap-2.5" style={{ minHeight: "auto" }}>
-            <Heart className="w-5 h-5" style={{ color: "#ffffff" }} />
-            <span className="font-display text-xl font-semibold" style={{ color: "#ffffff" }}>Match4Marriage</span>
+            <img src="/images/logo.jpeg" alt="Match4Marriage" style={{ height: "40px", width: "auto", objectFit: "contain", filter: "brightness(0) invert(1)" }} />
           </Link>
         </div>
 
@@ -179,11 +178,8 @@ export default function AppLayout({ children }: { children: React.ReactNode }) {
           display: "flex", alignItems: "center", justifyContent: "space-between",
         }}>
           {/* Brand */}
-          <Link href="/dashboard" style={{ textDecoration: "none", display: "flex", alignItems: "center", gap: "8px", minHeight: "auto" }}>
-            <Heart className="w-4 h-4" style={{ color: "#dc1e3c" }} />
-            <span style={{ fontFamily: "var(--font-playfair, serif)", fontSize: "18px", fontWeight: 700, color: "#1a0a14" }}>
-              Match<span style={{ color: "#dc1e3c" }}>4</span>Marriage
-            </span>
+          <Link href="/dashboard" style={{ textDecoration: "none", display: "flex", alignItems: "center", minHeight: "auto" }}>
+            <img src="/images/logo.jpeg" alt="Match4Marriage" style={{ height: "48px", width: "auto", objectFit: "contain" }} />
           </Link>
 
           {/* Right side */}
@@ -236,9 +232,8 @@ export default function AppLayout({ children }: { children: React.ReactNode }) {
             <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr 1fr", gap: "24px", marginBottom: "24px" }}>
               {/* Brand */}
               <div>
-                <div style={{ display: "flex", alignItems: "center", gap: "8px", marginBottom: "10px" }}>
-                  <Heart className="w-4 h-4" style={{ color: "#dc1e3c" }} />
-                  <span style={{ fontFamily: "var(--font-playfair, serif)", fontSize: "16px", fontWeight: 700, color: "#fff" }}>Match4Marriage</span>
+                <div style={{ marginBottom: "10px" }}>
+                  <img src="/images/logo.jpeg" alt="Match4Marriage" style={{ height: "44px", width: "auto", objectFit: "contain", filter: "brightness(0) invert(1)" }} />
                 </div>
                 <p style={{ fontSize: "12px", color: "rgba(255,255,255,0.4)", lineHeight: 1.6 }}>
                   Elite Indian Matrimony<br />United Kingdom

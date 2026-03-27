@@ -122,9 +122,9 @@ export default function HomePage() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 h-16 flex items-center justify-between">
           <Link href="/" className="flex items-center">
             <img
-              src="/images/WhatsApp Image 2026-02-15 at 8.00.16 PM (2).jpeg"
-              alt="Match 4 Marriage"
-              style={{ height: "48px", width: "auto", objectFit: "contain" }}
+              src="/images/logo.jpeg"
+              alt="Match4Marriage"
+              style={{ height: "52px", width: "auto", objectFit: "contain" }}
             />
           </Link>
 

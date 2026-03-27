@@ -16,11 +16,8 @@ export default function PublicHeader() {
     <nav className="sticky top-0 z-50 bg-white" style={{ borderBottom: "1px solid rgba(220,30,60,0.12)" }}>
       <div style={{ maxWidth: "1152px", margin: "0 auto", padding: "0 24px", height: "64px", display: "flex", alignItems: "center", justifyContent: "space-between" }}>
         {/* Logo */}
-        <Link href="/" style={{ display: "flex", alignItems: "center", gap: "8px", textDecoration: "none", minHeight: "auto" }}>
-          <Heart className="w-5 h-5" style={{ color: "#dc1e3c" }} />
-          <span style={{ fontFamily: "var(--font-playfair, serif)", fontSize: "20px", fontWeight: 700, color: "#1a0a14" }}>
-            Match<span style={{ color: "#dc1e3c" }}>4</span>Marriage
-          </span>
+        <Link href="/" style={{ display: "flex", alignItems: "center", textDecoration: "none", minHeight: "auto" }}>
+          <img src="/images/logo.jpeg" alt="Match4Marriage" style={{ height: "52px", width: "auto", objectFit: "contain" }} />
         </Link>
 
         {/* Nav links */}
