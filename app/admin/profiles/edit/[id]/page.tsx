@@ -8,7 +8,7 @@ import TopBar from "@/components/admin/TopBar";
 import { useToast } from "@/components/admin/Toast";
 import { mockUsers } from "@/lib/admin-mock-data";
 
-const religions = ["Hindu", "Muslim", "Sikh", "Christian", "Jain", "Buddhist", "Parsi"];
+const religions = ["Hindu", "Sikh", "Christian", "Jain", "Buddhist", "Parsi", "Muslim"];
 const educations = ["B.Tech", "MBA", "MBBS", "CA", "B.Com", "M.Tech", "PhD", "BBA", "LLB", "B.Sc", "M.Sc", "B.Arch"];
 const incomes = ["Below 3 LPA", "3-5 LPA", "5-8 LPA", "8-12 LPA", "12-20 LPA", "20-30 LPA", "30-50 LPA", "50+ LPA"];
 const heights = [

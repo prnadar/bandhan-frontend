@@ -518,7 +518,7 @@ export default function OnboardingPage() {
             </div>
 
             {[
-              { key: "religion", label: "Religion Preference", options: ["Any", "Hindu", "Muslim", "Sikh", "Christian", "Jain"] },
+              { key: "religion", label: "Religion Preference", options: ["Any", "Hindu", "Sikh", "Christian", "Jain", "Muslim"] },
               { key: "city",     label: "Location Preference", options: ["Any India", "Same city", "Same state", "Metro cities", "NRI / Abroad"] },
             ].map(({ key, label, options }) => (
               <div key={key}>

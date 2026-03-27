@@ -74,7 +74,7 @@ function mapApiProfile(p: any, idx: number): Profile {
 }
 /* eslint-enable @typescript-eslint/no-explicit-any */
 
-const religions = ["All", "Hindu", "Muslim", "Sikh", "Christian", "Jain"];
+const religions = ["All", "Hindu", "Sikh", "Christian", "Jain", "Muslim"];
 const ageRanges = ["All", "22–25", "25–28", "28–32", "32+"];
 const cities = ["All", "Mumbai", "Delhi", "Bangalore", "Hyderabad", "Chennai", "Ahmedabad", "Pune"];
 

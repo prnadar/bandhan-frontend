@@ -372,7 +372,7 @@ export default function SettingsPage() {
                   </Row>
                   <Row label="Religion">
                     <select value={prefs.religionFilter} onChange={(e) => setPrefs({ ...prefs, religionFilter: e.target.value })} style={selectStyle}>
-                      {["Any", "Hindu", "Muslim", "Christian", "Sikh", "Jain", "Buddhist"].map((r) => (
+                      {["Any", "Hindu", "Christian", "Sikh", "Jain", "Buddhist", "Muslim"].map((r) => (
                         <option key={r}>{r}</option>
                       ))}
                     </select>

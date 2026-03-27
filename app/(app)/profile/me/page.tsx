@@ -448,7 +448,7 @@ function GeneralTab({
           </Field>
           <Field label="Religion">
             <FSelect value={form.religion} onChange={(v) => update("religion", v)} placeholder="Select">
-              {["Hindu","Muslim","Christian","Sikh","Jain","Buddhist","Other"].map((o) => <option key={o} value={o}>{o}</option>)}
+              {["Hindu","Christian","Sikh","Jain","Buddhist","Muslim","Other"].map((o) => <option key={o} value={o}>{o}</option>)}
             </FSelect>
           </Field>
           <Field label="Denomination / Caste">
@@ -890,7 +890,7 @@ function PartnerTab({
         <TwoCol>
           <Field label="Religion Preference">
             <FSelect value={form.religionPref} onChange={(v) => update("religionPref", v)} placeholder="Any">
-              {["Any","Hindu","Muslim","Christian","Sikh","Jain","Buddhist"].map((o) => <option key={o} value={o}>{o}</option>)}
+              {["Any","Hindu","Christian","Sikh","Jain","Buddhist","Muslim"].map((o) => <option key={o} value={o}>{o}</option>)}
             </FSelect>
           </Field>
           <Field label="Mother Tongue">

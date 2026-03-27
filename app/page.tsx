@@ -83,7 +83,7 @@ const couples = [
   { url: "https://images.unsplash.com/photo-1540575467063-178a50c2df87?w=800&q=90&auto=format&fit=crop", name: "Pooja & Arun" },
 ];
 
-const filterTabs = ["All", "Hindu", "Muslim", "Christian", "Sikh"];
+const filterTabs = ["All", "Hindu", "Christian", "Sikh", "Muslim"];
 
 /* ── Component ─────────────────────────────────────────────────────── */
 

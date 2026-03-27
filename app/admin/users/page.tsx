@@ -14,7 +14,7 @@ import { mockUsers, type AdminUser } from "@/lib/admin-mock-data";
 
 // ── Constants ───────────────────────────────────────────────────────────────
 
-const RELIGIONS = ["Hindu", "Muslim", "Sikh", "Christian", "Jain", "Buddhist", "Parsi"];
+const RELIGIONS = ["Hindu", "Sikh", "Christian", "Jain", "Buddhist", "Parsi", "Muslim"];
 const CITIES = ["Mumbai", "Delhi", "Bangalore", "Chennai", "Hyderabad", "Pune", "Kolkata", "Ahmedabad", "Jaipur", "Lucknow", "Chandigarh", "Indore", "Surat", "Nagpur", "Bhopal"];
 const SUBSCRIPTIONS: AdminUser["subscription"][] = ["Free", "Silver", "Gold", "Diamond"];
 const STATUSES: AdminUser["status"][] = ["active", "suspended", "banned", "pending"];
