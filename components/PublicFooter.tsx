@@ -3,7 +3,7 @@ import { Heart } from "lucide-react";
 
 export default function PublicFooter() {
   return (
-    <footer style={{ backgroundColor: "#4e3d8a", padding: "48px 24px 24px" }}>
+    <footer style={{ backgroundColor: "#1a0a14", padding: "48px 24px 24px" }}>
       <div style={{ maxWidth: "1152px", margin: "0 auto" }}>
         <div style={{ display: "grid", gridTemplateColumns: "2fr 1fr 1fr 1fr", gap: "32px", marginBottom: "32px" }}>
           {/* Brand */}

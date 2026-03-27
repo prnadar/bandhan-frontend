@@ -1063,7 +1063,7 @@ export default function HomePage() {
       </section>
 
       {/* ── 11. Footer ───────────────────────────────────────────────── */}
-      <footer style={{ backgroundColor: "#4e3d8a", padding: "48px 24px 24px" }}>
+      <footer style={{ backgroundColor: "#1a0a14", padding: "48px 24px 24px" }}>
         <div style={{ maxWidth: "1152px", margin: "0 auto" }}>
 
           {/* Main row */}
