@@ -768,8 +768,8 @@ export default function HomePage() {
 
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
             <img
-              src="https://images.unsplash.com/photo-1511285560929-80b456fea0bc?w=600"
-              alt="Wedding celebration"
+              src="/images/why-different.jpg"
+              alt="Why We Are Different"
               className="w-full rounded-2xl object-cover"
               style={{ aspectRatio: "4/3", boxShadow: "0 12px 40px rgba(102,69,28,0.1)" }}
             />
