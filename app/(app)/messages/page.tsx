@@ -22,7 +22,7 @@ const threads = [
   },
   {
     id: "4", name: "Shruti Agarwal", photo: "SA", grad: "linear-gradient(135deg,#E8426A99,#9A6B0099)",
-    lastMsg: "Haha yes, Delhi winters are something else",
+    lastMsg: "Haha yes, Delhi winters are something else 😄",
     time: "Sun", unread: 0, verified: true, compatibility: 79,
   },
 ];
@@ -40,31 +40,30 @@ export default function MessagesPage() {
       style={{
         padding: "32px",
         maxWidth: "672px",
-        background: "#fff8f8",
+        background: "#fdfbf9",
         minHeight: "100vh",
-        fontFamily: "'Plus Jakarta Sans', sans-serif",
+        fontFamily: "var(--font-poppins, sans-serif)",
       }}
     >
       {/* Page header */}
       <div style={{ marginBottom: "24px" }}>
         <h1
           style={{
-            fontFamily: "'Noto Serif', serif",
+            fontFamily: "var(--font-playfair, serif)",
             fontSize: "1.875rem",
             fontWeight: 300,
-            color: "#281621",
+            color: "#1a0a14",
             margin: 0,
             marginBottom: "4px",
-            letterSpacing: "-0.01em",
           }}
         >
           Messages
         </h1>
         <p
           style={{
-            fontFamily: "'Plus Jakarta Sans', sans-serif",
+            fontFamily: "var(--font-poppins, sans-serif)",
             fontSize: "0.8125rem",
-            color: "rgba(40,22,33,0.45)",
+            color: "rgba(26,10,20,0.45)",
             margin: 0,
             display: "flex",
             alignItems: "center",
@@ -72,7 +71,7 @@ export default function MessagesPage() {
           }}
         >
           <Shield
-            style={{ width: "13px", height: "13px", color: "#b4002a" }}
+            style={{ width: "13px", height: "13px", color: "#dc1e3c" }}
           />
           Signal Protocol E2E encrypted · Private &amp; secure
         </p>
@@ -87,27 +86,28 @@ export default function MessagesPage() {
           padding: "0 16px",
           marginBottom: "20px",
           background: "#ffffff",
-          borderRadius: "12px",
-          height: "48px",
-          boxShadow: "0 2px 12px rgba(180,0,42,0.06)",
+          border: "1px solid rgba(220,30,60,0.18)",
+          borderRadius: "9999px",
+          height: "44px",
+          boxShadow: "0 2px 8px rgba(220,30,60,0.05)",
         }}
       >
         <Search
-          style={{ width: "16px", height: "16px", color: "rgba(40,22,33,0.35)", flexShrink: 0 }}
+          style={{ width: "16px", height: "16px", color: "rgba(26,10,20,0.35)", flexShrink: 0 }}
         />
         <input
           type="text"
           value={searchValue}
           onChange={(e) => setSearchValue(e.target.value)}
-          placeholder="Search conversations..."
+          placeholder="Search conversations…"
           style={{
             flex: 1,
             background: "transparent",
             border: "none",
             outline: "none",
-            fontFamily: "'Plus Jakarta Sans', sans-serif",
+            fontFamily: "var(--font-poppins, sans-serif)",
             fontSize: "0.875rem",
-            color: "#281621",
+            color: "#1a0a14",
           }}
         />
       </div>
@@ -116,10 +116,10 @@ export default function MessagesPage() {
       {filtered.length > 0 && (
         <p
           style={{
-            fontFamily: "'Plus Jakarta Sans', sans-serif",
+            fontFamily: "var(--font-poppins, sans-serif)",
             fontSize: "0.6875rem",
             fontWeight: 600,
-            color: "rgba(40,22,33,0.35)",
+            color: "rgba(26,10,20,0.35)",
             textTransform: "uppercase",
             letterSpacing: "0.08em",
             marginBottom: "12px",
@@ -130,7 +130,7 @@ export default function MessagesPage() {
       )}
 
       {/* Thread list */}
-      <div style={{ display: "flex", flexDirection: "column", gap: "6px" }}>
+      <div style={{ display: "flex", flexDirection: "column", gap: "8px" }}>
         {filtered.map((t) => (
           <Link
             key={t.id}
@@ -141,26 +141,31 @@ export default function MessagesPage() {
               gap: "16px",
               padding: "16px",
               borderRadius: "16px",
-              background: t.unread > 0 ? "#f9dae9" : "#ffffff",
+              background: "#ffffff",
+              border: t.unread > 0
+                ? "1px solid rgba(220,30,60,0.22)"
+                : "1px solid rgba(220,30,60,0.08)",
               boxShadow: t.unread > 0
-                ? "0 2px 16px rgba(180,0,42,0.08)"
-                : "0 1px 4px rgba(40,22,33,0.04)",
+                ? "0 2px 16px rgba(220,30,60,0.09)"
+                : "0 1px 4px rgba(26,10,20,0.04)",
               textDecoration: "none",
-              transition: "background 0.18s ease, box-shadow 0.18s ease",
+              transition: "box-shadow 0.18s ease, border-color 0.18s ease",
             }}
             onMouseEnter={(e) => {
-              (e.currentTarget as HTMLAnchorElement).style.background =
-                t.unread > 0 ? "#f9dae9" : "#fff0f5";
               (e.currentTarget as HTMLAnchorElement).style.boxShadow =
-                "0 4px 20px rgba(180,0,42,0.1)";
+                "0 4px 20px rgba(220,30,60,0.13)";
+              (e.currentTarget as HTMLAnchorElement).style.borderColor =
+                "rgba(220,30,60,0.25)";
             }}
             onMouseLeave={(e) => {
-              (e.currentTarget as HTMLAnchorElement).style.background =
-                t.unread > 0 ? "#f9dae9" : "#ffffff";
               (e.currentTarget as HTMLAnchorElement).style.boxShadow =
                 t.unread > 0
-                  ? "0 2px 16px rgba(180,0,42,0.08)"
-                  : "0 1px 4px rgba(40,22,33,0.04)";
+                  ? "0 2px 16px rgba(220,30,60,0.09)"
+                  : "0 1px 4px rgba(26,10,20,0.04)";
+              (e.currentTarget as HTMLAnchorElement).style.borderColor =
+                t.unread > 0
+                  ? "rgba(220,30,60,0.22)"
+                  : "rgba(220,30,60,0.08)";
             }}
           >
             {/* Avatar */}
@@ -174,11 +179,11 @@ export default function MessagesPage() {
                   display: "flex",
                   alignItems: "center",
                   justifyContent: "center",
-                  fontFamily: "'Noto Serif', serif",
+                  fontFamily: "var(--font-playfair, serif)",
                   fontSize: "0.9rem",
                   fontWeight: 600,
                   color: "#ffffff",
-                  boxShadow: "0 2px 8px rgba(0,0,0,0.12)",
+                  boxShadow: "0 2px 8px rgba(0,0,0,0.15)",
                 }}
               >
                 {t.photo}
@@ -192,14 +197,15 @@ export default function MessagesPage() {
                     width: "18px",
                     height: "18px",
                     borderRadius: "50%",
-                    background: "#fff8f8",
+                    background: "#fdfbf9",
+                    border: "1px solid rgba(220,30,60,0.15)",
                     display: "flex",
                     alignItems: "center",
                     justifyContent: "center",
                   }}
                 >
                   <Shield
-                    style={{ width: "11px", height: "11px", color: "#b4002a" }}
+                    style={{ width: "11px", height: "11px", color: "#dc1e3c" }}
                   />
                 </div>
               )}
@@ -217,10 +223,10 @@ export default function MessagesPage() {
               >
                 <span
                   style={{
-                    fontFamily: "'Noto Serif', serif",
-                    fontSize: "0.9375rem",
+                    fontFamily: "var(--font-poppins, sans-serif)",
+                    fontSize: "0.875rem",
                     fontWeight: t.unread > 0 ? 700 : 500,
-                    color: t.unread > 0 ? "#281621" : "rgba(40,22,33,0.75)",
+                    color: t.unread > 0 ? "#1a0a14" : "rgba(26,10,20,0.75)",
                   }}
                 >
                   {t.name}
@@ -235,14 +241,14 @@ export default function MessagesPage() {
                 >
                   {t.unread === 0 && (
                     <CheckCheck
-                      style={{ width: "13px", height: "13px", color: "#b4002a" }}
+                      style={{ width: "13px", height: "13px", color: "#dc1e3c" }}
                     />
                   )}
                   <span
                     style={{
-                      fontFamily: "'Plus Jakarta Sans', sans-serif",
+                      fontFamily: "var(--font-poppins, sans-serif)",
                       fontSize: "0.6875rem",
-                      color: "rgba(40,22,33,0.4)",
+                      color: "rgba(26,10,20,0.4)",
                     }}
                   >
                     {t.time}
@@ -252,14 +258,13 @@ export default function MessagesPage() {
 
               <p
                 style={{
-                  fontFamily: "'Plus Jakarta Sans', sans-serif",
-                  fontSize: "0.8125rem",
-                  color: t.unread > 0 ? "rgba(40,22,33,0.7)" : "rgba(40,22,33,0.4)",
+                  fontFamily: "var(--font-poppins, sans-serif)",
+                  fontSize: "0.75rem",
+                  color: t.unread > 0 ? "rgba(26,10,20,0.7)" : "rgba(26,10,20,0.4)",
                   margin: 0,
                   overflow: "hidden",
                   textOverflow: "ellipsis",
                   whiteSpace: "nowrap",
-                  lineHeight: 1.5,
                 }}
               >
                 {t.lastMsg}
@@ -275,7 +280,7 @@ export default function MessagesPage() {
               >
                 <span
                   style={{
-                    fontFamily: "'Plus Jakarta Sans', sans-serif",
+                    fontFamily: "var(--font-poppins, sans-serif)",
                     fontSize: "0.625rem",
                     fontWeight: 600,
                     color: "#C89020",
@@ -293,16 +298,16 @@ export default function MessagesPage() {
                   width: "22px",
                   height: "22px",
                   borderRadius: "50%",
-                  background: "linear-gradient(135deg, #b4002a, #dc1e3c)",
+                  background: "linear-gradient(135deg, #dc1e3c, #a0153c)",
                   display: "flex",
                   alignItems: "center",
                   justifyContent: "center",
-                  fontFamily: "'Plus Jakarta Sans', sans-serif",
+                  fontFamily: "var(--font-poppins, sans-serif)",
                   fontSize: "0.625rem",
                   fontWeight: 700,
                   color: "#ffffff",
                   flexShrink: 0,
-                  boxShadow: "0 2px 8px rgba(180,0,42,0.35)",
+                  boxShadow: "0 2px 8px rgba(220,30,60,0.35)",
                 }}
               >
                 {t.unread}
@@ -316,8 +321,8 @@ export default function MessagesPage() {
             style={{
               textAlign: "center",
               padding: "48px 24px",
-              color: "rgba(40,22,33,0.4)",
-              fontFamily: "'Plus Jakarta Sans', sans-serif",
+              color: "rgba(26,10,20,0.4)",
+              fontFamily: "var(--font-poppins, sans-serif)",
               fontSize: "0.875rem",
             }}
           >

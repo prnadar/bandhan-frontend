@@ -13,7 +13,7 @@ const threadProfiles: Record<string, { name: string; photo: string; grad: string
 
 const initialMessages: Record<string, { id: string; from: "me" | "them"; text: string; time: string }[]> = {
   "1": [
-    { id: "1", from: "them", text: "Namaste! Thank you for sending an interest. I went through your profile and it's really impressive", time: "10:30 AM" },
+    { id: "1", from: "them", text: "Namaste! Thank you for sending an interest. I went through your profile and it's really impressive 😊", time: "10:30 AM" },
     { id: "2", from: "me",   text: "Namaste Priya! Thank you so much. I was genuinely impressed by your work at Google and your passion for Carnatic music.", time: "10:35 AM" },
     { id: "3", from: "them", text: "That's so kind! I saw you're into trekking too — have you done any Himalayan treks?", time: "10:38 AM" },
     { id: "4", from: "me",   text: "Yes! Done Kedarkantha and Hampta Pass. Planning Roopkund next year. Do you trek?", time: "10:40 AM" },
@@ -28,7 +28,7 @@ const initialMessages: Record<string, { id: string; from: "me" | "them"; text: s
   ],
   "4": [
     { id: "1", from: "me",   text: "Hi Shruti! Lovely to connect. Delhi winters are harsh I imagine!", time: "Sun 11:10 AM" },
-    { id: "2", from: "them", text: "Haha yes, Delhi winters are something else", time: "Sun 11:30 AM" },
+    { id: "2", from: "them", text: "Haha yes, Delhi winters are something else 😄", time: "Sun 11:30 AM" },
   ],
 };
 
@@ -59,11 +59,11 @@ export default function ChatPage({ params }: { params: { id: string } }) {
         display: "flex",
         flexDirection: "column",
         maxWidth: "672px",
-        background: "#fff8f8",
-        fontFamily: "'Plus Jakarta Sans', sans-serif",
+        background: "#fdfbf9",
+        fontFamily: "var(--font-poppins, sans-serif)",
       }}
     >
-      {/* -- Header -- */}
+      {/* ── Header ── */}
       <div
         style={{
           display: "flex",
@@ -71,9 +71,9 @@ export default function ChatPage({ params }: { params: { id: string } }) {
           gap: "16px",
           padding: "16px 24px",
           flexShrink: 0,
-          background: "rgba(255,255,255,0.8)",
+          background: "#ffffff",
+          borderBottom: "1px solid rgba(220,30,60,0.12)",
           backdropFilter: "blur(20px)",
-          WebkitBackdropFilter: "blur(20px)",
         }}
       >
         {/* Back */}
@@ -86,19 +86,20 @@ export default function ChatPage({ params }: { params: { id: string } }) {
             width: "36px",
             height: "36px",
             borderRadius: "50%",
-            color: "rgba(40,22,33,0.5)",
-            background: "#ffe8f2",
+            color: "rgba(26,10,20,0.5)",
+            background: "rgba(220,30,60,0.05)",
+            border: "1px solid rgba(220,30,60,0.12)",
             textDecoration: "none",
             flexShrink: 0,
             transition: "background 0.15s ease",
           }}
           onMouseEnter={(e) => {
             (e.currentTarget as HTMLAnchorElement).style.background =
-              "#f9dae9";
+              "rgba(220,30,60,0.1)";
           }}
           onMouseLeave={(e) => {
             (e.currentTarget as HTMLAnchorElement).style.background =
-              "#ffe8f2";
+              "rgba(220,30,60,0.05)";
           }}
         >
           <ArrowLeft style={{ width: "18px", height: "18px" }} />
@@ -114,12 +115,13 @@ export default function ChatPage({ params }: { params: { id: string } }) {
             display: "flex",
             alignItems: "center",
             justifyContent: "center",
-            fontFamily: "'Noto Serif', serif",
+            fontFamily: "var(--font-playfair, serif)",
             fontSize: "0.9rem",
             fontWeight: 700,
             color: "#ffffff",
             flexShrink: 0,
-            boxShadow: "0 2px 10px rgba(180,0,42,0.15)",
+            border: "2px solid rgba(220,30,60,0.25)",
+            boxShadow: "0 2px 10px rgba(220,30,60,0.2)",
           }}
         >
           {profile.photo}
@@ -136,17 +138,17 @@ export default function ChatPage({ params }: { params: { id: string } }) {
           >
             <h2
               style={{
-                fontFamily: "'Noto Serif', serif",
-                fontSize: "1.0625rem",
+                fontFamily: "var(--font-playfair, serif)",
+                fontSize: "1rem",
                 fontWeight: 600,
-                color: "#281621",
+                color: "#1a0a14",
                 margin: 0,
               }}
             >
               {profile.name}
             </h2>
             <Shield
-              style={{ width: "14px", height: "14px", color: "#b4002a", flexShrink: 0 }}
+              style={{ width: "14px", height: "14px", color: "#dc1e3c", flexShrink: 0 }}
             />
           </div>
           <div
@@ -162,17 +164,17 @@ export default function ChatPage({ params }: { params: { id: string } }) {
                 width: "7px",
                 height: "7px",
                 borderRadius: "50%",
-                background: "#22c55e",
-                boxShadow: "0 0 0 2px rgba(34,197,94,0.2)",
+                background: "#dc1e3c",
+                boxShadow: "0 0 0 2px rgba(220,30,60,0.2)",
                 display: "inline-block",
                 flexShrink: 0,
               }}
             />
             <span
               style={{
-                fontFamily: "'Plus Jakarta Sans', sans-serif",
+                fontFamily: "var(--font-poppins, sans-serif)",
                 fontSize: "0.75rem",
-                color: "#5c3f3f",
+                color: "rgba(26,10,20,0.45)",
               }}
             >
               {profile.city} ·{" "}
@@ -196,9 +198,9 @@ export default function ChatPage({ params }: { params: { id: string } }) {
                 width: "36px",
                 height: "36px",
                 borderRadius: "50%",
-                background: "#ffe8f2",
-                border: "none",
-                color: "#5c3f3f",
+                background: "transparent",
+                border: "1px solid rgba(220,30,60,0.12)",
+                color: "rgba(26,10,20,0.45)",
                 display: "flex",
                 alignItems: "center",
                 justifyContent: "center",
@@ -207,14 +209,14 @@ export default function ChatPage({ params }: { params: { id: string } }) {
               }}
               onMouseEnter={(e) => {
                 (e.currentTarget as HTMLButtonElement).style.background =
-                  "#f9dae9";
-                (e.currentTarget as HTMLButtonElement).style.color = "#b4002a";
+                  "rgba(220,30,60,0.07)";
+                (e.currentTarget as HTMLButtonElement).style.color = "#dc1e3c";
               }}
               onMouseLeave={(e) => {
                 (e.currentTarget as HTMLButtonElement).style.background =
-                  "#ffe8f2";
+                  "transparent";
                 (e.currentTarget as HTMLButtonElement).style.color =
-                  "#5c3f3f";
+                  "rgba(26,10,20,0.45)";
               }}
             >
               {btn.icon}
@@ -227,9 +229,9 @@ export default function ChatPage({ params }: { params: { id: string } }) {
               width: "36px",
               height: "36px",
               borderRadius: "50%",
-              background: "#ffe8f2",
-              border: "none",
-              color: "#5c3f3f",
+              background: "transparent",
+              border: "1px solid rgba(220,30,60,0.12)",
+              color: "rgba(26,10,20,0.45)",
               display: "flex",
               alignItems: "center",
               justifyContent: "center",
@@ -238,14 +240,14 @@ export default function ChatPage({ params }: { params: { id: string } }) {
             }}
             onMouseEnter={(e) => {
               (e.currentTarget as HTMLAnchorElement).style.background =
-                "#f9dae9";
-              (e.currentTarget as HTMLAnchorElement).style.color = "#b4002a";
+                "rgba(220,30,60,0.07)";
+              (e.currentTarget as HTMLAnchorElement).style.color = "#dc1e3c";
             }}
             onMouseLeave={(e) => {
               (e.currentTarget as HTMLAnchorElement).style.background =
-                "#ffe8f2";
+                "transparent";
               (e.currentTarget as HTMLAnchorElement).style.color =
-                "#5c3f3f";
+                "rgba(26,10,20,0.45)";
             }}
           >
             <MoreHorizontal style={{ width: "16px", height: "16px" }} />
@@ -253,7 +255,7 @@ export default function ChatPage({ params }: { params: { id: string } }) {
         </div>
       </div>
 
-      {/* -- E2E encryption notice -- */}
+      {/* ── E2E encryption notice ── */}
       <div
         style={{
           display: "flex",
@@ -261,23 +263,24 @@ export default function ChatPage({ params }: { params: { id: string } }) {
           justifyContent: "center",
           gap: "6px",
           padding: "8px 16px",
-          background: "#ffe8f2",
+          background: "rgba(220,30,60,0.03)",
+          borderBottom: "1px solid rgba(220,30,60,0.08)",
           flexShrink: 0,
         }}
       >
-        <Lock style={{ width: "11px", height: "11px", color: "#b4002a" }} />
+        <Lock style={{ width: "11px", height: "11px", color: "#dc1e3c" }} />
         <span
           style={{
-            fontFamily: "'Plus Jakarta Sans', sans-serif",
+            fontFamily: "var(--font-poppins, sans-serif)",
             fontSize: "0.6875rem",
-            color: "rgba(180,0,42,0.65)",
+            color: "rgba(220,30,60,0.65)",
           }}
         >
           Messages are end-to-end encrypted · Signal Protocol
         </span>
       </div>
 
-      {/* -- Message list -- */}
+      {/* ── Message list ── */}
       <div
         style={{
           flex: 1,
@@ -286,7 +289,7 @@ export default function ChatPage({ params }: { params: { id: string } }) {
           display: "flex",
           flexDirection: "column",
           gap: "12px",
-          background: "#fff0f5",
+          background: "#fdfbf9",
         }}
       >
         {messages.map((msg, idx) => {
@@ -310,26 +313,27 @@ export default function ChatPage({ params }: { params: { id: string } }) {
                   style={
                     isMe
                       ? {
-                          background: "linear-gradient(135deg, #b4002a, #dc1e3c)",
+                          background: "linear-gradient(135deg, #dc1e3c, #a0153c)",
                           color: "#ffffff",
-                          borderRadius: "20px",
-                          borderBottomRightRadius: "6px",
-                          padding: "12px 18px",
-                          fontFamily: "'Plus Jakarta Sans', sans-serif",
+                          borderRadius: "18px",
+                          borderBottomRightRadius: "5px",
+                          padding: "10px 16px",
+                          fontFamily: "var(--font-poppins, sans-serif)",
                           fontSize: "0.875rem",
-                          lineHeight: 1.6,
-                          boxShadow: "0 4px 20px rgba(180,0,42,0.2)",
+                          lineHeight: 1.55,
+                          boxShadow: "0 2px 12px rgba(220,30,60,0.25)",
                         }
                       : {
-                          background: "#fff0f5",
-                          color: "#281621",
-                          borderRadius: "20px",
-                          borderBottomLeftRadius: "6px",
-                          padding: "12px 18px",
-                          fontFamily: "'Plus Jakarta Sans', sans-serif",
+                          background: "#ffffff",
+                          color: "#1a0a14",
+                          borderRadius: "18px",
+                          borderBottomLeftRadius: "5px",
+                          padding: "10px 16px",
+                          fontFamily: "var(--font-poppins, sans-serif)",
                           fontSize: "0.875rem",
-                          lineHeight: 1.6,
-                          boxShadow: "0 4px 20px -4px rgba(0,0,0,0.05)",
+                          lineHeight: 1.55,
+                          border: "1px solid rgba(220,30,60,0.1)",
+                          boxShadow: "0 1px 6px rgba(26,10,20,0.07)",
                         }
                   }
                 >
@@ -348,16 +352,16 @@ export default function ChatPage({ params }: { params: { id: string } }) {
                 >
                   <span
                     style={{
-                      fontFamily: "'Plus Jakarta Sans', sans-serif",
+                      fontFamily: "var(--font-poppins, sans-serif)",
                       fontSize: "0.625rem",
-                      color: "rgba(40,22,33,0.35)",
+                      color: "rgba(26,10,20,0.35)",
                     }}
                   >
                     {msg.time}
                   </span>
                   {isMe && (
                     <CheckCheck
-                      style={{ width: "12px", height: "12px", color: "#b4002a" }}
+                      style={{ width: "12px", height: "12px", color: "#dc1e3c" }}
                     />
                   )}
                 </div>
@@ -368,7 +372,7 @@ export default function ChatPage({ params }: { params: { id: string } }) {
         <div ref={bottomRef} />
       </div>
 
-      {/* -- Input bar -- */}
+      {/* ── Input bar ── */}
       <div
         style={{
           padding: "12px 16px",
@@ -377,6 +381,7 @@ export default function ChatPage({ params }: { params: { id: string } }) {
           gap: "12px",
           flexShrink: 0,
           background: "#ffffff",
+          borderTop: "1px solid rgba(220,30,60,0.12)",
         }}
       >
         <input
@@ -384,24 +389,26 @@ export default function ChatPage({ params }: { params: { id: string } }) {
           value={input}
           onChange={(e) => setInput(e.target.value)}
           onKeyDown={(e) => e.key === "Enter" && send()}
-          placeholder="Type your message with intention..."
+          placeholder="Type a message…"
           onFocus={() => setInputFocused(true)}
           onBlur={() => setInputFocused(false)}
           style={{
             flex: 1,
-            height: "48px",
-            padding: "0 18px",
-            fontFamily: "'Plus Jakarta Sans', sans-serif",
+            height: "44px",
+            padding: "0 16px",
+            fontFamily: "var(--font-poppins, sans-serif)",
             fontSize: "0.875rem",
-            color: "#281621",
-            background: "#fff8f8",
-            border: "none",
-            borderRadius: "14px",
+            color: "#1a0a14",
+            background: "#fdfbf9",
+            border: inputFocused
+              ? "1px solid rgba(220,30,60,0.55)"
+              : "1px solid rgba(220,30,60,0.18)",
+            borderRadius: "9999px",
             outline: "none",
             boxShadow: inputFocused
-              ? "0 0 0 2px rgba(180,0,42,0.15), 0 4px 20px rgba(180,0,42,0.08)"
-              : "0 2px 8px rgba(180,0,42,0.04)",
-            transition: "box-shadow 0.18s ease",
+              ? "0 0 0 3px rgba(220,30,60,0.08)"
+              : "none",
+            transition: "border-color 0.18s ease, box-shadow 0.18s ease",
           }}
         />
 
@@ -409,20 +416,20 @@ export default function ChatPage({ params }: { params: { id: string } }) {
           onClick={send}
           aria-label="Send message"
           style={{
-            width: "48px",
-            height: "48px",
-            borderRadius: "14px",
+            width: "44px",
+            height: "44px",
+            borderRadius: "50%",
             border: "none",
             background: input.trim()
-              ? "linear-gradient(135deg, #b4002a, #dc1e3c)"
-              : "#ffe8f2",
-            color: input.trim() ? "#ffffff" : "rgba(180,0,42,0.4)",
+              ? "linear-gradient(135deg, #dc1e3c, #a0153c)"
+              : "rgba(220,30,60,0.15)",
+            color: input.trim() ? "#ffffff" : "rgba(220,30,60,0.5)",
             display: "flex",
             alignItems: "center",
             justifyContent: "center",
             cursor: input.trim() ? "pointer" : "default",
             flexShrink: 0,
-            boxShadow: input.trim() ? "0 4px 16px rgba(180,0,42,0.3)" : "none",
+            boxShadow: input.trim() ? "0 3px 12px rgba(220,30,60,0.35)" : "none",
             transition: "background 0.18s ease, box-shadow 0.18s ease",
           }}
         >

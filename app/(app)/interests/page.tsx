@@ -79,9 +79,9 @@ function mapInterest(p: any, idx: number): InterestProfile {
 
 const statusBadge: Record<string, { label: string; bg: string; color: string }> = {
   pending:  { label: "Pending",  bg: "rgba(200,144,32,0.12)",  color: "#9A6B00" },
-  viewed:   { label: "Viewed",   bg: "#f9dae9",                color: "#5c3f3f" },
-  accepted: { label: "Accepted", bg: "rgba(180,0,42,0.1)",     color: "#b4002a" },
-  declined: { label: "Declined", bg: "#f9dae9",                color: "#5c3f3f" },
+  viewed:   { label: "Viewed",   bg: "rgba(26,10,20,0.08)",    color: "rgba(26,10,20,0.55)" },
+  accepted: { label: "Accepted", bg: "rgba(220,30,60,0.1)",    color: "#dc1e3c" },
+  declined: { label: "Declined", bg: "rgba(26,10,20,0.08)",    color: "rgba(26,10,20,0.4)" },
 };
 
 export default function InterestsPage() {
@@ -146,55 +146,55 @@ export default function InterestsPage() {
   ];
 
   return (
-    <div style={{ background: "#fff8f8", minHeight: "100vh", padding: "32px 24px", maxWidth: "720px" }}>
+    <div style={{ background: "#fdfbf9", minHeight: "100vh", padding: "32px", maxWidth: "720px" }}>
       {/* Header */}
-      <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: "32px" }}>
+      <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: "24px" }}>
         <div>
-          <h1 style={{ fontFamily: "'Noto Serif', serif", fontSize: "32px", fontWeight: 900, color: "#281621", margin: 0, lineHeight: 1.2, letterSpacing: "-0.02em" }}>
-            Your Intentions
+          <h1 style={{ fontFamily: "var(--font-playfair, serif)", fontSize: "30px", fontWeight: 300, color: "#1a0a14", margin: 0, lineHeight: 1.2 }}>
+            Interests
           </h1>
-          <p style={{ fontFamily: "'Plus Jakarta Sans', sans-serif", fontSize: "14px", color: "#5c3f3f", marginTop: "6px", marginBottom: 0, fontWeight: 300, letterSpacing: "0.02em" }}>
+          <p style={{ fontFamily: "var(--font-poppins, sans-serif)", fontSize: "13px", color: "#888", marginTop: "4px", marginBottom: 0 }}>
             Manage connection requests
           </p>
         </div>
         <button
           style={{
             display: "flex", alignItems: "center", gap: "8px",
-            padding: "10px 18px", borderRadius: "9999px", cursor: "pointer",
-            fontFamily: "'Plus Jakarta Sans', sans-serif", fontSize: "13px", fontWeight: 600, color: "#5c3f3f",
-            background: "#fff0f5", border: "none",
+            padding: "8px 16px", borderRadius: "10px", cursor: "pointer",
+            fontFamily: "var(--font-poppins, sans-serif)", fontSize: "14px", color: "rgba(26,10,20,0.55)",
+            background: "#fff", border: "1px solid rgba(220,30,60,0.12)",
             transition: "all 0.2s ease",
           }}
         >
-          <Filter style={{ width: "15px", height: "15px" }} />
+          <Filter style={{ width: "16px", height: "16px" }} />
           Filter
         </button>
       </div>
 
       {/* Tabs */}
-      <div style={{ display: "flex", gap: "6px", marginBottom: "28px", background: "#fff0f5", borderRadius: "9999px", padding: "4px" }}>
+      <div style={{ display: "flex", gap: "4px", marginBottom: "24px", borderBottom: "1px solid rgba(220,30,60,0.12)" }}>
         {tabs.map((t) => (
           <button
             key={t.key}
             onClick={() => setTab(t.key)}
             style={{
               display: "flex", alignItems: "center", gap: "8px",
-              padding: "10px 20px", cursor: "pointer",
-              background: tab === t.key ? "#b4002a" : "transparent",
-              border: "none", borderRadius: "9999px",
-              fontFamily: "'Plus Jakarta Sans', sans-serif", fontSize: "13px", fontWeight: 700,
-              color: tab === t.key ? "#ffffff" : "#5c3f3f",
-              transition: "all 0.25s ease",
-              flex: 1, justifyContent: "center",
+              padding: "10px 16px", cursor: "pointer",
+              background: "transparent", border: "none",
+              fontFamily: "var(--font-poppins, sans-serif)", fontSize: "14px", fontWeight: 500,
+              color: tab === t.key ? "#dc1e3c" : "rgba(26,10,20,0.45)",
+              borderBottom: tab === t.key ? "2px solid #dc1e3c" : "2px solid transparent",
+              marginBottom: "-1px",
+              transition: "all 0.2s ease",
             }}
           >
             {t.label}
             <span
               style={{
-                fontFamily: "'Plus Jakarta Sans', sans-serif", fontSize: "11px", fontWeight: 700,
-                padding: "2px 8px", borderRadius: "9999px",
-                background: tab === t.key ? "rgba(255,255,255,0.25)" : "#f9dae9",
-                color: tab === t.key ? "#ffffff" : "#5c3f3f",
+                fontFamily: "var(--font-poppins, sans-serif)", fontSize: "11px", fontWeight: 700,
+                padding: "2px 6px", borderRadius: "20px",
+                background: tab === t.key ? "linear-gradient(135deg,#dc1e3c,#a0153c)" : "rgba(26,10,20,0.08)",
+                color: tab === t.key ? "#fff" : "rgba(26,10,20,0.4)",
               }}
             >
               {t.count}
@@ -206,8 +206,8 @@ export default function InterestsPage() {
       {/* Loading */}
       {loading && (
         <div style={{ textAlign: "center", padding: "64px 0" }}>
-          <Loader2 style={{ width: "32px", height: "32px", color: "#b4002a", margin: "0 auto 12px", animation: "spin 1s linear infinite" }} />
-          <p style={{ fontFamily: "'Plus Jakarta Sans', sans-serif", fontSize: "14px", color: "#5c3f3f" }}>Loading interests...</p>
+          <Loader2 style={{ width: "32px", height: "32px", color: "#dc1e3c", margin: "0 auto 12px", animation: "spin 1s linear infinite" }} />
+          <p style={{ fontFamily: "var(--font-poppins, sans-serif)", fontSize: "14px", color: "#888" }}>Loading interests…</p>
           <style>{`@keyframes spin { to { transform: rotate(360deg) } }`}</style>
         </div>
       )}
@@ -215,26 +215,26 @@ export default function InterestsPage() {
       {/* Error */}
       {!loading && error && (
         <div style={{ textAlign: "center", padding: "64px 0" }}>
-          <X style={{ width: "40px", height: "40px", color: "#b4002a", margin: "0 auto 12px" }} />
-          <p style={{ fontFamily: "'Plus Jakarta Sans', sans-serif", fontSize: "14px", color: "#5c3f3f" }}>{error}</p>
+          <X style={{ width: "40px", height: "40px", color: "#dc1e3c", margin: "0 auto 12px" }} />
+          <p style={{ fontFamily: "var(--font-poppins, sans-serif)", fontSize: "14px", color: "#888" }}>{error}</p>
         </div>
       )}
 
       {!loading && !error && (
         <>
-          {/* -- Received Tab -- */}
+          {/* ── Received Tab ── */}
           {tab === "received" && (
-            <div style={{ display: "flex", flexDirection: "column", gap: "16px" }}>
+            <div style={{ display: "flex", flexDirection: "column", gap: "12px" }}>
               {receivedList.filter((p) => !dismissed.has(p.id)).map((profile) => {
                 const isAccepted = accepted.has(profile.id);
                 return (
                   <div
                     key={profile.id}
                     style={{
-                      background: "#ffffff", borderRadius: "24px", padding: "20px",
+                      background: "#fff", border: "1px solid rgba(220,30,60,0.08)",
+                      borderRadius: "16px", padding: "16px",
                       display: "flex", alignItems: "center", gap: "16px",
-                      boxShadow: "0 32px 64px -12px rgba(40, 22, 33, 0.04)",
-                      transition: "all 0.3s ease",
+                      boxShadow: "0 2px 12px rgba(220,30,60,0.05)",
                     }}
                   >
                     <div
@@ -244,57 +244,55 @@ export default function InterestsPage() {
                         background: profile.grad, flexShrink: 0,
                       }}
                     >
-                      <span style={{ fontFamily: "'Noto Serif', serif", fontSize: "17px", fontWeight: 700, color: "#fff" }}>
+                      <span style={{ fontFamily: "var(--font-playfair, serif)", fontSize: "17px", fontWeight: 600, color: "#fff" }}>
                         {profile.initials}
                       </span>
                     </div>
 
                     <div style={{ flex: 1, minWidth: 0 }}>
                       <div style={{ display: "flex", alignItems: "center", gap: "8px", flexWrap: "wrap" }}>
-                        <span style={{ fontFamily: "'Noto Serif', serif", fontSize: "16px", fontWeight: 700, color: "#281621" }}>
+                        <span style={{ fontFamily: "var(--font-playfair, serif)", fontSize: "15px", fontWeight: 600, color: "#1a0a14" }}>
                           {profile.name}
                         </span>
                         {profile.verified && (
-                          <CheckCircle style={{ width: "14px", height: "14px", color: "#b4002a", fill: "rgba(180,0,42,0.15)", flexShrink: 0 }} />
+                          <CheckCircle style={{ width: "14px", height: "14px", color: "#dc1e3c", fill: "rgba(220,30,60,0.15)", flexShrink: 0 }} />
                         )}
                         {profile.compatibility > 0 && (
                           <span
                             style={{
-                              fontFamily: "'Plus Jakarta Sans', sans-serif", fontSize: "10px", fontWeight: 700,
-                              padding: "3px 10px", borderRadius: "9999px",
+                              fontFamily: "var(--font-poppins, sans-serif)", fontSize: "11px", fontWeight: 700,
+                              padding: "2px 8px", borderRadius: "20px",
                               background: "rgba(200,144,32,0.12)", color: "#9A6B00",
-                              letterSpacing: "0.05em", textTransform: "uppercase",
                             }}
                           >
                             {profile.compatibility}% match
                           </span>
                         )}
                       </div>
-                      <p style={{ fontFamily: "'Plus Jakarta Sans', sans-serif", fontSize: "13px", color: "#5c3f3f", margin: "4px 0 0", fontWeight: 400 }}>
-                        {[profile.age > 0 ? String(profile.age) : "", profile.city, profile.profession ? `${profile.profession}${profile.company ? ` at ${profile.company}` : ""}` : ""].filter(Boolean).join(" \u00B7 ") || "\u2014"}
+                      <p style={{ fontFamily: "var(--font-poppins, sans-serif)", fontSize: "12px", color: "#888", margin: "3px 0 0" }}>
+                        {[profile.age > 0 ? String(profile.age) : "", profile.city, profile.profession ? `${profile.profession}${profile.company ? ` at ${profile.company}` : ""}` : ""].filter(Boolean).join(" · ") || "—"}
                       </p>
                       {profile.time && (
-                        <div style={{ display: "flex", alignItems: "center", gap: "4px", marginTop: "6px" }}>
-                          <Clock style={{ width: "11px", height: "11px", color: "rgba(40,22,33,0.35)" }} />
-                          <span style={{ fontFamily: "'Plus Jakarta Sans', sans-serif", fontSize: "11px", color: "rgba(40,22,33,0.35)", fontWeight: 500 }}>
+                        <div style={{ display: "flex", alignItems: "center", gap: "4px", marginTop: "4px" }}>
+                          <Clock style={{ width: "11px", height: "11px", color: "rgba(26,10,20,0.3)" }} />
+                          <span style={{ fontFamily: "var(--font-poppins, sans-serif)", fontSize: "10px", color: "rgba(26,10,20,0.3)" }}>
                             {profile.time}
                           </span>
                         </div>
                       )}
                     </div>
 
-                    <div style={{ display: "flex", alignItems: "center", gap: "10px", flexShrink: 0 }}>
+                    <div style={{ display: "flex", alignItems: "center", gap: "8px", flexShrink: 0 }}>
                       {isAccepted ? (
                         <Link
                           href="/messages/1"
                           style={{
                             display: "flex", alignItems: "center", gap: "6px",
-                            padding: "10px 20px", borderRadius: "9999px",
-                            fontFamily: "'Plus Jakarta Sans', sans-serif", fontSize: "12px", fontWeight: 700,
-                            background: "linear-gradient(135deg, #b4002a, #dc1e3c)",
+                            padding: "8px 16px", borderRadius: "10px",
+                            fontFamily: "var(--font-poppins, sans-serif)", fontSize: "12px", fontWeight: 600,
+                            background: "linear-gradient(135deg,#dc1e3c,#a0153c)",
                             color: "#fff", textDecoration: "none",
-                            boxShadow: "0 4px 16px rgba(180,0,42,0.25)",
-                            letterSpacing: "0.02em",
+                            boxShadow: "0 4px 12px rgba(220,30,60,0.25)",
                           }}
                         >
                           <MessageCircle style={{ width: "13px", height: "13px" }} />
@@ -305,26 +303,25 @@ export default function InterestsPage() {
                           <button
                             onClick={() => dismiss(profile.id)}
                             style={{
-                              width: "36px", height: "36px", borderRadius: "50%",
+                              width: "32px", height: "32px", borderRadius: "50%",
                               display: "flex", alignItems: "center", justifyContent: "center",
-                              background: "#f9dae9", border: "none",
+                              background: "#fff", border: "1px solid rgba(26,10,20,0.1)",
                               cursor: "pointer", transition: "all 0.2s ease",
-                              color: "#5c3f3f",
+                              color: "rgba(26,10,20,0.3)",
                             }}
                           >
-                            <X style={{ width: "14px", height: "14px" }} />
+                            <X style={{ width: "13px", height: "13px" }} />
                           </button>
                           <button
                             onClick={() => accept(profile.id)}
                             style={{
                               display: "flex", alignItems: "center", gap: "6px",
-                              padding: "10px 20px", borderRadius: "9999px", cursor: "pointer",
-                              fontFamily: "'Plus Jakarta Sans', sans-serif", fontSize: "12px", fontWeight: 700,
-                              background: "linear-gradient(135deg, #b4002a, #dc1e3c)",
+                              padding: "8px 16px", borderRadius: "10px", cursor: "pointer",
+                              fontFamily: "var(--font-poppins, sans-serif)", fontSize: "12px", fontWeight: 600,
+                              background: "linear-gradient(135deg,#dc1e3c,#a0153c)",
                               color: "#fff", border: "none",
-                              boxShadow: "0 4px 16px rgba(180,0,42,0.25)",
+                              boxShadow: "0 4px 12px rgba(220,30,60,0.25)",
                               transition: "all 0.2s ease",
-                              letterSpacing: "0.02em",
                             }}
                           >
                             <Heart style={{ width: "13px", height: "13px" }} />
@@ -339,8 +336,8 @@ export default function InterestsPage() {
 
               {receivedList.filter((p) => !dismissed.has(p.id)).length === 0 && (
                 <div style={{ textAlign: "center", padding: "64px 0" }}>
-                  <Heart style={{ width: "48px", height: "48px", color: "#e5bdbc", margin: "0 auto 16px" }} />
-                  <p style={{ fontFamily: "'Plus Jakarta Sans', sans-serif", fontSize: "15px", color: "#5c3f3f", fontWeight: 400 }}>
+                  <Heart style={{ width: "48px", height: "48px", color: "rgba(26,10,20,0.15)", margin: "0 auto 12px" }} />
+                  <p style={{ fontFamily: "var(--font-poppins, sans-serif)", fontSize: "14px", color: "#888" }}>
                     No received interests yet. Complete your profile to get noticed!
                   </p>
                 </div>
@@ -348,13 +345,13 @@ export default function InterestsPage() {
             </div>
           )}
 
-          {/* -- Sent Tab -- */}
+          {/* ── Sent Tab ── */}
           {tab === "sent" && (
-            <div style={{ display: "flex", flexDirection: "column", gap: "16px" }}>
+            <div style={{ display: "flex", flexDirection: "column", gap: "12px" }}>
               {sentList.length === 0 && (
                 <div style={{ textAlign: "center", padding: "64px 0" }}>
-                  <Heart style={{ width: "48px", height: "48px", color: "#e5bdbc", margin: "0 auto 16px" }} />
-                  <p style={{ fontFamily: "'Plus Jakarta Sans', sans-serif", fontSize: "15px", color: "#5c3f3f", fontWeight: 400 }}>
+                  <Heart style={{ width: "48px", height: "48px", color: "rgba(26,10,20,0.15)", margin: "0 auto 12px" }} />
+                  <p style={{ fontFamily: "var(--font-poppins, sans-serif)", fontSize: "14px", color: "#888" }}>
                     No sent interests yet. Browse profiles to find your match!
                   </p>
                 </div>
@@ -365,10 +362,10 @@ export default function InterestsPage() {
                   <div
                     key={profile.id}
                     style={{
-                      background: "#ffffff", borderRadius: "24px", padding: "20px",
+                      background: "#fff", border: "1px solid rgba(220,30,60,0.08)",
+                      borderRadius: "16px", padding: "16px",
                       display: "flex", alignItems: "center", gap: "16px",
-                      boxShadow: "0 32px 64px -12px rgba(40, 22, 33, 0.04)",
-                      transition: "all 0.3s ease",
+                      boxShadow: "0 2px 12px rgba(220,30,60,0.05)",
                     }}
                   >
                     <div
@@ -378,55 +375,53 @@ export default function InterestsPage() {
                         background: profile.grad, flexShrink: 0,
                       }}
                     >
-                      <span style={{ fontFamily: "'Noto Serif', serif", fontSize: "17px", fontWeight: 700, color: "#fff" }}>
+                      <span style={{ fontFamily: "var(--font-playfair, serif)", fontSize: "17px", fontWeight: 600, color: "#fff" }}>
                         {profile.initials}
                       </span>
                     </div>
 
                     <div style={{ flex: 1, minWidth: 0 }}>
                       <div style={{ display: "flex", alignItems: "center", gap: "8px" }}>
-                        <span style={{ fontFamily: "'Noto Serif', serif", fontSize: "16px", fontWeight: 700, color: "#281621" }}>
+                        <span style={{ fontFamily: "var(--font-playfair, serif)", fontSize: "15px", fontWeight: 600, color: "#1a0a14" }}>
                           {profile.name}
                         </span>
                         <span
                           style={{
-                            fontFamily: "'Plus Jakarta Sans', sans-serif", fontSize: "10px", fontWeight: 700,
-                            padding: "3px 10px", borderRadius: "9999px",
+                            fontFamily: "var(--font-poppins, sans-serif)", fontSize: "11px", fontWeight: 600,
+                            padding: "2px 8px", borderRadius: "20px",
                             background: badge.bg, color: badge.color,
-                            letterSpacing: "0.05em", textTransform: "uppercase",
                           }}
                         >
                           {badge.label}
                         </span>
                       </div>
-                      <p style={{ fontFamily: "'Plus Jakarta Sans', sans-serif", fontSize: "13px", color: "#5c3f3f", margin: "4px 0 0", fontWeight: 400 }}>
-                        {[profile.age > 0 ? String(profile.age) : "", profile.city, profile.profession ? `${profile.profession}${profile.company ? ` at ${profile.company}` : ""}` : ""].filter(Boolean).join(" \u00B7 ") || "\u2014"}
+                      <p style={{ fontFamily: "var(--font-poppins, sans-serif)", fontSize: "12px", color: "#888", margin: "3px 0 0" }}>
+                        {[profile.age > 0 ? String(profile.age) : "", profile.city, profile.profession ? `${profile.profession}${profile.company ? ` at ${profile.company}` : ""}` : ""].filter(Boolean).join(" · ") || "—"}
                       </p>
                       {profile.time && (
-                        <div style={{ display: "flex", alignItems: "center", gap: "4px", marginTop: "6px" }}>
-                          <Clock style={{ width: "11px", height: "11px", color: "rgba(40,22,33,0.35)" }} />
-                          <span style={{ fontFamily: "'Plus Jakarta Sans', sans-serif", fontSize: "11px", color: "rgba(40,22,33,0.35)", fontWeight: 500 }}>
+                        <div style={{ display: "flex", alignItems: "center", gap: "4px", marginTop: "4px" }}>
+                          <Clock style={{ width: "11px", height: "11px", color: "rgba(26,10,20,0.3)" }} />
+                          <span style={{ fontFamily: "var(--font-poppins, sans-serif)", fontSize: "10px", color: "rgba(26,10,20,0.3)" }}>
                             Sent {profile.time}
                           </span>
                         </div>
                       )}
                     </div>
 
-                    <div style={{ display: "flex", alignItems: "center", gap: "10px", flexShrink: 0 }}>
+                    <div style={{ display: "flex", alignItems: "center", gap: "8px", flexShrink: 0 }}>
                       {profile.compatibility > 0 && (
-                        <span style={{ fontFamily: "'Noto Serif', serif", fontSize: "14px", fontWeight: 700, color: "#C89020" }}>
+                        <span style={{ fontFamily: "var(--font-playfair, serif)", fontSize: "13px", fontWeight: 700, color: "#C89020" }}>
                           {profile.compatibility}%
                         </span>
                       )}
                       <Link
                         href={`/profile/${profile.id}`}
                         style={{
-                          padding: "8px 18px", borderRadius: "9999px",
-                          fontFamily: "'Plus Jakarta Sans', sans-serif", fontSize: "12px", fontWeight: 700,
-                          color: "#5c3f3f", background: "#f9dae9",
-                          border: "none",
+                          padding: "6px 14px", borderRadius: "10px",
+                          fontFamily: "var(--font-poppins, sans-serif)", fontSize: "12px", fontWeight: 500,
+                          color: "rgba(26,10,20,0.6)", background: "#fff",
+                          border: "1px solid rgba(220,30,60,0.12)",
                           textDecoration: "none", transition: "all 0.2s ease",
-                          letterSpacing: "0.02em",
                         }}
                       >
                         View
@@ -438,25 +433,26 @@ export default function InterestsPage() {
             </div>
           )}
 
-          {/* -- Mutual Tab -- */}
+          {/* ── Mutual Tab ── */}
           {tab === "mutual" && (
             <div style={{ display: "flex", flexDirection: "column", gap: "16px" }}>
               {mutualList.length > 0 && (
                 <div
                   style={{
-                    background: "#ffe8f2", borderRadius: "24px", padding: "16px 20px", marginBottom: "4px",
+                    background: "rgba(220,30,60,0.04)", border: "1px solid rgba(220,30,60,0.12)",
+                    borderRadius: "16px", padding: "14px 16px", marginBottom: "4px",
                   }}
                 >
-                  <p style={{ fontFamily: "'Plus Jakarta Sans', sans-serif", fontSize: "13px", color: "#b4002a", fontWeight: 600, margin: 0 }}>
-                    You both showed interest -- start a conversation!
+                  <p style={{ fontFamily: "var(--font-poppins, sans-serif)", fontSize: "13px", color: "#dc1e3c", fontWeight: 500, margin: 0 }}>
+                    You both showed interest — start a conversation!
                   </p>
                 </div>
               )}
 
               {mutualList.length === 0 && (
                 <div style={{ textAlign: "center", padding: "64px 0" }}>
-                  <Heart style={{ width: "48px", height: "48px", color: "#e5bdbc", margin: "0 auto 16px" }} />
-                  <p style={{ fontFamily: "'Plus Jakarta Sans', sans-serif", fontSize: "15px", color: "#5c3f3f", fontWeight: 400 }}>
+                  <Heart style={{ width: "48px", height: "48px", color: "rgba(26,10,20,0.15)", margin: "0 auto 12px" }} />
+                  <p style={{ fontFamily: "var(--font-poppins, sans-serif)", fontSize: "14px", color: "#888" }}>
                     No mutual interests yet. Keep browsing!
                   </p>
                 </div>
@@ -466,10 +462,10 @@ export default function InterestsPage() {
                 <div
                   key={profile.id}
                   style={{
-                    background: "#ffffff", borderRadius: "24px", padding: "20px",
+                    background: "#fff", border: "1px solid rgba(220,30,60,0.12)",
+                    borderRadius: "16px", padding: "16px",
                     display: "flex", alignItems: "center", gap: "16px",
-                    boxShadow: "0 32px 64px -12px rgba(40, 22, 33, 0.06)",
-                    transition: "all 0.3s ease",
+                    boxShadow: "0 4px 16px rgba(220,30,60,0.08)",
                   }}
                 >
                   <div style={{ position: "relative", flexShrink: 0 }}>
@@ -480,33 +476,33 @@ export default function InterestsPage() {
                         background: profile.grad,
                       }}
                     >
-                      <span style={{ fontFamily: "'Noto Serif', serif", fontSize: "17px", fontWeight: 700, color: "#fff" }}>
+                      <span style={{ fontFamily: "var(--font-playfair, serif)", fontSize: "17px", fontWeight: 600, color: "#fff" }}>
                         {profile.initials}
                       </span>
                     </div>
                     <div
                       style={{
                         position: "absolute", bottom: "-4px", right: "-4px",
-                        width: "22px", height: "22px", borderRadius: "50%",
-                        background: "#ffffff", display: "flex", alignItems: "center", justifyContent: "center",
-                        boxShadow: "0 2px 8px rgba(40,22,33,0.12)",
+                        width: "20px", height: "20px", borderRadius: "50%",
+                        background: "#fff", display: "flex", alignItems: "center", justifyContent: "center",
+                        boxShadow: "0 1px 4px rgba(0,0,0,0.15)",
                       }}
                     >
-                      <Heart style={{ width: "11px", height: "11px", fill: "#b4002a", color: "#b4002a" }} />
+                      <Heart style={{ width: "11px", height: "11px", fill: "#dc1e3c", color: "#dc1e3c" }} />
                     </div>
                   </div>
 
                   <div style={{ flex: 1, minWidth: 0 }}>
-                    <span style={{ fontFamily: "'Noto Serif', serif", fontSize: "16px", fontWeight: 700, color: "#281621" }}>
+                    <span style={{ fontFamily: "var(--font-playfair, serif)", fontSize: "15px", fontWeight: 600, color: "#1a0a14" }}>
                       {profile.name}
                     </span>
-                    <p style={{ fontFamily: "'Plus Jakarta Sans', sans-serif", fontSize: "13px", color: "#5c3f3f", margin: "4px 0 0", fontWeight: 400 }}>
-                      {[profile.age > 0 ? String(profile.age) : "", profile.city, profile.profession].filter(Boolean).join(" \u00B7 ") || "\u2014"}
+                    <p style={{ fontFamily: "var(--font-poppins, sans-serif)", fontSize: "12px", color: "#888", margin: "3px 0 0" }}>
+                      {[profile.age > 0 ? String(profile.age) : "", profile.city, profile.profession].filter(Boolean).join(" · ") || "—"}
                     </p>
                     {profile.compatibility > 0 && (
-                      <div style={{ display: "flex", alignItems: "center", gap: "4px", marginTop: "6px" }}>
+                      <div style={{ display: "flex", alignItems: "center", gap: "4px", marginTop: "5px" }}>
                         <Star style={{ width: "12px", height: "12px", fill: "#C89020", color: "#C89020" }} />
-                        <span style={{ fontFamily: "'Plus Jakarta Sans', sans-serif", fontSize: "12px", fontWeight: 700, color: "#C89020" }}>
+                        <span style={{ fontFamily: "var(--font-poppins, sans-serif)", fontSize: "12px", fontWeight: 600, color: "#C89020" }}>
                           {profile.compatibility}% compatibility
                         </span>
                       </div>
@@ -517,13 +513,12 @@ export default function InterestsPage() {
                     href="/messages/1"
                     style={{
                       display: "flex", alignItems: "center", gap: "6px",
-                      padding: "12px 22px", borderRadius: "9999px",
-                      fontFamily: "'Plus Jakarta Sans', sans-serif", fontSize: "13px", fontWeight: 700,
-                      background: "linear-gradient(135deg, #b4002a, #dc1e3c)",
+                      padding: "10px 18px", borderRadius: "10px",
+                      fontFamily: "var(--font-poppins, sans-serif)", fontSize: "13px", fontWeight: 600,
+                      background: "linear-gradient(135deg,#dc1e3c,#a0153c)",
                       color: "#fff", textDecoration: "none",
-                      boxShadow: "0 4px 16px rgba(180,0,42,0.25)",
+                      boxShadow: "0 4px 16px rgba(220,30,60,0.25)",
                       flexShrink: 0,
-                      letterSpacing: "0.02em",
                     }}
                   >
                     <MessageCircle style={{ width: "14px", height: "14px" }} />

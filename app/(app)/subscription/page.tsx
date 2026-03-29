@@ -75,25 +75,26 @@ export default function SubscriptionPage() {
 
   /* ── shared style helpers ── */
   const cardBase = {
-    background: "#ffffff",
+    background: "#fff",
+    border: "1px solid rgba(220,30,60,0.08)",
     borderRadius: 16,
   };
 
   const btnPrimary: React.CSSProperties = {
-    background: "linear-gradient(135deg, #b4002a, #dc1e3c)",
+    background: "linear-gradient(135deg,#dc1e3c,#a0153c)",
     color: "#fff",
-    borderRadius: 9999,
+    borderRadius: 10,
     padding: "12px 24px",
     fontWeight: 600,
-    boxShadow: "0 4px 16px rgba(180,0,42,0.25)",
+    boxShadow: "0 4px 16px rgba(220,30,60,0.25)",
     border: "none",
     cursor: "pointer",
-    fontFamily: "'Plus Jakarta Sans', sans-serif",
+    fontFamily: "var(--font-poppins, sans-serif)",
     fontSize: 14,
   };
 
   return (
-    <div style={{ background: "#fff8f8", minHeight: "100vh", padding: "32px" }}>
+    <div style={{ background: "#fdfbf9", minHeight: "100vh", padding: "32px" }}>
       <div style={{ maxWidth: 896 }}>
 
         {/* Page title */}
@@ -101,10 +102,10 @@ export default function SubscriptionPage() {
           <Crown style={{ width: 20, height: 20, color: "#C89020" }} />
           <h1
             style={{
-              fontFamily: "'Noto Serif', serif",
+              fontFamily: "var(--font-playfair, serif)",
               fontSize: 30,
               fontWeight: 300,
-              color: "#281621",
+              color: "#1a0a14",
               margin: 0,
             }}
           >
@@ -118,7 +119,7 @@ export default function SubscriptionPage() {
             borderRadius: 24,
             padding: 24,
             marginBottom: 32,
-            background: "linear-gradient(135deg, #b4002a, #dc1e3c)",
+            background: "linear-gradient(135deg,#dc1e3c,#a0153c)",
             position: "relative",
             overflow: "hidden",
           }}
@@ -129,7 +130,7 @@ export default function SubscriptionPage() {
                 <div style={{ display: "flex", alignItems: "center", gap: 8, marginBottom: 4 }}>
                   <span
                     style={{
-                      fontFamily: "'Plus Jakarta Sans', sans-serif",
+                      fontFamily: "var(--font-poppins, sans-serif)",
                       fontSize: 11,
                       fontWeight: 700,
                       letterSpacing: "0.12em",
@@ -147,7 +148,7 @@ export default function SubscriptionPage() {
                       borderRadius: 999,
                       background: "rgba(255,255,255,0.2)",
                       color: "#fff",
-                      fontFamily: "'Plus Jakarta Sans', sans-serif",
+                      fontFamily: "var(--font-poppins, sans-serif)",
                     }}
                   >
                     Active
@@ -155,7 +156,7 @@ export default function SubscriptionPage() {
                 </div>
                 <h2
                   style={{
-                    fontFamily: "'Noto Serif', serif",
+                    fontFamily: "var(--font-playfair, serif)",
                     fontSize: 28,
                     fontWeight: 600,
                     color: "#fff",
@@ -164,7 +165,7 @@ export default function SubscriptionPage() {
                 >
                   Gold Plan
                 </h2>
-                <p style={{ fontFamily: "'Plus Jakarta Sans', sans-serif", fontSize: 14, color: "rgba(255,255,255,0.65)", margin: "4px 0 0" }}>
+                <p style={{ fontFamily: "var(--font-poppins, sans-serif)", fontSize: 14, color: "rgba(255,255,255,0.65)", margin: "4px 0 0" }}>
                   Renews on July 1, 2026 · £300 / 3 months
                 </p>
               </div>
@@ -175,10 +176,10 @@ export default function SubscriptionPage() {
                   style={{
                     padding: "8px 16px",
                     borderRadius: 999,
-                    background: "rgba(255,255,255,0.1)",
-                    border: "none",
+                    background: "transparent",
+                    border: "1px solid rgba(255,255,255,0.3)",
                     color: "rgba(255,255,255,0.8)",
-                    fontFamily: "'Plus Jakarta Sans', sans-serif",
+                    fontFamily: "var(--font-poppins, sans-serif)",
                     fontSize: 14,
                     fontWeight: 500,
                     cursor: "pointer",
@@ -195,9 +196,9 @@ export default function SubscriptionPage() {
                     padding: "8px 16px",
                     borderRadius: 999,
                     background: "rgba(255,255,255,0.15)",
-                    border: "none",
+                    border: "1px solid rgba(255,255,255,0.3)",
                     color: "#fff",
-                    fontFamily: "'Plus Jakarta Sans', sans-serif",
+                    fontFamily: "var(--font-poppins, sans-serif)",
                     fontSize: 14,
                     fontWeight: 600,
                     textDecoration: "none",
@@ -219,11 +220,12 @@ export default function SubscriptionPage() {
                       borderRadius: 12,
                       padding: 12,
                       background: "rgba(255,255,255,0.12)",
+                      border: "1px solid rgba(255,255,255,0.18)",
                     }}
                   >
                     <p
                       style={{
-                        fontFamily: "'Plus Jakarta Sans', sans-serif",
+                        fontFamily: "var(--font-poppins, sans-serif)",
                         fontSize: 10,
                         textTransform: "uppercase",
                         letterSpacing: "0.08em",
@@ -235,7 +237,7 @@ export default function SubscriptionPage() {
                     </p>
                     <p
                       style={{
-                        fontFamily: "'Noto Serif', serif",
+                        fontFamily: "var(--font-playfair, serif)",
                         fontSize: 20,
                         fontWeight: 700,
                         color: "#fff",
@@ -266,7 +268,7 @@ export default function SubscriptionPage() {
                     )}
                     <p
                       style={{
-                        fontFamily: "'Plus Jakarta Sans', sans-serif",
+                        fontFamily: "var(--font-poppins, sans-serif)",
                         fontSize: 9,
                         color: "rgba(255,255,255,0.5)",
                         margin: "4px 0 0",
@@ -292,13 +294,14 @@ export default function SubscriptionPage() {
               alignItems: "flex-start",
               gap: 12,
               background: "rgba(239,68,68,0.06)",
+              border: "1px solid rgba(239,68,68,0.2)",
             }}
           >
             <AlertCircle style={{ width: 20, height: 20, color: "#f87171", flexShrink: 0, marginTop: 2 }} />
             <div style={{ flex: 1 }}>
               <p
                 style={{
-                  fontFamily: "'Plus Jakarta Sans', sans-serif",
+                  fontFamily: "var(--font-poppins, sans-serif)",
                   fontSize: 14,
                   fontWeight: 600,
                   color: "#ef4444",
@@ -309,7 +312,7 @@ export default function SubscriptionPage() {
               </p>
               <p
                 style={{
-                  fontFamily: "'Plus Jakarta Sans', sans-serif",
+                  fontFamily: "var(--font-poppins, sans-serif)",
                   fontSize: 12,
                   color: "rgba(248,113,113,0.7)",
                   margin: "0 0 12px",
@@ -322,10 +325,10 @@ export default function SubscriptionPage() {
                   style={{
                     padding: "8px 16px",
                     borderRadius: 999,
-                    background: "rgba(40,22,33,0.06)",
-                    border: "none",
-                    color: "rgba(40,22,33,0.6)",
-                    fontFamily: "'Plus Jakarta Sans', sans-serif",
+                    background: "transparent",
+                    border: "1px solid rgba(26,10,20,0.14)",
+                    color: "rgba(26,10,20,0.6)",
+                    fontFamily: "var(--font-poppins, sans-serif)",
                     fontSize: 12,
                     fontWeight: 600,
                     cursor: "pointer",
@@ -340,7 +343,7 @@ export default function SubscriptionPage() {
                     background: "#ef4444",
                     border: "none",
                     color: "#fff",
-                    fontFamily: "'Plus Jakarta Sans', sans-serif",
+                    fontFamily: "var(--font-poppins, sans-serif)",
                     fontSize: 12,
                     fontWeight: 600,
                     cursor: "pointer",
@@ -365,10 +368,10 @@ export default function SubscriptionPage() {
           >
             <h2
               style={{
-                fontFamily: "'Noto Serif', serif",
+                fontFamily: "var(--font-playfair, serif)",
                 fontSize: 22,
                 fontWeight: 600,
-                color: "#281621",
+                color: "#1a0a14",
                 margin: 0,
               }}
             >
@@ -383,7 +386,8 @@ export default function SubscriptionPage() {
                 gap: 2,
                 padding: 4,
                 borderRadius: 999,
-                background: "#fff0f5",
+                background: "#fff",
+                border: "1px solid rgba(220,30,60,0.12)",
               }}
             >
               {(["monthly", "annual"] as const).map((b) => (
@@ -394,9 +398,9 @@ export default function SubscriptionPage() {
                     padding: "6px 16px",
                     borderRadius: 999,
                     border: "none",
-                    background: billing === b ? "linear-gradient(135deg, #b4002a, #dc1e3c)" : "transparent",
-                    color: billing === b ? "#fff" : "rgba(40,22,33,0.5)",
-                    fontFamily: "'Plus Jakarta Sans', sans-serif",
+                    background: billing === b ? "linear-gradient(135deg,#dc1e3c,#a0153c)" : "transparent",
+                    color: billing === b ? "#fff" : "rgba(26,10,20,0.5)",
+                    fontFamily: "var(--font-poppins, sans-serif)",
                     fontSize: 12,
                     fontWeight: 600,
                     cursor: "pointer",
@@ -423,36 +427,34 @@ export default function SubscriptionPage() {
               /* ── Gold card styles ── */
               const goldCardStyle: React.CSSProperties = {
                 background: "rgba(200,144,32,0.08)",
+                border: isCurrent ? "2px solid #C89020" : "1px solid #C89020",
                 borderRadius: 16,
                 padding: 16,
                 display: "flex",
                 flexDirection: "column",
                 position: "relative",
-                boxShadow: isCurrent
-                  ? "inset 0 0 0 2px #C89020, 0 32px 64px -12px rgba(40, 22, 33, 0.04)"
-                  : "0 32px 64px -12px rgba(40, 22, 33, 0.04)",
+                boxShadow: "0 4px 24px rgba(200,144,32,0.18)",
               };
 
               /* ── Regular card styles ── */
               const regularCardStyle: React.CSSProperties = {
-                background: "#ffffff",
+                background: "#fff",
+                border: isCurrent ? "2px solid #dc1e3c" : "1px solid rgba(220,30,60,0.08)",
                 borderRadius: 16,
                 padding: 16,
                 display: "flex",
                 flexDirection: "column",
                 position: "relative",
-                boxShadow: isCurrent
-                  ? "inset 0 0 0 2px #b4002a, 0 32px 64px -12px rgba(40, 22, 33, 0.04)"
-                  : "0 32px 64px -12px rgba(40, 22, 33, 0.04)",
+                boxShadow: isCurrent ? "0 4px 20px rgba(220,30,60,0.18)" : "none",
               };
 
               const cardStyle = isGold ? goldCardStyle : regularCardStyle;
 
-              const nameColor     = isGold ? "#C89020"       : "#281621";
-              const priceColor    = isGold ? "#C89020"       : "#281621";
-              const priceMuted    = isGold ? "rgba(200,144,32,0.55)" : "rgba(40,22,33,0.4)";
-              const featureColor  = isGold ? "rgba(40,22,33,0.7)"   : "rgba(40,22,33,0.6)";
-              const checkColor    = isGold ? "#C89020"       : "#b4002a";
+              const nameColor     = isGold ? "#C89020"       : "#1a0a14";
+              const priceColor    = isGold ? "#C89020"       : "#1a0a14";
+              const priceMuted    = isGold ? "rgba(200,144,32,0.55)" : "rgba(26,10,20,0.4)";
+              const featureColor  = isGold ? "rgba(26,10,20,0.7)"   : "rgba(26,10,20,0.6)";
+              const checkColor    = isGold ? "#C89020"       : "#dc1e3c";
 
               return (
                 <div key={plan.id} style={cardStyle}>
@@ -471,8 +473,8 @@ export default function SubscriptionPage() {
                         borderRadius: 999,
                         background: isGold
                           ? "linear-gradient(135deg,#C89020,#9A6B00)"
-                          : "linear-gradient(135deg, #b4002a, #dc1e3c)",
-                        fontFamily: "'Plus Jakarta Sans', sans-serif",
+                          : "linear-gradient(135deg,#dc1e3c,#a0153c)",
+                        fontFamily: "var(--font-poppins, sans-serif)",
                         fontSize: 10,
                         fontWeight: 700,
                         color: "#fff",
@@ -494,7 +496,7 @@ export default function SubscriptionPage() {
                         padding: "2px 10px",
                         borderRadius: 999,
                         background: "linear-gradient(135deg,#C89020,#9A6B00)",
-                        fontFamily: "'Plus Jakarta Sans', sans-serif",
+                        fontFamily: "var(--font-poppins, sans-serif)",
                         fontSize: 10,
                         fontWeight: 700,
                         color: "#fff",
@@ -507,7 +509,7 @@ export default function SubscriptionPage() {
 
                   <h3
                     style={{
-                      fontFamily: "'Noto Serif', serif",
+                      fontFamily: "var(--font-playfair, serif)",
                       fontSize: 16,
                       fontWeight: 600,
                       color: nameColor,
@@ -521,7 +523,7 @@ export default function SubscriptionPage() {
                     {plan.price === 0 ? (
                       <p
                         style={{
-                          fontFamily: "'Noto Serif', serif",
+                          fontFamily: "var(--font-playfair, serif)",
                           fontSize: 20,
                           fontWeight: 700,
                           color: priceColor,
@@ -533,7 +535,7 @@ export default function SubscriptionPage() {
                     ) : (
                       <p
                         style={{
-                          fontFamily: "'Noto Serif', serif",
+                          fontFamily: "var(--font-playfair, serif)",
                           fontSize: 20,
                           fontWeight: 700,
                           color: priceColor,
@@ -585,7 +587,7 @@ export default function SubscriptionPage() {
                         />
                         <span
                           style={{
-                            fontFamily: "'Plus Jakarta Sans', sans-serif",
+                            fontFamily: "var(--font-poppins, sans-serif)",
                             fontSize: 11,
                             color: featureColor,
                           }}
@@ -604,15 +606,15 @@ export default function SubscriptionPage() {
                         borderRadius: 10,
                         border: "none",
                         cursor: "pointer",
-                        fontFamily: "'Plus Jakarta Sans', sans-serif",
+                        fontFamily: "var(--font-poppins, sans-serif)",
                         fontSize: 12,
                         fontWeight: 600,
-                        color: plan.id === "free" ? "#281621" : "#fff",
+                        color: plan.id === "free" ? "#1a0a14" : "#fff",
                         background:
                           plan.id === "platinum" ? "linear-gradient(135deg,#0F766E,#0D9488)" :
                           plan.id === "gold"     ? "linear-gradient(135deg,#C89020,#9A6B00)"  :
                           plan.id === "silver"   ? "linear-gradient(135deg,#9A6B00,#C89020)"  :
-                          "rgba(40,22,33,0.08)",
+                          "rgba(26,10,20,0.08)",
                         boxShadow:
                           plan.id === "gold" ? "0 4px 16px rgba(200,144,32,0.3)" : "none",
                       }}
@@ -629,15 +631,15 @@ export default function SubscriptionPage() {
         {/* ── Payment method + Billing history ── */}
         <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 20, marginBottom: 32 }}>
           {/* Payment method */}
-          <div style={{ ...cardBase, padding: 20, boxShadow: "0 32px 64px -12px rgba(40, 22, 33, 0.04)" }}>
+          <div style={{ ...cardBase, padding: 20 }}>
             <div style={{ display: "flex", alignItems: "center", gap: 8, marginBottom: 16 }}>
               <CreditCard style={{ width: 16, height: 16, color: "#C89020" }} />
               <h3
                 style={{
-                  fontFamily: "'Noto Serif', serif",
+                  fontFamily: "var(--font-playfair, serif)",
                   fontSize: 16,
                   fontWeight: 600,
-                  color: "#281621",
+                  color: "#1a0a14",
                   margin: 0,
                 }}
               >
@@ -652,7 +654,8 @@ export default function SubscriptionPage() {
                 padding: 12,
                 borderRadius: 12,
                 marginBottom: 12,
-                background: "#fff8f8",
+                background: "rgba(253,251,249,0.9)",
+                border: "1px solid rgba(220,30,60,0.1)",
               }}
             >
               <div
@@ -667,17 +670,17 @@ export default function SubscriptionPage() {
                   fontWeight: 700,
                   fontSize: 11,
                   color: "#fff",
-                  fontFamily: "'Plus Jakarta Sans', sans-serif",
+                  fontFamily: "var(--font-poppins, sans-serif)",
                   flexShrink: 0,
                 }}
               >
                 VISA
               </div>
               <div style={{ flex: 1 }}>
-                <p style={{ fontFamily: "'Plus Jakarta Sans', sans-serif", fontSize: 14, fontWeight: 500, color: "#281621", margin: 0 }}>
+                <p style={{ fontFamily: "var(--font-poppins, sans-serif)", fontSize: 14, fontWeight: 500, color: "#1a0a14", margin: 0 }}>
                   •••• •••• •••• 4242
                 </p>
-                <p style={{ fontFamily: "'Plus Jakarta Sans', sans-serif", fontSize: 12, color: "rgba(40,22,33,0.4)", margin: "2px 0 0" }}>
+                <p style={{ fontFamily: "var(--font-poppins, sans-serif)", fontSize: 12, color: "rgba(26,10,20,0.4)", margin: "2px 0 0" }}>
                   Expires 12/2027
                 </p>
               </div>
@@ -691,10 +694,10 @@ export default function SubscriptionPage() {
                     flex: 1,
                     padding: "8px 0",
                     borderRadius: 10,
-                    border: "none",
-                    background: "#fff0f5",
-                    color: "rgba(40,22,33,0.55)",
-                    fontFamily: "'Plus Jakarta Sans', sans-serif",
+                    border: "1px solid rgba(220,30,60,0.15)",
+                    background: "transparent",
+                    color: "rgba(26,10,20,0.55)",
+                    fontFamily: "var(--font-poppins, sans-serif)",
                     fontSize: 12,
                     fontWeight: 500,
                     cursor: "pointer",
@@ -707,15 +710,15 @@ export default function SubscriptionPage() {
           </div>
 
           {/* Billing history */}
-          <div style={{ ...cardBase, padding: 20, boxShadow: "0 32px 64px -12px rgba(40, 22, 33, 0.04)" }}>
+          <div style={{ ...cardBase, padding: 20 }}>
             <div style={{ display: "flex", alignItems: "center", gap: 8, marginBottom: 16 }}>
               <RefreshCw style={{ width: 16, height: 16, color: "#C89020" }} />
               <h3
                 style={{
-                  fontFamily: "'Noto Serif', serif",
+                  fontFamily: "var(--font-playfair, serif)",
                   fontSize: 16,
                   fontWeight: 600,
-                  color: "#281621",
+                  color: "#1a0a14",
                   margin: 0,
                 }}
               >
@@ -726,19 +729,19 @@ export default function SubscriptionPage() {
               {currentBillingHistory.map((inv) => (
                 <div key={inv.id} style={{ display: "flex", alignItems: "center", gap: 12 }}>
                   <div style={{ flex: 1 }}>
-                    <p style={{ fontFamily: "'Plus Jakarta Sans', sans-serif", fontSize: 12, fontWeight: 500, color: "rgba(40,22,33,0.7)", margin: 0 }}>
+                    <p style={{ fontFamily: "var(--font-poppins, sans-serif)", fontSize: 12, fontWeight: 500, color: "rgba(26,10,20,0.7)", margin: 0 }}>
                       {inv.date}
                     </p>
-                    <p style={{ fontFamily: "'Plus Jakarta Sans', sans-serif", fontSize: 10, color: "rgba(40,22,33,0.35)", margin: "2px 0 0" }}>
+                    <p style={{ fontFamily: "var(--font-poppins, sans-serif)", fontSize: 10, color: "rgba(26,10,20,0.35)", margin: "2px 0 0" }}>
                       {inv.plan} · {inv.id}
                     </p>
                   </div>
-                  <span style={{ fontFamily: "'Plus Jakarta Sans', sans-serif", fontSize: 14, fontWeight: 600, color: "#281621" }}>
+                  <span style={{ fontFamily: "var(--font-poppins, sans-serif)", fontSize: 14, fontWeight: 600, color: "#1a0a14" }}>
                     {inv.amount}
                   </span>
                   <span
                     style={{
-                      fontFamily: "'Plus Jakarta Sans', sans-serif",
+                      fontFamily: "var(--font-poppins, sans-serif)",
                       fontSize: 11,
                       fontWeight: 600,
                       padding: "2px 8px",
@@ -763,17 +766,16 @@ export default function SubscriptionPage() {
             display: "flex",
             alignItems: "center",
             gap: 16,
-            boxShadow: "0 32px 64px -12px rgba(40, 22, 33, 0.04)",
           }}
         >
-          <Shield style={{ width: 32, height: 32, color: "#b4002a", flexShrink: 0 }} />
+          <Shield style={{ width: 32, height: 32, color: "#dc1e3c", flexShrink: 0 }} />
           <div>
             <p
               style={{
-                fontFamily: "'Plus Jakarta Sans', sans-serif",
+                fontFamily: "var(--font-poppins, sans-serif)",
                 fontSize: 14,
                 fontWeight: 600,
-                color: "#281621",
+                color: "#1a0a14",
                 margin: "0 0 2px",
               }}
             >
@@ -781,9 +783,9 @@ export default function SubscriptionPage() {
             </p>
             <p
               style={{
-                fontFamily: "'Plus Jakarta Sans', sans-serif",
+                fontFamily: "var(--font-poppins, sans-serif)",
                 fontSize: 12,
-                color: "rgba(40,22,33,0.5)",
+                color: "rgba(26,10,20,0.5)",
                 margin: 0,
               }}
             >
