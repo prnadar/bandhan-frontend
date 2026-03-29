@@ -48,7 +48,7 @@ function VerificationBanner() {
 
   return (
     <div style={{
-      background: "linear-gradient(135deg, #7c1a1a, #a0153c)",
+      background: "linear-gradient(135deg, #dc1e3c 0%, #a0153c 50%, #3b3fa0 100%)",
       padding: "12px 24px",
       display: "flex",
       alignItems: "center",

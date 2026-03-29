@@ -99,7 +99,7 @@ export default function AboutPage() {
       <section
         style={{
           background: "linear-gradient(135deg, #dc1e3c 0%, #a0153c 50%, #3b3fa0 100%)",
-          padding: "80px 24px",
+          padding: "48px 24px",
           textAlign: "center",
           position: "relative",
           overflow: "hidden",
