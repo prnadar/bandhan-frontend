@@ -260,7 +260,7 @@ function ThemePreview({ theme: t }: { theme: (typeof themes)[0] }) {
         </div>
         <div style={{ display: "flex", gap: "10px" }}>
           <div style={{ padding: "6px 18px", borderRadius: "99px", border: `1px solid ${ghostBorder}`, color: ghostColor, fontSize: "12px", cursor: "pointer" }}>
-            Sign In
+            Log In
           </div>
           <div style={{ padding: "6px 18px", borderRadius: "99px", background: t.primaryGrad, color: "#fff", fontSize: "12px", cursor: "pointer", boxShadow: `0 3px 14px ${t.primary}55` }}>
             Get Started

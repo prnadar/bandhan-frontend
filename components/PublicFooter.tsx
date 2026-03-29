@@ -33,7 +33,7 @@ export default function PublicFooter() {
           {/* Account */}
           <div>
             <p style={{ fontSize: "11px", fontWeight: 700, color: "rgba(255,255,255,0.4)", textTransform: "uppercase", letterSpacing: "0.1em", marginBottom: "12px" }}>Account</p>
-            {[{ label: "Register", href: "/auth/register" }, { label: "Sign In", href: "/auth/login" }, { label: "Dashboard", href: "/dashboard" }, { label: "My Profile", href: "/profile/me" }].map(({ label, href }) => (
+            {[{ label: "Register", href: "/auth/register" }, { label: "Log In", href: "/auth/login" }, { label: "Dashboard", href: "/dashboard" }, { label: "My Profile", href: "/profile/me" }].map(({ label, href }) => (
               <Link key={href} href={href} style={{ display: "block", fontSize: "13px", color: "rgba(255,255,255,0.45)", textDecoration: "none", marginBottom: "8px", minHeight: "auto" }}>
                 {label}
               </Link>

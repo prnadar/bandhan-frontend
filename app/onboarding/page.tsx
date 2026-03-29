@@ -605,7 +605,7 @@ export default function OnboardingPage() {
         {step === 2 && (
           <p style={{ fontSize: "12px", textAlign: "center", color: "#aaa", marginTop: "16px" }}>
             Already have an account?{" "}
-            <Link href="/auth/login" style={{ color: "#dc1e3c", fontWeight: 600, textDecoration: "none" }}>Sign in</Link>
+            <Link href="/auth/login" style={{ color: "#dc1e3c", fontWeight: 600, textDecoration: "none" }}>Log in</Link>
           </p>
         )}
       </div>

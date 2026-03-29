@@ -95,7 +95,7 @@ export default function ProfilesPage() {
               {cta.label}
             </Link>
             <Link href="/auth/login" style={{ display: "inline-block", padding: "13px 36px", borderRadius: "9999px", border: "2px solid #dc1e3c", color: "#dc1e3c", fontWeight: 700, fontSize: "14px", textDecoration: "none" }}>
-              Sign In
+              Log In
             </Link>
           </div>
         </div>

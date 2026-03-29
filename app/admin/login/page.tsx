@@ -47,7 +47,7 @@ export default function AdminLoginPage() {
         {/* Login Card */}
         <div className="glass-card p-8">
           <h2 className="font-display text-xl font-semibold text-deep mb-6 text-center">
-            Admin Sign In
+            Admin Log In
           </h2>
 
           {error && (
@@ -107,7 +107,7 @@ export default function AdminLoginPage() {
               disabled={loading}
               className="btn-primary w-full mt-2 disabled:opacity-50"
             >
-              {loading ? "Signing in..." : "Sign In"}
+              {loading ? "Signing in..." : "Log In"}
             </button>
           </form>
         </div>
