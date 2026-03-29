@@ -114,7 +114,7 @@ export default function SuccessStoriesPage() {
       <PublicHeader />
 
       {/* Hero */}
-      <div style={{ background: "linear-gradient(135deg,#1a0a14,#2d0f20)", padding: "72px 24px 56px", textAlign: "center" }}>
+      <div style={{ background: "linear-gradient(135deg, #dc1e3c 0%, #a0153c 50%, #3b3fa0 100%)", padding: "72px 24px 56px", textAlign: "center" }}>
         <span style={{ fontSize: "11px", fontWeight: 700, color: "#dc1e3c", textTransform: "uppercase", letterSpacing: "0.2em", display: "block", marginBottom: "16px" }}>
           Real Love Stories
         </span>
@@ -192,7 +192,7 @@ export default function SuccessStoriesPage() {
       </div>
 
       {/* CTA */}
-      <div style={{ background: "linear-gradient(135deg,#1a0a14,#2d0f20)", padding: "64px 24px", textAlign: "center" }}>
+      <div style={{ background: "linear-gradient(135deg, #dc1e3c 0%, #a0153c 50%, #3b3fa0 100%)", padding: "64px 24px", textAlign: "center" }}>
         <h2 style={{ fontFamily: "var(--font-playfair, serif)", fontSize: "clamp(24px, 3.5vw, 42px)", fontWeight: 700, color: "#fff", marginBottom: "16px" }}>
           Your Story Could Be Next
         </h2>

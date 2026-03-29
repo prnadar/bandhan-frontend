@@ -98,7 +98,7 @@ export default function AboutPage() {
       {/* ── Hero ── */}
       <section
         style={{
-          background: "linear-gradient(135deg,#1a0a14,#2d0f20)",
+          background: "linear-gradient(135deg, #dc1e3c 0%, #a0153c 50%, #3b3fa0 100%)",
           padding: "72px 24px 56px",
           textAlign: "center",
           position: "relative",
@@ -296,7 +296,7 @@ export default function AboutPage() {
       </section>
 
       {/* ── CTA ── */}
-      <section style={{ padding: "80px 24px", background: "linear-gradient(135deg,#1a0a14,#2d0f20)", textAlign: "center" }}>
+      <section style={{ padding: "80px 24px", background: "linear-gradient(135deg, #dc1e3c 0%, #a0153c 50%, #3b3fa0 100%)", textAlign: "center" }}>
         <h2 className="font-playfair" style={{ color: "#fff", fontSize: "clamp(28px, 4vw, 48px)", fontWeight: 700, marginBottom: "16px" }}>
           Begin Your Journey Today
         </h2>
