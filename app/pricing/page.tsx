@@ -53,23 +53,15 @@ export default function PricingPage() {
     <div style={{ minHeight: "100vh", background: "#fff", fontFamily: "var(--font-poppins, sans-serif)" }}>
       <PublicHeader />
 
-      {/* Hero image banner */}
-      <div style={{ position: "relative", height: "320px", overflow: "hidden" }}>
-        <img
-          src="/images/about-hero.jpg"
-          alt="Match4Marriage couple"
-          style={{ width: "100%", height: "100%", objectFit: "cover", objectPosition: "center 20%" }}
-        />
-        <div style={{ position: "absolute", inset: 0, background: "linear-gradient(to bottom, rgba(26,10,20,0.45), rgba(26,10,20,0.75))" }} />
-        <div style={{ position: "absolute", inset: 0, display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", textAlign: "center", padding: "0 24px" }}>
-          <span style={{ fontSize: "11px", fontWeight: 700, color: "#dc1e3c", textTransform: "uppercase", letterSpacing: "0.2em", marginBottom: "12px", display: "block" }}>Membership Plans</span>
-          <h1 style={{ fontFamily: "var(--font-playfair, serif)", fontSize: "clamp(28px, 4vw, 52px)", fontWeight: 700, color: "#fff", margin: 0 }}>
-            Invest in Your Forever
-          </h1>
-          <p style={{ color: "rgba(255,255,255,0.7)", fontSize: "16px", marginTop: "12px" }}>
-            Transparent pricing · No hidden fees · Cancel anytime
-          </p>
-        </div>
+      {/* Hero */}
+      <div style={{ background: "linear-gradient(135deg,#1a0a14,#2d0f20)", padding: "72px 24px 56px", textAlign: "center" }}>
+        <span style={{ fontSize: "11px", fontWeight: 700, color: "#dc1e3c", textTransform: "uppercase", letterSpacing: "0.2em", marginBottom: "12px", display: "block" }}>Membership Plans</span>
+        <h1 style={{ fontFamily: "var(--font-playfair, serif)", fontSize: "clamp(28px, 4vw, 52px)", fontWeight: 700, color: "#fff", margin: "0 0 16px" }}>
+          Invest in Your Forever
+        </h1>
+        <p style={{ color: "rgba(255,255,255,0.6)", fontSize: "16px", maxWidth: "520px", margin: "0 auto" }}>
+          Transparent pricing · No hidden fees · Cancel anytime
+        </p>
       </div>
 
       {/* Plans section */}
