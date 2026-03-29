@@ -124,14 +124,7 @@ export default function SuccessStoriesPage() {
         <p style={{ fontSize: "16px", color: "rgba(255,255,255,0.6)", maxWidth: "540px", margin: "0 auto 40px" }}>
           Hundreds of families have found their perfect match through Match4Marriage. Here are just a few of their stories.
         </p>
-        <div style={{ display: "flex", justifyContent: "center", gap: "48px", flexWrap: "wrap" }}>
-          {[{ num: "100+", label: "Couples Matched" }, { num: "4.9★", label: "Average Rating" }, { num: "UK", label: "Registered" }].map(({ num, label }) => (
-            <div key={label}>
-              <p style={{ fontFamily: "var(--font-playfair, serif)", fontSize: "28px", fontWeight: 700, color: "#ffd87a", margin: 0 }}>{num}</p>
-              <p style={{ fontSize: "12px", color: "rgba(255,255,255,0.4)", margin: "4px 0 0" }}>{label}</p>
-            </div>
-          ))}
-        </div>
+
       </div>
 
 
