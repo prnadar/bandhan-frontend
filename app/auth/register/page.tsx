@@ -25,21 +25,33 @@ export default function RegisterPage() {
 
   // Form fields
 
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [confirmPassword, setConfirmPassword] = useState("");
-  const [showPassword, setShowPassword] = useState(false);
+  const [phone, setPhone] = useState("");
+  const [countryCode, setCountryCode] = useState("+44");
   const [name, setName] = useState("");
   const [gender, setGender] = useState("");
   const [otp, setOtp] = useState(["", "", "", "", "", ""]);
   const [otpSent, setOtpSent] = useState(false);
   const [errors, setErrors] = useState<string[]>([]);
 
+  const API_BASE = process.env.NEXT_PUBLIC_API_URL ?? "https://match4marriage-api-production-54ea.up.railway.app";
+
   const handleSendOtp = async () => {
-    setLoading(true);
-    await new Promise((r) => setTimeout(r, 700));
-    setLoading(false);
-    setOtpSent(true);
+    if (phone.replace(/\D/g, "").length < 7) { setErrors(["Please enter a valid phone number."]); return; }
+    setLoading(true); setErrors([]);
+    try {
+      const res = await fetch(`${API_BASE}/api/v1/auth/register`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json", "X-Tenant-ID": "match4marriage" },
+        body: JSON.stringify({ phone: phone.replace(/\s/g, ""), country_code: countryCode }),
+      });
+      const data = await res.json();
+      if (!res.ok) throw new Error(data.detail || "Failed to send OTP");
+      setOtpSent(true);
+    } catch (err: any) {
+      setErrors([err.message || "Could not send OTP. Please try again."]);
+    } finally {
+      setLoading(false);
+    }
   };
 
   const handleNext = async () => {
@@ -47,18 +59,36 @@ export default function RegisterPage() {
       const errs: string[] = [];
       if (!name.trim()) errs.push("Please enter your full name.");
       if (!gender) errs.push("Please select Bride or Groom.");
-      if (!email.includes("@")) errs.push("Please enter a valid email address.");
-      if (password.length < 6) errs.push("Password must be at least 6 characters.");
-      if (password !== confirmPassword) errs.push("Passwords do not match.");
+      if (phone.replace(/\D/g, "").length < 7) errs.push("Please enter a valid phone number.");
       if (!agreed) errs.push("Please accept the Terms & Conditions to continue.");
       if (errs.length > 0) { setErrors(errs); return; }
       setErrors([]);
+      await handleSendOtp();
+      if (otpSent || true) { setStep(1); return; }
     }
-    setLoading(true);
-    await new Promise((r) => setTimeout(r, 600));
-    setLoading(false);
-    if (step < 2) setStep(step + 1);
-    else router.push("/onboarding");
+    if (step === 1) {
+      const code = otp.join("");
+      if (code.length < 6) { setErrors(["Please enter the 6-digit code."]); return; }
+      setLoading(true); setErrors([]);
+      try {
+        const res = await fetch(`${API_BASE}/api/v1/auth/verify-otp`, {
+          method: "POST",
+          headers: { "Content-Type": "application/json", "X-Tenant-ID": "match4marriage" },
+          body: JSON.stringify({ phone: phone.replace(/\s/g, ""), otp: code, country_code: countryCode }),
+        });
+        const data = await res.json();
+        if (!res.ok) throw new Error(data.detail || "Invalid OTP");
+        localStorage.setItem("auth_token", data.data?.access_token || data.data?.token || "");
+        localStorage.setItem("user_profile", JSON.stringify({ ...data.data?.user, full_name: name, gender }));
+        setStep(2);
+      } catch (err: any) {
+        setErrors([err.message || "Invalid code. Please try again."]);
+      } finally {
+        setLoading(false);
+      }
+      return;
+    }
+    if (step === 2) { router.push("/onboarding"); return; }
   };
 
   const handleOtpChange = (val: string, idx: number) => {
@@ -71,7 +101,7 @@ export default function RegisterPage() {
     }
   };
 
-  const isStep0Valid = !!(name.trim() && gender && email.includes("@") && password.length >= 6 && password === confirmPassword && agreed);
+  const isStep0Valid = !!(name.trim() && gender && phone.replace(/\\D/g,"").length >= 7 && agreed);
   const isStep1Valid = otp.every((d) => d !== "");
 
   return (
@@ -243,47 +273,26 @@ export default function RegisterPage() {
                 </div>
               </div>
 
-              {/* Email + Password */}
+              {/* Phone Number */}
               <div style={{ marginBottom: "20px" }}>
-                  <div style={{ marginBottom: "14px" }}>
-                    <label style={{ fontSize: "12px", fontWeight: 600, color: "#555", textTransform: "uppercase", letterSpacing: "0.08em", display: "block", marginBottom: "6px" }}>Email Address</label>
-                    <input
-                      type="email"
-                      placeholder="you@example.com"
-                      value={email}
-                      onChange={(e) => setEmail(e.target.value)}
-                      style={{ width: "100%", padding: "12px 16px", border: "1px solid rgba(220,30,60,0.15)", borderRadius: "10px", fontSize: "14px", color: "#1a0a14", background: "#fff", outline: "none", boxSizing: "border-box" }}
-                    />
-                  </div>
-                  <div style={{ marginBottom: "14px" }}>
-                    <label style={{ fontSize: "12px", fontWeight: 600, color: "#555", textTransform: "uppercase", letterSpacing: "0.08em", display: "block", marginBottom: "6px" }}>Password</label>
-                    <div style={{ position: "relative" }}>
-                      <input
-                        type={showPassword ? "text" : "password"}
-                        placeholder="Min. 6 characters"
-                        value={password}
-                        onChange={(e) => setPassword(e.target.value)}
-                        style={{ width: "100%", padding: "12px 48px 12px 16px", border: "1px solid rgba(220,30,60,0.15)", borderRadius: "10px", fontSize: "14px", color: "#1a0a14", background: "#fff", outline: "none", boxSizing: "border-box" }}
-                      />
-                      <button onClick={() => setShowPassword(!showPassword)} style={{ position: "absolute", right: "12px", top: "50%", transform: "translateY(-50%)", background: "none", border: "none", cursor: "pointer", fontSize: "16px", color: "#aaa" }}>
-                        {showPassword ? "🙈" : "👁️"}
-                      </button>
-                    </div>
-                  </div>
-                  <div>
-                    <label style={{ fontSize: "12px", fontWeight: 600, color: "#555", textTransform: "uppercase", letterSpacing: "0.08em", display: "block", marginBottom: "6px" }}>Confirm Password</label>
-                    <input
-                      type={showPassword ? "text" : "password"}
-                      placeholder="Re-enter password"
-                      value={confirmPassword}
-                      onChange={(e) => setConfirmPassword(e.target.value)}
-                      style={{ width: "100%", padding: "12px 16px", border: `1px solid ${confirmPassword && confirmPassword !== password ? "#dc1e3c" : "rgba(220,30,60,0.15)"}`, borderRadius: "10px", fontSize: "14px", color: "#1a0a14", background: "#fff", outline: "none", boxSizing: "border-box" }}
-                    />
-                    {confirmPassword && confirmPassword !== password && (
-                      <p style={{ fontSize: "11px", color: "#dc1e3c", marginTop: "4px" }}>Passwords do not match</p>
-                    )}
-                  </div>
+                <label style={{ fontSize: "12px", fontWeight: 600, color: "#555", textTransform: "uppercase", letterSpacing: "0.08em", display: "block", marginBottom: "6px" }}>Phone Number</label>
+                <div style={{ display: "flex", gap: "8px" }}>
+                  <select value={countryCode} onChange={(e) => setCountryCode(e.target.value)} style={{ padding: "12px 8px", border: "1px solid rgba(220,30,60,0.15)", borderRadius: "10px", fontSize: "14px", color: "#1a0a14", background: "#fff", outline: "none", width: "90px" }}>
+                    <option value="+44">🇬🇧 +44</option>
+                    <option value="+91">🇮🇳 +91</option>
+                    <option value="+1">🇺🇸 +1</option>
+                    <option value="+61">🇦🇺 +61</option>
+                  </select>
+                  <input
+                    type="tel"
+                    placeholder="7700 900000"
+                    value={phone}
+                    onChange={(e) => setPhone(e.target.value)}
+                    style={{ flex: 1, padding: "12px 16px", border: "1px solid rgba(220,30,60,0.15)", borderRadius: "10px", fontSize: "14px", color: "#1a0a14", background: "#fff", outline: "none" }}
+                  />
                 </div>
+                <p style={{ fontSize: "11px", color: "#aaa", marginTop: "6px" }}>We'll send a verification code to this number</p>
+              </div>
 
               {/* Terms checkbox */}
               <div style={{ display: "flex", alignItems: "flex-start", gap: "10px", marginBottom: "24px", padding: "14px", background: "rgba(220,30,60,0.03)", borderRadius: "10px", border: "1px solid rgba(220,30,60,0.08)" }}>
@@ -336,10 +345,10 @@ export default function RegisterPage() {
                 ← Back
               </button>
               <h1 style={{ fontFamily: "var(--font-playfair, serif)", fontSize: "26px", fontWeight: 700, color: "#1a0a14", marginBottom: "8px" }}>
-                Verify your email
+                Verify your phone
               </h1>
               <p style={{ fontSize: "13px", color: "#888", marginBottom: "28px" }}>
-                We sent a 6-digit code to <strong style={{ color: "#1a0a14" }}>{email}</strong>
+                We sent a 6-digit code to <strong style={{ color: "#1a0a14" }}>{countryCode} {phone}</strong>
               </p>
 
               {!otpSent ? (
