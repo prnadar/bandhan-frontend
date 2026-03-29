@@ -110,6 +110,7 @@ export default function HomePage() {
               { label: "Browse Profiles", href: "/profiles" },
               { label: "Success Stories", href: "/success-stories" },
               { label: "About Us", href: "/about" },
+              { label: "Pricing", href: "/pricing" },
             ].map((item) => (
               <a
                 key={item.label}
@@ -213,6 +214,7 @@ export default function HomePage() {
               { label: "Browse Profiles", href: "/profiles" },
               { label: "Success Stories", href: "/success-stories" },
               { label: "About Us", href: "/about" },
+              { label: "Pricing", href: "/pricing" },
             ].map((item) => (
               <a
                 key={item.label}
@@ -1006,6 +1008,7 @@ export default function HomePage() {
                   { label: "Browse Profiles", href: "/profiles" },
                   { label: "Success Stories", href: "/success-stories" },
                   { label: "About Us", href: "/about" },
+              { label: "Pricing", href: "/pricing" },
                 ].map((link) => (
                   <a key={link.label} href={link.href} style={{ fontSize: "13px", color: "rgba(255,255,255,0.45)", textDecoration: "none" }}>
                     {link.label}
