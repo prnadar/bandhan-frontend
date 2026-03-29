@@ -91,7 +91,7 @@ export default function LoginPage() {
             fontSize: "14px", fontWeight: 600, color: "#fff",
             background: "linear-gradient(135deg,#dc1e3c,#a0153c)",
             padding: "8px 20px", borderRadius: "8px", textDecoration: "none",
-          }}>Sign In</Link>
+          }}>Log In</Link>
         </div>
       </header>
 

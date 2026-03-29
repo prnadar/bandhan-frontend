@@ -129,7 +129,7 @@ export default function RegisterPage() {
             )}
           </div>
 
-          <Link href="/auth/login" style={{ fontSize: "14px", fontWeight: 500, color: "#555", textDecoration: "none" }}>Sign In</Link>
+          <Link href="/auth/login" style={{ fontSize: "14px", fontWeight: 500, color: "#555", textDecoration: "none" }}>Log In</Link>
           <Link href="/auth/register" style={{
             fontSize: "14px", fontWeight: 600, color: "#fff",
             background: "linear-gradient(135deg,#dc1e3c,#a0153c)",
