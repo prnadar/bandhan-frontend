@@ -5,7 +5,7 @@ import { usePathname } from "next/navigation";
 import {
   LayoutDashboard, Heart, MessageCircle, User, Star, Globe,
   Shield, Bell, Settings, LogOut, ChevronRight, Users, Star as StarIcon,
-  CreditCard,
+  CreditCard, Home,
 } from "lucide-react";
 
 const navItems = [
@@ -120,6 +120,7 @@ export default function AppLayout({ children }: { children: React.ReactNode }) {
           {[
             { href: "/notifications", label: "Notifications", icon: Bell,     badge: 2 },
             { href: "/settings",      label: "Settings",      icon: Settings          },
+            { href: "/",              label: "Home",           icon: Home               },
           ].map(({ href, label, icon: Icon, badge }) => {
             const active = pathname === href;
             return (
