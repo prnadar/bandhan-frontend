@@ -147,50 +147,84 @@ export default function MatchesPage() {
   });
 
   return (
-    <div style={{ background: "#fdfbf9", minHeight: "100vh", padding: "32px" }}>
+    <div style={{ background: "#fff8f8", minHeight: "100vh", padding: "40px 48px" }}>
       {/* Header */}
-      <div style={{ marginBottom: "24px" }}>
-        <h1 style={{ fontFamily: "var(--font-playfair, serif)", fontSize: "30px", fontWeight: 300, color: "#1a0a14", margin: 0, lineHeight: 1.2 }}>
-          Browse Profiles
-        </h1>
-        <p style={{ fontFamily: "var(--font-poppins, sans-serif)", fontSize: "13px", color: "#888", marginTop: "4px", marginBottom: 0 }}>
-          {loading ? "Loading…" : `${filtered.length} profiles match your preferences`}
-        </p>
-      </div>
-
-      {/* Search + Filter bar */}
-      <div style={{ display: "flex", alignItems: "center", gap: "12px", marginBottom: "16px" }}>
-        <div
+      <section style={{ marginBottom: "48px" }}>
+        <h1
           style={{
-            flex: 1, display: "flex", alignItems: "center", gap: "8px",
-            padding: "0 16px", background: "#fff",
-            border: "1px solid rgba(220,30,60,0.15)", borderRadius: "10px", height: "44px",
+            fontFamily: "'Noto Serif', serif",
+            fontSize: "48px",
+            fontWeight: 700,
+            color: "#281621",
+            margin: 0,
+            lineHeight: 1.15,
+            letterSpacing: "-0.02em",
           }}
         >
-          <Search style={{ width: "16px", height: "16px", color: "rgba(26,10,20,0.35)", flexShrink: 0 }} />
+          Browse Profiles
+        </h1>
+        <p
+          style={{
+            fontFamily: "'Plus Jakarta Sans', sans-serif",
+            fontSize: "14px",
+            color: "#5c3f3f",
+            marginTop: "8px",
+            marginBottom: 0,
+          }}
+        >
+          {loading ? "Loading..." : `${filtered.length} profiles match your preferences`}
+        </p>
+      </section>
+
+      {/* Search + Filter bar */}
+      <div style={{ display: "flex", flexDirection: "row", gap: "16px", alignItems: "center", marginBottom: "24px" }}>
+        <div
+          style={{
+            flex: 1,
+            display: "flex",
+            alignItems: "center",
+            gap: "12px",
+            padding: "0 20px",
+            background: "#ffffff",
+            borderRadius: "12px",
+            height: "52px",
+            border: "none",
+          }}
+        >
+          <Search style={{ width: "18px", height: "18px", color: "#916f6e", flexShrink: 0 }} />
           <input
             type="text"
-            placeholder="Search by name or city…"
+            placeholder="Search by name, profession, or location..."
             value={search}
             onChange={(e) => setSearch(e.target.value)}
             style={{
-              flex: 1, background: "transparent",
-              fontFamily: "var(--font-poppins, sans-serif)", fontSize: "14px",
-              color: "#1a0a14", border: "none", outline: "none",
+              flex: 1,
+              background: "transparent",
+              fontFamily: "'Plus Jakarta Sans', sans-serif",
+              fontSize: "14px",
+              color: "#281621",
+              border: "none",
+              outline: "none",
             }}
           />
         </div>
         <button
           onClick={() => setShowFilters(!showFilters)}
           style={{
-            display: "flex", alignItems: "center", gap: "8px",
-            padding: "0 16px", height: "44px", borderRadius: "10px",
-            fontFamily: "var(--font-poppins, sans-serif)", fontSize: "14px", fontWeight: 500,
-            cursor: "pointer", transition: "all 0.2s ease",
-            background: showFilters ? "linear-gradient(135deg,#dc1e3c,#a0153c)" : "#fff",
-            color: showFilters ? "#fff" : "rgba(26,10,20,0.60)",
-            border: showFilters ? "none" : "1px solid rgba(220,30,60,0.15)",
-            boxShadow: showFilters ? "0 4px 16px rgba(220,30,60,0.25)" : "none",
+            display: "flex",
+            alignItems: "center",
+            gap: "8px",
+            padding: "0 24px",
+            height: "52px",
+            borderRadius: "12px",
+            fontFamily: "'Plus Jakarta Sans', sans-serif",
+            fontSize: "14px",
+            fontWeight: 600,
+            cursor: "pointer",
+            transition: "all 0.2s ease",
+            background: showFilters ? "linear-gradient(135deg, #b4002a, #dc1e3c)" : "#ffe0ef",
+            color: showFilters ? "#ffffff" : "#5c3f3f",
+            border: "none",
           }}
         >
           <SlidersHorizontal style={{ width: "16px", height: "16px" }} />
@@ -202,28 +236,45 @@ export default function MatchesPage() {
       {showFilters && (
         <div
           style={{
-            background: "#fff", border: "1px solid rgba(220,30,60,0.08)",
-            borderRadius: "16px", padding: "20px", marginBottom: "24px",
-            boxShadow: "0 2px 12px rgba(220,30,60,0.06)",
+            background: "#ffffff",
+            borderRadius: "16px",
+            padding: "24px",
+            marginBottom: "32px",
+            border: "none",
           }}
         >
-          <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(160px, 1fr))", gap: "16px" }}>
+          <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(180px, 1fr))", gap: "20px" }}>
             <FilterSelect label="Religion" value={religion} options={religions} onChange={setReligion} />
             <FilterSelect label="Age Range" value={ageRange} options={ageRanges} onChange={setAgeRange} />
             <FilterSelect label="City" value={city} options={cities} onChange={setCity} />
-            <div style={{ display: "flex", flexDirection: "column", gap: "4px" }}>
-              <label style={{ fontFamily: "var(--font-poppins, sans-serif)", fontSize: "11px", color: "rgba(26,10,20,0.5)", textTransform: "uppercase", letterSpacing: "0.05em" }}>
+            <div style={{ display: "flex", flexDirection: "column", gap: "6px" }}>
+              <label
+                style={{
+                  fontFamily: "'Plus Jakarta Sans', sans-serif",
+                  fontSize: "11px",
+                  color: "#5c3f3f",
+                  textTransform: "uppercase",
+                  letterSpacing: "0.05em",
+                  fontWeight: 600,
+                }}
+              >
                 Options
               </label>
               <button
                 onClick={() => setVerifiedOnly(!verifiedOnly)}
                 style={{
-                  display: "flex", alignItems: "center", gap: "8px",
-                  padding: "8px 12px", borderRadius: "10px", cursor: "pointer",
-                  fontFamily: "var(--font-poppins, sans-serif)", fontSize: "13px", fontWeight: 500,
-                  background: verifiedOnly ? "rgba(220,30,60,0.08)" : "rgba(26,10,20,0.04)",
-                  color: verifiedOnly ? "#dc1e3c" : "rgba(26,10,20,0.55)",
-                  border: verifiedOnly ? "1px solid rgba(220,30,60,0.2)" : "1px solid rgba(26,10,20,0.08)",
+                  display: "flex",
+                  alignItems: "center",
+                  gap: "8px",
+                  padding: "10px 14px",
+                  borderRadius: "12px",
+                  cursor: "pointer",
+                  fontFamily: "'Plus Jakarta Sans', sans-serif",
+                  fontSize: "13px",
+                  fontWeight: 600,
+                  background: verifiedOnly ? "rgba(180,0,42,0.08)" : "#fff0f5",
+                  color: verifiedOnly ? "#b4002a" : "#5c3f3f",
+                  border: "none",
                   transition: "all 0.2s ease",
                 }}
               >
@@ -240,12 +291,21 @@ export default function MatchesPage() {
         <div style={{ padding: "80px 0", textAlign: "center" }}>
           <Loader2
             style={{
-              width: "36px", height: "36px", color: "#dc1e3c",
-              margin: "0 auto 12px", animation: "spin 1s linear infinite",
+              width: "36px",
+              height: "36px",
+              color: "#b4002a",
+              margin: "0 auto 16px",
+              animation: "spin 1s linear infinite",
             }}
           />
-          <p style={{ fontFamily: "var(--font-poppins, sans-serif)", fontSize: "14px", color: "#888" }}>
-            Finding your best matches…
+          <p
+            style={{
+              fontFamily: "'Plus Jakarta Sans', sans-serif",
+              fontSize: "14px",
+              color: "#5c3f3f",
+            }}
+          >
+            Finding your best matches...
           </p>
           <style>{`@keyframes spin { to { transform: rotate(360deg) } }`}</style>
         </div>
@@ -254,17 +314,30 @@ export default function MatchesPage() {
       {/* Error state */}
       {!loading && error && (
         <div style={{ padding: "60px 0", textAlign: "center" }}>
-          <X style={{ width: "40px", height: "40px", color: "#dc1e3c", margin: "0 auto 12px" }} />
-          <p style={{ fontFamily: "var(--font-poppins, sans-serif)", fontSize: "14px", color: "#888", marginBottom: "12px" }}>
+          <X style={{ width: "40px", height: "40px", color: "#b4002a", margin: "0 auto 16px" }} />
+          <p
+            style={{
+              fontFamily: "'Plus Jakarta Sans', sans-serif",
+              fontSize: "14px",
+              color: "#5c3f3f",
+              marginBottom: "16px",
+            }}
+          >
             {error}
           </p>
           <button
             onClick={fetchProfiles}
             style={{
-              padding: "8px 20px", borderRadius: "10px", cursor: "pointer",
-              background: "linear-gradient(135deg,#dc1e3c,#a0153c)", color: "#fff",
-              fontFamily: "var(--font-poppins, sans-serif)", fontSize: "13px", fontWeight: 600,
-              border: "none", boxShadow: "0 4px 16px rgba(220,30,60,0.25)",
+              padding: "12px 28px",
+              borderRadius: "9999px",
+              cursor: "pointer",
+              background: "linear-gradient(135deg, #b4002a, #dc1e3c)",
+              color: "#ffffff",
+              fontFamily: "'Plus Jakarta Sans', sans-serif",
+              fontSize: "14px",
+              fontWeight: 700,
+              border: "none",
+              transition: "all 0.2s ease",
             }}
           >
             Retry
@@ -275,17 +348,54 @@ export default function MatchesPage() {
       {/* Grid */}
       {!loading && !error && (
         <>
-          <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(200px, 1fr))", gap: "16px" }}>
+          <div
+            style={{
+              display: "grid",
+              gridTemplateColumns: "repeat(auto-fill, minmax(300px, 1fr))",
+              gap: "40px",
+            }}
+          >
             {filtered.map((p) => (
               <ProfileCard key={p.id} profile={p} liked={liked} onToggleLike={handleLike} />
             ))}
           </div>
 
           {filtered.length === 0 && (
-            <div style={{ padding: "80px 0", textAlign: "center" }}>
-              <Heart style={{ width: "40px", height: "40px", color: "rgba(26,10,20,0.2)", margin: "0 auto 12px" }} />
-              <p style={{ fontFamily: "var(--font-poppins, sans-serif)", fontSize: "14px", color: "#888" }}>
-                No profiles match your filters. Try adjusting your criteria.
+            <div style={{ display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", padding: "80px 0", textAlign: "center" }}>
+              <div
+                style={{
+                  width: "96px",
+                  height: "96px",
+                  background: "#fff0f5",
+                  borderRadius: "50%",
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                  marginBottom: "24px",
+                }}
+              >
+                <Heart style={{ width: "40px", height: "40px", color: "#b4002a" }} />
+              </div>
+              <h3
+                style={{
+                  fontFamily: "'Noto Serif', serif",
+                  fontSize: "24px",
+                  fontWeight: 700,
+                  color: "#281621",
+                  marginBottom: "8px",
+                }}
+              >
+                No profiles match your preferences
+              </h3>
+              <p
+                style={{
+                  fontFamily: "'Plus Jakarta Sans', sans-serif",
+                  fontSize: "14px",
+                  color: "#5c3f3f",
+                  maxWidth: "400px",
+                }}
+              >
+                Try adjusting your age range, location, or community filters to discover more compatible matches.
               </p>
             </div>
           )}
@@ -309,47 +419,96 @@ function ProfileCard({
   return (
     <div
       style={{
-        background: "#fff",
-        border: "1px solid rgba(220,30,60,0.08)",
+        background: "#ffffff",
         borderRadius: "16px",
         overflow: "hidden",
         cursor: "pointer",
-        transition: "all 0.2s ease",
-        boxShadow: "0 2px 12px rgba(220,30,60,0.06)",
+        transition: "transform 0.3s ease",
+        border: "none",
       }}
       onMouseEnter={(e) => {
-        (e.currentTarget as HTMLDivElement).style.boxShadow = "0 8px 28px rgba(220,30,60,0.14)";
-        (e.currentTarget as HTMLDivElement).style.transform = "translateY(-2px)";
+        (e.currentTarget as HTMLDivElement).style.transform = "translateY(-4px)";
       }}
       onMouseLeave={(e) => {
-        (e.currentTarget as HTMLDivElement).style.boxShadow = "0 2px 12px rgba(220,30,60,0.06)";
         (e.currentTarget as HTMLDivElement).style.transform = "translateY(0)";
       }}
     >
       {/* Photo area */}
-      <div style={{ position: "relative", height: "144px", display: "flex", alignItems: "center", justifyContent: "center", background: profile.grad }}>
-        <span style={{ fontFamily: "var(--font-playfair, serif)", fontSize: "30px", fontWeight: 300, color: "rgba(255,255,255,0.9)" }}>
+      <div
+        style={{
+          position: "relative",
+          height: "240px",
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
+          background: profile.grad,
+        }}
+      >
+        <span
+          style={{
+            fontFamily: "'Noto Serif', serif",
+            fontSize: "48px",
+            fontWeight: 700,
+            color: "rgba(255,255,255,0.9)",
+          }}
+        >
           {profile.photo}
         </span>
 
+        {/* Match badge */}
+        {profile.compatibility > 0 && (
+          <div
+            style={{
+              position: "absolute",
+              top: "16px",
+              left: "16px",
+              display: "flex",
+              alignItems: "center",
+              gap: "4px",
+              padding: "4px 12px",
+              borderRadius: "9999px",
+              background: "rgba(180,0,42,0.9)",
+              color: "#ffffff",
+              fontFamily: "'Plus Jakarta Sans', sans-serif",
+              fontSize: "11px",
+              fontWeight: 700,
+              letterSpacing: "0.08em",
+              textTransform: "uppercase",
+            }}
+          >
+            {profile.compatibility}% Match
+          </div>
+        )}
+
         {/* Like button */}
         <button
-          onClick={(e) => { e.stopPropagation(); onToggleLike(profile.id); }}
+          onClick={(e) => {
+            e.stopPropagation();
+            onToggleLike(profile.id);
+          }}
           style={{
-            position: "absolute", top: "8px", right: "8px",
-            width: "28px", height: "28px", borderRadius: "50%",
-            display: "flex", alignItems: "center", justifyContent: "center",
-            background: isLiked ? "#dc1e3c" : "rgba(255,255,255,0.92)",
-            border: "none", cursor: "pointer",
-            boxShadow: "0 2px 8px rgba(0,0,0,0.12)",
+            position: "absolute",
+            top: "16px",
+            right: "16px",
+            width: "36px",
+            height: "36px",
+            borderRadius: "50%",
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+            background: isLiked ? "#b4002a" : "rgba(255,255,255,0.85)",
+            backdropFilter: "blur(8px)",
+            border: "none",
+            cursor: "pointer",
             transition: "all 0.2s ease",
           }}
         >
           <Heart
             style={{
-              width: "14px", height: "14px",
-              color: isLiked ? "#fff" : "rgba(26,10,20,0.5)",
-              fill: isLiked ? "#fff" : "none",
+              width: "16px",
+              height: "16px",
+              color: isLiked ? "#ffffff" : "#b4002a",
+              fill: isLiked ? "#ffffff" : "none",
             }}
           />
         </button>
@@ -358,92 +517,166 @@ function ProfileCard({
         {profile.trustScore > 0 && (
           <div
             style={{
-              position: "absolute", bottom: "8px", left: "8px",
-              display: "flex", alignItems: "center", gap: "4px",
-              padding: "2px 6px", borderRadius: "20px",
-              background: "rgba(253,251,249,0.92)",
+              position: "absolute",
+              bottom: "16px",
+              right: "16px",
+              display: "flex",
+              alignItems: "center",
+              gap: "4px",
+              padding: "4px 10px",
+              borderRadius: "8px",
+              background: "rgba(255,255,255,0.8)",
+              backdropFilter: "blur(8px)",
+              fontFamily: "'Plus Jakarta Sans', sans-serif",
+              fontSize: "11px",
+              fontWeight: 700,
+              color: "#281621",
             }}
           >
-            <Shield style={{ width: "10px", height: "10px", color: "#C89020" }} />
-            <span style={{ fontFamily: "var(--font-poppins, sans-serif)", fontSize: "10px", fontWeight: 700, color: "#1a0a14" }}>
-              {profile.trustScore}
-            </span>
+            <Shield style={{ width: "12px", height: "12px", color: "#C89020" }} />
+            Trust: {profile.trustScore}
           </div>
         )}
 
         {/* Verified badge */}
         {profile.verified && (
-          <div style={{ position: "absolute", top: "8px", left: "8px" }}>
-            <CheckCircle style={{ width: "16px", height: "16px", color: "#dc1e3c", fill: "rgba(220,30,60,0.15)" }} />
+          <div style={{ position: "absolute", bottom: "16px", left: "16px" }}>
+            <CheckCircle style={{ width: "20px", height: "20px", color: "#b4002a", fill: "rgba(180,0,42,0.15)" }} />
           </div>
         )}
       </div>
 
       {/* Info */}
-      <div style={{ padding: "12px" }}>
-        <h3 style={{
-          fontFamily: "var(--font-playfair, serif)", fontSize: "14px", fontWeight: 600,
-          color: "#1a0a14", margin: 0, whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis",
-        }}>
-          {profile.name}{profile.age > 0 ? `, ${profile.age}` : ""}
-        </h3>
-
-        {profile.city && (
-          <div style={{ display: "flex", alignItems: "center", gap: "4px", marginTop: "4px", marginBottom: "6px" }}>
-            <MapPin style={{ width: "10px", height: "10px", color: "#888", flexShrink: 0 }} />
-            <span style={{ fontFamily: "var(--font-poppins, sans-serif)", fontSize: "12px", color: "#888", overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>
-              {profile.city}
-            </span>
-          </div>
-        )}
+      <div style={{ padding: "24px" }}>
+        <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", marginBottom: "8px" }}>
+          <h2
+            style={{
+              fontFamily: "'Noto Serif', serif",
+              fontSize: "22px",
+              fontWeight: 700,
+              color: "#281621",
+              margin: 0,
+              whiteSpace: "nowrap",
+              overflow: "hidden",
+              textOverflow: "ellipsis",
+            }}
+          >
+            {profile.name}
+            {profile.age > 0 ? `, ${profile.age}` : ""}
+          </h2>
+        </div>
 
         {profile.profession && (
-          <div style={{ display: "flex", alignItems: "center", gap: "4px", marginBottom: "10px" }}>
-            <Briefcase style={{ width: "10px", height: "10px", color: "#888", flexShrink: 0 }} />
-            <span style={{ fontFamily: "var(--font-poppins, sans-serif)", fontSize: "12px", color: "#888", overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>
-              {profile.profession}
-            </span>
-          </div>
+          <p
+            style={{
+              fontFamily: "'Plus Jakarta Sans', sans-serif",
+              fontSize: "14px",
+              color: "#5c3f3f",
+              margin: "0 0 4px 0",
+            }}
+          >
+            {profile.profession}
+          </p>
         )}
 
-        {/* Compatibility */}
-        {profile.compatibility > 0 && (
-          <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: "12px" }}>
-            <span style={{ fontFamily: "var(--font-poppins, sans-serif)", fontSize: "12px", color: "rgba(26,10,20,0.4)" }}>Match</span>
-            <span style={{ fontFamily: "var(--font-playfair, serif)", fontSize: "14px", fontWeight: 700, color: "#C89020" }}>
-              {profile.compatibility}%
-            </span>
-          </div>
+        {profile.city && (
+          <p
+            style={{
+              fontFamily: "'Plus Jakarta Sans', sans-serif",
+              fontSize: "12px",
+              color: "#5c3f3f",
+              margin: "0 0 24px 0",
+              display: "flex",
+              alignItems: "center",
+              gap: "4px",
+            }}
+          >
+            <MapPin style={{ width: "12px", height: "12px", flexShrink: 0 }} />
+            {profile.city}
+          </p>
         )}
 
-        <Link
-          href={`/profile/${profile.id}`}
-          style={{
-            display: "block", width: "100%", textAlign: "center",
-            background: "linear-gradient(135deg,#dc1e3c,#a0153c)",
-            color: "#fff", borderRadius: "10px",
-            padding: "8px 0",
-            fontFamily: "var(--font-poppins, sans-serif)", fontSize: "12px", fontWeight: 600,
-            boxShadow: "0 2px 8px rgba(220,30,60,0.25)",
-            textDecoration: "none", transition: "all 0.2s ease",
-          }}
-        >
-          View Profile
-        </Link>
+        {!profile.city && !profile.profession && <div style={{ marginBottom: "24px" }} />}
+
+        <div style={{ display: "flex", gap: "12px" }}>
+          <Link
+            href={`/profile/${profile.id}`}
+            style={{
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+              flex: 1,
+              background: "linear-gradient(135deg, #b4002a, #dc1e3c)",
+              color: "#ffffff",
+              borderRadius: "12px",
+              padding: "12px 0",
+              fontFamily: "'Plus Jakarta Sans', sans-serif",
+              fontSize: "14px",
+              fontWeight: 700,
+              textDecoration: "none",
+              transition: "all 0.2s ease",
+              border: "none",
+            }}
+          >
+            View Profile
+          </Link>
+          <button
+            onClick={(e) => {
+              e.stopPropagation();
+              onToggleLike(profile.id);
+            }}
+            style={{
+              width: "48px",
+              height: "48px",
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+              background: "#f9dae9",
+              borderRadius: "12px",
+              border: "none",
+              cursor: "pointer",
+              transition: "all 0.2s ease",
+              flexShrink: 0,
+            }}
+          >
+            <Heart
+              style={{
+                width: "18px",
+                height: "18px",
+                color: "#b4002a",
+                fill: isLiked ? "#b4002a" : "none",
+              }}
+            />
+          </button>
+        </div>
       </div>
     </div>
   );
 }
 
-function FilterSelect({ label, value, options, onChange }: {
-  label: string; value: string; options: string[]; onChange: (v: string) => void;
+function FilterSelect({
+  label,
+  value,
+  options,
+  onChange,
+}: {
+  label: string;
+  value: string;
+  options: string[];
+  onChange: (v: string) => void;
 }) {
   return (
-    <div style={{ display: "flex", flexDirection: "column", gap: "4px" }}>
-      <label style={{
-        fontFamily: "var(--font-poppins, sans-serif)", fontSize: "11px",
-        color: "rgba(26,10,20,0.5)", textTransform: "uppercase", letterSpacing: "0.05em",
-      }}>
+    <div style={{ display: "flex", flexDirection: "column", gap: "6px" }}>
+      <label
+        style={{
+          fontFamily: "'Plus Jakarta Sans', sans-serif",
+          fontSize: "11px",
+          color: "#5c3f3f",
+          textTransform: "uppercase",
+          letterSpacing: "0.05em",
+          fontWeight: 600,
+        }}
+      >
         {label}
       </label>
       <div style={{ position: "relative" }}>
@@ -451,16 +684,35 @@ function FilterSelect({ label, value, options, onChange }: {
           value={value}
           onChange={(e) => onChange(e.target.value)}
           style={{
-            width: "100%", appearance: "none",
-            fontFamily: "var(--font-poppins, sans-serif)", fontSize: "13px", color: "#1a0a14",
-            background: "rgba(255,255,255,0.8)", borderRadius: "10px",
-            padding: "8px 32px 8px 12px",
-            border: "1px solid rgba(220,30,60,0.15)", outline: "none", cursor: "pointer",
+            width: "100%",
+            appearance: "none",
+            fontFamily: "'Plus Jakarta Sans', sans-serif",
+            fontSize: "13px",
+            color: "#281621",
+            background: "#ffffff",
+            borderRadius: "12px",
+            padding: "10px 36px 10px 14px",
+            border: "none",
+            outline: "none",
+            cursor: "pointer",
           }}
         >
-          {options.map((o) => <option key={o}>{o}</option>)}
+          {options.map((o) => (
+            <option key={o}>{o}</option>
+          ))}
         </select>
-        <ChevronDown style={{ position: "absolute", right: "8px", top: "50%", transform: "translateY(-50%)", width: "14px", height: "14px", color: "rgba(26,10,20,0.4)", pointerEvents: "none" }} />
+        <ChevronDown
+          style={{
+            position: "absolute",
+            right: "10px",
+            top: "50%",
+            transform: "translateY(-50%)",
+            width: "14px",
+            height: "14px",
+            color: "#5c3f3f",
+            pointerEvents: "none",
+          }}
+        />
       </div>
     </div>
   );
