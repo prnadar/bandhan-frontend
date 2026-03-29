@@ -13,7 +13,7 @@ const plans = [
     price: 100,
     priceLabel: "/ 6 months",
     highlights: [
-      "5 daily matches",
+      "Up to 5 daily matches",
       "3 interests / month",
       "View profiles",
       "AI compatibility score",
@@ -27,7 +27,7 @@ const plans = [
     priceLabel: "/ 6 months",
     popular: true,
     highlights: [
-      "Unlimited daily matches",
+      "Up to 100 daily matches",
       "Unlimited interests",
       "Direct messaging",
       "Photo access",
