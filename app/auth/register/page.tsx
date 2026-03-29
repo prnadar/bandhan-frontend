@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useRef, useEffect } from "react";
+import { useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 
@@ -10,48 +10,27 @@ const steps = ["Your Details", "Verify", "Done"];
 
 export default function RegisterPage() {
   const router = useRouter();
-  const [helpOpen, setHelpOpen] = useState(false);
-  const helpRef = useRef<HTMLDivElement>(null);
-  useEffect(() => {
-    function handleClick(e: MouseEvent) {
-      if (helpRef.current && !helpRef.current.contains(e.target as Node)) setHelpOpen(false);
-    }
-    document.addEventListener("mousedown", handleClick);
-    return () => document.removeEventListener("mousedown", handleClick);
-  }, []);
   const [step, setStep] = useState(0); // 0 = details, 1 = verify, 2 = done
   const [loading, setLoading] = useState(false);
   const [agreed, setAgreed] = useState(false);
 
   // Form fields
 
-  const [phone, setPhone] = useState("");
-  const [countryCode, setCountryCode] = useState("+44");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
+  const [showPassword, setShowPassword] = useState(false);
   const [name, setName] = useState("");
   const [gender, setGender] = useState("");
   const [otp, setOtp] = useState(["", "", "", "", "", ""]);
   const [otpSent, setOtpSent] = useState(false);
   const [errors, setErrors] = useState<string[]>([]);
 
-  const API_BASE = process.env.NEXT_PUBLIC_API_URL ?? "https://match4marriage-api-production-54ea.up.railway.app";
-
   const handleSendOtp = async () => {
-    if (phone.replace(/\D/g, "").length < 7) { setErrors(["Please enter a valid phone number."]); return; }
-    setLoading(true); setErrors([]);
-    try {
-      const res = await fetch(`${API_BASE}/api/v1/auth/register`, {
-        method: "POST",
-        headers: { "Content-Type": "application/json", "X-Tenant-ID": "match4marriage" },
-        body: JSON.stringify({ phone: phone.replace(/\s/g, ""), country_code: countryCode }),
-      });
-      const data = await res.json();
-      if (!res.ok) throw new Error(data.detail || "Failed to send OTP");
-      setOtpSent(true);
-    } catch (err: any) {
-      setErrors([err.message || "Could not send OTP. Please try again."]);
-    } finally {
-      setLoading(false);
-    }
+    setLoading(true);
+    await new Promise((r) => setTimeout(r, 700));
+    setLoading(false);
+    setOtpSent(true);
   };
 
   const handleNext = async () => {
@@ -59,36 +38,18 @@ export default function RegisterPage() {
       const errs: string[] = [];
       if (!name.trim()) errs.push("Please enter your full name.");
       if (!gender) errs.push("Please select Bride or Groom.");
-      if (phone.replace(/\D/g, "").length < 7) errs.push("Please enter a valid phone number.");
+      if (!email.includes("@")) errs.push("Please enter a valid email address.");
+      if (password.length < 6) errs.push("Password must be at least 6 characters.");
+      if (password !== confirmPassword) errs.push("Passwords do not match.");
       if (!agreed) errs.push("Please accept the Terms & Conditions to continue.");
       if (errs.length > 0) { setErrors(errs); return; }
       setErrors([]);
-      await handleSendOtp();
-      if (otpSent || true) { setStep(1); return; }
     }
-    if (step === 1) {
-      const code = otp.join("");
-      if (code.length < 6) { setErrors(["Please enter the 6-digit code."]); return; }
-      setLoading(true); setErrors([]);
-      try {
-        const res = await fetch(`${API_BASE}/api/v1/auth/verify-otp`, {
-          method: "POST",
-          headers: { "Content-Type": "application/json", "X-Tenant-ID": "match4marriage" },
-          body: JSON.stringify({ phone: phone.replace(/\s/g, ""), otp: code, country_code: countryCode }),
-        });
-        const data = await res.json();
-        if (!res.ok) throw new Error(data.detail || "Invalid OTP");
-        localStorage.setItem("auth_token", data.data?.access_token || data.data?.token || "");
-        localStorage.setItem("user_profile", JSON.stringify({ ...data.data?.user, full_name: name, gender }));
-        setStep(2);
-      } catch (err: any) {
-        setErrors([err.message || "Invalid code. Please try again."]);
-      } finally {
-        setLoading(false);
-      }
-      return;
-    }
-    if (step === 2) { router.push("/onboarding"); return; }
+    setLoading(true);
+    await new Promise((r) => setTimeout(r, 600));
+    setLoading(false);
+    if (step < 2) setStep(step + 1);
+    else router.push("/onboarding");
   };
 
   const handleOtpChange = (val: string, idx: number) => {
@@ -101,98 +62,54 @@ export default function RegisterPage() {
     }
   };
 
-  const isStep0Valid = !!(name.trim() && gender && phone.replace(/\\D/g,"").length >= 7 && agreed);
+  const isStep0Valid = !!(name.trim() && gender && email.includes("@") && password.length >= 6 && password === confirmPassword && agreed);
   const isStep1Valid = otp.every((d) => d !== "");
 
   return (
-    <div style={{ minHeight: "100vh", display: "flex", flexDirection: "column", background: "#fdfbf9", fontFamily: "var(--font-poppins, sans-serif)" }}>
+    <div style={{ minHeight: "100vh", display: "flex", background: "#fdfbf9", fontFamily: "var(--font-poppins, sans-serif)" }}>
 
-      {/* ── Site Header ── */}
-      <header style={{
-        position: "sticky", top: 0, zIndex: 50,
-        background: "rgba(253,251,249,0.92)",
-        backdropFilter: "blur(12px)",
-        borderBottom: "1px solid rgba(220,30,60,0.10)",
-        padding: "0 32px",
-        height: "60px",
-        display: "flex", alignItems: "center", justifyContent: "space-between",
-        flexShrink: 0,
-      }}>
-        <Link href="/" style={{ textDecoration: "none", minHeight: "auto" }}>
-          <img src="/images/logo.jpeg" alt="Match4Marriage" style={{ height: "44px", width: "auto", objectFit: "contain" }} />
-        </Link>
-        <div style={{ display: "flex", alignItems: "center", gap: "20px" }}>
-          {/* Contact */}
-          <Link href="/contact" style={{ fontSize: "14px", fontWeight: 500, color: "#555", textDecoration: "none" }}
-            onMouseOver={(e) => (e.currentTarget as HTMLAnchorElement).style.color = "#dc1e3c"}
-            onMouseOut={(e) => (e.currentTarget as HTMLAnchorElement).style.color = "#555"}
-          >Contact</Link>
-
-          {/* Help dropdown */}
-          <div ref={helpRef} style={{ position: "relative" }}>
-            <button onClick={() => setHelpOpen(!helpOpen)} style={{
-              fontSize: "14px", fontWeight: 500, color: helpOpen ? "#dc1e3c" : "#555",
-              background: "none", border: "none", cursor: "pointer", display: "flex", alignItems: "center", gap: "4px",
-            }}>
-              Help
-              <svg width="12" height="12" viewBox="0 0 12 12" fill="none" style={{ transform: helpOpen ? "rotate(180deg)" : "rotate(0deg)", transition: "transform 0.2s" }}>
-                <path d="M2 4l4 4 4-4" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
-              </svg>
-            </button>
-            {helpOpen && (
-              <div style={{
-                position: "absolute", top: "calc(100% + 10px)", right: 0,
-                background: "#fff", borderRadius: "12px", minWidth: "160px",
-                boxShadow: "0 8px 32px rgba(0,0,0,0.12)", border: "1px solid rgba(220,30,60,0.1)",
-                overflow: "hidden", zIndex: 100,
-              }}>
-                {[{ label: "FAQ", href: "/faq" }, { label: "Contact Us", href: "/contact" }].map((item) => (
-                  <Link key={item.label} href={item.href} onClick={() => setHelpOpen(false)} style={{
-                    display: "block", padding: "11px 18px", fontSize: "13px", fontWeight: 500,
-                    color: "#333", textDecoration: "none", borderBottom: "1px solid rgba(220,30,60,0.06)",
-                  }}
-                    onMouseOver={(e) => { (e.currentTarget as HTMLAnchorElement).style.background = "rgba(220,30,60,0.05)"; (e.currentTarget as HTMLAnchorElement).style.color = "#dc1e3c"; }}
-                    onMouseOut={(e) => { (e.currentTarget as HTMLAnchorElement).style.background = "transparent"; (e.currentTarget as HTMLAnchorElement).style.color = "#333"; }}
-                  >{item.label}</Link>
-                ))}
-              </div>
-            )}
-          </div>
-
-          <Link href="/auth/login" style={{ fontSize: "14px", fontWeight: 500, color: "#555", textDecoration: "none" }}>Log In</Link>
-          <Link href="/auth/register" style={{
-            fontSize: "14px", fontWeight: 600, color: "#fff",
-            background: "linear-gradient(135deg,#dc1e3c,#a0153c)",
-            padding: "8px 20px", borderRadius: "8px", textDecoration: "none",
-          }}>Register</Link>
-        </div>
-      </header>
-
-      <div style={{ flex: 1, display: "flex" }}>
-
-      {/* Left panel — hero image */}
+      {/* Left panel — branding */}
       <div className="hidden lg:flex" style={{
-        width: "45%", flexDirection: "column", justifyContent: "flex-end", alignItems: "center",
-        backgroundImage: "url('/couples/couple-hero.png')",
-        backgroundSize: "cover", backgroundPosition: "center top",
-        position: "relative", overflow: "hidden",
+        width: "45%", flexDirection: "column", justifyContent: "center", alignItems: "center",
+        background: "linear-gradient(160deg, #1a0a14 0%, #2d0f20 60%, #3b1428 100%)",
+        padding: "60px 48px", position: "relative", overflow: "hidden",
       }}>
-        {/* Dark gradient overlay — bottom-up */}
-        <div style={{ position: "absolute", inset: 0, background: "linear-gradient(to top, rgba(26,10,20,0.65) 0%, rgba(26,10,20,0.05) 35%, rgba(0,0,0,0) 100%)", pointerEvents: "none" }} />
+        {/* Decorative rings */}
+        <div style={{ position: "absolute", top: "-80px", right: "-80px", width: "320px", height: "320px", borderRadius: "50%", border: "1px solid rgba(220,30,60,0.15)", pointerEvents: "none" }} />
+        <div style={{ position: "absolute", bottom: "-60px", left: "-60px", width: "240px", height: "240px", borderRadius: "50%", border: "1px solid rgba(220,30,60,0.1)", pointerEvents: "none" }} />
+        <div style={{ position: "absolute", top: "40%", left: "-120px", width: "280px", height: "280px", borderRadius: "50%", border: "1px solid rgba(255,216,122,0.08)", pointerEvents: "none" }} />
 
-        {/* Bottom text */}
-        <div style={{ position: "relative", zIndex: 1, textAlign: "center", padding: "40px 40px", width: "100%" }}>
+        <div style={{ position: "relative", zIndex: 1, textAlign: "center", maxWidth: "360px" }}>
+          {/* Logo */}
           <Link href="/" style={{ textDecoration: "none" }}>
-            <span style={{ fontFamily: "var(--font-playfair, serif)", fontSize: "26px", fontWeight: 700, color: "#fff", display: "block", marginBottom: "12px", textShadow: "0 2px 8px rgba(0,0,0,0.4)" }}>
+            <span style={{ fontFamily: "var(--font-playfair, serif)", fontSize: "28px", fontWeight: 700, color: "#fff", display: "block", marginBottom: "48px" }}>
               Match<span style={{ color: "#dc1e3c" }}>4</span>Marriage
             </span>
           </Link>
-          <h2 style={{ fontFamily: "var(--font-playfair, serif)", fontSize: "28px", fontWeight: 700, color: "#fff", lineHeight: 1.3, marginBottom: "10px", textShadow: "0 2px 12px rgba(0,0,0,0.5)" }}>
+
+          <div style={{ fontSize: "48px", marginBottom: "24px" }}>💍</div>
+
+          <h2 style={{ fontFamily: "var(--font-playfair, serif)", fontSize: "32px", fontWeight: 700, color: "#fff", lineHeight: 1.2, marginBottom: "16px" }}>
             Find Your Perfect Match
           </h2>
-          <p style={{ fontSize: "14px", color: "rgba(255,255,255,0.8)", lineHeight: 1.7, textShadow: "0 1px 6px rgba(0,0,0,0.4)" }}>
-            UK's most trusted elite Indian matrimonial service
+          <p style={{ fontSize: "15px", color: "rgba(255,255,255,0.55)", lineHeight: 1.8, marginBottom: "40px" }}>
+            Join the UK's most trusted elite Indian matrimonial service. Every profile is personally verified by our team.
           </p>
+
+          {/* Trust points */}
+          {[
+            "Hand-picked, verified profiles only",
+            "Complete discretion guaranteed",
+            "UK registered & GDPR compliant",
+            "Dedicated advisor support",
+          ].map((point) => (
+            <div key={point} style={{ display: "flex", alignItems: "center", gap: "12px", marginBottom: "14px", textAlign: "left" }}>
+              <div style={{ width: "20px", height: "20px", borderRadius: "50%", background: "rgba(220,30,60,0.3)", border: "1px solid rgba(220,30,60,0.5)", display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0 }}>
+                <span style={{ fontSize: "10px", color: "#dc1e3c" }}>✓</span>
+              </div>
+              <span style={{ fontSize: "13px", color: "rgba(255,255,255,0.65)" }}>{point}</span>
+            </div>
+          ))}
         </div>
       </div>
 
@@ -273,26 +190,47 @@ export default function RegisterPage() {
                 </div>
               </div>
 
-              {/* Phone Number */}
+              {/* Email + Password */}
               <div style={{ marginBottom: "20px" }}>
-                <label style={{ fontSize: "12px", fontWeight: 600, color: "#555", textTransform: "uppercase", letterSpacing: "0.08em", display: "block", marginBottom: "6px" }}>Phone Number</label>
-                <div style={{ display: "flex", gap: "8px" }}>
-                  <select value={countryCode} onChange={(e) => setCountryCode(e.target.value)} style={{ padding: "12px 8px", border: "1px solid rgba(220,30,60,0.15)", borderRadius: "10px", fontSize: "14px", color: "#1a0a14", background: "#fff", outline: "none", width: "90px" }}>
-                    <option value="+44">🇬🇧 +44</option>
-                    <option value="+91">🇮🇳 +91</option>
-                    <option value="+1">🇺🇸 +1</option>
-                    <option value="+61">🇦🇺 +61</option>
-                  </select>
-                  <input
-                    type="tel"
-                    placeholder="7700 900000"
-                    value={phone}
-                    onChange={(e) => setPhone(e.target.value)}
-                    style={{ flex: 1, padding: "12px 16px", border: "1px solid rgba(220,30,60,0.15)", borderRadius: "10px", fontSize: "14px", color: "#1a0a14", background: "#fff", outline: "none" }}
-                  />
+                  <div style={{ marginBottom: "14px" }}>
+                    <label style={{ fontSize: "12px", fontWeight: 600, color: "#555", textTransform: "uppercase", letterSpacing: "0.08em", display: "block", marginBottom: "6px" }}>Email Address</label>
+                    <input
+                      type="email"
+                      placeholder="you@example.com"
+                      value={email}
+                      onChange={(e) => setEmail(e.target.value)}
+                      style={{ width: "100%", padding: "12px 16px", border: "1px solid rgba(220,30,60,0.15)", borderRadius: "10px", fontSize: "14px", color: "#1a0a14", background: "#fff", outline: "none", boxSizing: "border-box" }}
+                    />
+                  </div>
+                  <div style={{ marginBottom: "14px" }}>
+                    <label style={{ fontSize: "12px", fontWeight: 600, color: "#555", textTransform: "uppercase", letterSpacing: "0.08em", display: "block", marginBottom: "6px" }}>Password</label>
+                    <div style={{ position: "relative" }}>
+                      <input
+                        type={showPassword ? "text" : "password"}
+                        placeholder="Min. 6 characters"
+                        value={password}
+                        onChange={(e) => setPassword(e.target.value)}
+                        style={{ width: "100%", padding: "12px 48px 12px 16px", border: "1px solid rgba(220,30,60,0.15)", borderRadius: "10px", fontSize: "14px", color: "#1a0a14", background: "#fff", outline: "none", boxSizing: "border-box" }}
+                      />
+                      <button onClick={() => setShowPassword(!showPassword)} style={{ position: "absolute", right: "12px", top: "50%", transform: "translateY(-50%)", background: "none", border: "none", cursor: "pointer", fontSize: "16px", color: "#aaa" }}>
+                        {showPassword ? "🙈" : "👁️"}
+                      </button>
+                    </div>
+                  </div>
+                  <div>
+                    <label style={{ fontSize: "12px", fontWeight: 600, color: "#555", textTransform: "uppercase", letterSpacing: "0.08em", display: "block", marginBottom: "6px" }}>Confirm Password</label>
+                    <input
+                      type={showPassword ? "text" : "password"}
+                      placeholder="Re-enter password"
+                      value={confirmPassword}
+                      onChange={(e) => setConfirmPassword(e.target.value)}
+                      style={{ width: "100%", padding: "12px 16px", border: `1px solid ${confirmPassword && confirmPassword !== password ? "#dc1e3c" : "rgba(220,30,60,0.15)"}`, borderRadius: "10px", fontSize: "14px", color: "#1a0a14", background: "#fff", outline: "none", boxSizing: "border-box" }}
+                    />
+                    {confirmPassword && confirmPassword !== password && (
+                      <p style={{ fontSize: "11px", color: "#dc1e3c", marginTop: "4px" }}>Passwords do not match</p>
+                    )}
+                  </div>
                 </div>
-                <p style={{ fontSize: "11px", color: "#aaa", marginTop: "6px" }}>We'll send a verification code to this number</p>
-              </div>
 
               {/* Terms checkbox */}
               <div style={{ display: "flex", alignItems: "flex-start", gap: "10px", marginBottom: "24px", padding: "14px", background: "rgba(220,30,60,0.03)", borderRadius: "10px", border: "1px solid rgba(220,30,60,0.08)" }}>
@@ -345,10 +283,10 @@ export default function RegisterPage() {
                 ← Back
               </button>
               <h1 style={{ fontFamily: "var(--font-playfair, serif)", fontSize: "26px", fontWeight: 700, color: "#1a0a14", marginBottom: "8px" }}>
-                Verify your phone
+                Verify your email
               </h1>
               <p style={{ fontSize: "13px", color: "#888", marginBottom: "28px" }}>
-                We sent a 6-digit code to <strong style={{ color: "#1a0a14" }}>{countryCode} {phone}</strong>
+                We sent a 6-digit code to <strong style={{ color: "#1a0a14" }}>{email}</strong>
               </p>
 
               {!otpSent ? (
@@ -441,7 +379,6 @@ export default function RegisterPage() {
           )}
 
         </div>
-      </div>
       </div>
     </div>
   );
