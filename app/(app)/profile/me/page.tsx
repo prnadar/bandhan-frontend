@@ -1,11 +1,6 @@
 "use client";
 
 import { useState, useRef } from "react";
-import {
-  Shield, CheckCircle, AlertCircle, Camera, Upload,
-  Plus, X, Edit3, Heart, Star, Users, Briefcase, GraduationCap,
-  MapPin, Globe,
-} from "lucide-react";
 
 // ─── Constants ────────────────────────────────────────────────────────────────
 
@@ -50,11 +45,11 @@ const INTERESTS_CONFIG: Record<string, string[]> = {
 };
 
 const VERIFICATIONS = [
-  { label: "Email Verified",    done: true,  pts: 20 },
-  { label: "Mobile Verified",   done: true,  pts: 20 },
-  { label: "ID Verified",       done: false, pts: 30 },
-  { label: "Profile Complete",  done: false, pts: 20 },
-  { label: "LinkedIn",          done: false, pts: 10 },
+  { label: "Email Verified",    done: true,  pts: 20, icon: "check_circle",  tag: "EMAIL" },
+  { label: "Mobile Verified",   done: true,  pts: 20, icon: "check_circle",  tag: "MOBILE" },
+  { label: "ID Verified",       done: false, pts: 30, icon: "history_edu",   tag: "GOVT ID" },
+  { label: "Profile Complete",  done: false, pts: 20, icon: "task_alt",      tag: "PROFILE" },
+  { label: "LinkedIn",          done: false, pts: 10, icon: "link",          tag: "SOCIAL" },
 ];
 
 const TABS = [
@@ -62,7 +57,7 @@ const TABS = [
   { id: "education", label: "Education & Career",   total: 8  },
   { id: "family",    label: "My Family",            total: 12 },
   { id: "interests", label: "Interests",            total: 6  },
-  { id: "partner",   label: "Partner Preferences",  total: 10 },
+  { id: "partner",   label: "Partner Prefs",        total: 10 },
   { id: "contact",   label: "Contact Details",      total: 11 },
   { id: "photos",    label: "My Photos",            total: 6  },
 ];
@@ -72,41 +67,6 @@ const TABS = [
 interface School      { name: string; place: string; year: string; }
 interface College     { name: string; course: string; place: string; year: string; }
 interface Employment  { company: string; designation: string; location: string; }
-
-// ─── Shared Styles ────────────────────────────────────────────────────────────
-
-const BASE_INPUT: React.CSSProperties = {
-  width: "100%",
-  fontFamily: "var(--font-poppins, sans-serif)",
-  fontSize: "0.875rem",
-  color: "#1a0a14",
-  border: "1px solid rgba(220,30,60,0.15)",
-  borderRadius: 10,
-  padding: "12px 16px",
-  outline: "none",
-  background: "#fff",
-  boxSizing: "border-box",
-  transition: "border-color 0.2s ease, box-shadow 0.2s ease",
-};
-
-const LABEL_STYLE: React.CSSProperties = {
-  fontFamily: "var(--font-poppins, sans-serif)",
-  fontSize: 11,
-  fontWeight: 600,
-  color: "#555",
-  textTransform: "uppercase",
-  letterSpacing: "0.08em",
-  display: "block",
-  marginBottom: 6,
-};
-
-const CARD_STYLE: React.CSSProperties = {
-  borderRadius: 16,
-  padding: "1.25rem",
-  background: "#fff",
-  border: "1px solid rgba(220,30,60,0.08)",
-  boxShadow: "0 2px 16px rgba(220,30,60,0.06)",
-};
 
 // ─── Main Page ─────────────────────────────────────────────────────────────────
 
@@ -178,6 +138,11 @@ export default function MyProfilePage() {
     photos:    { filled: 0, total: 6 },
   };
 
+  const totalFilled = Object.values(tabCounts).reduce((a, b) => a + b.filled, 0);
+  const totalFields = Object.values(tabCounts).reduce((a, b) => a + b.total, 0);
+  const completeness = totalFields > 0 ? Math.round((totalFilled / totalFields) * 100) : 0;
+  const trustScore = VERIFICATIONS.filter((v) => v.done).reduce((a, v) => a + v.pts, 0);
+
   const handleSave = (tabId: string) => {
     console.log("Saving", tabId, { general, education, family, interests, partner, contact });
     setSavedTab(tabId);
@@ -197,105 +162,123 @@ export default function MyProfilePage() {
     }));
 
   return (
-    <div style={{ padding: "2rem", background: "#fdfbf9", minHeight: "100%" }}>
-      <h1 style={{
-        fontFamily: "var(--font-playfair, serif)",
-        fontSize: "1.875rem",
-        fontWeight: 300,
-        color: "#1a0a14",
-        marginBottom: "1.5rem",
-        letterSpacing: "-0.01em",
-      }}>
-        My Profile
-      </h1>
+    <div className="min-h-screen bg-surface p-6 md:p-12 font-body text-on-surface">
+      <div className="max-w-6xl mx-auto">
 
-      <div style={{
-        display: "grid",
-        gridTemplateColumns: "280px 1fr",
-        gap: "1.5rem",
-        alignItems: "start",
-      }}>
-        {/* ── Left Sidebar ── */}
-        <div style={{ display: "flex", flexDirection: "column", gap: "1rem" }}>
-          <PhotoCard name={general.name || "Your Name"} />
-          <TrustScoreCard score={40} />
-          <CompletenessCard completeness={68} />
+        {/* ── Bento Header Layout ── */}
+        <div className="grid grid-cols-12 gap-6 md:gap-8 mb-12 items-stretch">
+
+          {/* Profile Identity Card */}
+          <div className="col-span-12 md:col-span-8 bg-surface-container-low rounded-3xl p-8 flex flex-col md:flex-row gap-8 items-center overflow-hidden relative">
+            <div className="absolute top-0 right-0 w-32 h-32 bg-primary-container/5 rounded-full -mr-16 -mt-16" />
+
+            {/* Avatar / Photo placeholder */}
+            <div className="w-48 h-64 rounded-2xl bg-gradient-to-br from-primary to-primary-container flex items-center justify-center flex-shrink-0 relative z-10">
+              <span className="font-headline text-5xl text-on-primary font-light">
+                {(general.name || "?")
+                  .split(" ")
+                  .filter(Boolean)
+                  .map((w) => w[0].toUpperCase())
+                  .slice(0, 2)
+                  .join("")}
+              </span>
+            </div>
+
+            <div className="flex-1 text-center md:text-left">
+              <h1 className="text-4xl md:text-5xl font-bold mb-2 text-on-surface font-headline">
+                {general.name || "Your Name"}
+              </h1>
+              <p className="text-primary font-medium tracking-wide uppercase text-xs mb-6">
+                Premium Editorial Member
+              </p>
+
+              <div className="flex flex-col gap-4">
+                {/* Trust Score circle */}
+                <div className="flex items-center gap-4 justify-center md:justify-start">
+                  <div className="w-12 h-12 rounded-full bg-surface-container-highest flex items-center justify-center text-primary font-bold font-headline">
+                    {trustScore}
+                  </div>
+                  <div>
+                    <p className="text-sm font-bold font-headline">Trust Score: {trustScore}/100</p>
+                    <p className="text-xs text-on-surface-variant">Verify more to increase credibility</p>
+                  </div>
+                </div>
+
+                {/* Verification badges */}
+                <div className="flex flex-wrap gap-2 justify-center md:justify-start">
+                  {VERIFICATIONS.map((v) => (
+                    <div
+                      key={v.tag}
+                      className={`flex items-center gap-1 px-3 py-1 rounded-full text-[10px] font-bold border border-outline-variant/20 ${
+                        v.done
+                          ? "bg-surface-container-lowest"
+                          : "bg-surface-container opacity-50"
+                      }`}
+                    >
+                      <span
+                        className={`material-symbols-outlined text-[14px] ${
+                          v.done ? "text-green-600" : "text-on-surface-variant"
+                        }`}
+                        style={v.done ? { fontVariationSettings: "'FILL' 1" } : undefined}
+                      >
+                        {v.done ? "check_circle" : v.icon}
+                      </span>
+                      {v.tag}
+                    </div>
+                  ))}
+                </div>
+              </div>
+            </div>
+          </div>
+
+          {/* Progress Card */}
+          <div className="col-span-12 md:col-span-4 bg-surface-container-highest rounded-3xl p-8 flex flex-col justify-between">
+            <div>
+              <div className="flex justify-between items-end mb-4">
+                <h3 className="font-headline font-bold text-xl">Profile Complete</h3>
+                <span className="text-primary font-bold text-3xl">{completeness}%</span>
+              </div>
+              <div className="w-full h-2 bg-white/50 rounded-full overflow-hidden mb-6">
+                <div
+                  className="h-full bg-primary rounded-full transition-all duration-500"
+                  style={{ width: `${completeness}%` }}
+                />
+              </div>
+              <p className="text-sm text-on-surface-variant leading-relaxed">
+                Your editorial profile is taking shape. Complete the remaining sections to unlock high-intent matches.
+              </p>
+            </div>
+            <button className="w-full py-4 bg-primary text-on-primary rounded-xl font-bold text-sm tracking-wide mt-6 hover:scale-[1.02] transition-transform active:scale-95">
+              UNLOCK MORE VIEWS
+            </button>
+          </div>
         </div>
 
-        {/* ── Right: Tab Panel ── */}
-        <div style={{ display: "flex", flexDirection: "column" }}>
+        {/* ── Tabbed Interface Section ── */}
+        <div className="bg-surface-container-lowest rounded-[2rem] overflow-hidden">
 
           {/* Tab Bar */}
-          <div style={{
-            display: "flex",
-            background: "#fff",
-            borderRadius: "16px 16px 0 0",
-            borderTop: "1px solid rgba(220,30,60,0.08)",
-            borderLeft: "1px solid rgba(220,30,60,0.08)",
-            borderRight: "1px solid rgba(220,30,60,0.08)",
-            borderBottom: "2px solid rgba(220,30,60,0.1)",
-            overflowX: "auto",
-          }}>
+          <div className="flex bg-surface-container-low px-4 md:px-8 pt-6 gap-4 md:gap-8 overflow-x-auto">
             {TABS.map((tab) => {
-              const { filled, total } = tabCounts[tab.id];
-              const isActive   = activeTab === tab.id;
-              const isComplete = filled >= total;
+              const isActive = activeTab === tab.id;
               return (
                 <button
                   key={tab.id}
                   onClick={() => setActiveTab(tab.id)}
-                  style={{
-                    flex: "0 0 auto",
-                    padding: "14px 14px 12px",
-                    fontFamily: "var(--font-poppins, sans-serif)",
-                    fontSize: "0.78rem",
-                    fontWeight: isActive ? 700 : 400,
-                    color: isActive ? "#dc1e3c" : "#888",
-                    background: "transparent",
-                    border: "none",
-                    borderBottom: isActive ? "2px solid #dc1e3c" : "2px solid transparent",
-                    cursor: "pointer",
-                    whiteSpace: "nowrap",
-                    transition: "all 0.2s ease",
-                    display: "flex",
-                    alignItems: "center",
-                    gap: 6,
-                    marginBottom: -2,
-                  }}
+                  className={`pb-4 border-b-2 text-sm tracking-wide transition-colors whitespace-nowrap flex-shrink-0 ${
+                    isActive
+                      ? "border-primary text-primary font-bold"
+                      : "border-transparent text-on-surface-variant opacity-60 hover:opacity-100 font-medium"
+                  }`}
                 >
-                  {tab.label}
-                  <span style={{
-                    fontSize: "0.65rem",
-                    padding: "2px 5px",
-                    borderRadius: 99,
-                    background: isComplete
-                      ? "rgba(34,197,94,0.12)"
-                      : isActive
-                      ? "rgba(220,30,60,0.08)"
-                      : "rgba(0,0,0,0.05)",
-                    color: isComplete ? "#16a34a" : isActive ? "#dc1e3c" : "#bbb",
-                    fontWeight: 600,
-                    lineHeight: 1.4,
-                  }}>
-                    {isComplete ? "✓" : `${filled}/${total}`}
-                  </span>
+                  {tab.label.toUpperCase()}
                 </button>
               );
             })}
           </div>
 
           {/* Tab Content Area */}
-          <div style={{
-            background: "#fdfbf9",
-            borderLeft: "1px solid rgba(220,30,60,0.08)",
-            borderRight: "1px solid rgba(220,30,60,0.08)",
-            borderBottom: "1px solid rgba(220,30,60,0.08)",
-            borderRadius: "0 0 16px 16px",
-            padding: "1.5rem",
-            display: "flex",
-            flexDirection: "column",
-            gap: "1.25rem",
-          }}>
+          <div className="p-6 md:p-12 space-y-16">
             {activeTab === "general" && (
               <GeneralTab
                 form={general} update={upGeneral}
@@ -340,6 +323,9 @@ export default function MyProfilePage() {
             )}
           </div>
         </div>
+
+        {/* Spacer */}
+        <div className="h-24" />
       </div>
     </div>
   );
@@ -357,11 +343,6 @@ function GeneralTab({
 }) {
   return (
     <>
-      {/* Mandatory notice */}
-      <div style={{ display: "flex", alignItems: "center", gap: 8, padding: "10px 16px", borderRadius: 10, background: "rgba(220,30,60,0.04)", border: "1px solid rgba(220,30,60,0.12)", marginBottom: 4 }}>
-        <span style={{ color: "#dc1e3c", fontWeight: 700, fontSize: 14 }}>*</span>
-        <span style={{ fontSize: 12, color: "#888" }}>Fields marked with an asterisk are mandatory and must be completed before your profile can go live.</span>
-      </div>
       {/* Personal Details */}
       <SubSection title="Personal Details">
         <TwoCol>
@@ -386,9 +367,11 @@ function GeneralTab({
         </TwoCol>
 
         {/* Date of Birth */}
-        <div style={{ marginTop: 16 }}>
-          <label style={LABEL_STYLE}>Date of Birth <span style={{ color: "#dc1e3c", fontWeight: 700 }}>*</span></label>
-          <div style={{ display: "grid", gridTemplateColumns: "1fr 2fr 1fr", gap: 10 }}>
+        <div className="mt-8">
+          <label className="text-[10px] font-bold uppercase tracking-widest text-on-surface-variant opacity-60 block mb-2">
+            Date of Birth <span className="text-primary font-bold">*</span>
+          </label>
+          <div className="grid grid-cols-3 gap-4">
             <FSelect value={form.dobDay} onChange={(v) => update("dobDay", v)} placeholder="Day">
               {Array.from({ length: 31 }, (_, i) => String(i + 1)).map((d) => (
                 <option key={d} value={d}>{d}</option>
@@ -405,7 +388,7 @@ function GeneralTab({
           </div>
         </div>
 
-        <TwoCol style={{ marginTop: 16 }}>
+        <TwoCol className="mt-8">
           <Field label="Height" required>
             <FSelect value={form.height} onChange={(v) => update("height", v)} placeholder="e.g. 5ft 8in">
               {HEIGHTS.map((h) => <option key={h} value={h}>{h}</option>)}
@@ -436,8 +419,8 @@ function GeneralTab({
           </Field>
         </TwoCol>
 
-        <div style={{ marginTop: 16 }}>
-          <Field label="About Me">
+        <div className="mt-8">
+          <Field label="About Me" fullSpan>
             <FTextarea
               value={form.aboutMe}
               onChange={(v) => update("aboutMe", v)}
@@ -552,14 +535,16 @@ function EducationTab({
         </TwoCol>
 
         {/* Schools */}
-        <div style={{ marginTop: 20 }}>
-          <label style={{ ...LABEL_STYLE, marginBottom: 10 }}>Schools</label>
+        <div className="mt-8">
+          <label className="text-[10px] font-bold uppercase tracking-widest text-on-surface-variant opacity-60 block mb-4">
+            Schools
+          </label>
           {schools.map((s, i) => (
             <RepRow
               key={i}
               onRemove={schools.length > 1 ? () => setSchools(schools.filter((_, idx) => idx !== i)) : undefined}
             >
-              <div style={{ display: "grid", gridTemplateColumns: "2fr 1fr 1fr", gap: 10 }}>
+              <div className="grid grid-cols-1 md:grid-cols-[2fr_1fr_1fr] gap-4">
                 <Field label="School Name">
                   <FInput
                     value={s.name}
@@ -588,14 +573,16 @@ function EducationTab({
         </div>
 
         {/* Colleges */}
-        <div style={{ marginTop: 20 }}>
-          <label style={{ ...LABEL_STYLE, marginBottom: 10 }}>Colleges</label>
+        <div className="mt-8">
+          <label className="text-[10px] font-bold uppercase tracking-widest text-on-surface-variant opacity-60 block mb-4">
+            Colleges
+          </label>
           {colleges.map((c, i) => (
             <RepRow
               key={i}
               onRemove={colleges.length > 1 ? () => setColleges(colleges.filter((_, idx) => idx !== i)) : undefined}
             >
-              <div style={{ display: "grid", gridTemplateColumns: "2fr 2fr 1fr 1fr", gap: 10 }}>
+              <div className="grid grid-cols-1 md:grid-cols-[2fr_2fr_1fr_1fr] gap-4">
                 <Field label="College Name">
                   <FInput
                     value={c.name}
@@ -633,14 +620,16 @@ function EducationTab({
 
       <SubSection title="Career">
         {/* Employment */}
-        <div style={{ marginBottom: 20 }}>
-          <label style={{ ...LABEL_STYLE, marginBottom: 10 }}>Employment History</label>
+        <div className="mb-8">
+          <label className="text-[10px] font-bold uppercase tracking-widest text-on-surface-variant opacity-60 block mb-4">
+            Employment History
+          </label>
           {employment.map((e, i) => (
             <RepRow
               key={i}
               onRemove={employment.length > 1 ? () => setEmployment(employment.filter((_, idx) => idx !== i)) : undefined}
             >
-              <div style={{ display: "grid", gridTemplateColumns: "2fr 2fr 1fr", gap: 10 }}>
+              <div className="grid grid-cols-1 md:grid-cols-[2fr_2fr_1fr] gap-4">
                 <Field label="Company Name">
                   <FInput
                     value={e.company}
@@ -708,7 +697,7 @@ function FamilyTab({
   return (
     <>
       <SubSection title="Family Overview">
-        <Field label="About My Family" required>
+        <Field label="About My Family" required fullSpan>
           <FTextarea
             value={form.aboutFamily}
             onChange={(v) => update("aboutFamily", v)}
@@ -716,7 +705,7 @@ function FamilyTab({
             rows={3}
           />
         </Field>
-        <TwoCol style={{ marginTop: 16 }}>
+        <TwoCol className="mt-8">
           <Field label="Family Type">
             <FSelect value={form.familyType} onChange={(v) => update("familyType", v)} placeholder="Select">
               {["Joint","Nuclear","Extended"].map((o) => <option key={o} value={o}>{o}</option>)}
@@ -817,28 +806,18 @@ function InterestsTab({
     <>
       {Object.entries(INTERESTS_CONFIG).map(([category, items]) => (
         <SubSection key={category} title={category}>
-          <div style={{ display: "flex", flexWrap: "wrap", gap: 8 }}>
+          <div className="flex flex-wrap gap-3">
             {items.map((item) => {
               const selected = interests[category]?.includes(item);
               return (
                 <button
                   key={item}
                   onClick={() => toggle(category, item)}
-                  style={{
-                    fontFamily: "var(--font-poppins, sans-serif)",
-                    fontSize: "0.8125rem",
-                    fontWeight: 500,
-                    padding: "8px 16px",
-                    borderRadius: 99,
-                    border: selected ? "none" : "1px solid rgba(220,30,60,0.2)",
-                    background: selected
-                      ? "linear-gradient(135deg,#dc1e3c,#a0153c)"
-                      : "#fff",
-                    color: selected ? "#fff" : "#888",
-                    cursor: "pointer",
-                    transition: "all 0.2s ease",
-                    boxShadow: selected ? "0 2px 8px rgba(220,30,60,0.25)" : "none",
-                  }}
+                  className={`font-body text-sm font-medium px-5 py-2.5 rounded-full transition-all active:scale-95 ${
+                    selected
+                      ? "bg-gradient-to-r from-primary to-primary-container text-on-primary"
+                      : "bg-surface-container-low text-on-surface-variant hover:bg-surface-container-high"
+                  }`}
                 >
                   {item}
                 </button>
@@ -864,7 +843,7 @@ function PartnerTab({
   return (
     <>
       <SubSection title="Age & Physical Preferences">
-        <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr 1fr 1fr", gap: 12 }}>
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-x-12 gap-y-8">
           <Field label="Age From">
             <FInput type="number" value={form.ageFrom} onChange={(v) => update("ageFrom", v)} placeholder="e.g. 24" />
           </Field>
@@ -882,7 +861,7 @@ function PartnerTab({
             </FSelect>
           </Field>
         </div>
-        <TwoCol style={{ marginTop: 16 }}>
+        <TwoCol className="mt-8">
           <Field label="Marital Status" required>
             <FSelect value={form.maritalStatus} onChange={(v) => update("maritalStatus", v)} placeholder="Any">
               {["Any","Never Married","Divorced","Widowed"].map((o) => <option key={o} value={o}>{o}</option>)}
@@ -933,11 +912,11 @@ function PartnerTab({
       </SubSection>
 
       <SubSection title="Partner Description">
-        <Field label="About My Ideal Partner">
+        <Field label="About My Ideal Partner" fullSpan>
           <FTextarea
             value={form.aboutPartner}
             onChange={(v) => update("aboutPartner", v)}
-            placeholder="Describe the kind of person you're looking for — their values, personality, and what matters most to you in a life partner..."
+            placeholder="Describe the kind of person you're looking for -- their values, personality, and what matters most to you in a life partner..."
             rows={4}
           />
         </Field>
@@ -962,12 +941,12 @@ function ContactTab({
       <SubSection title="Phone & Contact">
         <TwoCol>
           <Field label="Mobile Number" required>
-            <div style={{ display: "flex", gap: 8 }}>
+            <div className="flex gap-3">
               <FSelect
                 value={form.countryCode}
                 onChange={(v) => update("countryCode", v)}
                 placeholder="+44"
-                extraStyle={{ width: 90, flexShrink: 0 }}
+                className="w-24 flex-shrink-0"
               >
                 {["+44","+91","+971","+1","+61","+65","+49","+33","+31"].map((c) => (
                   <option key={c} value={c}>{c}</option>
@@ -1006,11 +985,11 @@ function ContactTab({
       </SubSection>
 
       <SubSection title="Address">
-        <div style={{ display: "flex", flexDirection: "column", gap: 14 }}>
-          <Field label="Address Line 1" required>
+        <div className="flex flex-col gap-8">
+          <Field label="Address Line 1" required fullSpan>
             <FInput value={form.address1} onChange={(v) => update("address1", v)} placeholder="e.g. 12 Maple Road" />
           </Field>
-          <Field label="Address Line 2">
+          <Field label="Address Line 2" fullSpan>
             <FInput value={form.address2} onChange={(v) => update("address2", v)} placeholder="Flat / Apartment / Area" />
           </Field>
           <TwoCol>
@@ -1034,273 +1013,7 @@ function ContactTab({
   );
 }
 
-// ─── Shared UI Components ──────────────────────────────────────────────────────
-
-function SubSection({ title, children }: { title: string; children: React.ReactNode }) {
-  return (
-    <div style={{
-      ...CARD_STYLE,
-      display: "flex",
-      flexDirection: "column",
-      gap: 0,
-    }}>
-      <h3 style={{
-        fontFamily: "var(--font-playfair, serif)",
-        fontSize: "1.0625rem",
-        fontWeight: 600,
-        color: "#1a0a14",
-        marginBottom: "1.25rem",
-        paddingBottom: "0.75rem",
-        borderBottom: "1px solid rgba(220,30,60,0.07)",
-      }}>
-        {title}
-      </h3>
-      {children}
-    </div>
-  );
-}
-
-function TwoCol({ children, style }: { children: React.ReactNode; style?: React.CSSProperties }) {
-  return (
-    <div style={{
-      display: "grid",
-      gridTemplateColumns: "repeat(auto-fill, minmax(240px, 1fr))",
-      gap: 16,
-      ...style,
-    }}>
-      {children}
-    </div>
-  );
-}
-
-function Field({ label, children, required }: { label: string; children: React.ReactNode; required?: boolean }) {
-  return (
-    <div style={{ display: "flex", flexDirection: "column" }}>
-      <label style={LABEL_STYLE}>
-        {label}
-        {required && <span style={{ color: "#dc1e3c", marginLeft: 3, fontWeight: 700 }}>*</span>}
-      </label>
-      {children}
-    </div>
-  );
-}
-
-function FInput({
-  value, onChange, placeholder, type,
-}: {
-  value: string;
-  onChange: (v: string) => void;
-  placeholder?: string;
-  type?: string;
-}) {
-  const [focused, setFocused] = useState(false);
-  return (
-    <input
-      type={type || "text"}
-      value={value}
-      onChange={(e) => onChange(e.target.value)}
-      placeholder={placeholder}
-      onFocus={() => setFocused(true)}
-      onBlur={() => setFocused(false)}
-      style={{
-        ...BASE_INPUT,
-        borderColor: focused ? "rgba(220,30,60,0.4)" : "rgba(220,30,60,0.15)",
-        boxShadow: focused ? "0 0 0 3px rgba(220,30,60,0.08)" : "none",
-      }}
-    />
-  );
-}
-
-function FSelect({
-  value, onChange, placeholder, children, extraStyle,
-}: {
-  value: string;
-  onChange: (v: string) => void;
-  placeholder?: string;
-  children: React.ReactNode;
-  extraStyle?: React.CSSProperties;
-}) {
-  const [focused, setFocused] = useState(false);
-  return (
-    <div style={{ position: "relative", ...extraStyle }}>
-      <select
-        value={value}
-        onChange={(e) => onChange(e.target.value)}
-        onFocus={() => setFocused(true)}
-        onBlur={() => setFocused(false)}
-        style={{
-          ...BASE_INPUT,
-          appearance: "none",
-          WebkitAppearance: "none",
-          paddingRight: 36,
-          borderColor: focused ? "rgba(220,30,60,0.4)" : "rgba(220,30,60,0.15)",
-          boxShadow: focused ? "0 0 0 3px rgba(220,30,60,0.08)" : "none",
-          cursor: "pointer",
-          width: "100%",
-        }}
-      >
-        {placeholder && <option value="">{placeholder}</option>}
-        {children}
-      </select>
-      {/* Custom arrow */}
-      <div style={{
-        position: "absolute",
-        right: 12,
-        top: "50%",
-        transform: "translateY(-50%)",
-        pointerEvents: "none",
-        color: "rgba(220,30,60,0.5)",
-      }}>
-        <svg width="12" height="8" viewBox="0 0 12 8" fill="none">
-          <path d="M1 1L6 6L11 1" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
-        </svg>
-      </div>
-    </div>
-  );
-}
-
-function FTextarea({
-  value, onChange, placeholder, rows,
-}: {
-  value: string;
-  onChange: (v: string) => void;
-  placeholder?: string;
-  rows?: number;
-}) {
-  const [focused, setFocused] = useState(false);
-  return (
-    <textarea
-      value={value}
-      onChange={(e) => onChange(e.target.value)}
-      placeholder={placeholder}
-      rows={rows || 3}
-      onFocus={() => setFocused(true)}
-      onBlur={() => setFocused(false)}
-      style={{
-        ...BASE_INPUT,
-        resize: "vertical",
-        lineHeight: 1.6,
-        borderColor: focused ? "rgba(220,30,60,0.4)" : "rgba(220,30,60,0.15)",
-        boxShadow: focused ? "0 0 0 3px rgba(220,30,60,0.08)" : "none",
-      }}
-    />
-  );
-}
-
-function RepRow({ children, onRemove }: { children: React.ReactNode; onRemove?: () => void }) {
-  return (
-    <div style={{
-      position: "relative",
-      background: "rgba(220,30,60,0.025)",
-      border: "1px solid rgba(220,30,60,0.08)",
-      borderRadius: 12,
-      padding: "14px 14px 14px 14px",
-      marginBottom: 10,
-    }}>
-      {onRemove && (
-        <button
-          onClick={onRemove}
-          style={{
-            position: "absolute",
-            top: 10,
-            right: 10,
-            width: 22,
-            height: 22,
-            borderRadius: "50%",
-            border: "none",
-            background: "rgba(220,30,60,0.1)",
-            color: "#dc1e3c",
-            cursor: "pointer",
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "center",
-            transition: "background 0.2s",
-            padding: 0,
-          }}
-          title="Remove"
-        >
-          <X size={12} />
-        </button>
-      )}
-      {children}
-    </div>
-  );
-}
-
-function AddBtn({ onClick }: { onClick: () => void }) {
-  const [hovered, setHovered] = useState(false);
-  return (
-    <button
-      onClick={onClick}
-      onMouseEnter={() => setHovered(true)}
-      onMouseLeave={() => setHovered(false)}
-      style={{
-        display: "inline-flex",
-        alignItems: "center",
-        gap: 6,
-        fontFamily: "var(--font-poppins, sans-serif)",
-        fontSize: "0.8125rem",
-        fontWeight: 600,
-        color: "#dc1e3c",
-        background: hovered ? "rgba(220,30,60,0.06)" : "transparent",
-        border: "1px solid rgba(220,30,60,0.3)",
-        borderRadius: 8,
-        padding: "7px 14px",
-        cursor: "pointer",
-        transition: "all 0.2s ease",
-        marginTop: 4,
-      }}
-    >
-      <Plus size={14} />
-      Add Another
-    </button>
-  );
-}
-
-function SaveButton({
-  onSave, saving, label,
-}: {
-  onSave: () => void;
-  saving: boolean;
-  label: string;
-}) {
-  const [hovered, setHovered] = useState(false);
-  return (
-    <button
-      onClick={onSave}
-      onMouseEnter={() => setHovered(true)}
-      onMouseLeave={() => setHovered(false)}
-      style={{
-        width: "100%",
-        padding: "15px 24px",
-        fontFamily: "var(--font-poppins, sans-serif)",
-        fontSize: "0.9375rem",
-        fontWeight: 600,
-        color: "#fff",
-        background: saving
-          ? "linear-gradient(135deg,#22c55e,#16a34a)"
-          : hovered
-          ? "linear-gradient(135deg,#b91c37,#881230)"
-          : "linear-gradient(135deg,#dc1e3c,#a0153c)",
-        border: "none",
-        borderRadius: 10,
-        boxShadow: saving
-          ? "0 4px 16px rgba(34,197,94,0.3)"
-          : "0 4px 16px rgba(220,30,60,0.25)",
-        cursor: "pointer",
-        transition: "all 0.25s ease",
-        transform: hovered && !saving ? "translateY(-1px)" : "none",
-        marginTop: 8,
-      }}
-    >
-      {saving ? "✓  Saved!" : label}
-    </button>
-  );
-}
-
-// ─── Left Sidebar Components ───────────────────────────────────────────────────
-
-// ─── Photos Tab ──────────────────────────────────────────────────────────────
+// ─── TAB 7: Photos ──────────────────────────────────────────────────────────
 
 function PhotosTab() {
   const [photos, setPhotos] = useState<{ id: string; url: string; isPrimary: boolean }[]>([]);
@@ -1339,16 +1052,17 @@ function PhotosTab() {
   const remaining = 6 - photos.length;
 
   return (
-    <div style={{ display: "flex", flexDirection: "column", gap: 28 }}>
+    <div className="flex flex-col gap-12">
 
       {/* Header */}
       <div>
-        <h3 style={{ fontFamily: "var(--font-playfair, serif)", fontSize: "1.1rem", fontWeight: 700, color: "#1a0a14", marginBottom: 6 }}>
-          My Photos
-        </h3>
-        <p style={{ fontSize: "0.8125rem", color: "#888", fontFamily: "var(--font-poppins, sans-serif)" }}>
+        <div className="flex items-center gap-4 mb-4">
+          <span className="w-10 h-[1px] bg-outline-variant" />
+          <h2 className="font-headline text-2xl font-bold">My Photos</h2>
+        </div>
+        <p className="text-sm text-on-surface-variant font-body leading-relaxed">
           Upload up to 6 photos. Your primary photo appears on your profile card.
-          Profiles with photos get <strong style={{ color: "#dc1e3c" }}>8× more responses</strong>.
+          Profiles with photos get <strong className="text-primary">8x more responses</strong>.
         </p>
       </div>
 
@@ -1358,48 +1072,34 @@ function PhotosTab() {
         onDragOver={(e) => { e.preventDefault(); setDragOver(true); }}
         onDragLeave={() => setDragOver(false)}
         onDrop={(e) => { e.preventDefault(); setDragOver(false); handleFiles(e.dataTransfer.files); }}
-        style={{
-          border: `2px dashed ${dragOver ? "#dc1e3c" : "rgba(220,30,60,0.25)"}`,
-          borderRadius: 16,
-          padding: "40px 24px",
-          textAlign: "center",
-          cursor: remaining === 0 ? "not-allowed" : "pointer",
-          background: dragOver ? "rgba(220,30,60,0.04)" : "#fdfbf9",
-          transition: "all 0.2s",
-          opacity: remaining === 0 ? 0.5 : 1,
-        }}
+        className={`rounded-2xl p-10 text-center transition-all cursor-pointer ${
+          dragOver
+            ? "bg-surface-container-high"
+            : "bg-surface-container-low"
+        } ${remaining === 0 ? "opacity-50 cursor-not-allowed" : ""}`}
       >
         <input
           ref={fileInputRef}
           type="file"
           accept="image/jpeg,image/png,image/webp"
           multiple
-          style={{ display: "none" }}
+          className="hidden"
           onChange={(e) => handleFiles(e.target.files)}
           disabled={remaining === 0}
         />
-        <div style={{ marginBottom: 12 }}>
-          <div style={{
-            width: 56, height: 56, borderRadius: "50%",
-            background: "rgba(220,30,60,0.08)",
-            display: "flex", alignItems: "center", justifyContent: "center",
-            margin: "0 auto 12px",
-          }}>
-            <Upload style={{ width: 24, height: 24, color: "#dc1e3c" }} />
+        <div className="mb-4">
+          <div className="w-14 h-14 rounded-full bg-primary/10 flex items-center justify-center mx-auto mb-4">
+            <span className="material-symbols-outlined text-primary text-2xl">cloud_upload</span>
           </div>
-          <p style={{ fontFamily: "var(--font-poppins, sans-serif)", fontWeight: 600, fontSize: "0.9375rem", color: "#1a0a14", marginBottom: 4 }}>
-            {uploading ? "Uploading…" : remaining === 0 ? "Photo limit reached" : "Drop photos here or click to browse"}
+          <p className="font-body font-semibold text-on-surface mb-1">
+            {uploading ? "Uploading..." : remaining === 0 ? "Photo limit reached" : "Drop photos here or click to browse"}
           </p>
-          <p style={{ fontSize: "0.8125rem", color: "#aaa" }}>
-            JPG, PNG, WebP · Max 5MB each · {remaining} slot{remaining !== 1 ? "s" : ""} remaining
+          <p className="text-sm text-on-surface-variant">
+            JPG, PNG, WebP -- Max 5MB each -- {remaining} slot{remaining !== 1 ? "s" : ""} remaining
           </p>
         </div>
         {!uploading && remaining > 0 && (
-          <button style={{
-            padding: "10px 24px", borderRadius: 8, fontSize: "0.875rem", fontWeight: 600,
-            background: "linear-gradient(135deg,#dc1e3c,#a0153c)", color: "#fff",
-            border: "none", cursor: "pointer", boxShadow: "0 4px 14px rgba(220,30,60,0.25)",
-          }}>
+          <button className="px-8 py-3 bg-gradient-to-r from-primary to-primary-container text-on-primary rounded-full font-bold text-sm tracking-wide hover:opacity-90 transition-all active:scale-95">
             Select Photos
           </button>
         )}
@@ -1408,43 +1108,40 @@ function PhotosTab() {
       {/* Photo grid */}
       {photos.length > 0 && (
         <div>
-          <p style={{ fontFamily: "var(--font-poppins, sans-serif)", fontSize: "0.8125rem", fontWeight: 600, color: "#555", marginBottom: 14, textTransform: "uppercase", letterSpacing: "0.08em" }}>
+          <label className="text-[10px] font-bold uppercase tracking-widest text-on-surface-variant opacity-60 block mb-4">
             Your Photos ({photos.length}/6)
-          </p>
-          <div style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: 14 }}>
+          </label>
+          <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
             {photos.map((photo) => (
-              <div key={photo.id} style={{ position: "relative", borderRadius: 12, overflow: "hidden", aspectRatio: "1", boxShadow: photo.isPrimary ? "0 0 0 3px #dc1e3c" : "0 2px 10px rgba(0,0,0,0.1)" }}>
+              <div
+                key={photo.id}
+                className={`relative rounded-2xl overflow-hidden aspect-square group ${
+                  photo.isPrimary ? "ring-3 ring-primary" : ""
+                }`}
+              >
                 {/* eslint-disable-next-line @next/next/no-img-element */}
-                <img src={photo.url} alt="Profile photo" style={{ width: "100%", height: "100%", objectFit: "cover" }} />
+                <img src={photo.url} alt="Profile photo" className="w-full h-full object-cover" />
 
                 {/* Primary badge */}
                 {photo.isPrimary && (
-                  <div style={{ position: "absolute", top: 8, left: 8, background: "#dc1e3c", color: "#fff", fontSize: "10px", fontWeight: 700, padding: "3px 8px", borderRadius: 20 }}>
+                  <div className="absolute top-2 left-2 bg-primary text-on-primary text-[10px] font-bold px-3 py-1 rounded-full">
                     PRIMARY
                   </div>
                 )}
 
                 {/* Actions overlay */}
-                <div style={{
-                  position: "absolute", inset: 0,
-                  background: "rgba(0,0,0,0)", transition: "background 0.2s",
-                  display: "flex", alignItems: "flex-end", justifyContent: "center",
-                  gap: 8, padding: 10,
-                }}
-                  onMouseEnter={(e) => (e.currentTarget as HTMLDivElement).style.background = "rgba(0,0,0,0.45)"}
-                  onMouseLeave={(e) => (e.currentTarget as HTMLDivElement).style.background = "rgba(0,0,0,0)"}
-                >
+                <div className="absolute inset-0 bg-black/0 group-hover:bg-black/40 transition-colors flex items-end justify-center gap-2 p-3">
                   {!photo.isPrimary && (
                     <button
-                      onClick={() => makePrimary(photo.id)}
-                      style={{ padding: "5px 10px", borderRadius: 6, fontSize: "11px", fontWeight: 600, background: "rgba(255,255,255,0.9)", color: "#dc1e3c", border: "none", cursor: "pointer" }}
+                      onClick={(e) => { e.stopPropagation(); makePrimary(photo.id); }}
+                      className="opacity-0 group-hover:opacity-100 transition-opacity px-3 py-1.5 rounded-lg text-[11px] font-semibold bg-white/90 text-primary"
                     >
                       Set Primary
                     </button>
                   )}
                   <button
-                    onClick={() => removePhoto(photo.id)}
-                    style={{ padding: "5px 10px", borderRadius: 6, fontSize: "11px", fontWeight: 600, background: "rgba(220,30,60,0.85)", color: "#fff", border: "none", cursor: "pointer" }}
+                    onClick={(e) => { e.stopPropagation(); removePhoto(photo.id); }}
+                    className="opacity-0 group-hover:opacity-100 transition-opacity px-3 py-1.5 rounded-lg text-[11px] font-semibold bg-primary/85 text-on-primary"
                   >
                     Remove
                   </button>
@@ -1457,14 +1154,10 @@ function PhotosTab() {
               <div
                 key={`empty-${i}`}
                 onClick={() => fileInputRef.current?.click()}
-                style={{
-                  aspectRatio: "1", borderRadius: 12, border: "1.5px dashed rgba(220,30,60,0.18)",
-                  background: "#fdfbf9", display: "flex", flexDirection: "column",
-                  alignItems: "center", justifyContent: "center", gap: 6, cursor: "pointer",
-                }}
+                className="aspect-square rounded-2xl bg-surface-container-low flex flex-col items-center justify-center gap-2 cursor-pointer hover:bg-surface-container-high transition-colors"
               >
-                <Camera style={{ width: 22, height: 22, color: "rgba(220,30,60,0.3)" }} />
-                <span style={{ fontSize: "11px", color: "#ccc", fontFamily: "var(--font-poppins, sans-serif)" }}>Add Photo</span>
+                <span className="material-symbols-outlined text-on-surface-variant/30 text-2xl">add_a_photo</span>
+                <span className="text-[11px] text-on-surface-variant/40 font-body">Add Photo</span>
               </div>
             ))}
           </div>
@@ -1472,22 +1165,20 @@ function PhotosTab() {
       )}
 
       {/* Privacy note */}
-      <div style={{ padding: "14px 16px", borderRadius: 12, background: "rgba(220,30,60,0.04)", border: "1px solid rgba(220,30,60,0.1)", display: "flex", gap: 10, alignItems: "flex-start" }}>
-        <Shield style={{ width: 16, height: 16, color: "#dc1e3c", flexShrink: 0, marginTop: 1 }} />
+      <div className="flex gap-3 items-start p-5 bg-surface-container-low rounded-2xl">
+        <span className="material-symbols-outlined text-primary text-lg flex-shrink-0 mt-0.5">shield</span>
         <div>
-          <p style={{ fontFamily: "var(--font-poppins, sans-serif)", fontSize: "0.8125rem", fontWeight: 600, color: "#1a0a14", marginBottom: 2 }}>Privacy Protected</p>
-          <p style={{ fontSize: "0.75rem", color: "#888" }}>Your photos are only visible to verified members. You can set any photo as your primary profile picture.</p>
+          <p className="font-body text-sm font-semibold text-on-surface mb-1">Privacy Protected</p>
+          <p className="text-xs text-on-surface-variant leading-relaxed">
+            Your photos are only visible to verified members. You can set any photo as your primary profile picture.
+          </p>
         </div>
       </div>
 
       {/* Save button */}
       {photos.length > 0 && (
-        <div style={{ display: "flex", justifyContent: "flex-end" }}>
-          <button style={{
-            padding: "12px 32px", borderRadius: 10, fontSize: "0.9375rem", fontWeight: 600,
-            background: "linear-gradient(135deg,#dc1e3c,#a0153c)", color: "#fff",
-            border: "none", cursor: "pointer", boxShadow: "0 4px 16px rgba(220,30,60,0.3)",
-          }}>
+        <div className="pt-12 border-t border-outline-variant/10 flex justify-end">
+          <button className="px-12 py-5 bg-gradient-to-r from-primary to-primary-container text-on-primary rounded-full font-bold text-lg hover:opacity-90 transition-all active:scale-95">
             Save Photos
           </button>
         </div>
@@ -1496,222 +1187,159 @@ function PhotosTab() {
   );
 }
 
-function PhotoCard({ name }: { name: string }) {
-  const [hovered, setHovered] = useState(false);
-  const initials = name
-    .split(" ")
-    .filter(Boolean)
-    .map((w) => w[0].toUpperCase())
-    .slice(0, 2)
-    .join("");
+// ─── Shared UI Components ──────────────────────────────────────────────────────
 
+function SubSection({ title, children }: { title: string; children: React.ReactNode }) {
   return (
-    <div style={{
-      borderRadius: 16,
-      overflow: "hidden",
-      border: "1px solid rgba(220,30,60,0.08)",
-      boxShadow: "0 2px 16px rgba(220,30,60,0.06)",
-      background: "#fff",
-    }}>
-      <div
-        style={{
-          height: 220,
-          background: "linear-gradient(135deg,#dc1e3c,#a0153c)",
-          display: "flex",
-          flexDirection: "column",
-          alignItems: "center",
-          justifyContent: "center",
-          position: "relative",
-          cursor: "pointer",
-        }}
-        onMouseEnter={() => setHovered(true)}
-        onMouseLeave={() => setHovered(false)}
+    <section>
+      <div className="flex items-center gap-4 mb-8">
+        <span className="w-10 h-[1px] bg-outline-variant" />
+        <h2 className="font-headline text-2xl font-bold">{title}</h2>
+      </div>
+      {children}
+    </section>
+  );
+}
+
+function TwoCol({ children, className }: { children: React.ReactNode; className?: string }) {
+  return (
+    <div className={`grid grid-cols-1 md:grid-cols-2 gap-x-12 gap-y-8 ${className || ""}`}>
+      {children}
+    </div>
+  );
+}
+
+function Field({
+  label, children, required, fullSpan,
+}: {
+  label: string;
+  children: React.ReactNode;
+  required?: boolean;
+  fullSpan?: boolean;
+}) {
+  return (
+    <div className={`space-y-2 ${fullSpan ? "col-span-full" : ""}`}>
+      <label className="text-[10px] font-bold uppercase tracking-widest text-on-surface-variant opacity-60 block">
+        {label}
+        {required && <span className="text-primary font-bold ml-1">*</span>}
+      </label>
+      {children}
+    </div>
+  );
+}
+
+function FInput({
+  value, onChange, placeholder, type,
+}: {
+  value: string;
+  onChange: (v: string) => void;
+  placeholder?: string;
+  type?: string;
+}) {
+  return (
+    <input
+      type={type || "text"}
+      value={value}
+      onChange={(e) => onChange(e.target.value)}
+      placeholder={placeholder}
+      className="w-full bg-surface-container-low border-none rounded-xl py-4 px-6 text-on-surface font-medium font-body text-sm placeholder:text-on-surface-variant/40 focus:outline-none focus:bg-surface-container-high transition-colors"
+    />
+  );
+}
+
+function FSelect({
+  value, onChange, placeholder, children, className,
+}: {
+  value: string;
+  onChange: (v: string) => void;
+  placeholder?: string;
+  children: React.ReactNode;
+  className?: string;
+}) {
+  return (
+    <div className={`relative ${className || ""}`}>
+      <select
+        value={value}
+        onChange={(e) => onChange(e.target.value)}
+        className="w-full bg-surface-container-low border-none rounded-xl py-4 px-6 pr-10 text-on-surface font-medium font-body text-sm appearance-none focus:outline-none focus:bg-surface-container-high transition-colors cursor-pointer"
       >
-        <div style={{
-          width: 88,
-          height: 88,
-          borderRadius: "50%",
-          background: "rgba(255,255,255,0.18)",
-          border: "2.5px solid rgba(255,255,255,0.4)",
-          display: "flex",
-          alignItems: "center",
-          justifyContent: "center",
-          boxShadow: "0 4px 24px rgba(0,0,0,0.15)",
-        }}>
-          <span style={{
-            fontFamily: "var(--font-playfair, serif)",
-            fontSize: "2rem",
-            fontWeight: 400,
-            color: "#fff",
-          }}>
-            {initials || "?"}
-          </span>
-        </div>
-        {hovered && (
-          <div style={{
-            position: "absolute",
-            inset: 0,
-            background: "rgba(0,0,0,0.35)",
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "center",
-            flexDirection: "column",
-            gap: 8,
-          }}>
-            <Camera style={{ width: 22, height: 22, color: "#fff" }} />
-            <span style={{
-              fontFamily: "var(--font-poppins, sans-serif)",
-              fontSize: "0.8125rem",
-              fontWeight: 500,
-              color: "#fff",
-            }}>
-              Change Photo
-            </span>
-          </div>
-        )}
-      </div>
-      <div style={{ padding: "0.875rem 1rem" }}>
-        <p style={{
-          fontFamily: "var(--font-playfair, serif)",
-          fontSize: "1.0625rem",
-          fontWeight: 600,
-          color: "#1a0a14",
-        }}>
-          {name}
-        </p>
-        <p style={{
-          fontFamily: "var(--font-poppins, sans-serif)",
-          fontSize: "0.8125rem",
-          color: "#888",
-          marginTop: 2,
-        }}>
-          Edit your profile below →
-        </p>
+        {placeholder && <option value="">{placeholder}</option>}
+        {children}
+      </select>
+      <div className="absolute right-4 top-1/2 -translate-y-1/2 pointer-events-none text-on-surface-variant/50">
+        <span className="material-symbols-outlined text-lg">expand_more</span>
       </div>
     </div>
   );
 }
 
-function TrustScoreCard({ score }: { score: number }) {
+function FTextarea({
+  value, onChange, placeholder, rows,
+}: {
+  value: string;
+  onChange: (v: string) => void;
+  placeholder?: string;
+  rows?: number;
+}) {
   return (
-    <div style={{ ...CARD_STYLE }}>
-      <div style={{
-        display: "flex",
-        alignItems: "center",
-        justifyContent: "space-between",
-        marginBottom: "0.75rem",
-      }}>
-        <span style={{
-          fontFamily: "var(--font-poppins, sans-serif)",
-          fontSize: "0.875rem",
-          fontWeight: 600,
-          color: "#1a0a14",
-        }}>
-          Trust Score
-        </span>
-        <span style={{
-          fontFamily: "var(--font-playfair, serif)",
-          fontSize: "1.75rem",
-          fontWeight: 700,
-          color: "#dc1e3c",
-        }}>
-          {score}
-        </span>
-      </div>
-      <div style={{
-        height: 6,
-        background: "rgba(26,10,20,0.06)",
-        borderRadius: 99,
-        overflow: "hidden",
-        marginBottom: "0.75rem",
-      }}>
-        <div style={{
-          height: "100%",
-          borderRadius: 99,
-          width: `${score}%`,
-          background: "linear-gradient(90deg,#dc1e3c,#a0153c)",
-          transition: "width 0.5s ease",
-        }} />
-      </div>
-      <div style={{ display: "flex", flexDirection: "column", gap: 6 }}>
-        {VERIFICATIONS.map((v) => (
-          <div key={v.label} style={{ display: "flex", alignItems: "center", gap: 8 }}>
-            {v.done
-              ? <CheckCircle style={{ width: 15, height: 15, color: "#dc1e3c", flexShrink: 0 }} />
-              : <AlertCircle style={{ width: 15, height: 15, color: "rgba(26,10,20,0.18)", flexShrink: 0 }} />
-            }
-            <span style={{
-              flex: 1,
-              fontFamily: "var(--font-poppins, sans-serif)",
-              fontSize: "0.75rem",
-              color: v.done ? "rgba(26,10,20,0.7)" : "rgba(26,10,20,0.35)",
-            }}>
-              {v.label}
-            </span>
-            <span style={{
-              fontFamily: "var(--font-poppins, sans-serif)",
-              fontSize: "0.7rem",
-              fontWeight: 700,
-              color: v.done ? "#dc1e3c" : "rgba(26,10,20,0.18)",
-            }}>
-              +{v.pts}
-            </span>
-          </div>
-        ))}
-      </div>
+    <textarea
+      value={value}
+      onChange={(e) => onChange(e.target.value)}
+      placeholder={placeholder}
+      rows={rows || 3}
+      className="w-full bg-surface-container-low border-none rounded-2xl py-4 px-6 text-on-surface font-medium font-body text-sm resize-none leading-relaxed placeholder:text-on-surface-variant/40 focus:outline-none focus:bg-surface-container-high transition-colors"
+    />
+  );
+}
+
+function RepRow({ children, onRemove }: { children: React.ReactNode; onRemove?: () => void }) {
+  return (
+    <div className="relative bg-surface-container-low rounded-2xl p-5 mb-4">
+      {onRemove && (
+        <button
+          onClick={onRemove}
+          className="absolute top-3 right-3 w-7 h-7 rounded-full bg-primary/10 text-primary flex items-center justify-center hover:bg-primary/20 transition-colors"
+          title="Remove"
+        >
+          <span className="material-symbols-outlined text-base">close</span>
+        </button>
+      )}
+      {children}
     </div>
   );
 }
 
-function CompletenessCard({ completeness }: { completeness: number }) {
+function AddBtn({ onClick }: { onClick: () => void }) {
   return (
-    <div style={{ ...CARD_STYLE }}>
-      <div style={{
-        display: "flex",
-        alignItems: "center",
-        justifyContent: "space-between",
-        marginBottom: "0.5rem",
-      }}>
-        <span style={{
-          fontFamily: "var(--font-poppins, sans-serif)",
-          fontSize: "0.875rem",
-          fontWeight: 600,
-          color: "#1a0a14",
-        }}>
-          Profile Complete
-        </span>
-        <span style={{
-          fontFamily: "var(--font-playfair, serif)",
-          fontSize: "1.25rem",
-          fontWeight: 700,
-          color: "#C89020",
-        }}>
-          {completeness}%
-        </span>
-      </div>
-      <div style={{
-        height: 6,
-        background: "rgba(26,10,20,0.06)",
-        borderRadius: 99,
-        overflow: "hidden",
-        marginBottom: "0.5rem",
-      }}>
-        <div style={{
-          height: "100%",
-          borderRadius: 99,
-          width: `${completeness}%`,
-          background: "linear-gradient(90deg,#dc1e3c,#C89020)",
-          transition: "width 0.5s ease",
-        }} />
-      </div>
-      <p style={{
-        fontFamily: "var(--font-poppins, sans-serif)",
-        fontSize: "0.75rem",
-        color: "#888",
-        lineHeight: 1.5,
-      }}>
-        Complete all sections to unlock +28 trust points and 3× more profile views.
-      </p>
+    <button
+      onClick={onClick}
+      className="inline-flex items-center gap-2 font-body text-sm font-semibold text-primary bg-transparent hover:bg-primary/5 rounded-xl px-5 py-2.5 transition-colors active:scale-95"
+    >
+      <span className="material-symbols-outlined text-lg">add</span>
+      Add Another
+    </button>
+  );
+}
+
+function SaveButton({
+  onSave, saving, label,
+}: {
+  onSave: () => void;
+  saving: boolean;
+  label: string;
+}) {
+  return (
+    <div className="pt-12 border-t border-outline-variant/10 flex justify-end">
+      <button
+        onClick={onSave}
+        className={`px-12 py-5 rounded-full font-bold text-lg tracking-wide transition-all active:scale-95 ${
+          saving
+            ? "bg-green-600 text-white"
+            : "bg-gradient-to-r from-primary to-primary-container text-on-primary hover:opacity-90"
+        }`}
+      >
+        {saving ? "Saved!" : label}
+      </button>
     </div>
   );
 }
