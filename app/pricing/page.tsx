@@ -73,7 +73,7 @@ export default function PricingPage() {
         </p>
 
         {/* Plan cards */}
-        <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(220px, 1fr))", gap: "24px", alignItems: "start" }}>
+        <div style={{ display: "grid", gridTemplateColumns: "repeat(4, 1fr)", gap: "24px", alignItems: "stretch" }}>
           {plans.map((plan) => {
             const isVip = (plan as any).vip === true;
             return (
@@ -109,11 +109,11 @@ export default function PricingPage() {
 
               {/* Price */}
               <div style={{ display: "flex", alignItems: "baseline", gap: "6px", marginBottom: "28px" }}>
-                <span style={{ fontFamily: "var(--font-playfair, serif)", fontSize: isVip ? "36px" : "52px", fontWeight: 700, color: isVip ? "#C89020" : "#1a0a14", lineHeight: 1 }}>
+                <span style={{ fontFamily: "var(--font-playfair, serif)", fontSize: isVip ? "32px" : "40px", fontWeight: 700, color: isVip ? "#C89020" : "#1a0a14", lineHeight: 1 }}>
                   {plan.price}
                 </span>
                 {plan.period && (
-                  <span style={{ fontSize: "14px", color: isVip ? "rgba(200,144,32,0.7)" : "#aaa", fontWeight: 400 }}>{plan.period}</span>
+                  <span style={{ fontSize: "13px", color: isVip ? "rgba(200,144,32,0.7)" : "#aaa", fontWeight: 400, whiteSpace: "nowrap" }}>{plan.period}</span>
                 )}
               </div>
 
