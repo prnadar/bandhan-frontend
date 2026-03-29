@@ -100,17 +100,14 @@ const stories = [
   },
 ];
 
-const filters = ["All", "Hindu", "Christian", "Sikh", "Muslim"];
+const filters: string[] = [];
 
 export default function SuccessStoriesPage() {
   const authState = useAuthState();
   const cta = getCTA(authState);
-  const [activeFilter, setActiveFilter] = useState("All");
   const [expanded, setExpanded] = useState<number | null>(null);
 
-  const filtered = activeFilter === "All"
-    ? stories
-    : stories.filter((s) => s.religion === activeFilter);
+  const filtered = stories;
 
   return (
     <div style={{ minHeight: "100vh", background: "#fdfbf9", fontFamily: "var(--font-poppins, sans-serif)" }}>
@@ -137,21 +134,7 @@ export default function SuccessStoriesPage() {
         </div>
       </div>
 
-      {/* Filter bar */}
-      <div style={{ background: "#fff", borderBottom: "1px solid rgba(220,30,60,0.08)", padding: "0 24px" }}>
-        <div style={{ maxWidth: "1100px", margin: "0 auto", display: "flex", gap: "8px", overflowX: "auto", padding: "16px 0" }}>
-          {filters.map((f) => (
-            <button key={f} onClick={() => setActiveFilter(f)} style={{
-              padding: "8px 20px", borderRadius: "9999px", fontSize: "13px", fontWeight: 600,
-              border: "none", cursor: "pointer", whiteSpace: "nowrap",
-              background: activeFilter === f ? "linear-gradient(135deg,#dc1e3c,#a0153c)" : "rgba(220,30,60,0.06)",
-              color: activeFilter === f ? "#fff" : "#dc1e3c",
-            }}>
-              {f}
-            </button>
-          ))}
-        </div>
-      </div>
+
 
       {/* Stories grid */}
       <div style={{ maxWidth: "1100px", margin: "0 auto", padding: "48px 24px" }}>
