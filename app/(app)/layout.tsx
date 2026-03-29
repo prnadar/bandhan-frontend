@@ -2,10 +2,11 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import { useState } from "react";
 import {
   LayoutDashboard, Heart, MessageCircle, User, Star, Globe,
   Shield, Bell, Settings, LogOut, ChevronRight, Users, Star as StarIcon,
-  CreditCard, Home,
+  CreditCard, Home, Menu, X,
 } from "lucide-react";
 
 const navItems = [
@@ -21,75 +22,113 @@ const navItems = [
 
 export default function AppLayout({ children }: { children: React.ReactNode }) {
   const pathname = usePathname();
+  const [collapsed, setCollapsed] = useState(false);
+
+  const sidebarWidth = collapsed ? "72px" : "256px";
 
   return (
     <div className="min-h-screen flex" style={{ background: "#fdfbf9" }}>
       {/* ── Sidebar ── */}
       <aside
-        className="fixed top-0 left-0 h-full w-64 z-40 flex flex-col"
+        className="fixed top-0 left-0 h-full z-40 flex flex-col transition-all duration-300"
         style={{
+          width: sidebarWidth,
           background: "linear-gradient(160deg, #1a0a14 0%, #2d0f20 60%, #3b1428 100%)",
           borderRight: "1px solid rgba(255,255,255,0.06)",
+          overflow: "hidden",
         }}
       >
-        {/* Logo */}
-        <div className="px-6 py-5 border-b" style={{ borderColor: "rgba(255,255,255,0.08)" }}>
-          <Link href="/dashboard" className="flex items-center gap-2.5" style={{ minHeight: "auto" }}>
-            <img src="/images/logo.jpeg" alt="Match4Marriage" style={{ height: "40px", width: "auto", objectFit: "contain" }} />
-          </Link>
+        {/* Burger / Close toggle — replaces logo */}
+        <div className="flex items-center px-4 border-b" style={{ borderColor: "rgba(255,255,255,0.08)", height: "60px", flexShrink: 0 }}>
+          <button
+            onClick={() => setCollapsed(!collapsed)}
+            className="flex items-center justify-center rounded-xl transition-colors"
+            style={{
+              width: "36px", height: "36px", flexShrink: 0,
+              color: "rgba(255,255,255,0.7)",
+              background: "transparent",
+              border: "none", cursor: "pointer",
+            }}
+            onMouseEnter={(e) => (e.currentTarget as HTMLButtonElement).style.background = "rgba(255,255,255,0.08)"}
+            onMouseLeave={(e) => (e.currentTarget as HTMLButtonElement).style.background = "transparent"}
+          >
+            {collapsed ? <Menu className="w-5 h-5" /> : <X className="w-5 h-5" />}
+          </button>
+          {!collapsed && (
+            <Link href="/dashboard" style={{ textDecoration: "none", marginLeft: "10px", display: "flex", alignItems: "center", minHeight: "auto" }}>
+              <span style={{ fontFamily: "var(--font-playfair, serif)", fontSize: "15px", fontWeight: 700, color: "#fff", whiteSpace: "nowrap" }}>
+                Match4Marriage
+              </span>
+            </Link>
+          )}
         </div>
 
         {/* Profile mini */}
-        <div className="px-4 py-4 border-b" style={{ borderColor: "rgba(255,255,255,0.06)" }}>
-          <Link href="/profile/me" className="flex items-center gap-3 p-2 rounded-xl cursor-pointer transition-colors" style={{ minHeight: "auto" }}
-            onMouseEnter={(e) => (e.currentTarget as HTMLAnchorElement).style.background = "rgba(255,255,255,0.06)"}
-            onMouseLeave={(e) => (e.currentTarget as HTMLAnchorElement).style.background = "transparent"}
-          >
-            <div
-              className="w-10 h-10 rounded-full flex items-center justify-center font-display font-bold text-white text-sm flex-shrink-0"
-              style={{ background: "linear-gradient(135deg,#dc1e3c,#a0153c)" }}
+        {!collapsed && (
+          <div className="px-4 py-4 border-b" style={{ borderColor: "rgba(255,255,255,0.06)" }}>
+            <Link href="/profile/me" className="flex items-center gap-3 p-2 rounded-xl cursor-pointer transition-colors" style={{ minHeight: "auto" }}
+              onMouseEnter={(e) => (e.currentTarget as HTMLAnchorElement).style.background = "rgba(255,255,255,0.06)"}
+              onMouseLeave={(e) => (e.currentTarget as HTMLAnchorElement).style.background = "transparent"}
             >
-              P
-            </div>
-            <div className="flex-1 min-w-0">
-              <p className="font-body text-sm font-semibold truncate" style={{ color: "#ffffff" }}>Prabhakar S.</p>
-              <div className="flex items-center gap-1 mt-0.5">
-                <Shield className="w-3 h-3" style={{ color: "#8DB870" }} />
-                <span className="font-body text-xs font-medium" style={{ color: "#8DB870" }}>Trust Score: 84</span>
+              <div
+                className="w-10 h-10 rounded-full flex items-center justify-center font-bold text-white text-sm flex-shrink-0"
+                style={{ background: "linear-gradient(135deg,#dc1e3c,#a0153c)" }}
+              >
+                P
               </div>
-            </div>
-            <ChevronRight className="w-4 h-4 flex-shrink-0" style={{ color: "rgba(255,255,255,0.25)" }} />
-          </Link>
-        </div>
+              <div className="flex-1 min-w-0">
+                <p className="text-sm font-semibold truncate" style={{ color: "#ffffff" }}>Prabhakar S.</p>
+                <div className="flex items-center gap-1 mt-0.5">
+                  <Shield className="w-3 h-3" style={{ color: "#8DB870" }} />
+                  <span className="text-xs font-medium" style={{ color: "#8DB870" }}>Trust Score: 84</span>
+                </div>
+              </div>
+              <ChevronRight className="w-4 h-4 flex-shrink-0" style={{ color: "rgba(255,255,255,0.25)" }} />
+            </Link>
+          </div>
+        )}
+
+        {/* Collapsed avatar */}
+        {collapsed && (
+          <div className="flex justify-center py-3 border-b" style={{ borderColor: "rgba(255,255,255,0.06)" }}>
+            <div
+              className="w-9 h-9 rounded-full flex items-center justify-center font-bold text-white text-sm"
+              style={{ background: "linear-gradient(135deg,#dc1e3c,#a0153c)" }}
+            >P</div>
+          </div>
+        )}
 
         {/* Gold plan badge */}
-        <div className="px-4 pt-3">
-          <div
-            className="flex items-center gap-2 px-3 py-1.5 rounded-xl"
-            style={{ background: "rgba(200,144,32,0.12)", border: "1px solid rgba(200,144,32,0.25)" }}
-          >
-            <StarIcon className="w-3 h-3" style={{ color: "#C89020", fill: "#C89020" }} />
-            <span className="font-body text-xs font-bold" style={{ color: "#C89020" }}>Gold Plan</span>
-            <span className="ml-auto font-body text-[10px]" style={{ color: "rgba(255,255,255,0.35)" }}>Active</span>
+        {!collapsed && (
+          <div className="px-4 pt-3">
+            <div
+              className="flex items-center gap-2 px-3 py-1.5 rounded-xl"
+              style={{ background: "rgba(200,144,32,0.12)", border: "1px solid rgba(200,144,32,0.25)" }}
+            >
+              <StarIcon className="w-3 h-3" style={{ color: "#C89020", fill: "#C89020" }} />
+              <span className="text-xs font-bold" style={{ color: "#C89020" }}>Gold Plan</span>
+              <span className="ml-auto text-[10px]" style={{ color: "rgba(255,255,255,0.35)" }}>Active</span>
+            </div>
           </div>
-        </div>
+        )}
 
         {/* Nav */}
-        <nav className="flex-1 px-3 py-3 space-y-0.5 overflow-y-auto">
+        <nav className="flex-1 px-2 py-3 space-y-0.5 overflow-y-auto">
           {navItems.map(({ href, label, icon: Icon, badge }) => {
             const active = pathname === href || (href !== "/dashboard" && pathname.startsWith(href));
             return (
               <Link
                 key={href}
                 href={href}
+                title={collapsed ? label : undefined}
                 style={{
                   minHeight: "auto",
                   display: "flex",
                   alignItems: "center",
+                  justifyContent: collapsed ? "center" : "flex-start",
                   gap: "12px",
-                  padding: "10px 12px",
+                  padding: collapsed ? "10px" : "10px 12px",
                   borderRadius: "12px",
-                  fontFamily: "var(--font-poppins, sans-serif)",
                   fontSize: "14px",
                   fontWeight: "500",
                   transition: "all 0.15s ease",
@@ -101,8 +140,8 @@ export default function AppLayout({ children }: { children: React.ReactNode }) {
                 onMouseLeave={(e) => { if (!active) (e.currentTarget as HTMLAnchorElement).style.background = "transparent"; }}
               >
                 <Icon className="w-4 h-4 flex-shrink-0" />
-                <span className="flex-1">{label}</span>
-                {badge !== undefined && (
+                {!collapsed && <span className="flex-1">{label}</span>}
+                {!collapsed && badge !== undefined && (
                   <span
                     className="text-[10px] font-bold text-white rounded-full w-5 h-5 flex items-center justify-center"
                     style={{ background: "linear-gradient(135deg,#dc1e3c,#a0153c)" }}
@@ -116,7 +155,7 @@ export default function AppLayout({ children }: { children: React.ReactNode }) {
         </nav>
 
         {/* Bottom actions */}
-        <div className="px-3 py-4 space-y-0.5" style={{ borderTop: "1px solid rgba(255,255,255,0.06)" }}>
+        <div className="px-2 py-4 space-y-0.5" style={{ borderTop: "1px solid rgba(255,255,255,0.06)" }}>
           {[
             { href: "/notifications", label: "Notifications", icon: Bell,     badge: 2 },
             { href: "/settings",      label: "Settings",      icon: Settings          },
@@ -127,14 +166,15 @@ export default function AppLayout({ children }: { children: React.ReactNode }) {
               <Link
                 key={href}
                 href={href}
+                title={collapsed ? label : undefined}
                 style={{
                   minHeight: "auto",
                   display: "flex",
                   alignItems: "center",
+                  justifyContent: collapsed ? "center" : "flex-start",
                   gap: "12px",
-                  padding: "10px 12px",
+                  padding: collapsed ? "10px" : "10px 12px",
                   borderRadius: "12px",
-                  fontFamily: "var(--font-poppins, sans-serif)",
                   fontSize: "14px",
                   fontWeight: "500",
                   transition: "all 0.15s ease",
@@ -146,8 +186,8 @@ export default function AppLayout({ children }: { children: React.ReactNode }) {
                 onMouseLeave={(e) => { if (!active) (e.currentTarget as HTMLAnchorElement).style.background = "transparent"; }}
               >
                 <Icon className="w-4 h-4" />
-                <span className="flex-1">{label}</span>
-                {badge !== undefined && (
+                {!collapsed && <span className="flex-1">{label}</span>}
+                {!collapsed && badge !== undefined && (
                   <span className="text-[10px] font-bold text-white rounded-full w-5 h-5 flex items-center justify-center" style={{ background: "#dc1e3c" }}>
                     {badge}
                   </span>
@@ -155,19 +195,32 @@ export default function AppLayout({ children }: { children: React.ReactNode }) {
               </Link>
             );
           })}
-          <Link href="/" className="flex items-center gap-3 px-3 py-2.5 rounded-xl font-body text-sm transition-colors" style={{ minHeight: "auto", color: "rgba(255,100,100,0.7)", textDecoration: "none" }}
-            onMouseEnter={(e) => { (e.currentTarget as HTMLAnchorElement).style.color = "#ff6b6b"; (e.currentTarget as HTMLAnchorElement).style.background = "rgba(255,80,80,0.08)"; }}
-            onMouseLeave={(e) => { (e.currentTarget as HTMLAnchorElement).style.color = "rgba(255,100,100,0.7)"; (e.currentTarget as HTMLAnchorElement).style.background = "transparent"; }}
+          <button
+            onClick={() => {}}
+            title={collapsed ? "Sign Out" : undefined}
+            className="w-full flex items-center rounded-xl text-sm transition-colors"
+            style={{
+              justifyContent: collapsed ? "center" : "flex-start",
+              gap: "12px",
+              padding: collapsed ? "10px" : "10px 12px",
+              color: "rgba(255,100,100,0.7)",
+              background: "transparent",
+              border: "none", cursor: "pointer",
+            }}
+            onMouseEnter={(e) => { (e.currentTarget as HTMLButtonElement).style.color = "#ff6b6b"; (e.currentTarget as HTMLButtonElement).style.background = "rgba(255,80,80,0.08)"; }}
+            onMouseLeave={(e) => { (e.currentTarget as HTMLButtonElement).style.color = "rgba(255,100,100,0.7)"; (e.currentTarget as HTMLButtonElement).style.background = "transparent"; }}
           >
-            <LogOut className="w-4 h-4" />
-            <span>Sign Out</span>
-          </Link>
+            <LogOut className="w-4 h-4 flex-shrink-0" />
+            {!collapsed && <span>Sign Out</span>}
+          </button>
         </div>
       </aside>
 
       {/* ── Main ── */}
-      <main className="flex-1 ml-64 min-h-screen flex flex-col" style={{ background: "#fdfbf9" }}>
-
+      <main
+        className="flex-1 min-h-screen flex flex-col transition-all duration-300"
+        style={{ marginLeft: sidebarWidth, background: "#fdfbf9" }}
+      >
         {/* ── Top Header ── */}
         <header style={{
           position: "sticky", top: 0, zIndex: 30,
@@ -178,7 +231,7 @@ export default function AppLayout({ children }: { children: React.ReactNode }) {
           height: "60px",
           display: "flex", alignItems: "center", justifyContent: "space-between",
         }}>
-          {/* Brand */}
+          {/* Brand logo in header */}
           <Link href="/dashboard" style={{ textDecoration: "none", display: "flex", alignItems: "center", minHeight: "auto" }}>
             <img src="/images/logo.jpeg" alt="Match4Marriage" style={{ height: "48px", width: "auto", objectFit: "contain" }} />
           </Link>
@@ -231,7 +284,6 @@ export default function AppLayout({ children }: { children: React.ReactNode }) {
         }}>
           <div style={{ maxWidth: "960px", margin: "0 auto" }}>
             <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr 1fr", gap: "24px", marginBottom: "24px" }}>
-              {/* Brand */}
               <div>
                 <div style={{ display: "flex", alignItems: "center", gap: "8px", marginBottom: "10px" }}>
                   <Heart className="w-4 h-4" style={{ color: "#dc1e3c" }} />
@@ -241,8 +293,6 @@ export default function AppLayout({ children }: { children: React.ReactNode }) {
                   Elite Indian Matrimony<br />United Kingdom
                 </p>
               </div>
-
-              {/* Quick Links */}
               <div>
                 <p style={{ fontSize: "11px", fontWeight: 700, color: "rgba(255,255,255,0.5)", textTransform: "uppercase", letterSpacing: "0.1em", marginBottom: "10px" }}>Quick Links</p>
                 {[
@@ -257,8 +307,6 @@ export default function AppLayout({ children }: { children: React.ReactNode }) {
                   >{label}</Link>
                 ))}
               </div>
-
-              {/* Support */}
               <div>
                 <p style={{ fontSize: "11px", fontWeight: 700, color: "rgba(255,255,255,0.5)", textTransform: "uppercase", letterSpacing: "0.1em", marginBottom: "10px" }}>Support</p>
                 {[
@@ -276,8 +324,6 @@ export default function AppLayout({ children }: { children: React.ReactNode }) {
                 </a>
               </div>
             </div>
-
-            {/* Bottom bar */}
             <div style={{ borderTop: "1px solid rgba(255,255,255,0.08)", paddingTop: "16px", display: "flex", alignItems: "center", justifyContent: "space-between" }}>
               <p style={{ fontSize: "12px", color: "rgba(255,255,255,0.25)" }}>
                 © {new Date().getFullYear()} Match4Marriage. All rights reserved.
@@ -288,7 +334,6 @@ export default function AppLayout({ children }: { children: React.ReactNode }) {
             </div>
           </div>
         </footer>
-
       </main>
     </div>
   );
