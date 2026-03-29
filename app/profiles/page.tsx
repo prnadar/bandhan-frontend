@@ -27,7 +27,7 @@ export default function ProfilesPage() {
       <PublicHeader />
 
       {/* Hero */}
-      <div style={{ background: "linear-gradient(135deg,#1a0a14,#2d0f20)", padding: "64px 24px 48px", textAlign: "center" }}>
+      <div style={{ background: "linear-gradient(135deg, #dc1e3c 0%, #a0153c 50%, #3b3fa0 100%)", padding: "72px 24px 56px", textAlign: "center" }}>
         <span style={{ fontSize: "11px", fontWeight: 700, color: "#dc1e3c", textTransform: "uppercase", letterSpacing: "0.2em", display: "block", marginBottom: "12px" }}>
           Verified Profiles
         </span>
