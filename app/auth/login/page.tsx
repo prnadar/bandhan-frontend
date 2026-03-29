@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useRef, useEffect } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 
@@ -8,6 +8,15 @@ export default function LoginPage() {
   const router = useRouter();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [helpOpen, setHelpOpen] = useState(false);
+  const helpRef = useRef<HTMLDivElement>(null);
+  useEffect(() => {
+    function handleClick(e: MouseEvent) {
+      if (helpRef.current && !helpRef.current.contains(e.target as Node)) setHelpOpen(false);
+    }
+    document.addEventListener("mousedown", handleClick);
+    return () => document.removeEventListener("mousedown", handleClick);
+  }, []);
   const [showPassword, setShowPassword] = useState(false);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
@@ -39,7 +48,44 @@ export default function LoginPage() {
         <Link href="/" style={{ textDecoration: "none", minHeight: "auto" }}>
           <img src="/images/logo.jpeg" alt="Match4Marriage" style={{ height: "44px", width: "auto", objectFit: "contain" }} />
         </Link>
-        <div style={{ display: "flex", alignItems: "center", gap: "16px" }}>
+        <div style={{ display: "flex", alignItems: "center", gap: "20px" }}>
+          {/* Contact */}
+          <Link href="/contact" style={{ fontSize: "14px", fontWeight: 500, color: "#555", textDecoration: "none" }}
+            onMouseOver={(e) => (e.currentTarget as HTMLAnchorElement).style.color = "#dc1e3c"}
+            onMouseOut={(e) => (e.currentTarget as HTMLAnchorElement).style.color = "#555"}
+          >Contact</Link>
+
+          {/* Help dropdown */}
+          <div ref={helpRef} style={{ position: "relative" }}>
+            <button onClick={() => setHelpOpen(!helpOpen)} style={{
+              fontSize: "14px", fontWeight: 500, color: helpOpen ? "#dc1e3c" : "#555",
+              background: "none", border: "none", cursor: "pointer", display: "flex", alignItems: "center", gap: "4px",
+            }}>
+              Help
+              <svg width="12" height="12" viewBox="0 0 12 12" fill="none" style={{ transform: helpOpen ? "rotate(180deg)" : "rotate(0deg)", transition: "transform 0.2s" }}>
+                <path d="M2 4l4 4 4-4" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+              </svg>
+            </button>
+            {helpOpen && (
+              <div style={{
+                position: "absolute", top: "calc(100% + 10px)", right: 0,
+                background: "#fff", borderRadius: "12px", minWidth: "160px",
+                boxShadow: "0 8px 32px rgba(0,0,0,0.12)", border: "1px solid rgba(220,30,60,0.1)",
+                overflow: "hidden", zIndex: 100,
+              }}>
+                {[{ label: "FAQ", href: "/faq" }, { label: "Contact Us", href: "/contact" }].map((item) => (
+                  <Link key={item.label} href={item.href} onClick={() => setHelpOpen(false)} style={{
+                    display: "block", padding: "11px 18px", fontSize: "13px", fontWeight: 500,
+                    color: "#333", textDecoration: "none", borderBottom: "1px solid rgba(220,30,60,0.06)",
+                  }}
+                    onMouseOver={(e) => { (e.currentTarget as HTMLAnchorElement).style.background = "rgba(220,30,60,0.05)"; (e.currentTarget as HTMLAnchorElement).style.color = "#dc1e3c"; }}
+                    onMouseOut={(e) => { (e.currentTarget as HTMLAnchorElement).style.background = "transparent"; (e.currentTarget as HTMLAnchorElement).style.color = "#333"; }}
+                  >{item.label}</Link>
+                ))}
+              </div>
+            )}
+          </div>
+
           <Link href="/auth/register" style={{ fontSize: "14px", fontWeight: 500, color: "#555", textDecoration: "none" }}>Register</Link>
           <Link href="/auth/login" style={{
             fontSize: "14px", fontWeight: 600, color: "#fff",
