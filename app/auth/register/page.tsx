@@ -66,7 +66,33 @@ export default function RegisterPage() {
   const isStep1Valid = otp.every((d) => d !== "");
 
   return (
-    <div style={{ minHeight: "100vh", display: "flex", background: "#fdfbf9", fontFamily: "var(--font-poppins, sans-serif)" }}>
+    <div style={{ minHeight: "100vh", display: "flex", flexDirection: "column", background: "#fdfbf9", fontFamily: "var(--font-poppins, sans-serif)" }}>
+
+      {/* ── Site Header ── */}
+      <header style={{
+        position: "sticky", top: 0, zIndex: 50,
+        background: "rgba(253,251,249,0.92)",
+        backdropFilter: "blur(12px)",
+        borderBottom: "1px solid rgba(220,30,60,0.10)",
+        padding: "0 32px",
+        height: "60px",
+        display: "flex", alignItems: "center", justifyContent: "space-between",
+        flexShrink: 0,
+      }}>
+        <Link href="/" style={{ textDecoration: "none", minHeight: "auto" }}>
+          <img src="/images/logo.jpeg" alt="Match4Marriage" style={{ height: "44px", width: "auto", objectFit: "contain" }} />
+        </Link>
+        <div style={{ display: "flex", alignItems: "center", gap: "16px" }}>
+          <Link href="/auth/login" style={{ fontSize: "14px", fontWeight: 500, color: "#555", textDecoration: "none" }}>Sign In</Link>
+          <Link href="/auth/register" style={{
+            fontSize: "14px", fontWeight: 600, color: "#fff",
+            background: "linear-gradient(135deg,#dc1e3c,#a0153c)",
+            padding: "8px 20px", borderRadius: "8px", textDecoration: "none",
+          }}>Register</Link>
+        </div>
+      </header>
+
+      <div style={{ flex: 1, display: "flex" }}>
 
       {/* Left panel — hero image */}
       <div className="hidden lg:flex" style={{
@@ -360,6 +386,7 @@ export default function RegisterPage() {
           )}
 
         </div>
+      </div>
       </div>
     </div>
   );
