@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useRef, useEffect } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 
@@ -10,6 +10,15 @@ const steps = ["Your Details", "Verify", "Done"];
 
 export default function RegisterPage() {
   const router = useRouter();
+  const [helpOpen, setHelpOpen] = useState(false);
+  const helpRef = useRef<HTMLDivElement>(null);
+  useEffect(() => {
+    function handleClick(e: MouseEvent) {
+      if (helpRef.current && !helpRef.current.contains(e.target as Node)) setHelpOpen(false);
+    }
+    document.addEventListener("mousedown", handleClick);
+    return () => document.removeEventListener("mousedown", handleClick);
+  }, []);
   const [step, setStep] = useState(0); // 0 = details, 1 = verify, 2 = done
   const [loading, setLoading] = useState(false);
   const [agreed, setAgreed] = useState(false);
@@ -66,50 +75,94 @@ export default function RegisterPage() {
   const isStep1Valid = otp.every((d) => d !== "");
 
   return (
-    <div style={{ minHeight: "100vh", display: "flex", background: "#fdfbf9", fontFamily: "var(--font-poppins, sans-serif)" }}>
+    <div style={{ minHeight: "100vh", display: "flex", flexDirection: "column", background: "#fdfbf9", fontFamily: "var(--font-poppins, sans-serif)" }}>
 
-      {/* Left panel — branding */}
-      <div className="hidden lg:flex" style={{
-        width: "45%", flexDirection: "column", justifyContent: "center", alignItems: "center",
-        background: "linear-gradient(160deg, #1a0a14 0%, #2d0f20 60%, #3b1428 100%)",
-        padding: "60px 48px", position: "relative", overflow: "hidden",
+      {/* ── Site Header ── */}
+      <header style={{
+        position: "sticky", top: 0, zIndex: 50,
+        background: "rgba(253,251,249,0.92)",
+        backdropFilter: "blur(12px)",
+        borderBottom: "1px solid rgba(220,30,60,0.10)",
+        padding: "0 32px",
+        height: "60px",
+        display: "flex", alignItems: "center", justifyContent: "space-between",
+        flexShrink: 0,
       }}>
-        {/* Decorative rings */}
-        <div style={{ position: "absolute", top: "-80px", right: "-80px", width: "320px", height: "320px", borderRadius: "50%", border: "1px solid rgba(220,30,60,0.15)", pointerEvents: "none" }} />
-        <div style={{ position: "absolute", bottom: "-60px", left: "-60px", width: "240px", height: "240px", borderRadius: "50%", border: "1px solid rgba(220,30,60,0.1)", pointerEvents: "none" }} />
-        <div style={{ position: "absolute", top: "40%", left: "-120px", width: "280px", height: "280px", borderRadius: "50%", border: "1px solid rgba(255,216,122,0.08)", pointerEvents: "none" }} />
+        <Link href="/" style={{ textDecoration: "none", minHeight: "auto" }}>
+          <img src="/images/logo.jpeg" alt="Match4Marriage" style={{ height: "44px", width: "auto", objectFit: "contain" }} />
+        </Link>
+        <div style={{ display: "flex", alignItems: "center", gap: "20px" }}>
+          {/* Contact */}
+          <Link href="/contact" style={{ fontSize: "14px", fontWeight: 500, color: "#555", textDecoration: "none" }}
+            onMouseOver={(e) => (e.currentTarget as HTMLAnchorElement).style.color = "#dc1e3c"}
+            onMouseOut={(e) => (e.currentTarget as HTMLAnchorElement).style.color = "#555"}
+          >Contact</Link>
 
-        <div style={{ position: "relative", zIndex: 1, textAlign: "center", maxWidth: "360px" }}>
-          {/* Logo */}
+          {/* Help dropdown */}
+          <div ref={helpRef} style={{ position: "relative" }}>
+            <button onClick={() => setHelpOpen(!helpOpen)} style={{
+              fontSize: "14px", fontWeight: 500, color: helpOpen ? "#dc1e3c" : "#555",
+              background: "none", border: "none", cursor: "pointer", display: "flex", alignItems: "center", gap: "4px",
+            }}>
+              Help
+              <svg width="12" height="12" viewBox="0 0 12 12" fill="none" style={{ transform: helpOpen ? "rotate(180deg)" : "rotate(0deg)", transition: "transform 0.2s" }}>
+                <path d="M2 4l4 4 4-4" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+              </svg>
+            </button>
+            {helpOpen && (
+              <div style={{
+                position: "absolute", top: "calc(100% + 10px)", right: 0,
+                background: "#fff", borderRadius: "12px", minWidth: "160px",
+                boxShadow: "0 8px 32px rgba(0,0,0,0.12)", border: "1px solid rgba(220,30,60,0.1)",
+                overflow: "hidden", zIndex: 100,
+              }}>
+                {[{ label: "FAQ", href: "/faq" }, { label: "Contact Us", href: "/contact" }].map((item) => (
+                  <Link key={item.label} href={item.href} onClick={() => setHelpOpen(false)} style={{
+                    display: "block", padding: "11px 18px", fontSize: "13px", fontWeight: 500,
+                    color: "#333", textDecoration: "none", borderBottom: "1px solid rgba(220,30,60,0.06)",
+                  }}
+                    onMouseOver={(e) => { (e.currentTarget as HTMLAnchorElement).style.background = "rgba(220,30,60,0.05)"; (e.currentTarget as HTMLAnchorElement).style.color = "#dc1e3c"; }}
+                    onMouseOut={(e) => { (e.currentTarget as HTMLAnchorElement).style.background = "transparent"; (e.currentTarget as HTMLAnchorElement).style.color = "#333"; }}
+                  >{item.label}</Link>
+                ))}
+              </div>
+            )}
+          </div>
+
+          <Link href="/auth/login" style={{ fontSize: "14px", fontWeight: 500, color: "#555", textDecoration: "none" }}>Log In</Link>
+          <Link href="/auth/register" style={{
+            fontSize: "14px", fontWeight: 600, color: "#fff",
+            background: "linear-gradient(135deg,#dc1e3c,#a0153c)",
+            padding: "8px 20px", borderRadius: "8px", textDecoration: "none",
+          }}>Register</Link>
+        </div>
+      </header>
+
+      <div style={{ flex: 1, display: "flex" }}>
+
+      {/* Left panel — hero image */}
+      <div className="hidden lg:flex" style={{
+        width: "45%", flexDirection: "column", justifyContent: "flex-end", alignItems: "center",
+        backgroundImage: "url('/couples/couple-hero.png')",
+        backgroundSize: "cover", backgroundPosition: "center top",
+        position: "relative", overflow: "hidden",
+      }}>
+        {/* Dark gradient overlay — bottom-up */}
+        <div style={{ position: "absolute", inset: 0, background: "linear-gradient(to top, rgba(26,10,20,0.65) 0%, rgba(26,10,20,0.05) 35%, rgba(0,0,0,0) 100%)", pointerEvents: "none" }} />
+
+        {/* Bottom text */}
+        <div style={{ position: "relative", zIndex: 1, textAlign: "center", padding: "40px 40px", width: "100%" }}>
           <Link href="/" style={{ textDecoration: "none" }}>
-            <span style={{ fontFamily: "var(--font-playfair, serif)", fontSize: "28px", fontWeight: 700, color: "#fff", display: "block", marginBottom: "48px" }}>
+            <span style={{ fontFamily: "var(--font-playfair, serif)", fontSize: "26px", fontWeight: 700, color: "#fff", display: "block", marginBottom: "12px", textShadow: "0 2px 8px rgba(0,0,0,0.4)" }}>
               Match<span style={{ color: "#dc1e3c" }}>4</span>Marriage
             </span>
           </Link>
-
-          <div style={{ fontSize: "48px", marginBottom: "24px" }}>💍</div>
-
-          <h2 style={{ fontFamily: "var(--font-playfair, serif)", fontSize: "32px", fontWeight: 700, color: "#fff", lineHeight: 1.2, marginBottom: "16px" }}>
+          <h2 style={{ fontFamily: "var(--font-playfair, serif)", fontSize: "28px", fontWeight: 700, color: "#fff", lineHeight: 1.3, marginBottom: "10px", textShadow: "0 2px 12px rgba(0,0,0,0.5)" }}>
             Find Your Perfect Match
           </h2>
-          <p style={{ fontSize: "15px", color: "rgba(255,255,255,0.55)", lineHeight: 1.8, marginBottom: "40px" }}>
-            Join the UK's most trusted elite Indian matrimonial service. Every profile is personally verified by our team.
+          <p style={{ fontSize: "14px", color: "rgba(255,255,255,0.8)", lineHeight: 1.7, textShadow: "0 1px 6px rgba(0,0,0,0.4)" }}>
+            UK's most trusted elite Indian matrimonial service
           </p>
-
-          {/* Trust points */}
-          {[
-            "Hand-picked, verified profiles only",
-            "Complete discretion guaranteed",
-            "UK registered & GDPR compliant",
-            "Dedicated advisor support",
-          ].map((point) => (
-            <div key={point} style={{ display: "flex", alignItems: "center", gap: "12px", marginBottom: "14px", textAlign: "left" }}>
-              <div style={{ width: "20px", height: "20px", borderRadius: "50%", background: "rgba(220,30,60,0.3)", border: "1px solid rgba(220,30,60,0.5)", display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0 }}>
-                <span style={{ fontSize: "10px", color: "#dc1e3c" }}>✓</span>
-              </div>
-              <span style={{ fontSize: "13px", color: "rgba(255,255,255,0.65)" }}>{point}</span>
-            </div>
-          ))}
         </div>
       </div>
 
@@ -379,6 +432,7 @@ export default function RegisterPage() {
           )}
 
         </div>
+      </div>
       </div>
     </div>
   );
