@@ -4,26 +4,27 @@ import { useState } from "react";
 import { Crown, Check, Shield, ArrowRight, CreditCard, RefreshCw, AlertCircle, CheckCircle } from "lucide-react";
 import Link from "next/link";
 
-const CURRENT_PLAN = "gold";
+const CURRENT_PLAN = "elite";
 
 const plans = [
   {
-    id: "free",
+    id: "basic",
     name: "Basic",
-    price: 0,
-    priceLabel: "Free forever",
+    price: 100,
+    priceLabel: "/ 6 months",
     highlights: [
       "5 daily matches",
       "3 interests / month",
       "View profiles",
       "AI compatibility score",
+      "Basic search filters",
     ],
   },
   {
-    id: "silver",
+    id: "premium",
     name: "Premium",
-    price: 100,
-    priceLabel: "/ 3 months",
+    price: 300,
+    priceLabel: "/ 6 months",
     popular: true,
     highlights: [
       "Unlimited daily matches",
@@ -36,10 +37,10 @@ const plans = [
     ],
   },
   {
-    id: "gold",
+    id: "elite",
     name: "Elite",
-    price: 300,
-    priceLabel: "/ 3 months",
+    price: 1000,
+    priceLabel: "/ 6 months",
     highlights: [
       "Everything in Premium",
       "Dedicated relationship advisor",
@@ -47,7 +48,26 @@ const plans = [
       "Privacy shield — hide profile from non-members",
       "Featured profile placement",
       "WhatsApp support",
-      "Profile boosting (2× / month)",
+      "Profile boosting (4× / month)",
+      "Horoscope matching",
+      "Family background check",
+    ],
+  },
+  {
+    id: "vip",
+    name: "VIP Concierge",
+    price: null,
+    priceLabel: "Bespoke pricing",
+    vip: true,
+    highlights: [
+      "Everything in Elite",
+      "Personal matchmaker assigned to you",
+      "Curated shortlist of hand-picked profiles",
+      "1-on-1 strategy call with our expert team",
+      "Profile photography consultation",
+      "Family liaison service",
+      "Unlimited profile boosts",
+      "24/7 WhatsApp concierge support",
     ],
   },
 ];
@@ -419,13 +439,26 @@ export default function SubscriptionPage() {
           <div style={{ display: "grid", gridTemplateColumns: "repeat(4, 1fr)", gap: 12 }}>
             {plans.map((plan) => {
               const isCurrent = plan.id === CURRENT_PLAN;
-              const isGold    = plan.id === "gold";
-              const price     = billing === "annual" && plan.price > 0
+              const isVip     = (plan as any).vip === true;
+              const isPopular = (plan as any).popular === true;
+              const price     = billing === "annual" && plan.price && plan.price > 0
                 ? Math.round(plan.price * annualDiscount)
                 : plan.price;
 
-              /* ── Gold card styles ── */
-              const goldCardStyle: React.CSSProperties = {
+              /* ── VIP card styles ── */
+              const vipCardStyle: React.CSSProperties = {
+                background: "linear-gradient(160deg, #1a0a14 0%, #2d0f20 100%)",
+                border: "2px solid rgba(200,144,32,0.6)",
+                borderRadius: 16,
+                padding: 16,
+                display: "flex",
+                flexDirection: "column",
+                position: "relative",
+                boxShadow: "0 8px 32px rgba(200,144,32,0.25)",
+              };
+
+              /* ── Popular card styles ── */
+              const popularCardStyle: React.CSSProperties = {
                 background: "rgba(200,144,32,0.08)",
                 border: isCurrent ? "2px solid #C89020" : "1px solid #C89020",
                 borderRadius: 16,
@@ -448,13 +481,13 @@ export default function SubscriptionPage() {
                 boxShadow: isCurrent ? "0 4px 20px rgba(220,30,60,0.18)" : "none",
               };
 
-              const cardStyle = isGold ? goldCardStyle : regularCardStyle;
+              const cardStyle = isVip ? vipCardStyle : isPopular ? popularCardStyle : regularCardStyle;
 
-              const nameColor     = isGold ? "#C89020"       : "#1a0a14";
-              const priceColor    = isGold ? "#C89020"       : "#1a0a14";
-              const priceMuted    = isGold ? "rgba(200,144,32,0.55)" : "rgba(26,10,20,0.4)";
-              const featureColor  = isGold ? "rgba(26,10,20,0.7)"   : "rgba(26,10,20,0.6)";
-              const checkColor    = isGold ? "#C89020"       : "#dc1e3c";
+              const nameColor     = isVip ? "#C89020" : isPopular ? "#C89020" : "#1a0a14";
+              const priceColor    = isVip ? "#C89020" : isPopular ? "#C89020" : "#1a0a14";
+              const priceMuted    = isVip ? "rgba(200,144,32,0.7)" : isPopular ? "rgba(200,144,32,0.55)" : "rgba(26,10,20,0.4)";
+              const featureColor  = isVip ? "rgba(255,255,255,0.75)" : isPopular ? "rgba(26,10,20,0.7)" : "rgba(26,10,20,0.6)";
+              const checkColor    = isVip ? "#C89020" : isPopular ? "#C89020" : "#dc1e3c";
 
               return (
                 <div key={plan.id} style={cardStyle}>
@@ -471,7 +504,7 @@ export default function SubscriptionPage() {
                         gap: 4,
                         padding: "2px 10px",
                         borderRadius: 999,
-                        background: isGold
+                        background: isPopular
                           ? "linear-gradient(135deg,#C89020,#9A6B00)"
                           : "linear-gradient(135deg,#dc1e3c,#a0153c)",
                         fontFamily: "var(--font-poppins, sans-serif)",
@@ -485,8 +518,18 @@ export default function SubscriptionPage() {
                     </div>
                   )}
 
-                  {/* Popular badge for Gold */}
-                  {isGold && !isCurrent && (
+                  {/* VIP badge */}
+                  {isVip && (
+                    <div style={{
+                      position: "absolute", top: -12, left: "50%", transform: "translateX(-50%)",
+                      padding: "2px 12px", borderRadius: 999,
+                      background: "linear-gradient(135deg,#C89020,#9A6B00)",
+                      fontSize: 10, fontWeight: 700, color: "#fff", whiteSpace: "nowrap",
+                    }}>✦ VIP Concierge</div>
+                  )}
+
+                  {/* Popular badge */}
+                  {isPopular && !isCurrent && !isVip && (
                     <div
                       style={{
                         position: "absolute",
@@ -520,38 +563,17 @@ export default function SubscriptionPage() {
                   </h3>
 
                   <div style={{ marginBottom: 12 }}>
-                    {plan.price === 0 ? (
-                      <p
-                        style={{
-                          fontFamily: "var(--font-playfair, serif)",
-                          fontSize: 20,
-                          fontWeight: 700,
-                          color: priceColor,
-                          margin: 0,
-                        }}
-                      >
-                        Free
+                    {plan.price === null ? (
+                      <p style={{ fontFamily: "var(--font-playfair, serif)", fontSize: 18, fontWeight: 700, color: "#C89020", margin: 0 }}>
+                        Bespoke
+                        <span style={{ fontSize: 11, fontWeight: 400, color: priceMuted }}> / tailored to you</span>
                       </p>
+                    ) : plan.price === 0 ? (
+                      <p style={{ fontFamily: "var(--font-playfair, serif)", fontSize: 20, fontWeight: 700, color: priceColor, margin: 0 }}>Free</p>
                     ) : (
-                      <p
-                        style={{
-                          fontFamily: "var(--font-playfair, serif)",
-                          fontSize: 20,
-                          fontWeight: 700,
-                          color: priceColor,
-                          margin: 0,
-                        }}
-                      >
-                        £{price.toLocaleString("en-GB")}
-                        <span
-                          style={{
-                            fontSize: 11,
-                            fontWeight: 400,
-                            color: priceMuted,
-                          }}
-                        >
-                          /mo
-                        </span>
+                      <p style={{ fontFamily: "var(--font-playfair, serif)", fontSize: 20, fontWeight: 700, color: priceColor, margin: 0 }}>
+                        £{(price as number).toLocaleString("en-GB")}
+                        <span style={{ fontSize: 11, fontWeight: 400, color: priceMuted }}> / 6 months</span>
                       </p>
                     )}
                   </div>
@@ -598,7 +620,23 @@ export default function SubscriptionPage() {
                     ))}
                   </ul>
 
-                  {!isCurrent && (
+                  {isVip ? (
+                    <a
+                      href="mailto:enquiry@match4marriage.com?subject=VIP Concierge Package Enquiry"
+                      style={{
+                        display: "block", textAlign: "center",
+                        width: "100%", padding: "9px 0",
+                        borderRadius: 10, border: "none", cursor: "pointer",
+                        fontFamily: "var(--font-poppins, sans-serif)",
+                        fontSize: 12, fontWeight: 700, color: "#1a0a14",
+                        background: "linear-gradient(135deg,#C89020,#9A6B00)",
+                        boxShadow: "0 4px 16px rgba(200,144,32,0.4)",
+                        textDecoration: "none",
+                      }}
+                    >
+                      📅 Schedule a Call
+                    </a>
+                  ) : !isCurrent && (
                     <button
                       style={{
                         width: "100%",
@@ -609,17 +647,14 @@ export default function SubscriptionPage() {
                         fontFamily: "var(--font-poppins, sans-serif)",
                         fontSize: 12,
                         fontWeight: 600,
-                        color: plan.id === "free" ? "#1a0a14" : "#fff",
-                        background:
-                          plan.id === "platinum" ? "linear-gradient(135deg,#0F766E,#0D9488)" :
-                          plan.id === "gold"     ? "linear-gradient(135deg,#C89020,#9A6B00)"  :
-                          plan.id === "silver"   ? "linear-gradient(135deg,#9A6B00,#C89020)"  :
-                          "rgba(26,10,20,0.08)",
-                        boxShadow:
-                          plan.id === "gold" ? "0 4px 16px rgba(200,144,32,0.3)" : "none",
+                        color: isPopular ? "#fff" : "#1a0a14",
+                        background: isPopular
+                          ? "linear-gradient(135deg,#C89020,#9A6B00)"
+                          : "rgba(26,10,20,0.08)",
+                        boxShadow: isPopular ? "0 4px 16px rgba(200,144,32,0.3)" : "none",
                       }}
                     >
-                      {plan.id === "free" ? "Downgrade" : plan.price > currentPlan.price ? "Upgrade" : "Switch"}
+                      {!plan.price || (currentPlan.price && plan.price <= currentPlan.price) ? "Downgrade" : "Upgrade"}
                     </button>
                   )}
                 </div>
