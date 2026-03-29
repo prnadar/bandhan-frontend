@@ -20,6 +20,60 @@ const navItems = [
   { href: "/subscription", label: "Subscription",  icon: CreditCard      },
 ];
 
+function VerificationBanner() {
+  // Check localStorage for verification status — defaults to unverified until backend confirms
+  const [verified, setVerified] = useState(true);
+  const [dismissed, setDismissed] = useState(false);
+
+  useState(() => {
+    if (typeof window !== "undefined") {
+      const session = localStorage.getItem("legallabs_session") || localStorage.getItem("auth_token");
+      // Check if id_verified flag is set
+      try {
+        const stored = localStorage.getItem("user_profile");
+        if (stored) {
+          const profile = JSON.parse(stored);
+          setVerified(!!profile.id_verified);
+        } else {
+          // No profile stored yet — treat as unverified
+          setVerified(false);
+        }
+      } catch {
+        setVerified(false);
+      }
+    }
+  });
+
+  if (verified || dismissed) return null;
+
+  return (
+    <div style={{
+      background: "linear-gradient(135deg, #7c1a1a, #a0153c)",
+      padding: "12px 24px",
+      display: "flex",
+      alignItems: "center",
+      justifyContent: "space-between",
+      gap: "16px",
+      flexShrink: 0,
+    }}>
+      <div style={{ display: "flex", alignItems: "center", gap: "12px" }}>
+        <span style={{ fontSize: "18px" }}>⚠️</span>
+        <p style={{ margin: 0, color: "#fff", fontSize: "14px", lineHeight: 1.5 }}>
+          <strong>Complete your profile &amp; verify your ID</strong> — You must complete your profile and verify your identity to view other profiles and send interests.{" "}
+          <a href="/profile/me" style={{ color: "#ffd4dc", fontWeight: 700, textDecoration: "underline" }}>
+            Complete now →
+          </a>
+        </p>
+      </div>
+      <button
+        onClick={() => setDismissed(true)}
+        style={{ background: "none", border: "none", color: "rgba(255,255,255,0.7)", cursor: "pointer", fontSize: "18px", flexShrink: 0, padding: "0 4px" }}
+        aria-label="Dismiss"
+      >×</button>
+    </div>
+  );
+}
+
 export default function AppLayout({ children }: { children: React.ReactNode }) {
   const pathname = usePathname();
   const [collapsed, setCollapsed] = useState(false);
@@ -270,6 +324,9 @@ export default function AppLayout({ children }: { children: React.ReactNode }) {
             </Link>
           </div>
         </header>
+
+        {/* ── ID Verification Warning Banner ── */}
+        <VerificationBanner />
 
         {/* ── Page Content ── */}
         <div style={{ flex: 1 }}>
