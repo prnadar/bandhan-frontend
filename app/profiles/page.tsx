@@ -1,9 +1,11 @@
+"use client";
 import Link from "next/link";
-import type { Metadata } from "next";
+import { useAuthState, getCTA } from "@/lib/useVerification";
+
 import PublicHeader from "@/components/PublicHeader";
 import PublicFooter from "@/components/PublicFooter";
 
-export const metadata: Metadata = {
+const metadata = {
   title: "Browse Profiles | Match4Marriage",
   description: "Browse verified Indian matrimonial profiles on Match4Marriage — Elite Indian matrimony service based in the UK.",
 };
@@ -18,6 +20,8 @@ const demoProfiles = [
 ];
 
 export default function ProfilesPage() {
+  const authState = useAuthState();
+  const cta = getCTA(authState);
   return (
     <div style={{ minHeight: "100vh", background: "#fdfbf9", fontFamily: "var(--font-poppins, sans-serif)" }}>
       <PublicHeader />
@@ -33,8 +37,8 @@ export default function ProfilesPage() {
         <p style={{ fontSize: "15px", color: "rgba(255,255,255,0.6)", maxWidth: "480px", margin: "0 auto 32px" }}>
           Every profile on Match4Marriage is hand-picked and personally verified. Register to view full profiles and connect.
         </p>
-        <Link href="/auth/register" style={{ display: "inline-block", padding: "12px 32px", borderRadius: "9999px", background: "linear-gradient(135deg,#dc1e3c,#a0153c)", color: "#fff", fontWeight: 700, fontSize: "14px", textDecoration: "none", boxShadow: "0 4px 20px rgba(220,30,60,0.35)" }}>
-          Register to View Profiles
+        <Link href={cta.href} style={{ display: "inline-block", padding: "12px 32px", borderRadius: "9999px", background: "linear-gradient(135deg,#dc1e3c,#a0153c)", color: "#fff", fontWeight: 700, fontSize: "14px", textDecoration: "none", boxShadow: "0 4px 20px rgba(220,30,60,0.35)" }}>
+          {cta.label}
         </Link>
       </div>
 
@@ -57,7 +61,7 @@ export default function ProfilesPage() {
               {/* Lock overlay */}
               <div style={{ position: "absolute", top: "60px", left: "50%", transform: "translateX(-50%)", background: "rgba(26,10,20,0.75)", borderRadius: "9999px", padding: "6px 16px", display: "flex", alignItems: "center", gap: "6px" }}>
                 <span style={{ fontSize: "14px" }}>🔒</span>
-                <span style={{ fontSize: "11px", fontWeight: 700, color: "#fff" }}>Register to view</span>
+                <span style={{ fontSize: "11px", fontWeight: 700, color: "#fff" }}>{cta.locked}</span>
               </div>
 
               {/* Info */}
@@ -87,8 +91,8 @@ export default function ProfilesPage() {
             Register free to view complete profiles, photos, contact details and send interests.
           </p>
           <div style={{ display: "flex", gap: "16px", justifyContent: "center", flexWrap: "wrap" }}>
-            <Link href="/auth/register" style={{ display: "inline-block", padding: "13px 36px", borderRadius: "9999px", background: "linear-gradient(135deg,#dc1e3c,#a0153c)", color: "#fff", fontWeight: 700, fontSize: "14px", textDecoration: "none", boxShadow: "0 4px 20px rgba(220,30,60,0.3)" }}>
-              Register Free
+            <Link href={cta.href} style={{ display: "inline-block", padding: "13px 36px", borderRadius: "9999px", background: "linear-gradient(135deg,#dc1e3c,#a0153c)", color: "#fff", fontWeight: 700, fontSize: "14px", textDecoration: "none", boxShadow: "0 4px 20px rgba(220,30,60,0.3)" }}>
+              {cta.label}
             </Link>
             <Link href="/auth/login" style={{ display: "inline-block", padding: "13px 36px", borderRadius: "9999px", border: "2px solid #dc1e3c", color: "#dc1e3c", fontWeight: 700, fontSize: "14px", textDecoration: "none" }}>
               Sign In

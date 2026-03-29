@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { useAuthState, getCTA } from "@/lib/useVerification";
 import Link from "next/link";
 import { Heart, MapPin, Quote, Star, ChevronRight } from "lucide-react";
 import PublicHeader from "@/components/PublicHeader";
@@ -102,6 +103,8 @@ const stories = [
 const filters = ["All", "Hindu", "Christian", "Sikh", "Muslim"];
 
 export default function SuccessStoriesPage() {
+  const authState = useAuthState();
+  const cta = getCTA(authState);
   const [activeFilter, setActiveFilter] = useState("All");
   const [expanded, setExpanded] = useState<number | null>(null);
 
@@ -220,8 +223,8 @@ export default function SuccessStoriesPage() {
         <p style={{ color: "rgba(255,255,255,0.6)", fontSize: "15px", marginBottom: "32px" }}>
           Join the hundreds of families who found their perfect match through Match4Marriage.
         </p>
-        <Link href="/auth/register" style={{ display: "inline-block", padding: "14px 40px", borderRadius: "9999px", background: "linear-gradient(135deg,#dc1e3c,#a0153c)", color: "#fff", fontWeight: 700, fontSize: "15px", textDecoration: "none", boxShadow: "0 4px 24px rgba(220,30,60,0.4)" }}>
-          Register to View Profiles
+        <Link href={cta.href} style={{ display: "inline-block", padding: "14px 40px", borderRadius: "9999px", background: "linear-gradient(135deg,#dc1e3c,#a0153c)", color: "#fff", fontWeight: 700, fontSize: "15px", textDecoration: "none", boxShadow: "0 4px 24px rgba(220,30,60,0.4)" }}>
+          {cta.label}
         </Link>
       </div>
 

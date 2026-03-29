@@ -1,9 +1,11 @@
+"use client";
 import Link from "next/link";
-import type { Metadata } from "next";
+import { useAuthState, getCTA } from "@/lib/useVerification";
+
 import PublicHeader from "@/components/PublicHeader";
 import PublicFooter from "@/components/PublicFooter";
 
-export const metadata: Metadata = {
+const metadata = {
   title: "About Us | Match4Marriage — Elite Indian Matrimony",
   description:
     "Match4Marriage is a UK-based boutique Indian matrimonial service. Hand-picked, personally verified profiles for the British Indian community and diaspora.",
@@ -85,6 +87,8 @@ const milestones = [
 ];
 
 export default function AboutPage() {
+  const authState = useAuthState();
+  const cta = getCTA(authState);
   return (
     <div className="min-h-screen overflow-x-hidden font-poppins" style={{ backgroundColor: "#fdfbf9" }}>
 
@@ -301,10 +305,10 @@ export default function AboutPage() {
         </p>
         <div style={{ display: "flex", justifyContent: "center" }}>
           <Link
-            href="/auth/register"
+            href={cta.href}
             style={{ background: "#fff", color: "#dc1e3c", padding: "14px 40px", borderRadius: "9999px", fontWeight: 700, fontSize: "15px", textDecoration: "none" }}
           >
-            Register to View Profiles
+            {cta.label}
           </Link>
         </div>
       </section>
