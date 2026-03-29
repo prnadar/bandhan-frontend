@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from "react";
 import Link from "next/link";
+import { Heart, MessageCircle, X, CheckCircle, Clock, Star, Filter, Loader2 } from "lucide-react";
 import { matchApi } from "@/lib/api";
 
 type Tab = "received" | "sent" | "mutual";
@@ -83,383 +84,6 @@ const statusBadge: Record<string, { label: string; bg: string; color: string }> 
   declined: { label: "Declined", bg: "rgba(26,10,20,0.08)",    color: "rgba(26,10,20,0.4)" },
 };
 
-function ProfileCard({
-  profile,
-  variant,
-  isAccepted,
-  onAccept,
-  onDismiss,
-}: {
-  profile: InterestProfile;
-  variant: "received" | "sent" | "mutual";
-  isAccepted?: boolean;
-  onAccept?: () => void;
-  onDismiss?: () => void;
-}) {
-  const badge = statusBadge[profile.status || "pending"] || statusBadge.pending;
-  const subtitle = [
-    profile.profession
-      ? `${profile.profession}${profile.company ? ` at ${profile.company}` : ""}`
-      : "",
-    profile.city,
-  ]
-    .filter(Boolean)
-    .join(" \u2022 ");
-
-  return (
-    <div className="bg-surface-container-lowest rounded-[2rem] overflow-hidden group transition-all hover:-translate-y-1"
-      style={{ boxShadow: "0 32px 64px -12px rgba(40, 22, 33, 0.04)" }}
-    >
-      {/* Image area with gradient avatar fallback */}
-      <div className="relative h-[420px]">
-        <div
-          className="w-full h-full flex items-center justify-center"
-          style={{ background: profile.grad }}
-        >
-          <span className="font-headline text-7xl font-bold text-white/80 select-none">
-            {profile.initials}
-          </span>
-        </div>
-        <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent" />
-        <div className="absolute bottom-6 left-6 right-6 text-white">
-          <div className="flex items-center gap-2 mb-2 flex-wrap">
-            {variant === "received" && !isAccepted && (
-              <span className="bg-secondary-container/90 text-on-secondary-container text-[10px] font-bold px-3 py-1 rounded-full uppercase tracking-widest">
-                Pending
-              </span>
-            )}
-            {variant === "received" && isAccepted && (
-              <span className="bg-primary/90 text-on-primary text-[10px] font-bold px-3 py-1 rounded-full uppercase tracking-widest">
-                Accepted
-              </span>
-            )}
-            {variant === "sent" && (
-              <span
-                className="text-[10px] font-bold px-3 py-1 rounded-full uppercase tracking-widest"
-                style={{ background: badge.bg, color: badge.color }}
-              >
-                {badge.label}
-              </span>
-            )}
-            {variant === "mutual" && (
-              <span className="bg-primary/90 text-on-primary text-[10px] font-bold px-3 py-1 rounded-full uppercase tracking-widest">
-                Mutual Match
-              </span>
-            )}
-            {profile.verified && (
-              <span className="bg-white/20 backdrop-blur-md text-[10px] font-bold px-3 py-1 rounded-full flex items-center gap-1">
-                <span
-                  className="material-symbols-outlined text-[12px]"
-                  style={{ fontVariationSettings: "'FILL' 1" }}
-                >
-                  verified
-                </span>{" "}
-                Verified
-              </span>
-            )}
-          </div>
-          <h3 className="font-headline text-2xl font-bold">
-            {profile.name}
-            {profile.age > 0 ? `, ${profile.age}` : ""}
-          </h3>
-          <p className="text-white/80 font-medium text-sm">
-            {subtitle || "\u2014"}
-          </p>
-        </div>
-      </div>
-
-      {/* Card bottom actions */}
-      <div className="p-6">
-        {/* Tags row */}
-        <div className="flex flex-wrap gap-2 mb-6">
-          {profile.compatibility > 0 && (
-            <span className="bg-surface-container-low text-on-surface/70 text-xs px-4 py-1.5 rounded-full font-medium italic">
-              {profile.compatibility}% Compatibility
-            </span>
-          )}
-          {profile.time && (
-            <span className="bg-surface-container-low text-on-surface/70 text-xs px-4 py-1.5 rounded-full font-medium">
-              {variant === "sent" ? `Sent ${profile.time}` : profile.time}
-            </span>
-          )}
-        </div>
-
-        {/* Action buttons */}
-        <div className="flex gap-3">
-          {variant === "received" && !isAccepted && (
-            <>
-              {onDismiss && (
-                <button
-                  onClick={onDismiss}
-                  className="flex-1 py-3 bg-surface-container-highest text-on-surface-variant font-bold text-sm rounded-xl hover:bg-surface-container-low transition-colors active:scale-95 flex items-center justify-center gap-2"
-                >
-                  <span className="material-symbols-outlined text-[18px]">close</span>
-                  Dismiss
-                </button>
-              )}
-              {onAccept && (
-                <button
-                  onClick={onAccept}
-                  className="flex-1 py-3 bg-gradient-to-r from-primary to-primary-container text-on-primary font-bold text-sm rounded-xl hover:opacity-90 transition-all active:scale-95 flex items-center justify-center gap-2"
-                >
-                  <span
-                    className="material-symbols-outlined text-[18px]"
-                    style={{ fontVariationSettings: "'FILL' 1" }}
-                  >
-                    favorite
-                  </span>
-                  Accept Interest
-                </button>
-              )}
-            </>
-          )}
-
-          {variant === "received" && isAccepted && (
-            <>
-              <Link
-                href={`/profile/${profile.id}`}
-                className="flex-1 py-3 bg-surface-container-highest text-on-surface-variant font-bold text-sm rounded-xl hover:bg-surface-container-low transition-colors active:scale-95 text-center no-underline"
-              >
-                View Profile
-              </Link>
-              <Link
-                href="/messages/1"
-                className="flex-1 py-3 bg-gradient-to-r from-primary to-primary-container text-on-primary font-bold text-sm rounded-xl hover:opacity-90 transition-all active:scale-95 flex items-center justify-center gap-2 no-underline"
-              >
-                <span className="material-symbols-outlined text-[18px]">chat_bubble</span>
-                Message
-              </Link>
-            </>
-          )}
-
-          {variant === "sent" && (
-            <>
-              <Link
-                href={`/profile/${profile.id}`}
-                className="flex-1 py-3 bg-surface-container-highest text-on-surface-variant font-bold text-sm rounded-xl hover:bg-surface-container-low transition-colors active:scale-95 text-center no-underline"
-              >
-                View Profile
-              </Link>
-              {profile.status === "accepted" && (
-                <Link
-                  href="/messages/1"
-                  className="flex-1 py-3 bg-gradient-to-r from-primary to-primary-container text-on-primary font-bold text-sm rounded-xl hover:opacity-90 transition-all active:scale-95 flex items-center justify-center gap-2 no-underline"
-                >
-                  <span className="material-symbols-outlined text-[18px]">chat_bubble</span>
-                  Message
-                </Link>
-              )}
-            </>
-          )}
-
-          {variant === "mutual" && (
-            <>
-              <Link
-                href={`/profile/${profile.id}`}
-                className="flex-1 py-3 bg-surface-container-highest text-on-surface-variant font-bold text-sm rounded-xl hover:bg-surface-container-low transition-colors active:scale-95 text-center no-underline"
-              >
-                View Profile
-              </Link>
-              <Link
-                href="/messages/1"
-                className="flex-1 py-3 bg-gradient-to-r from-primary to-primary-container text-on-primary font-bold text-sm rounded-xl hover:opacity-90 transition-all active:scale-95 flex items-center justify-center gap-2 no-underline"
-              >
-                <span className="material-symbols-outlined text-[18px]">chat_bubble</span>
-                Message
-              </Link>
-            </>
-          )}
-        </div>
-      </div>
-    </div>
-  );
-}
-
-function AsymmetricCard({
-  profile,
-  variant,
-  isAccepted,
-  onAccept,
-  onDismiss,
-}: {
-  profile: InterestProfile;
-  variant: "received" | "sent" | "mutual";
-  isAccepted?: boolean;
-  onAccept?: () => void;
-  onDismiss?: () => void;
-}) {
-  const badge = statusBadge[profile.status || "pending"] || statusBadge.pending;
-  const subtitle = [
-    profile.profession
-      ? `${profile.profession}${profile.company ? ` at ${profile.company}` : ""}`
-      : "",
-    profile.city,
-  ]
-    .filter(Boolean)
-    .join(" \u2022 ");
-
-  return (
-    <div
-      className="bg-surface-container-lowest rounded-[2rem] overflow-hidden group transition-all hover:-translate-y-1 xl:col-span-2 flex flex-col md:flex-row"
-      style={{ boxShadow: "0 32px 64px -12px rgba(40, 22, 33, 0.04)" }}
-    >
-      {/* Left image/avatar half */}
-      <div className="relative w-full md:w-1/2 h-[420px] md:h-auto min-h-[320px]">
-        <div
-          className="w-full h-full flex items-center justify-center"
-          style={{ background: profile.grad }}
-        >
-          <span className="font-headline text-8xl font-bold text-white/80 select-none">
-            {profile.initials}
-          </span>
-        </div>
-        <div className="absolute inset-0 bg-gradient-to-r from-black/20 to-transparent" />
-      </div>
-
-      {/* Right detail half */}
-      <div className="p-10 flex-1 flex flex-col justify-center">
-        <div className="mb-4 flex flex-wrap gap-2">
-          {variant === "received" && !isAccepted && (
-            <span className="bg-primary/10 text-primary text-[10px] font-black px-3 py-1 rounded-full uppercase tracking-widest">
-              Pending Interest
-            </span>
-          )}
-          {variant === "received" && isAccepted && (
-            <span className="bg-primary/10 text-primary text-[10px] font-black px-3 py-1 rounded-full uppercase tracking-widest">
-              Accepted
-            </span>
-          )}
-          {variant === "sent" && (
-            <span
-              className="text-[10px] font-black px-3 py-1 rounded-full uppercase tracking-widest"
-              style={{ background: badge.bg, color: badge.color }}
-            >
-              {badge.label}
-            </span>
-          )}
-          {variant === "mutual" && (
-            <span className="bg-primary/10 text-primary text-[10px] font-black px-3 py-1 rounded-full uppercase tracking-widest">
-              Mutual Match
-            </span>
-          )}
-          {profile.verified && (
-            <span className="bg-surface-container-highest text-on-surface/70 text-[10px] font-bold px-3 py-1 rounded-full flex items-center gap-1">
-              <span
-                className="material-symbols-outlined text-[12px] text-primary"
-                style={{ fontVariationSettings: "'FILL' 1" }}
-              >
-                verified
-              </span>
-              Verified
-            </span>
-          )}
-        </div>
-
-        <h3 className="font-headline text-3xl font-black text-on-surface mb-2">
-          {profile.name}
-          {profile.age > 0 ? `, ${profile.age}` : ""}
-        </h3>
-        <p className="text-on-surface/60 font-semibold mb-6">
-          {subtitle || "\u2014"}
-        </p>
-
-        <div className="space-y-4 mb-8">
-          {profile.compatibility > 0 && (
-            <div className="flex items-center gap-3">
-              <span className="material-symbols-outlined text-primary">psychology</span>
-              <span className="text-sm text-on-surface/80">
-                {profile.compatibility}% Compatibility in Lifestyle &amp; Interests
-              </span>
-            </div>
-          )}
-          {profile.city && (
-            <div className="flex items-center gap-3">
-              <span className="material-symbols-outlined text-primary">location_on</span>
-              <span className="text-sm text-on-surface/80">{profile.city}</span>
-            </div>
-          )}
-          {profile.time && (
-            <div className="flex items-center gap-3">
-              <span className="material-symbols-outlined text-primary">schedule</span>
-              <span className="text-sm text-on-surface/80">
-                {variant === "sent" ? `Sent ${profile.time}` : profile.time}
-              </span>
-            </div>
-          )}
-        </div>
-
-        <div className="flex gap-4">
-          {variant === "received" && !isAccepted && (
-            <>
-              {onAccept && (
-                <button
-                  onClick={onAccept}
-                  className="px-8 py-3 bg-gradient-to-r from-primary to-primary-container text-on-primary font-bold text-sm rounded-xl hover:opacity-90 transition-all active:scale-95"
-                >
-                  Accept Interest
-                </button>
-              )}
-              {onDismiss && (
-                <button
-                  onClick={onDismiss}
-                  className="px-8 py-3 text-primary font-bold text-sm hover:underline decoration-2 underline-offset-8 transition-all"
-                >
-                  Dismiss
-                </button>
-              )}
-            </>
-          )}
-
-          {variant === "received" && isAccepted && (
-            <>
-              <Link
-                href="/messages/1"
-                className="px-8 py-3 bg-gradient-to-r from-primary to-primary-container text-on-primary font-bold text-sm rounded-xl hover:opacity-90 transition-all active:scale-95 no-underline"
-              >
-                Message
-              </Link>
-              <Link
-                href={`/profile/${profile.id}`}
-                className="px-8 py-3 text-primary font-bold text-sm hover:underline decoration-2 underline-offset-8 transition-all no-underline"
-              >
-                View Details
-              </Link>
-            </>
-          )}
-
-          {variant === "sent" && (
-            <>
-              <Link
-                href={`/profile/${profile.id}`}
-                className="px-8 py-3 bg-gradient-to-r from-primary to-primary-container text-on-primary font-bold text-sm rounded-xl hover:opacity-90 transition-all active:scale-95 no-underline"
-              >
-                View Details
-              </Link>
-            </>
-          )}
-
-          {variant === "mutual" && (
-            <>
-              <Link
-                href="/messages/1"
-                className="px-8 py-3 bg-gradient-to-r from-primary to-primary-container text-on-primary font-bold text-sm rounded-xl hover:opacity-90 transition-all active:scale-95 no-underline"
-              >
-                Message
-              </Link>
-              <Link
-                href={`/profile/${profile.id}`}
-                className="px-8 py-3 text-primary font-bold text-sm hover:underline decoration-2 underline-offset-8 transition-all no-underline"
-              >
-                View Details
-              </Link>
-            </>
-          )}
-        </div>
-      </div>
-    </div>
-  );
-}
-
 export default function InterestsPage() {
   const [tab, setTab] = useState<Tab>("received");
   const [dismissed, setDismissed] = useState<Set<string>>(new Set());
@@ -515,172 +139,393 @@ export default function InterestsPage() {
 
   const mutualList = receivedList.filter((r) => sentList.some((s) => s.id === r.id));
 
-  const tabs: { key: Tab; label: string; icon: string; count: number }[] = [
-    { key: "received", label: "Interests Received", icon: "favorite", count: receivedList.length },
-    { key: "sent",     label: "Interests Sent",     icon: "send",     count: sentList.length },
-    { key: "mutual",   label: "Accepted Matches",   icon: "handshake", count: mutualList.length },
+  const tabs: { key: Tab; label: string; count: number }[] = [
+    { key: "received", label: "Received",  count: receivedList.length },
+    { key: "sent",     label: "Sent",      count: sentList.length },
+    { key: "mutual",   label: "Mutual",    count: mutualList.length },
   ];
 
-  const currentList =
-    tab === "received"
-      ? receivedList.filter((p) => !dismissed.has(p.id))
-      : tab === "sent"
-        ? sentList
-        : mutualList;
-
   return (
-    <div className="min-h-screen bg-surface">
-      {/* Hero Header */}
-      <header className="mb-12">
-        <h1 className="font-headline text-4xl md:text-5xl font-black text-on-surface mb-4 leading-tight">
-          Your Intentions
-        </h1>
-        <p className="text-on-surface/70 max-w-xl text-lg font-light leading-relaxed">
-          Curating the journey toward a lifetime of shared values and heritage.
-          Manage your pending connections and active interests here.
-        </p>
-      </header>
-
-      {/* Tabbed Interface - Sticky */}
-      <section className="mb-10 sticky top-20 z-30 bg-surface/80 backdrop-blur-sm py-4">
-        <div className="flex gap-4 md:gap-8 overflow-x-auto pb-2">
-          {tabs.map((t) => (
-            <button
-              key={t.key}
-              onClick={() => setTab(t.key)}
-              className="flex flex-col items-center gap-1 group whitespace-nowrap"
-            >
-              <span
-                className={`text-sm font-bold transition-colors ${
-                  tab === t.key
-                    ? "text-primary"
-                    : "text-on-surface/40 group-hover:text-on-surface"
-                }`}
-              >
-                {t.label}
-                {t.count > 0 && (
-                  <span className="ml-2 text-xs opacity-70">({t.count})</span>
-                )}
-              </span>
-              <span
-                className={`h-1 w-8 rounded-full transition-all ${
-                  tab === t.key ? "bg-primary" : "bg-transparent"
-                }`}
-              />
-            </button>
-          ))}
-        </div>
-      </section>
-
-      {/* Loading State */}
-      {loading && (
-        <div className="flex flex-col items-center justify-center py-32">
-          <span
-            className="material-symbols-outlined text-5xl text-primary animate-spin"
-          >
-            progress_activity
-          </span>
-          <p className="text-on-surface/60 font-body text-sm mt-4">
-            Loading interests...
+    <div style={{ background: "#fdfbf9", minHeight: "100vh", padding: "32px", maxWidth: "720px" }}>
+      {/* Header */}
+      <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: "24px" }}>
+        <div>
+          <h1 style={{ fontFamily: "var(--font-playfair, serif)", fontSize: "30px", fontWeight: 300, color: "#1a0a14", margin: 0, lineHeight: 1.2 }}>
+            Interests
+          </h1>
+          <p style={{ fontFamily: "var(--font-poppins, sans-serif)", fontSize: "13px", color: "#888", marginTop: "4px", marginBottom: 0 }}>
+            Manage connection requests
           </p>
         </div>
-      )}
+        <button
+          style={{
+            display: "flex", alignItems: "center", gap: "8px",
+            padding: "8px 16px", borderRadius: "10px", cursor: "pointer",
+            fontFamily: "var(--font-poppins, sans-serif)", fontSize: "14px", color: "rgba(26,10,20,0.55)",
+            background: "#fff", border: "1px solid rgba(220,30,60,0.12)",
+            transition: "all 0.2s ease",
+          }}
+        >
+          <Filter style={{ width: "16px", height: "16px" }} />
+          Filter
+        </button>
+      </div>
 
-      {/* Error State */}
-      {!loading && error && (
-        <div className="flex flex-col items-center justify-center py-32">
-          <span className="material-symbols-outlined text-5xl text-primary mb-4">
-            error
-          </span>
-          <p className="text-on-surface/60 font-body text-sm">{error}</p>
+      {/* Tabs */}
+      <div style={{ display: "flex", gap: "4px", marginBottom: "24px", borderBottom: "1px solid rgba(220,30,60,0.12)" }}>
+        {tabs.map((t) => (
+          <button
+            key={t.key}
+            onClick={() => setTab(t.key)}
+            style={{
+              display: "flex", alignItems: "center", gap: "8px",
+              padding: "10px 16px", cursor: "pointer",
+              background: "transparent", border: "none",
+              fontFamily: "var(--font-poppins, sans-serif)", fontSize: "14px", fontWeight: 500,
+              color: tab === t.key ? "#dc1e3c" : "rgba(26,10,20,0.45)",
+              borderBottom: tab === t.key ? "2px solid #dc1e3c" : "2px solid transparent",
+              marginBottom: "-1px",
+              transition: "all 0.2s ease",
+            }}
+          >
+            {t.label}
+            <span
+              style={{
+                fontFamily: "var(--font-poppins, sans-serif)", fontSize: "11px", fontWeight: 700,
+                padding: "2px 6px", borderRadius: "20px",
+                background: tab === t.key ? "linear-gradient(135deg,#dc1e3c,#a0153c)" : "rgba(26,10,20,0.08)",
+                color: tab === t.key ? "#fff" : "rgba(26,10,20,0.4)",
+              }}
+            >
+              {t.count}
+            </span>
+          </button>
+        ))}
+      </div>
+
+      {/* Loading */}
+      {loading && (
+        <div style={{ textAlign: "center", padding: "64px 0" }}>
+          <Loader2 style={{ width: "32px", height: "32px", color: "#dc1e3c", margin: "0 auto 12px", animation: "spin 1s linear infinite" }} />
+          <p style={{ fontFamily: "var(--font-poppins, sans-serif)", fontSize: "14px", color: "#888" }}>Loading interests…</p>
+          <style>{`@keyframes spin { to { transform: rotate(360deg) } }`}</style>
         </div>
       )}
 
-      {/* Content */}
+      {/* Error */}
+      {!loading && error && (
+        <div style={{ textAlign: "center", padding: "64px 0" }}>
+          <X style={{ width: "40px", height: "40px", color: "#dc1e3c", margin: "0 auto 12px" }} />
+          <p style={{ fontFamily: "var(--font-poppins, sans-serif)", fontSize: "14px", color: "#888" }}>{error}</p>
+        </div>
+      )}
+
       {!loading && !error && (
         <>
-          {/* Empty State */}
-          {currentList.length === 0 && (
-            <div className="flex flex-col items-center justify-center py-32">
-              <span className="material-symbols-outlined text-6xl text-on-surface/15 mb-4">
-                {tab === "received" ? "favorite" : tab === "sent" ? "send" : "handshake"}
-              </span>
-              <p className="text-on-surface/60 font-body text-sm text-center max-w-md">
-                {tab === "received" &&
-                  "No received interests yet. Complete your profile to get noticed!"}
-                {tab === "sent" &&
-                  "No sent interests yet. Browse profiles to find your match!"}
-                {tab === "mutual" &&
-                  "No mutual interests yet. Keep browsing!"}
-              </p>
-              {tab !== "received" && (
-                <Link
-                  href="/profiles"
-                  className="mt-6 px-8 py-3 bg-gradient-to-r from-primary to-primary-container text-on-primary font-bold text-sm rounded-full hover:opacity-90 transition-all active:scale-95 no-underline"
-                >
-                  Browse Profiles
-                </Link>
+          {/* ── Received Tab ── */}
+          {tab === "received" && (
+            <div style={{ display: "flex", flexDirection: "column", gap: "12px" }}>
+              {receivedList.filter((p) => !dismissed.has(p.id)).map((profile) => {
+                const isAccepted = accepted.has(profile.id);
+                return (
+                  <div
+                    key={profile.id}
+                    style={{
+                      background: "#fff", border: "1px solid rgba(220,30,60,0.08)",
+                      borderRadius: "16px", padding: "16px",
+                      display: "flex", alignItems: "center", gap: "16px",
+                      boxShadow: "0 2px 12px rgba(220,30,60,0.05)",
+                    }}
+                  >
+                    <div
+                      style={{
+                        width: "56px", height: "56px", borderRadius: "50%",
+                        display: "flex", alignItems: "center", justifyContent: "center",
+                        background: profile.grad, flexShrink: 0,
+                      }}
+                    >
+                      <span style={{ fontFamily: "var(--font-playfair, serif)", fontSize: "17px", fontWeight: 600, color: "#fff" }}>
+                        {profile.initials}
+                      </span>
+                    </div>
+
+                    <div style={{ flex: 1, minWidth: 0 }}>
+                      <div style={{ display: "flex", alignItems: "center", gap: "8px", flexWrap: "wrap" }}>
+                        <span style={{ fontFamily: "var(--font-playfair, serif)", fontSize: "15px", fontWeight: 600, color: "#1a0a14" }}>
+                          {profile.name}
+                        </span>
+                        {profile.verified && (
+                          <CheckCircle style={{ width: "14px", height: "14px", color: "#dc1e3c", fill: "rgba(220,30,60,0.15)", flexShrink: 0 }} />
+                        )}
+                        {profile.compatibility > 0 && (
+                          <span
+                            style={{
+                              fontFamily: "var(--font-poppins, sans-serif)", fontSize: "11px", fontWeight: 700,
+                              padding: "2px 8px", borderRadius: "20px",
+                              background: "rgba(200,144,32,0.12)", color: "#9A6B00",
+                            }}
+                          >
+                            {profile.compatibility}% match
+                          </span>
+                        )}
+                      </div>
+                      <p style={{ fontFamily: "var(--font-poppins, sans-serif)", fontSize: "12px", color: "#888", margin: "3px 0 0" }}>
+                        {[profile.age > 0 ? String(profile.age) : "", profile.city, profile.profession ? `${profile.profession}${profile.company ? ` at ${profile.company}` : ""}` : ""].filter(Boolean).join(" · ") || "—"}
+                      </p>
+                      {profile.time && (
+                        <div style={{ display: "flex", alignItems: "center", gap: "4px", marginTop: "4px" }}>
+                          <Clock style={{ width: "11px", height: "11px", color: "rgba(26,10,20,0.3)" }} />
+                          <span style={{ fontFamily: "var(--font-poppins, sans-serif)", fontSize: "10px", color: "rgba(26,10,20,0.3)" }}>
+                            {profile.time}
+                          </span>
+                        </div>
+                      )}
+                    </div>
+
+                    <div style={{ display: "flex", alignItems: "center", gap: "8px", flexShrink: 0 }}>
+                      {isAccepted ? (
+                        <Link
+                          href="/messages/1"
+                          style={{
+                            display: "flex", alignItems: "center", gap: "6px",
+                            padding: "8px 16px", borderRadius: "10px",
+                            fontFamily: "var(--font-poppins, sans-serif)", fontSize: "12px", fontWeight: 600,
+                            background: "linear-gradient(135deg,#dc1e3c,#a0153c)",
+                            color: "#fff", textDecoration: "none",
+                            boxShadow: "0 4px 12px rgba(220,30,60,0.25)",
+                          }}
+                        >
+                          <MessageCircle style={{ width: "13px", height: "13px" }} />
+                          Message
+                        </Link>
+                      ) : (
+                        <>
+                          <button
+                            onClick={() => dismiss(profile.id)}
+                            style={{
+                              width: "32px", height: "32px", borderRadius: "50%",
+                              display: "flex", alignItems: "center", justifyContent: "center",
+                              background: "#fff", border: "1px solid rgba(26,10,20,0.1)",
+                              cursor: "pointer", transition: "all 0.2s ease",
+                              color: "rgba(26,10,20,0.3)",
+                            }}
+                          >
+                            <X style={{ width: "13px", height: "13px" }} />
+                          </button>
+                          <button
+                            onClick={() => accept(profile.id)}
+                            style={{
+                              display: "flex", alignItems: "center", gap: "6px",
+                              padding: "8px 16px", borderRadius: "10px", cursor: "pointer",
+                              fontFamily: "var(--font-poppins, sans-serif)", fontSize: "12px", fontWeight: 600,
+                              background: "linear-gradient(135deg,#dc1e3c,#a0153c)",
+                              color: "#fff", border: "none",
+                              boxShadow: "0 4px 12px rgba(220,30,60,0.25)",
+                              transition: "all 0.2s ease",
+                            }}
+                          >
+                            <Heart style={{ width: "13px", height: "13px" }} />
+                            Accept
+                          </button>
+                        </>
+                      )}
+                    </div>
+                  </div>
+                );
+              })}
+
+              {receivedList.filter((p) => !dismissed.has(p.id)).length === 0 && (
+                <div style={{ textAlign: "center", padding: "64px 0" }}>
+                  <Heart style={{ width: "48px", height: "48px", color: "rgba(26,10,20,0.15)", margin: "0 auto 12px" }} />
+                  <p style={{ fontFamily: "var(--font-poppins, sans-serif)", fontSize: "14px", color: "#888" }}>
+                    No received interests yet. Complete your profile to get noticed!
+                  </p>
+                </div>
               )}
             </div>
           )}
 
-          {/* Mutual banner */}
-          {tab === "mutual" && mutualList.length > 0 && (
-            <div className="bg-primary/5 rounded-2xl p-5 mb-8">
-              <div className="flex items-center gap-3">
-                <span
-                  className="material-symbols-outlined text-primary text-2xl"
-                  style={{ fontVariationSettings: "'FILL' 1" }}
-                >
-                  celebration
-                </span>
-                <p className="text-primary font-body text-sm font-semibold">
-                  You both showed interest &mdash; start a conversation!
-                </p>
-              </div>
+          {/* ── Sent Tab ── */}
+          {tab === "sent" && (
+            <div style={{ display: "flex", flexDirection: "column", gap: "12px" }}>
+              {sentList.length === 0 && (
+                <div style={{ textAlign: "center", padding: "64px 0" }}>
+                  <Heart style={{ width: "48px", height: "48px", color: "rgba(26,10,20,0.15)", margin: "0 auto 12px" }} />
+                  <p style={{ fontFamily: "var(--font-poppins, sans-serif)", fontSize: "14px", color: "#888" }}>
+                    No sent interests yet. Browse profiles to find your match!
+                  </p>
+                </div>
+              )}
+              {sentList.map((profile) => {
+                const badge = statusBadge[profile.status || "pending"] || statusBadge.pending;
+                return (
+                  <div
+                    key={profile.id}
+                    style={{
+                      background: "#fff", border: "1px solid rgba(220,30,60,0.08)",
+                      borderRadius: "16px", padding: "16px",
+                      display: "flex", alignItems: "center", gap: "16px",
+                      boxShadow: "0 2px 12px rgba(220,30,60,0.05)",
+                    }}
+                  >
+                    <div
+                      style={{
+                        width: "56px", height: "56px", borderRadius: "50%",
+                        display: "flex", alignItems: "center", justifyContent: "center",
+                        background: profile.grad, flexShrink: 0,
+                      }}
+                    >
+                      <span style={{ fontFamily: "var(--font-playfair, serif)", fontSize: "17px", fontWeight: 600, color: "#fff" }}>
+                        {profile.initials}
+                      </span>
+                    </div>
+
+                    <div style={{ flex: 1, minWidth: 0 }}>
+                      <div style={{ display: "flex", alignItems: "center", gap: "8px" }}>
+                        <span style={{ fontFamily: "var(--font-playfair, serif)", fontSize: "15px", fontWeight: 600, color: "#1a0a14" }}>
+                          {profile.name}
+                        </span>
+                        <span
+                          style={{
+                            fontFamily: "var(--font-poppins, sans-serif)", fontSize: "11px", fontWeight: 600,
+                            padding: "2px 8px", borderRadius: "20px",
+                            background: badge.bg, color: badge.color,
+                          }}
+                        >
+                          {badge.label}
+                        </span>
+                      </div>
+                      <p style={{ fontFamily: "var(--font-poppins, sans-serif)", fontSize: "12px", color: "#888", margin: "3px 0 0" }}>
+                        {[profile.age > 0 ? String(profile.age) : "", profile.city, profile.profession ? `${profile.profession}${profile.company ? ` at ${profile.company}` : ""}` : ""].filter(Boolean).join(" · ") || "—"}
+                      </p>
+                      {profile.time && (
+                        <div style={{ display: "flex", alignItems: "center", gap: "4px", marginTop: "4px" }}>
+                          <Clock style={{ width: "11px", height: "11px", color: "rgba(26,10,20,0.3)" }} />
+                          <span style={{ fontFamily: "var(--font-poppins, sans-serif)", fontSize: "10px", color: "rgba(26,10,20,0.3)" }}>
+                            Sent {profile.time}
+                          </span>
+                        </div>
+                      )}
+                    </div>
+
+                    <div style={{ display: "flex", alignItems: "center", gap: "8px", flexShrink: 0 }}>
+                      {profile.compatibility > 0 && (
+                        <span style={{ fontFamily: "var(--font-playfair, serif)", fontSize: "13px", fontWeight: 700, color: "#C89020" }}>
+                          {profile.compatibility}%
+                        </span>
+                      )}
+                      <Link
+                        href={`/profile/${profile.id}`}
+                        style={{
+                          padding: "6px 14px", borderRadius: "10px",
+                          fontFamily: "var(--font-poppins, sans-serif)", fontSize: "12px", fontWeight: 500,
+                          color: "rgba(26,10,20,0.6)", background: "#fff",
+                          border: "1px solid rgba(220,30,60,0.12)",
+                          textDecoration: "none", transition: "all 0.2s ease",
+                        }}
+                      >
+                        View
+                      </Link>
+                    </div>
+                  </div>
+                );
+              })}
             </div>
           )}
 
-          {/* Profile Gallery Grid */}
-          {currentList.length > 0 && (
-            <section className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-8">
-              {currentList.map((profile, idx) => {
-                const isAccepted = accepted.has(profile.id);
+          {/* ── Mutual Tab ── */}
+          {tab === "mutual" && (
+            <div style={{ display: "flex", flexDirection: "column", gap: "16px" }}>
+              {mutualList.length > 0 && (
+                <div
+                  style={{
+                    background: "rgba(220,30,60,0.04)", border: "1px solid rgba(220,30,60,0.12)",
+                    borderRadius: "16px", padding: "14px 16px", marginBottom: "4px",
+                  }}
+                >
+                  <p style={{ fontFamily: "var(--font-poppins, sans-serif)", fontSize: "13px", color: "#dc1e3c", fontWeight: 500, margin: 0 }}>
+                    You both showed interest — start a conversation!
+                  </p>
+                </div>
+              )}
 
-                // Every 4th card (index 3, 7, 11, ...) gets asymmetric layout
-                if ((idx + 1) % 4 === 0) {
-                  return (
-                    <AsymmetricCard
-                      key={profile.id}
-                      profile={profile}
-                      variant={tab}
-                      isAccepted={isAccepted}
-                      onAccept={tab === "received" && !isAccepted ? () => accept(profile.id) : undefined}
-                      onDismiss={tab === "received" && !isAccepted ? () => dismiss(profile.id) : undefined}
-                    />
-                  );
-                }
+              {mutualList.length === 0 && (
+                <div style={{ textAlign: "center", padding: "64px 0" }}>
+                  <Heart style={{ width: "48px", height: "48px", color: "rgba(26,10,20,0.15)", margin: "0 auto 12px" }} />
+                  <p style={{ fontFamily: "var(--font-poppins, sans-serif)", fontSize: "14px", color: "#888" }}>
+                    No mutual interests yet. Keep browsing!
+                  </p>
+                </div>
+              )}
 
-                return (
-                  <ProfileCard
-                    key={profile.id}
-                    profile={profile}
-                    variant={tab}
-                    isAccepted={isAccepted}
-                    onAccept={tab === "received" && !isAccepted ? () => accept(profile.id) : undefined}
-                    onDismiss={tab === "received" && !isAccepted ? () => dismiss(profile.id) : undefined}
-                  />
-                );
-              })}
-            </section>
-          )}
+              {mutualList.map((profile) => (
+                <div
+                  key={profile.id}
+                  style={{
+                    background: "#fff", border: "1px solid rgba(220,30,60,0.12)",
+                    borderRadius: "16px", padding: "16px",
+                    display: "flex", alignItems: "center", gap: "16px",
+                    boxShadow: "0 4px 16px rgba(220,30,60,0.08)",
+                  }}
+                >
+                  <div style={{ position: "relative", flexShrink: 0 }}>
+                    <div
+                      style={{
+                        width: "56px", height: "56px", borderRadius: "50%",
+                        display: "flex", alignItems: "center", justifyContent: "center",
+                        background: profile.grad,
+                      }}
+                    >
+                      <span style={{ fontFamily: "var(--font-playfair, serif)", fontSize: "17px", fontWeight: 600, color: "#fff" }}>
+                        {profile.initials}
+                      </span>
+                    </div>
+                    <div
+                      style={{
+                        position: "absolute", bottom: "-4px", right: "-4px",
+                        width: "20px", height: "20px", borderRadius: "50%",
+                        background: "#fff", display: "flex", alignItems: "center", justifyContent: "center",
+                        boxShadow: "0 1px 4px rgba(0,0,0,0.15)",
+                      }}
+                    >
+                      <Heart style={{ width: "11px", height: "11px", fill: "#dc1e3c", color: "#dc1e3c" }} />
+                    </div>
+                  </div>
 
-          {/* Pagination hint */}
-          {currentList.length > 0 && (
-            <div className="mt-20 flex flex-col items-center">
-              <p className="text-on-surface/40 text-sm font-medium mb-6">
-                Showing {currentList.length} {tab === "received" ? "received" : tab === "sent" ? "sent" : "mutual"} interest{currentList.length !== 1 ? "s" : ""}
-              </p>
+                  <div style={{ flex: 1, minWidth: 0 }}>
+                    <span style={{ fontFamily: "var(--font-playfair, serif)", fontSize: "15px", fontWeight: 600, color: "#1a0a14" }}>
+                      {profile.name}
+                    </span>
+                    <p style={{ fontFamily: "var(--font-poppins, sans-serif)", fontSize: "12px", color: "#888", margin: "3px 0 0" }}>
+                      {[profile.age > 0 ? String(profile.age) : "", profile.city, profile.profession].filter(Boolean).join(" · ") || "—"}
+                    </p>
+                    {profile.compatibility > 0 && (
+                      <div style={{ display: "flex", alignItems: "center", gap: "4px", marginTop: "5px" }}>
+                        <Star style={{ width: "12px", height: "12px", fill: "#C89020", color: "#C89020" }} />
+                        <span style={{ fontFamily: "var(--font-poppins, sans-serif)", fontSize: "12px", fontWeight: 600, color: "#C89020" }}>
+                          {profile.compatibility}% compatibility
+                        </span>
+                      </div>
+                    )}
+                  </div>
+
+                  <Link
+                    href="/messages/1"
+                    style={{
+                      display: "flex", alignItems: "center", gap: "6px",
+                      padding: "10px 18px", borderRadius: "10px",
+                      fontFamily: "var(--font-poppins, sans-serif)", fontSize: "13px", fontWeight: 600,
+                      background: "linear-gradient(135deg,#dc1e3c,#a0153c)",
+                      color: "#fff", textDecoration: "none",
+                      boxShadow: "0 4px 16px rgba(220,30,60,0.25)",
+                      flexShrink: 0,
+                    }}
+                  >
+                    <MessageCircle style={{ width: "14px", height: "14px" }} />
+                    Message
+                  </Link>
+                </div>
+              ))}
             </div>
           )}
         </>

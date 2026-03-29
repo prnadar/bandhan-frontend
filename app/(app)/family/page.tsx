@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { Users, Heart, Shield, CheckCircle, Eye, EyeOff, UserPlus, MessageCircle, Star, Lock } from "lucide-react";
 
 const familyMembers = [
   { id: "f1", name: "Rajesh Sharma",    relation: "Father",       initials: "RS", grad: "linear-gradient(135deg,#1a0a14,#4A3728)", active: true,  lastSeen: "Just now"   },
@@ -21,43 +22,6 @@ const PERMISSIONS: { key: Permission; label: string; desc: string }[] = [
   { key: "shortlist", label: "Shortlist",         desc: "Can save and shortlist profiles"       },
   { key: "message",   label: "Send interest",     desc: "Can send interests on your behalf"     },
   { key: "all",       label: "Full access",       desc: "Complete control of your profile"      },
-];
-
-const RELATIONS = ["Father", "Mother", "Sibling", "Uncle", "Aunt", "Other"];
-
-const activityFeed = [
-  {
-    member: "Sunita Sharma",
-    action: "shortlisted",
-    target: "Priya Sharma",
-    time: "2 HOURS AGO",
-    icon: "favorite",
-    iconFill: true,
-    iconBg: "bg-primary",
-    iconColor: "text-white",
-  },
-  {
-    member: "Rajesh Sharma",
-    action: "viewed",
-    target: "Anjali Patel",
-    time: "YESTERDAY",
-    icon: "visibility",
-    iconFill: false,
-    iconBg: "bg-white",
-    iconColor: "text-on-surface",
-    border: true,
-  },
-  {
-    member: "You",
-    action: "added",
-    target: "Preethi Sharma",
-    time: "3 DAYS AGO",
-    icon: "person_add",
-    iconFill: false,
-    iconBg: "bg-white",
-    iconColor: "text-on-surface",
-    border: true,
-  },
 ];
 
 export default function FamilyPage() {
@@ -82,314 +46,255 @@ export default function FamilyPage() {
       return next;
     });
 
-  const activeCount = familyMembers.filter((m) => m.active).length;
-
   return (
-    <div className="min-h-screen bg-surface">
-      {/* Main two-column layout */}
-      <div className="lg:flex gap-12 px-6 md:px-12 py-8 max-w-7xl mx-auto">
-        {/* Center Column: Core UI */}
-        <div className="flex-1 max-w-3xl space-y-12">
-          {/* Hero Header */}
-          <section>
-            <div className="flex items-center justify-between mb-4">
-              <h1 className="font-headline text-5xl md:text-6xl text-on-surface">
-                Family Mode
-              </h1>
-              <button
-                onClick={() => setShowFamilyView(!showFamilyView)}
-                className={`flex items-center gap-2 px-5 py-2.5 rounded-full text-sm font-semibold transition-all ${
-                  showFamilyView
-                    ? "bg-gradient-to-r from-primary to-primary-container text-on-primary"
-                    : "bg-surface-container-lowest text-on-surface-variant hover:bg-surface-container-low"
-                }`}
-              >
-                <span className="material-symbols-outlined text-[20px]">
-                  {showFamilyView ? "visibility" : "visibility_off"}
-                </span>
-                {showFamilyView ? "Family view ON" : "Preview as family"}
-              </button>
-            </div>
-            <p className="text-lg text-on-surface-variant max-w-xl leading-relaxed">
-              Involve your loved ones in the journey. Collaborative matchmaking
-              built on trust and editorial elegance.
-            </p>
-          </section>
+    <div className="px-8 py-8 max-w-4xl" style={{ background: "#fdfbf9", minHeight: "100vh" }}>
+      <div className="flex items-center justify-between mb-6">
+        <div>
+          <div className="flex items-center gap-2 mb-1">
+            <Users className="w-5 h-5" style={{ color: "#9A6B00" }} />
+            <h1
+              className="text-3xl font-light"
+              style={{ fontFamily: "var(--font-playfair, serif)", color: "#1a0a14" }}
+            >
+              Family Mode
+            </h1>
+          </div>
+          <p className="text-sm" style={{ color: "rgba(26,10,20,0.45)" }}>Let your family participate in the search — with your permission</p>
+        </div>
+        <button
+          onClick={() => setShowFamilyView(!showFamilyView)}
+          className="flex items-center gap-2 px-4 py-2 rounded-full text-sm font-medium transition-all"
+          style={{
+            background: showFamilyView ? "linear-gradient(135deg,#dc1e3c,#a0153c)" : "white",
+            color: showFamilyView ? "#fff" : "rgba(26,10,20,0.6)",
+            border: showFamilyView ? "none" : "1px solid rgba(220,30,60,0.15)",
+            minHeight: "auto",
+          }}
+        >
+          {showFamilyView ? <Eye className="w-4 h-4" /> : <EyeOff className="w-4 h-4" />}
+          {showFamilyView ? "Family view ON" : "Preview as family"}
+        </button>
+      </div>
 
-          {/* Family Members List */}
-          <section className="space-y-6">
-            <div className="flex justify-between items-end">
-              <h2 className="font-headline text-2xl text-on-surface">
-                Family Members
-              </h2>
-              <span className="text-xs uppercase tracking-widest text-primary font-bold">
-                {activeCount} Active
-              </span>
-            </div>
-            <div className="grid gap-4">
+      <div className="grid md:grid-cols-[1fr_300px] gap-6">
+        {/* Left */}
+        <div className="space-y-5">
+
+          {/* Existing members */}
+          <div
+            className="rounded-2xl p-5"
+            style={{ background: "white", border: "1px solid rgba(220,30,60,0.08)", borderRadius: 16 }}
+          >
+            <h3
+              className="text-base font-semibold mb-4"
+              style={{ fontFamily: "var(--font-playfair, serif)", color: "#1a0a14" }}
+            >
+              Family Members
+            </h3>
+            <div className="space-y-3">
               {familyMembers.map((m) => (
                 <div
                   key={m.id}
-                  className="group bg-surface-container-lowest p-6 rounded-2xl flex items-center justify-between transition-all hover:bg-white"
+                  className="flex items-center gap-3 p-3 rounded-xl"
+                  style={{ border: "1px solid rgba(220,30,60,0.1)", background: "#fdfbf9" }}
                 >
-                  <div className="flex items-center gap-5">
+                  <div
+                    className="w-10 h-10 rounded-full flex items-center justify-center text-sm font-semibold text-white flex-shrink-0"
+                    style={{ background: m.grad, fontFamily: "var(--font-playfair, serif)" }}
+                  >
+                    {m.initials}
+                  </div>
+                  <div className="flex-1 min-w-0">
+                    <p className="text-sm font-semibold" style={{ color: "#1a0a14" }}>{m.name}</p>
+                    <p className="text-xs" style={{ color: "rgba(26,10,20,0.45)" }}>{m.relation} · {m.active ? "Active" : m.lastSeen}</p>
+                  </div>
+                  <div className="flex items-center gap-1">
                     <div
-                      className="w-14 h-14 rounded-full flex items-center justify-center text-base font-semibold text-white flex-shrink-0"
-                      style={{ background: m.grad }}
+                      className="w-2 h-2 rounded-full"
+                      style={{ background: m.active ? "#5C7A52" : "rgba(26,10,20,0.2)" }}
+                    />
+                    <CheckCircle className="w-4 h-4" style={{ color: "#5C7A52" }} />
+                  </div>
+                </div>
+              ))}
+            </div>
+
+            {/* Invite form */}
+            <div className="mt-5 pt-4" style={{ borderTop: "1px solid rgba(220,30,60,0.1)" }}>
+              <p className="text-xs font-semibold uppercase tracking-wider mb-3" style={{ color: "rgba(26,10,20,0.55)" }}>
+                Invite a Family Member
+              </p>
+              <div className="space-y-2">
+                <input
+                  type="email"
+                  placeholder="family@email.com"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                  className="w-full px-3 py-2.5 rounded-xl text-sm outline-none"
+                  style={{ background: "#fdfbf9", border: "1px solid rgba(220,30,60,0.15)", color: "#1a0a14" }}
+                />
+                <div className="grid grid-cols-3 gap-1.5">
+                  {["Father", "Mother", "Sibling", "Uncle", "Aunt", "Other"].map((r) => (
+                    <button
+                      key={r}
+                      onClick={() => setRelation(r)}
+                      className="py-1.5 rounded-lg text-xs font-medium transition-all"
+                      style={{
+                        background: relation === r ? "linear-gradient(135deg,#dc1e3c,#a0153c)" : "white",
+                        color: relation === r ? "#fff" : "rgba(26,10,20,0.5)",
+                        border: relation === r ? "none" : "1px solid rgba(220,30,60,0.08)",
+                        minHeight: "auto",
+                      }}
+                    >
+                      {r}
+                    </button>
+                  ))}
+                </div>
+                {/* Permissions — select before sending invite */}
+                <div className="pt-3" style={{ borderTop: "1px solid rgba(220,30,60,0.08)" }}>
+                  <div className="flex items-center gap-2 mb-2">
+                    <Lock className="w-3.5 h-3.5" style={{ color: "#dc1e3c" }} />
+                    <p className="text-xs font-semibold uppercase tracking-wider" style={{ color: "rgba(26,10,20,0.55)" }}>
+                      Set Permissions
+                    </p>
+                  </div>
+                  <p className="text-xs mb-3" style={{ color: "rgba(26,10,20,0.4)" }}>Choose what this member can do on your behalf</p>
+                  <div className="space-y-2">
+                    {PERMISSIONS.map((p) => (
+                      <label key={p.key} className="flex items-center gap-3 cursor-pointer">
+                        <div
+                          onClick={() => togglePerm(p.key)}
+                          className="w-5 h-5 rounded-md flex-shrink-0 flex items-center justify-center border transition-all cursor-pointer"
+                          style={{
+                            background: selectedPerms.has(p.key) ? "linear-gradient(135deg,#dc1e3c,#a0153c)" : "white",
+                            border: selectedPerms.has(p.key) ? "none" : "1px solid rgba(220,30,60,0.2)",
+                          }}
+                        >
+                          {selectedPerms.has(p.key) && <CheckCircle className="w-3 h-3 text-white" />}
+                        </div>
+                        <div>
+                          <p className="text-sm font-medium" style={{ color: "rgba(26,10,20,0.8)" }}>{p.label}</p>
+                          <p className="text-xs" style={{ color: "rgba(26,10,20,0.4)" }}>{p.desc}</p>
+                        </div>
+                      </label>
+                    ))}
+                  </div>
+                </div>
+
+                <button
+                  onClick={() => { if (email) { setInvited(true); setEmail(""); } }}
+                  className="w-full flex items-center justify-center gap-2 py-2.5 rounded-xl text-sm font-semibold text-white"
+                  style={{ background: "linear-gradient(135deg,#dc1e3c,#a0153c)", minHeight: "auto" }}
+                >
+                  <UserPlus className="w-4 h-4" />
+                  {invited ? "Invitation sent!" : "Send Invitation"}
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        {/* Right — Shared profiles */}
+        <div className="space-y-5">
+          <div
+            className="rounded-2xl p-5"
+            style={{ background: "white", border: "1px solid rgba(220,30,60,0.08)", borderRadius: 16 }}
+          >
+            <h3
+              className="text-base font-semibold mb-1"
+              style={{ fontFamily: "var(--font-playfair, serif)", color: "#1a0a14" }}
+            >
+              Shared with Family
+            </h3>
+            <p className="text-xs mb-4" style={{ color: "rgba(26,10,20,0.4)" }}>Profiles your family can see</p>
+            <div className="space-y-3">
+              {matches.map((m) => (
+                <div
+                  key={m.id}
+                  className="rounded-xl p-3"
+                  style={{
+                    background: sharedWith.has(m.id) ? "rgba(220,30,60,0.04)" : "#fdfbf9",
+                    border: sharedWith.has(m.id) ? "1px solid rgba(220,30,60,0.18)" : "1px solid rgba(220,30,60,0.08)",
+                  }}
+                >
+                  <div className="flex items-center gap-3">
+                    <div
+                      className="w-10 h-10 rounded-full flex items-center justify-center text-sm font-semibold text-white flex-shrink-0"
+                      style={{ background: m.grad, fontFamily: "var(--font-playfair, serif)" }}
                     >
                       {m.initials}
                     </div>
-                    <div>
-                      <h3 className="font-semibold text-lg text-on-surface">
-                        {m.name}
-                      </h3>
-                      <p className="text-sm text-on-surface-variant">
-                        {m.relation} &bull;{" "}
-                        {m.active ? "Active" : m.lastSeen}
-                      </p>
+                    <div className="flex-1 min-w-0">
+                      <div className="flex items-center gap-1">
+                        <p className="text-sm font-semibold truncate" style={{ color: "#1a0a14" }}>{m.name}</p>
+                        {m.verified && <Shield className="w-3 h-3 flex-shrink-0" style={{ color: "#5C7A52" }} />}
+                      </div>
+                      <p className="text-xs" style={{ color: "rgba(26,10,20,0.45)" }}>{m.age} · {m.city}</p>
                     </div>
+                    <button
+                      onClick={() => toggleShare(m.id)}
+                      className="p-1.5 rounded-lg transition-all"
+                      style={{
+                        background: sharedWith.has(m.id) ? "rgba(220,30,60,0.1)" : "rgba(26,10,20,0.05)",
+                        minHeight: "auto", minWidth: "auto",
+                      }}
+                    >
+                      {sharedWith.has(m.id)
+                        ? <Eye className="w-3.5 h-3.5" style={{ color: "#dc1e3c" }} />
+                        : <EyeOff className="w-3.5 h-3.5" style={{ color: "rgba(26,10,20,0.3)" }} />}
+                    </button>
                   </div>
-                  {m.active ? (
-                    <span className="px-3 py-1 bg-rose-50 text-rose-700 text-xs font-bold rounded-full">
-                      ACTIVE
-                    </span>
-                  ) : (
-                    <span className="px-3 py-1 bg-surface-container text-on-surface-variant text-xs font-bold rounded-full">
-                      PENDING
-                    </span>
+                  {sharedWith.has(m.id) && (
+                    <div className="mt-2 flex items-center gap-2">
+                      <div className="flex-1 h-1 rounded-full overflow-hidden" style={{ background: "rgba(26,10,20,0.07)" }}>
+                        <div
+                          className="h-full rounded-full"
+                          style={{ width: `${m.trustScore}%`, background: "linear-gradient(90deg,#dc1e3c,#a0153c)" }}
+                        />
+                      </div>
+                      <span className="text-[10px] font-bold" style={{ color: "#dc1e3c" }}>Trust {m.trustScore}</span>
+                    </div>
                   )}
                 </div>
               ))}
             </div>
-          </section>
+          </div>
 
-          {/* Invite Form Section */}
-          <section className="bg-surface-container-low p-8 md:p-10 rounded-[2rem] space-y-8">
-            <div>
-              <h2 className="font-headline text-2xl mb-2 text-on-surface">
-                Invite a Family Member
-              </h2>
-              <p className="text-sm text-on-surface-variant">
-                They will receive a secure link to join your private circle.
-              </p>
-            </div>
-
-            <form
-              className="space-y-8"
-              onSubmit={(e) => {
-                e.preventDefault();
-                if (email) {
-                  setInvited(true);
-                  setEmail("");
-                }
-              }}
+          {/* Family activity feed */}
+          <div
+            className="rounded-2xl p-5"
+            style={{ background: "white", border: "1px solid rgba(220,30,60,0.08)", borderRadius: 16 }}
+          >
+            <h3
+              className="text-base font-semibold mb-4"
+              style={{ fontFamily: "var(--font-playfair, serif)", color: "#1a0a14" }}
             >
-              {/* Email + Role */}
-              <div className="grid md:grid-cols-2 gap-6">
-                <div className="space-y-2">
-                  <label className="text-xs font-bold uppercase tracking-wider text-on-surface-variant ml-1">
-                    Email Address
-                  </label>
-                  <input
-                    type="email"
-                    placeholder="name@family.com"
-                    value={email}
-                    onChange={(e) => {
-                      setEmail(e.target.value);
-                      if (invited) setInvited(false);
-                    }}
-                    className="w-full bg-surface-container-lowest border-none rounded-xl px-4 py-3 focus:ring-2 focus:ring-primary/20 focus:bg-surface-container-high transition-all outline-none text-on-surface placeholder:text-on-surface-variant/50"
-                  />
-                </div>
-                <div className="space-y-2">
-                  <label className="text-xs font-bold uppercase tracking-wider text-on-surface-variant ml-1">
-                    Role
-                  </label>
-                  <div className="relative">
-                    <select
-                      value={relation}
-                      onChange={(e) => setRelation(e.target.value)}
-                      className="w-full bg-surface-container-lowest border-none rounded-xl px-4 py-3 focus:ring-2 focus:ring-primary/20 focus:bg-surface-container-high transition-all outline-none appearance-none text-on-surface"
-                    >
-                      {RELATIONS.map((r) => (
-                        <option key={r} value={r}>
-                          {r}
-                        </option>
-                      ))}
-                    </select>
-                    <span className="material-symbols-outlined absolute right-3 top-1/2 -translate-y-1/2 text-on-surface-variant pointer-events-none text-[20px]">
-                      expand_more
-                    </span>
-                  </div>
-                </div>
-              </div>
-
-              {/* Permissions */}
-              <div className="space-y-4">
-                <label className="text-xs font-bold uppercase tracking-wider text-on-surface-variant ml-1">
-                  Set Permissions
-                </label>
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                  {PERMISSIONS.map((p) => (
-                    <label
-                      key={p.key}
-                      className="flex items-center gap-3 p-4 bg-surface-container-lowest rounded-xl cursor-pointer hover:bg-white transition-all"
-                    >
-                      <input
-                        type="checkbox"
-                        checked={selectedPerms.has(p.key)}
-                        onChange={() => togglePerm(p.key)}
-                        className="w-5 h-5 rounded text-primary border-none focus:ring-offset-0 focus:ring-primary bg-surface-container-low"
-                      />
-                      <div>
-                        <span className="text-sm font-medium text-on-surface">
-                          {p.label}
-                        </span>
-                        <p className="text-xs text-on-surface-variant mt-0.5">
-                          {p.desc}
-                        </p>
-                      </div>
-                    </label>
-                  ))}
-                </div>
-              </div>
-
-              {/* Submit */}
-              <button
-                type="submit"
-                className="w-full py-4 bg-gradient-to-r from-primary to-primary-container text-on-primary font-bold rounded-xl hover:scale-[0.98] transition-transform flex justify-center items-center gap-2"
-              >
-                <span>{invited ? "Invitation sent!" : "Send Invitation"}</span>
-                <span className="material-symbols-outlined text-sm">
-                  {invited ? "check_circle" : "send"}
-                </span>
-              </button>
-            </form>
-          </section>
-        </div>
-
-        {/* Right Column: Activity & Sharing */}
-        <aside className="w-full lg:w-80 mt-12 lg:mt-0 space-y-12 flex-shrink-0">
-          {/* Shared Profiles */}
-          <section className="space-y-6">
-            <h2 className="font-headline text-xl text-on-surface">
-              Shared Profiles
-            </h2>
-            <div className="space-y-4">
-              {matches.map((m) => (
-                <div
-                  key={m.id}
-                  className={`flex items-center gap-4 p-3 rounded-xl transition-all ${
-                    sharedWith.has(m.id)
-                      ? "bg-surface-container-lowest"
-                      : "bg-surface-container-low/50"
-                  }`}
-                >
-                  <div
-                    className="w-12 h-12 rounded-lg flex items-center justify-center text-sm font-semibold text-white flex-shrink-0"
-                    style={{ background: m.grad }}
-                  >
-                    {m.initials}
-                  </div>
-                  <div className="flex-1 overflow-hidden">
-                    <div className="flex items-center gap-1">
-                      <h4 className="text-sm font-bold truncate text-on-surface">
-                        {m.name}
-                      </h4>
-                      {m.verified && (
-                        <span className="material-symbols-outlined text-[14px] text-primary flex-shrink-0">
-                          verified
-                        </span>
-                      )}
-                    </div>
-                    <p className="text-xs text-on-surface-variant">
-                      {m.age} &bull; {m.city}
-                    </p>
-                    {sharedWith.has(m.id) && (
-                      <div className="mt-1.5 flex items-center gap-2">
-                        <div className="flex-1 h-1 rounded-full overflow-hidden bg-outline-variant/20">
-                          <div
-                            className="h-full rounded-full bg-gradient-to-r from-primary to-primary-container"
-                            style={{ width: `${m.trustScore}%` }}
-                          />
-                        </div>
-                        <span className="text-[10px] font-bold text-primary">
-                          Trust {m.trustScore}
-                        </span>
-                      </div>
-                    )}
-                  </div>
-                  <button
-                    onClick={() => toggleShare(m.id)}
-                    className="flex-shrink-0"
-                    aria-label={
-                      sharedWith.has(m.id)
-                        ? `Unshare ${m.name}`
-                        : `Share ${m.name}`
-                    }
-                  >
-                    <span
-                      className={`material-symbols-outlined text-[20px] ${
-                        sharedWith.has(m.id)
-                          ? "text-primary"
-                          : "text-outline-variant"
-                      }`}
-                      style={
-                        sharedWith.has(m.id)
-                          ? { fontVariationSettings: "'FILL' 1" }
-                          : undefined
-                      }
-                    >
-                      {sharedWith.has(m.id) ? "visibility" : "visibility_off"}
-                    </span>
-                  </button>
-                </div>
-              ))}
-            </div>
-          </section>
-
-          {/* Family Activity Timeline */}
-          <section className="bg-surface-container-highest/20 p-6 rounded-3xl">
-            <h2 className="font-headline text-xl mb-6 text-on-surface">
               Family Activity
-            </h2>
-            <div className="relative space-y-8 before:content-[''] before:absolute before:left-3 before:top-2 before:bottom-2 before:w-[1px] before:bg-outline-variant/30">
-              {activityFeed.map((item) => (
-                <div key={item.time + item.member} className="relative pl-8">
+            </h3>
+            <div className="space-y-3">
+              {[
+                { member: "Mother", action: "Shortlisted Priya Sharma", time: "5 min ago",  icon: <Heart className="w-3.5 h-3.5" style={{ color: "#dc1e3c" }} /> },
+                { member: "Father", action: "Viewed Anjali Patel",       time: "1h ago",    icon: <Eye className="w-3.5 h-3.5" style={{ color: "#9A6B00" }} /> },
+                { member: "Sister", action: "Commented on Kavya Nair",   time: "3h ago",    icon: <MessageCircle className="w-3.5 h-3.5" style={{ color: "#5C7A52" }} /> },
+              ].map(({ member, action, time, icon }) => (
+                <div key={action} className="flex items-start gap-2.5">
                   <div
-                    className={`absolute left-0 top-1 w-6 h-6 rounded-full flex items-center justify-center ${item.iconBg} ${
-                      item.border
-                        ? "border border-outline-variant/50"
-                        : ""
-                    }`}
+                    className="w-6 h-6 rounded-full flex items-center justify-center flex-shrink-0 mt-0.5"
+                    style={{ background: "rgba(220,30,60,0.07)" }}
                   >
-                    <span
-                      className={`material-symbols-outlined text-[14px] ${item.iconColor}`}
-                      style={
-                        item.iconFill
-                          ? { fontVariationSettings: "'FILL' 1" }
-                          : undefined
-                      }
-                    >
-                      {item.icon}
-                    </span>
+                    {icon}
                   </div>
-                  <p className="text-sm leading-snug text-on-surface">
-                    <span className="font-bold">{item.member}</span>{" "}
-                    {item.action}{" "}
-                    <span className="text-primary font-medium">
-                      {item.target}
-                    </span>
-                    {item.action === "added" ? " to the circle." : "'s profile."}
-                  </p>
-                  <span className="text-[10px] text-on-surface-variant uppercase tracking-tighter mt-1 block">
-                    {item.time}
-                  </span>
+                  <div>
+                    <p className="text-xs" style={{ color: "rgba(26,10,20,0.7)" }}>
+                      <strong style={{ color: "#1a0a14" }}>{member}</strong> {action}
+                    </p>
+                    <p className="text-[10px]" style={{ color: "rgba(26,10,20,0.3)" }}>{time}</p>
+                  </div>
                 </div>
               ))}
             </div>
-          </section>
-        </aside>
+          </div>
+        </div>
       </div>
     </div>
   );

@@ -2,6 +2,10 @@
 
 import { useState, useEffect, useCallback } from "react";
 import Link from "next/link";
+import {
+  Search, SlidersHorizontal, Shield, MapPin, Briefcase,
+  GraduationCap, CheckCircle, Heart, X, ChevronDown, Loader2,
+} from "lucide-react";
 import { matchApi } from "@/lib/api";
 
 interface Profile {
@@ -71,19 +75,8 @@ function mapApiProfile(p: any, idx: number): Profile {
 /* eslint-enable @typescript-eslint/no-explicit-any */
 
 const religions = ["All", "Hindu", "Sikh", "Christian", "Jain", "Muslim"];
-const ageRanges = ["All", "22-25", "25-28", "28-32", "32+"];
-const cities = [
-  "All",
-  "Mumbai",
-  "Delhi",
-  "Bangalore",
-  "Hyderabad",
-  "Chennai",
-  "Ahmedabad",
-  "Pune",
-];
-
-const ITEMS_PER_PAGE = 12;
+const ageRanges = ["All", "22–25", "25–28", "28–32", "32+"];
+const cities = ["All", "Mumbai", "Delhi", "Bangalore", "Hyderabad", "Chennai", "Ahmedabad", "Pune"];
 
 export default function MatchesPage() {
   const [search, setSearch] = useState("");
@@ -93,7 +86,6 @@ export default function MatchesPage() {
   const [verifiedOnly, setVerifiedOnly] = useState(false);
   const [showFilters, setShowFilters] = useState(false);
   const [liked, setLiked] = useState<Set<string>>(new Set());
-  const [currentPage, setCurrentPage] = useState(1);
 
   const [profiles, setProfiles] = useState<Profile[]>([]);
   const [loading, setLoading] = useState(true);
@@ -110,13 +102,10 @@ export default function MatchesPage() {
 
       const res = await matchApi.browseProfiles(params);
       const data = res.data;
-      const list = Array.isArray(data)
-        ? data
-        : data?.results ?? data?.profiles ?? data?.data ?? [];
+      const list = Array.isArray(data) ? data : data?.results ?? data?.profiles ?? data?.data ?? [];
       setProfiles(list.map(mapApiProfile));
     } catch (err: unknown) {
-      const msg =
-        err instanceof Error ? err.message : "Failed to load profiles";
+      const msg = err instanceof Error ? err.message : "Failed to load profiles";
       setError(msg);
     } finally {
       setLoading(false);
@@ -138,6 +127,7 @@ export default function MatchesPage() {
       try {
         await matchApi.sendInterest(id);
       } catch {
+        // revert on failure
         setLiked((prev) => {
           const s = new Set(prev);
           s.delete(id);
@@ -148,478 +138,330 @@ export default function MatchesPage() {
   };
 
   const filtered = profiles.filter((p) => {
-    if (
-      search &&
-      !p.name.toLowerCase().includes(search.toLowerCase()) &&
-      !p.city.toLowerCase().includes(search.toLowerCase()) &&
-      !p.profession.toLowerCase().includes(search.toLowerCase())
-    )
-      return false;
+    if (search && !p.name.toLowerCase().includes(search.toLowerCase()) && !p.city.toLowerCase().includes(search.toLowerCase())) return false;
     if (ageRange !== "All") {
-      const [lo, hi] = ageRange.replace("+", "-99").split("-").map(Number);
+      const [lo, hi] = ageRange.replace("+", "–99").split("–").map(Number);
       if (p.age < lo || p.age > hi) return false;
     }
     return true;
   });
 
-  const totalPages = Math.max(1, Math.ceil(filtered.length / ITEMS_PER_PAGE));
-  const safePage = Math.min(currentPage, totalPages);
-  const paginatedProfiles = filtered.slice(
-    (safePage - 1) * ITEMS_PER_PAGE,
-    safePage * ITEMS_PER_PAGE
-  );
-
-  const resetFilters = () => {
-    setSearch("");
-    setReligion("All");
-    setAgeRange("All");
-    setCity("All");
-    setVerifiedOnly(false);
-    setCurrentPage(1);
-  };
-
   return (
-    <div className="bg-surface min-h-screen text-on-surface">
-      {/* Header Section */}
-      <section className="mb-12">
-        <h1 className="font-headline font-bold text-5xl text-on-surface mb-8 tracking-tight">
+    <div style={{ background: "#fdfbf9", minHeight: "100vh", padding: "32px" }}>
+      {/* Header */}
+      <div style={{ marginBottom: "24px" }}>
+        <h1 style={{ fontFamily: "var(--font-playfair, serif)", fontSize: "30px", fontWeight: 300, color: "#1a0a14", margin: 0, lineHeight: 1.2 }}>
           Browse Profiles
         </h1>
+        <p style={{ fontFamily: "var(--font-poppins, sans-serif)", fontSize: "13px", color: "#888", marginTop: "4px", marginBottom: 0 }}>
+          {loading ? "Loading…" : `${filtered.length} profiles match your preferences`}
+        </p>
+      </div>
 
-        {/* Search and Filter Bar */}
-        <div className="flex flex-col md:flex-row gap-4 items-center">
-          <div className="relative flex-grow w-full">
-            <span className="material-symbols-outlined absolute left-4 top-1/2 -translate-y-1/2 text-outline">
-              search
-            </span>
-            <input
-              type="text"
-              value={search}
-              onChange={(e) => {
-                setSearch(e.target.value);
-                setCurrentPage(1);
-              }}
-              className="w-full pl-12 pr-4 py-4 bg-surface-container-lowest border-none rounded-xl font-body text-on-surface focus:ring-2 focus:ring-primary-container transition-all outline-none editorial-shadow"
-              placeholder="Search by name, profession, or location..."
-            />
-          </div>
-          <button
-            onClick={() => setShowFilters(!showFilters)}
-            className={`flex items-center gap-2 px-6 py-4 rounded-xl font-body font-semibold transition-colors whitespace-nowrap ${
-              showFilters
-                ? "bg-gradient-to-r from-primary to-primary-container text-on-primary"
-                : "bg-surface-container-high text-on-surface-variant hover:bg-surface-variant"
-            }`}
-          >
-            <span className="material-symbols-outlined">tune</span>
-            Filters
-          </button>
+      {/* Search + Filter bar */}
+      <div style={{ display: "flex", alignItems: "center", gap: "12px", marginBottom: "16px" }}>
+        <div
+          style={{
+            flex: 1, display: "flex", alignItems: "center", gap: "8px",
+            padding: "0 16px", background: "#fff",
+            border: "1px solid rgba(220,30,60,0.15)", borderRadius: "10px", height: "44px",
+          }}
+        >
+          <Search style={{ width: "16px", height: "16px", color: "rgba(26,10,20,0.35)", flexShrink: 0 }} />
+          <input
+            type="text"
+            placeholder="Search by name or city…"
+            value={search}
+            onChange={(e) => setSearch(e.target.value)}
+            style={{
+              flex: 1, background: "transparent",
+              fontFamily: "var(--font-poppins, sans-serif)", fontSize: "14px",
+              color: "#1a0a14", border: "none", outline: "none",
+            }}
+          />
         </div>
+        <button
+          onClick={() => setShowFilters(!showFilters)}
+          style={{
+            display: "flex", alignItems: "center", gap: "8px",
+            padding: "0 16px", height: "44px", borderRadius: "10px",
+            fontFamily: "var(--font-poppins, sans-serif)", fontSize: "14px", fontWeight: 500,
+            cursor: "pointer", transition: "all 0.2s ease",
+            background: showFilters ? "linear-gradient(135deg,#dc1e3c,#a0153c)" : "#fff",
+            color: showFilters ? "#fff" : "rgba(26,10,20,0.60)",
+            border: showFilters ? "none" : "1px solid rgba(220,30,60,0.15)",
+            boxShadow: showFilters ? "0 4px 16px rgba(220,30,60,0.25)" : "none",
+          }}
+        >
+          <SlidersHorizontal style={{ width: "16px", height: "16px" }} />
+          Filters
+        </button>
+      </div>
 
-        {/* Filter Pills */}
-        {showFilters && (
-          <div className="mt-6 flex flex-wrap gap-3 items-center">
-            {/* Religion Filter */}
-            <FilterPill
-              label="Religion"
-              value={religion}
-              options={religions}
-              onChange={(v) => {
-                setReligion(v);
-                setCurrentPage(1);
-              }}
-            />
-
-            {/* Age Filter */}
-            <FilterPill
-              label="Age"
-              value={ageRange}
-              options={ageRanges}
-              onChange={(v) => {
-                setAgeRange(v);
-                setCurrentPage(1);
-              }}
-            />
-
-            {/* City Filter */}
-            <FilterPill
-              label="City"
-              value={city}
-              options={cities}
-              onChange={(v) => {
-                setCity(v);
-                setCurrentPage(1);
-              }}
-            />
-
-            {/* Verified Toggle */}
-            <button
-              onClick={() => {
-                setVerifiedOnly(!verifiedOnly);
-                setCurrentPage(1);
-              }}
-              className={`flex items-center gap-2 px-5 py-2.5 rounded-full font-body text-sm font-semibold transition-colors ${
-                verifiedOnly
-                  ? "bg-primary text-on-primary"
-                  : "bg-surface-container-low text-on-surface-variant hover:bg-surface-container-highest"
-              }`}
-            >
-              <span className="material-symbols-outlined text-base">
-                verified_user
-              </span>
-              Verified Only
-            </button>
-
-            {/* Active filter count */}
-            {(religion !== "All" ||
-              ageRange !== "All" ||
-              city !== "All" ||
-              verifiedOnly) && (
+      {/* Filter panel */}
+      {showFilters && (
+        <div
+          style={{
+            background: "#fff", border: "1px solid rgba(220,30,60,0.08)",
+            borderRadius: "16px", padding: "20px", marginBottom: "24px",
+            boxShadow: "0 2px 12px rgba(220,30,60,0.06)",
+          }}
+        >
+          <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(160px, 1fr))", gap: "16px" }}>
+            <FilterSelect label="Religion" value={religion} options={religions} onChange={setReligion} />
+            <FilterSelect label="Age Range" value={ageRange} options={ageRanges} onChange={setAgeRange} />
+            <FilterSelect label="City" value={city} options={cities} onChange={setCity} />
+            <div style={{ display: "flex", flexDirection: "column", gap: "4px" }}>
+              <label style={{ fontFamily: "var(--font-poppins, sans-serif)", fontSize: "11px", color: "rgba(26,10,20,0.5)", textTransform: "uppercase", letterSpacing: "0.05em" }}>
+                Options
+              </label>
               <button
-                onClick={resetFilters}
-                className="flex items-center gap-1 px-4 py-2.5 rounded-full font-body text-sm text-primary hover:bg-surface-container-low transition-colors"
+                onClick={() => setVerifiedOnly(!verifiedOnly)}
+                style={{
+                  display: "flex", alignItems: "center", gap: "8px",
+                  padding: "8px 12px", borderRadius: "10px", cursor: "pointer",
+                  fontFamily: "var(--font-poppins, sans-serif)", fontSize: "13px", fontWeight: 500,
+                  background: verifiedOnly ? "rgba(220,30,60,0.08)" : "rgba(26,10,20,0.04)",
+                  color: verifiedOnly ? "#dc1e3c" : "rgba(26,10,20,0.55)",
+                  border: verifiedOnly ? "1px solid rgba(220,30,60,0.2)" : "1px solid rgba(26,10,20,0.08)",
+                  transition: "all 0.2s ease",
+                }}
               >
-                <span className="material-symbols-outlined text-base">
-                  close
-                </span>
-                Clear All
+                <Shield style={{ width: "14px", height: "14px" }} />
+                Verified Only
               </button>
-            )}
+            </div>
           </div>
-        )}
-
-        {/* Results count */}
-        {!loading && (
-          <p className="font-body text-on-surface-variant text-sm mt-6">
-            {filtered.length} profile{filtered.length !== 1 ? "s" : ""} match
-            your preferences
-          </p>
-        )}
-      </section>
-
-      {/* Loading State */}
-      {loading && (
-        <div className="flex flex-col items-center justify-center py-20 text-center">
-          <div className="w-16 h-16 bg-surface-container-low rounded-full flex items-center justify-center text-primary mb-6 animate-pulse">
-            <span className="material-symbols-outlined text-3xl">
-              favorite
-            </span>
-          </div>
-          <p className="font-body text-on-surface-variant">
-            Finding your best matches...
-          </p>
         </div>
       )}
 
-      {/* Error State */}
+      {/* Loading state */}
+      {loading && (
+        <div style={{ padding: "80px 0", textAlign: "center" }}>
+          <Loader2
+            style={{
+              width: "36px", height: "36px", color: "#dc1e3c",
+              margin: "0 auto 12px", animation: "spin 1s linear infinite",
+            }}
+          />
+          <p style={{ fontFamily: "var(--font-poppins, sans-serif)", fontSize: "14px", color: "#888" }}>
+            Finding your best matches…
+          </p>
+          <style>{`@keyframes spin { to { transform: rotate(360deg) } }`}</style>
+        </div>
+      )}
+
+      {/* Error state */}
       {!loading && error && (
-        <div className="flex flex-col items-center justify-center py-20 text-center">
-          <div className="w-24 h-24 bg-surface-container-low rounded-full flex items-center justify-center text-primary mb-6">
-            <span className="material-symbols-outlined text-5xl">
-              error_outline
-            </span>
-          </div>
-          <h3 className="font-headline text-2xl font-bold mb-2">
-            Something went wrong
-          </h3>
-          <p className="font-body text-on-surface-variant mb-8 max-w-md mx-auto">
+        <div style={{ padding: "60px 0", textAlign: "center" }}>
+          <X style={{ width: "40px", height: "40px", color: "#dc1e3c", margin: "0 auto 12px" }} />
+          <p style={{ fontFamily: "var(--font-poppins, sans-serif)", fontSize: "14px", color: "#888", marginBottom: "12px" }}>
             {error}
           </p>
           <button
             onClick={fetchProfiles}
-            className="px-8 py-3 bg-gradient-to-r from-primary to-primary-container text-on-primary rounded-xl font-bold hover:opacity-90 transition-opacity"
+            style={{
+              padding: "8px 20px", borderRadius: "10px", cursor: "pointer",
+              background: "linear-gradient(135deg,#dc1e3c,#a0153c)", color: "#fff",
+              fontFamily: "var(--font-poppins, sans-serif)", fontSize: "13px", fontWeight: 600,
+              border: "none", boxShadow: "0 4px 16px rgba(220,30,60,0.25)",
+            }}
           >
-            Try Again
+            Retry
           </button>
         </div>
       )}
 
-      {/* Profile Grid */}
-      {!loading && !error && filtered.length > 0 && (
+      {/* Grid */}
+      {!loading && !error && (
         <>
-          <section className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10">
-            {paginatedProfiles.map((profile) => (
-              <ProfileCard
-                key={profile.id}
-                profile={profile}
-                isLiked={liked.has(profile.id)}
-                onToggleLike={handleLike}
-              />
+          <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(200px, 1fr))", gap: "16px" }}>
+            {filtered.map((p) => (
+              <ProfileCard key={p.id} profile={p} liked={liked} onToggleLike={handleLike} />
             ))}
-          </section>
+          </div>
 
-          {/* Pagination */}
-          {totalPages > 1 && (
-            <div className="mt-16 flex justify-center gap-2">
-              <button
-                onClick={() => setCurrentPage((p) => Math.max(1, p - 1))}
-                disabled={safePage <= 1}
-                className="w-10 h-10 flex items-center justify-center rounded-lg bg-surface-container-low text-on-surface hover:bg-surface-container-high transition-colors disabled:opacity-40"
-              >
-                <span className="material-symbols-outlined">chevron_left</span>
-              </button>
-
-              {getPaginationRange(safePage, totalPages).map((page, idx) =>
-                page === "..." ? (
-                  <span key={`ellipsis-${idx}`} className="px-2 self-center font-body text-on-surface-variant">
-                    ...
-                  </span>
-                ) : (
-                  <button
-                    key={page}
-                    onClick={() => setCurrentPage(page as number)}
-                    className={`w-10 h-10 flex items-center justify-center rounded-lg font-bold font-body transition-colors ${
-                      safePage === page
-                        ? "bg-primary text-on-primary"
-                        : "bg-surface-container-low text-on-surface hover:bg-surface-container-high"
-                    }`}
-                  >
-                    {page}
-                  </button>
-                )
-              )}
-
-              <button
-                onClick={() =>
-                  setCurrentPage((p) => Math.min(totalPages, p + 1))
-                }
-                disabled={safePage >= totalPages}
-                className="w-10 h-10 flex items-center justify-center rounded-lg bg-surface-container-low text-on-surface hover:bg-surface-container-high transition-colors disabled:opacity-40"
-              >
-                <span className="material-symbols-outlined">
-                  chevron_right
-                </span>
-              </button>
+          {filtered.length === 0 && (
+            <div style={{ padding: "80px 0", textAlign: "center" }}>
+              <Heart style={{ width: "40px", height: "40px", color: "rgba(26,10,20,0.2)", margin: "0 auto 12px" }} />
+              <p style={{ fontFamily: "var(--font-poppins, sans-serif)", fontSize: "14px", color: "#888" }}>
+                No profiles match your filters. Try adjusting your criteria.
+              </p>
             </div>
           )}
         </>
       )}
-
-      {/* Empty State */}
-      {!loading && !error && filtered.length === 0 && (
-        <section className="flex flex-col items-center justify-center py-20 text-center">
-          <div className="w-24 h-24 bg-surface-container-low rounded-full flex items-center justify-center text-primary mb-6">
-            <span className="material-symbols-outlined text-5xl">
-              search_off
-            </span>
-          </div>
-          <h3 className="font-headline text-2xl font-bold mb-2">
-            No profiles match your preferences
-          </h3>
-          <p className="font-body text-on-surface-variant mb-8 max-w-md mx-auto">
-            Try adjusting your age range, location, or community filters to
-            discover more compatible matches.
-          </p>
-          <button
-            onClick={resetFilters}
-            className="px-8 py-3 border-2 border-primary text-primary rounded-xl font-bold hover:bg-primary hover:text-on-primary transition-all"
-          >
-            Reset Filters
-          </button>
-        </section>
-      )}
     </div>
   );
 }
-
-/* ------------------------------------------------------------------ */
-/*  Profile Card                                                       */
-/* ------------------------------------------------------------------ */
 
 function ProfileCard({
   profile,
-  isLiked,
+  liked,
   onToggleLike,
 }: {
   profile: Profile;
-  isLiked: boolean;
+  liked: Set<string>;
   onToggleLike: (id: string) => void;
 }) {
+  const isLiked = liked.has(profile.id);
+
   return (
-    <div className="bg-surface-container-lowest rounded-xl overflow-hidden editorial-shadow transition-transform hover:-translate-y-1 duration-300">
-      {/* Image Area */}
-      <div
-        className="relative h-80 flex items-center justify-center"
-        style={{ background: profile.grad }}
-      >
-        {/* Initials fallback (no real photo) */}
-        <span className="font-headline text-6xl font-bold text-white/80 select-none">
+    <div
+      style={{
+        background: "#fff",
+        border: "1px solid rgba(220,30,60,0.08)",
+        borderRadius: "16px",
+        overflow: "hidden",
+        cursor: "pointer",
+        transition: "all 0.2s ease",
+        boxShadow: "0 2px 12px rgba(220,30,60,0.06)",
+      }}
+      onMouseEnter={(e) => {
+        (e.currentTarget as HTMLDivElement).style.boxShadow = "0 8px 28px rgba(220,30,60,0.14)";
+        (e.currentTarget as HTMLDivElement).style.transform = "translateY(-2px)";
+      }}
+      onMouseLeave={(e) => {
+        (e.currentTarget as HTMLDivElement).style.boxShadow = "0 2px 12px rgba(220,30,60,0.06)";
+        (e.currentTarget as HTMLDivElement).style.transform = "translateY(0)";
+      }}
+    >
+      {/* Photo area */}
+      <div style={{ position: "relative", height: "144px", display: "flex", alignItems: "center", justifyContent: "center", background: profile.grad }}>
+        <span style={{ fontFamily: "var(--font-playfair, serif)", fontSize: "30px", fontWeight: 300, color: "rgba(255,255,255,0.9)" }}>
           {profile.photo}
         </span>
 
-        {/* Match % Badge */}
-        {profile.compatibility > 0 && (
-          <div className="absolute top-4 left-4 bg-primary/90 text-on-primary px-3 py-1 rounded-full text-xs font-bold tracking-widest uppercase">
-            {profile.compatibility}% Match
-          </div>
-        )}
+        {/* Like button */}
+        <button
+          onClick={(e) => { e.stopPropagation(); onToggleLike(profile.id); }}
+          style={{
+            position: "absolute", top: "8px", right: "8px",
+            width: "28px", height: "28px", borderRadius: "50%",
+            display: "flex", alignItems: "center", justifyContent: "center",
+            background: isLiked ? "#dc1e3c" : "rgba(255,255,255,0.92)",
+            border: "none", cursor: "pointer",
+            boxShadow: "0 2px 8px rgba(0,0,0,0.12)",
+            transition: "all 0.2s ease",
+          }}
+        >
+          <Heart
+            style={{
+              width: "14px", height: "14px",
+              color: isLiked ? "#fff" : "rgba(26,10,20,0.5)",
+              fill: isLiked ? "#fff" : "none",
+            }}
+          />
+        </button>
 
-        {/* Trust Score Badge */}
+        {/* Trust score */}
         {profile.trustScore > 0 && (
-          <div className="absolute bottom-4 right-4 bg-surface-container-lowest/80 backdrop-blur-md text-on-surface px-3 py-1 rounded-lg text-xs font-bold shadow-sm">
-            Trust Score: {profile.trustScore}
+          <div
+            style={{
+              position: "absolute", bottom: "8px", left: "8px",
+              display: "flex", alignItems: "center", gap: "4px",
+              padding: "2px 6px", borderRadius: "20px",
+              background: "rgba(253,251,249,0.92)",
+            }}
+          >
+            <Shield style={{ width: "10px", height: "10px", color: "#C89020" }} />
+            <span style={{ fontFamily: "var(--font-poppins, sans-serif)", fontSize: "10px", fontWeight: 700, color: "#1a0a14" }}>
+              {profile.trustScore}
+            </span>
           </div>
         )}
 
-        {/* Verified Badge */}
+        {/* Verified badge */}
         {profile.verified && (
-          <div className="absolute top-4 right-4 bg-surface-container-lowest/80 backdrop-blur-md text-primary px-2.5 py-1 rounded-full text-xs font-bold flex items-center gap-1">
-            <span className="material-symbols-outlined text-sm">verified</span>
-            Verified
+          <div style={{ position: "absolute", top: "8px", left: "8px" }}>
+            <CheckCircle style={{ width: "16px", height: "16px", color: "#dc1e3c", fill: "rgba(220,30,60,0.15)" }} />
           </div>
         )}
       </div>
 
-      {/* Info Section */}
-      <div className="p-6">
-        <div className="flex justify-between items-start mb-2">
-          <h2 className="font-headline text-2xl font-bold text-on-surface">
-            {profile.name}
-            {profile.age > 0 ? `, ${profile.age}` : ""}
-          </h2>
-          <button
-            onClick={(e) => {
-              e.preventDefault();
-              onToggleLike(profile.id);
-            }}
-            className={`p-2 rounded-full transition-colors ${
-              isLiked
-                ? "text-primary bg-surface-container-highest"
-                : "text-primary hover:bg-surface-container-low"
-            }`}
-            aria-label={isLiked ? "Remove from favorites" : "Add to favorites"}
-          >
-            <span
-              className={`material-symbols-outlined ${isLiked ? "fill-icon" : ""}`}
-              style={
-                isLiked
-                  ? { fontVariationSettings: "'FILL' 1" }
-                  : undefined
-              }
-            >
-              favorite
-            </span>
-          </button>
-        </div>
-
-        {profile.profession && (
-          <p className="font-body text-on-surface-variant text-sm mb-1">
-            {profile.profession}
-          </p>
-        )}
+      {/* Info */}
+      <div style={{ padding: "12px" }}>
+        <h3 style={{
+          fontFamily: "var(--font-playfair, serif)", fontSize: "14px", fontWeight: 600,
+          color: "#1a0a14", margin: 0, whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis",
+        }}>
+          {profile.name}{profile.age > 0 ? `, ${profile.age}` : ""}
+        </h3>
 
         {profile.city && (
-          <p className="font-body text-on-surface-variant text-xs flex items-center gap-1 mb-6">
-            <span className="material-symbols-outlined text-sm">
-              location_on
+          <div style={{ display: "flex", alignItems: "center", gap: "4px", marginTop: "4px", marginBottom: "6px" }}>
+            <MapPin style={{ width: "10px", height: "10px", color: "#888", flexShrink: 0 }} />
+            <span style={{ fontFamily: "var(--font-poppins, sans-serif)", fontSize: "12px", color: "#888", overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>
+              {profile.city}
             </span>
-            {profile.city}
-          </p>
+          </div>
         )}
 
-        {!profile.city && !profile.profession && <div className="mb-6" />}
-
-        <div className="flex gap-3">
-          <Link
-            href={`/profile/${profile.id}`}
-            className="flex-grow py-3 bg-gradient-to-r from-primary to-primary-container text-on-primary rounded-xl font-bold text-sm text-center shadow-md hover:shadow-lg transition-all"
-          >
-            View Profile
-          </Link>
-          <button
-            onClick={(e) => {
-              e.preventDefault();
-              onToggleLike(profile.id);
-            }}
-            className="p-3 bg-surface-container-highest text-on-surface-variant rounded-xl hover:bg-surface-variant transition-colors"
-            title="Express Interest"
-            aria-label="Express interest"
-          >
-            <span className="material-symbols-outlined">
-              volunteer_activism
+        {profile.profession && (
+          <div style={{ display: "flex", alignItems: "center", gap: "4px", marginBottom: "10px" }}>
+            <Briefcase style={{ width: "10px", height: "10px", color: "#888", flexShrink: 0 }} />
+            <span style={{ fontFamily: "var(--font-poppins, sans-serif)", fontSize: "12px", color: "#888", overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>
+              {profile.profession}
             </span>
-          </button>
-        </div>
+          </div>
+        )}
+
+        {/* Compatibility */}
+        {profile.compatibility > 0 && (
+          <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: "12px" }}>
+            <span style={{ fontFamily: "var(--font-poppins, sans-serif)", fontSize: "12px", color: "rgba(26,10,20,0.4)" }}>Match</span>
+            <span style={{ fontFamily: "var(--font-playfair, serif)", fontSize: "14px", fontWeight: 700, color: "#C89020" }}>
+              {profile.compatibility}%
+            </span>
+          </div>
+        )}
+
+        <Link
+          href={`/profile/${profile.id}`}
+          style={{
+            display: "block", width: "100%", textAlign: "center",
+            background: "linear-gradient(135deg,#dc1e3c,#a0153c)",
+            color: "#fff", borderRadius: "10px",
+            padding: "8px 0",
+            fontFamily: "var(--font-poppins, sans-serif)", fontSize: "12px", fontWeight: 600,
+            boxShadow: "0 2px 8px rgba(220,30,60,0.25)",
+            textDecoration: "none", transition: "all 0.2s ease",
+          }}
+        >
+          View Profile
+        </Link>
       </div>
     </div>
   );
 }
 
-/* ------------------------------------------------------------------ */
-/*  Filter Pill (dropdown select styled as pill)                       */
-/* ------------------------------------------------------------------ */
-
-function FilterPill({
-  label,
-  value,
-  options,
-  onChange,
-}: {
-  label: string;
-  value: string;
-  options: string[];
-  onChange: (v: string) => void;
+function FilterSelect({ label, value, options, onChange }: {
+  label: string; value: string; options: string[]; onChange: (v: string) => void;
 }) {
-  const isActive = value !== "All";
-
   return (
-    <div className="relative">
-      <select
-        value={value}
-        onChange={(e) => onChange(e.target.value)}
-        className={`appearance-none pl-4 pr-9 py-2.5 rounded-full font-body text-sm font-semibold cursor-pointer transition-colors outline-none border-none ${
-          isActive
-            ? "bg-primary text-on-primary"
-            : "bg-surface-container-low text-on-surface-variant hover:bg-surface-container-highest"
-        }`}
-        aria-label={label}
-      >
-        {options.map((o) => (
-          <option key={o} value={o} className="text-on-surface bg-surface">
-            {o === "All" ? label : o}
-          </option>
-        ))}
-      </select>
-      <span
-        className={`material-symbols-outlined absolute right-2 top-1/2 -translate-y-1/2 text-base pointer-events-none ${
-          isActive ? "text-on-primary" : "text-on-surface-variant"
-        }`}
-      >
-        expand_more
-      </span>
+    <div style={{ display: "flex", flexDirection: "column", gap: "4px" }}>
+      <label style={{
+        fontFamily: "var(--font-poppins, sans-serif)", fontSize: "11px",
+        color: "rgba(26,10,20,0.5)", textTransform: "uppercase", letterSpacing: "0.05em",
+      }}>
+        {label}
+      </label>
+      <div style={{ position: "relative" }}>
+        <select
+          value={value}
+          onChange={(e) => onChange(e.target.value)}
+          style={{
+            width: "100%", appearance: "none",
+            fontFamily: "var(--font-poppins, sans-serif)", fontSize: "13px", color: "#1a0a14",
+            background: "rgba(255,255,255,0.8)", borderRadius: "10px",
+            padding: "8px 32px 8px 12px",
+            border: "1px solid rgba(220,30,60,0.15)", outline: "none", cursor: "pointer",
+          }}
+        >
+          {options.map((o) => <option key={o}>{o}</option>)}
+        </select>
+        <ChevronDown style={{ position: "absolute", right: "8px", top: "50%", transform: "translateY(-50%)", width: "14px", height: "14px", color: "rgba(26,10,20,0.4)", pointerEvents: "none" }} />
+      </div>
     </div>
   );
-}
-
-/* ------------------------------------------------------------------ */
-/*  Pagination helper                                                  */
-/* ------------------------------------------------------------------ */
-
-function getPaginationRange(
-  current: number,
-  total: number
-): (number | "...")[] {
-  if (total <= 7) {
-    return Array.from({ length: total }, (_, i) => i + 1);
-  }
-
-  const pages: (number | "...")[] = [1];
-
-  if (current > 3) {
-    pages.push("...");
-  }
-
-  const start = Math.max(2, current - 1);
-  const end = Math.min(total - 1, current + 1);
-
-  for (let i = start; i <= end; i++) {
-    pages.push(i);
-  }
-
-  if (current < total - 2) {
-    pages.push("...");
-  }
-
-  pages.push(total);
-  return pages;
 }

@@ -2,10 +2,7 @@
 
 import { useState, useRef, useEffect } from "react";
 import Link from "next/link";
-
-/* ------------------------------------------------------------------ */
-/*  Static data                                                        */
-/* ------------------------------------------------------------------ */
+import { ArrowLeft, Shield, Send, Lock, Phone, Video, MoreHorizontal, CheckCheck } from "lucide-react";
 
 const threadProfiles: Record<string, { name: string; photo: string; grad: string; compatibility: number; city: string }> = {
   "1": { name: "Priya Sharma",   photo: "PS", grad: "linear-gradient(135deg,#E8426A,#E8A060)", compatibility: 92, city: "Mumbai" },
@@ -35,26 +32,11 @@ const initialMessages: Record<string, { id: string; from: "me" | "them"; text: s
   ],
 };
 
-/* ------------------------------------------------------------------ */
-/*  Material icon helper                                               */
-/* ------------------------------------------------------------------ */
-
-function Icon({ name, className = "" }: { name: string; className?: string }) {
-  return (
-    <span className={`material-symbols-outlined ${className}`} aria-hidden="true">
-      {name}
-    </span>
-  );
-}
-
-/* ------------------------------------------------------------------ */
-/*  Page component                                                     */
-/* ------------------------------------------------------------------ */
-
 export default function ChatPage({ params }: { params: { id: string } }) {
   const profile = threadProfiles[params.id] || threadProfiles["1"];
   const [messages, setMessages] = useState(initialMessages[params.id] || []);
   const [input, setInput] = useState("");
+  const [inputFocused, setInputFocused] = useState(false);
   const bottomRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -71,230 +53,389 @@ export default function ChatPage({ params }: { params: { id: string } }) {
   };
 
   return (
-    <div className="flex h-screen bg-surface font-body">
-      {/* ================================================================ */}
-      {/*  Main chat column                                                 */}
-      {/* ================================================================ */}
-      <div className="flex flex-1 flex-col min-w-0">
+    <div
+      style={{
+        height: "100vh",
+        display: "flex",
+        flexDirection: "column",
+        maxWidth: "672px",
+        background: "#fdfbf9",
+        fontFamily: "var(--font-poppins, sans-serif)",
+      }}
+    >
+      {/* ── Header ── */}
+      <div
+        style={{
+          display: "flex",
+          alignItems: "center",
+          gap: "16px",
+          padding: "16px 24px",
+          flexShrink: 0,
+          background: "#ffffff",
+          borderBottom: "1px solid rgba(220,30,60,0.12)",
+          backdropFilter: "blur(20px)",
+        }}
+      >
+        {/* Back */}
+        <Link
+          href="/messages"
+          style={{
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+            width: "36px",
+            height: "36px",
+            borderRadius: "50%",
+            color: "rgba(26,10,20,0.5)",
+            background: "rgba(220,30,60,0.05)",
+            border: "1px solid rgba(220,30,60,0.12)",
+            textDecoration: "none",
+            flexShrink: 0,
+            transition: "background 0.15s ease",
+          }}
+          onMouseEnter={(e) => {
+            (e.currentTarget as HTMLAnchorElement).style.background =
+              "rgba(220,30,60,0.1)";
+          }}
+          onMouseLeave={(e) => {
+            (e.currentTarget as HTMLAnchorElement).style.background =
+              "rgba(220,30,60,0.05)";
+          }}
+        >
+          <ArrowLeft style={{ width: "18px", height: "18px" }} />
+        </Link>
 
-        {/* ── Header ── */}
-        <header className="flex items-center gap-4 px-6 py-4 bg-surface-container-lowest shrink-0">
-          {/* Back button */}
-          <Link
-            href="/messages"
-            className="flex items-center justify-center w-9 h-9 rounded-full bg-surface-container-low text-on-surface-variant hover:bg-surface-container-highest transition-colors"
-            aria-label="Back to messages"
-          >
-            <Icon name="arrow_back" className="text-[20px]" />
-          </Link>
+        {/* Avatar */}
+        <div
+          style={{
+            width: "42px",
+            height: "42px",
+            borderRadius: "50%",
+            background: profile.grad,
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+            fontFamily: "var(--font-playfair, serif)",
+            fontSize: "0.9rem",
+            fontWeight: 700,
+            color: "#ffffff",
+            flexShrink: 0,
+            border: "2px solid rgba(220,30,60,0.25)",
+            boxShadow: "0 2px 10px rgba(220,30,60,0.2)",
+          }}
+        >
+          {profile.photo}
+        </div>
 
-          {/* Avatar */}
+        {/* Name & status */}
+        <div style={{ flex: 1, minWidth: 0 }}>
           <div
-            className="w-11 h-11 rounded-full flex items-center justify-center font-headline text-sm font-bold text-on-primary shrink-0"
-            style={{ background: profile.grad }}
+            style={{
+              display: "flex",
+              alignItems: "center",
+              gap: "6px",
+            }}
           >
-            {profile.photo}
+            <h2
+              style={{
+                fontFamily: "var(--font-playfair, serif)",
+                fontSize: "1rem",
+                fontWeight: 600,
+                color: "#1a0a14",
+                margin: 0,
+              }}
+            >
+              {profile.name}
+            </h2>
+            <Shield
+              style={{ width: "14px", height: "14px", color: "#dc1e3c", flexShrink: 0 }}
+            />
           </div>
-
-          {/* Name and status */}
-          <div className="flex-1 min-w-0">
-            <div className="flex items-center gap-1.5">
-              <h1 className="font-headline text-base font-semibold text-on-surface truncate">
-                {profile.name}
-              </h1>
-              <Icon name="verified" className="text-[16px] text-primary shrink-0" />
-            </div>
-            <div className="flex items-center gap-1.5 mt-0.5">
-              <span className="w-2 h-2 rounded-full bg-green-500 shrink-0" />
-              <span className="text-xs text-on-surface-variant">
-                Online &middot; {profile.city} &middot;{" "}
-                <span className="font-semibold text-primary">{profile.compatibility}% match</span>
+          <div
+            style={{
+              display: "flex",
+              alignItems: "center",
+              gap: "6px",
+              marginTop: "1px",
+            }}
+          >
+            <span
+              style={{
+                width: "7px",
+                height: "7px",
+                borderRadius: "50%",
+                background: "#dc1e3c",
+                boxShadow: "0 0 0 2px rgba(220,30,60,0.2)",
+                display: "inline-block",
+                flexShrink: 0,
+              }}
+            />
+            <span
+              style={{
+                fontFamily: "var(--font-poppins, sans-serif)",
+                fontSize: "0.75rem",
+                color: "rgba(26,10,20,0.45)",
+              }}
+            >
+              {profile.city} ·{" "}
+              <span style={{ color: "#C89020", fontWeight: 600 }}>
+                {profile.compatibility}% match
               </span>
-            </div>
-          </div>
-
-          {/* Action buttons */}
-          <div className="flex items-center gap-1">
-            <button
-              aria-label="Voice call"
-              className="flex items-center justify-center w-10 h-10 rounded-full text-on-surface-variant bg-surface-container-low hover:bg-surface-container-highest transition-colors"
-            >
-              <Icon name="call" className="text-[20px]" />
-            </button>
-            <button
-              aria-label="Video call"
-              className="flex items-center justify-center w-10 h-10 rounded-full text-on-surface-variant bg-surface-container-low hover:bg-surface-container-highest transition-colors"
-            >
-              <Icon name="videocam" className="text-[20px]" />
-            </button>
-            <Link
-              href={`/profile/${params.id}`}
-              aria-label="More options"
-              className="flex items-center justify-center w-10 h-10 rounded-full text-on-surface-variant bg-surface-container-low hover:bg-surface-container-highest transition-colors"
-            >
-              <Icon name="more_vert" className="text-[20px]" />
-            </Link>
-          </div>
-        </header>
-
-        {/* ── E2E encryption notice ── */}
-        <div className="flex items-center justify-center gap-1.5 py-2 bg-surface-container-low shrink-0">
-          <Icon name="lock" className="text-[14px] text-primary opacity-70" />
-          <span className="text-[11px] font-body text-on-surface-variant opacity-60">
-            Messages are end-to-end encrypted &middot; Signal Protocol
-          </span>
-        </div>
-
-        {/* ── Message list ── */}
-        <div className="flex-1 overflow-y-auto px-6 py-5 flex flex-col gap-1 bg-surface">
-          {messages.map((msg, idx) => {
-            const isMe = msg.from === "me";
-            const prevMsg = messages[idx - 1];
-            const isSameSenderAsPrev = prevMsg?.from === msg.from;
-
-            return (
-              <div
-                key={msg.id}
-                className={`flex ${isMe ? "justify-end" : "justify-start"} ${
-                  isSameSenderAsPrev ? "mt-1" : "mt-3"
-                }`}
-              >
-                <div className="max-w-[75%]">
-                  {/* Bubble */}
-                  <div
-                    className={
-                      isMe
-                        ? "bg-gradient-to-br from-primary to-secondary text-on-primary rounded-t-2xl rounded-bl-2xl px-4 py-2.5 font-body text-sm leading-relaxed"
-                        : "bg-surface-container-lowest text-on-surface rounded-t-2xl rounded-br-2xl px-4 py-2.5 font-body text-sm leading-relaxed"
-                    }
-                  >
-                    {msg.text}
-                  </div>
-
-                  {/* Timestamp + read receipt */}
-                  <div
-                    className={`flex items-center gap-1 mt-1 ${
-                      isMe ? "justify-end" : "justify-start"
-                    }`}
-                  >
-                    <span className="text-xs text-on-surface-variant opacity-60">
-                      {msg.time}
-                    </span>
-                    {isMe && (
-                      <Icon name="done_all" className="text-[14px] text-primary" />
-                    )}
-                  </div>
-                </div>
-              </div>
-            );
-          })}
-          <div ref={bottomRef} />
-        </div>
-
-        {/* ── Input bar ── */}
-        <div className="flex items-center gap-3 px-4 py-3 bg-surface-container-lowest shrink-0">
-          <button
-            aria-label="Attach file"
-            className="flex items-center justify-center w-10 h-10 rounded-full text-on-surface-variant bg-surface-container-low hover:bg-surface-container-highest transition-colors shrink-0"
-          >
-            <Icon name="attach_file" className="text-[20px]" />
-          </button>
-
-          <input
-            type="text"
-            value={input}
-            onChange={(e) => setInput(e.target.value)}
-            onKeyDown={(e) => e.key === "Enter" && send()}
-            placeholder="Type a message..."
-            className="flex-1 h-11 px-5 font-body text-sm text-on-surface bg-surface-container-low rounded-full outline-none placeholder:text-on-surface-variant placeholder:opacity-50 focus:bg-surface-container-highest transition-colors"
-          />
-
-          <button
-            onClick={send}
-            aria-label="Send message"
-            disabled={!input.trim()}
-            className={`flex items-center justify-center w-11 h-11 rounded-full shrink-0 transition-all ${
-              input.trim()
-                ? "bg-gradient-to-r from-primary to-primary-container text-on-primary cursor-pointer"
-                : "bg-surface-container-low text-on-surface-variant opacity-40 cursor-default"
-            }`}
-          >
-            <Icon name="send" className="text-[20px]" />
-          </button>
-        </div>
-      </div>
-
-      {/* ================================================================ */}
-      {/*  Right-side mini profile panel (hidden on small screens)          */}
-      {/* ================================================================ */}
-      <aside className="hidden lg:flex w-80 flex-col bg-surface-container-lowest shrink-0 border-l border-outline-variant/30">
-        {/* Profile card */}
-        <div className="flex flex-col items-center pt-10 pb-6 px-6">
-          <div
-            className="w-20 h-20 rounded-full flex items-center justify-center font-headline text-2xl font-bold text-on-primary mb-4"
-            style={{ background: profile.grad }}
-          >
-            {profile.photo}
-          </div>
-          <h2 className="font-headline text-lg font-semibold text-on-surface">
-            {profile.name}
-          </h2>
-          <p className="text-sm text-on-surface-variant mt-1">
-            {profile.city}
-          </p>
-          <div className="flex items-center gap-1 mt-2">
-            <Icon name="favorite" className="text-[16px] text-primary" />
-            <span className="text-sm font-semibold text-primary">
-              {profile.compatibility}% Compatible
             </span>
           </div>
         </div>
 
-        {/* Quick info */}
-        <div className="px-6 space-y-4">
-          <div className="bg-surface-container-low rounded-2xl p-4 space-y-3">
-            <h3 className="font-body text-xs font-semibold text-on-surface-variant uppercase tracking-wider">
-              Quick Info
-            </h3>
-            {[
-              { icon: "location_on", label: profile.city },
-              { icon: "verified_user", label: "Profile Verified" },
-              { icon: "shield", label: "ID Verified" },
-            ].map((item) => (
-              <div key={item.icon} className="flex items-center gap-3">
-                <Icon name={item.icon} className="text-[18px] text-primary" />
-                <span className="text-sm text-on-surface">{item.label}</span>
-              </div>
-            ))}
-          </div>
-
-          {/* Shared interests */}
-          <div className="bg-surface-container-low rounded-2xl p-4 space-y-3">
-            <h3 className="font-body text-xs font-semibold text-on-surface-variant uppercase tracking-wider">
-              Shared Interests
-            </h3>
-            <div className="flex flex-wrap gap-2">
-              {["Travel", "Music", "Cooking", "Fitness"].map((tag) => (
-                <span
-                  key={tag}
-                  className="px-3 py-1 text-xs font-medium rounded-full bg-surface-container-highest text-on-surface-variant"
-                >
-                  {tag}
-                </span>
-              ))}
-            </div>
-          </div>
-
-          {/* View full profile link */}
+        {/* Action buttons */}
+        <div style={{ display: "flex", alignItems: "center", gap: "4px" }}>
+          {[
+            { icon: <Phone style={{ width: "16px", height: "16px" }} />, label: "Call" },
+            { icon: <Video style={{ width: "16px", height: "16px" }} />, label: "Video" },
+          ].map((btn) => (
+            <button
+              key={btn.label}
+              aria-label={btn.label}
+              style={{
+                width: "36px",
+                height: "36px",
+                borderRadius: "50%",
+                background: "transparent",
+                border: "1px solid rgba(220,30,60,0.12)",
+                color: "rgba(26,10,20,0.45)",
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+                cursor: "pointer",
+                transition: "background 0.15s ease, color 0.15s ease",
+              }}
+              onMouseEnter={(e) => {
+                (e.currentTarget as HTMLButtonElement).style.background =
+                  "rgba(220,30,60,0.07)";
+                (e.currentTarget as HTMLButtonElement).style.color = "#dc1e3c";
+              }}
+              onMouseLeave={(e) => {
+                (e.currentTarget as HTMLButtonElement).style.background =
+                  "transparent";
+                (e.currentTarget as HTMLButtonElement).style.color =
+                  "rgba(26,10,20,0.45)";
+              }}
+            >
+              {btn.icon}
+            </button>
+          ))}
           <Link
             href={`/profile/${params.id}`}
-            className="flex items-center justify-center gap-2 w-full py-2.5 rounded-full bg-gradient-to-r from-primary to-primary-container text-on-primary text-sm font-semibold transition-opacity hover:opacity-90"
+            aria-label="View profile"
+            style={{
+              width: "36px",
+              height: "36px",
+              borderRadius: "50%",
+              background: "transparent",
+              border: "1px solid rgba(220,30,60,0.12)",
+              color: "rgba(26,10,20,0.45)",
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+              textDecoration: "none",
+              transition: "background 0.15s ease, color 0.15s ease",
+            }}
+            onMouseEnter={(e) => {
+              (e.currentTarget as HTMLAnchorElement).style.background =
+                "rgba(220,30,60,0.07)";
+              (e.currentTarget as HTMLAnchorElement).style.color = "#dc1e3c";
+            }}
+            onMouseLeave={(e) => {
+              (e.currentTarget as HTMLAnchorElement).style.background =
+                "transparent";
+              (e.currentTarget as HTMLAnchorElement).style.color =
+                "rgba(26,10,20,0.45)";
+            }}
           >
-            <Icon name="person" className="text-[18px]" />
-            View Full Profile
+            <MoreHorizontal style={{ width: "16px", height: "16px" }} />
           </Link>
         </div>
-      </aside>
+      </div>
+
+      {/* ── E2E encryption notice ── */}
+      <div
+        style={{
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
+          gap: "6px",
+          padding: "8px 16px",
+          background: "rgba(220,30,60,0.03)",
+          borderBottom: "1px solid rgba(220,30,60,0.08)",
+          flexShrink: 0,
+        }}
+      >
+        <Lock style={{ width: "11px", height: "11px", color: "#dc1e3c" }} />
+        <span
+          style={{
+            fontFamily: "var(--font-poppins, sans-serif)",
+            fontSize: "0.6875rem",
+            color: "rgba(220,30,60,0.65)",
+          }}
+        >
+          Messages are end-to-end encrypted · Signal Protocol
+        </span>
+      </div>
+
+      {/* ── Message list ── */}
+      <div
+        style={{
+          flex: 1,
+          overflowY: "auto",
+          padding: "20px 24px",
+          display: "flex",
+          flexDirection: "column",
+          gap: "12px",
+          background: "#fdfbf9",
+        }}
+      >
+        {messages.map((msg, idx) => {
+          const isMe = msg.from === "me";
+          // Group consecutive same-sender messages
+          const prevMsg = messages[idx - 1];
+          const isSameSenderAsPrev = prevMsg?.from === msg.from;
+
+          return (
+            <div
+              key={msg.id}
+              style={{
+                display: "flex",
+                justifyContent: isMe ? "flex-end" : "flex-start",
+                marginTop: isSameSenderAsPrev ? "4px" : "12px",
+              }}
+            >
+              <div style={{ maxWidth: "75%" }}>
+                {/* Bubble */}
+                <div
+                  style={
+                    isMe
+                      ? {
+                          background: "linear-gradient(135deg, #dc1e3c, #a0153c)",
+                          color: "#ffffff",
+                          borderRadius: "18px",
+                          borderBottomRightRadius: "5px",
+                          padding: "10px 16px",
+                          fontFamily: "var(--font-poppins, sans-serif)",
+                          fontSize: "0.875rem",
+                          lineHeight: 1.55,
+                          boxShadow: "0 2px 12px rgba(220,30,60,0.25)",
+                        }
+                      : {
+                          background: "#ffffff",
+                          color: "#1a0a14",
+                          borderRadius: "18px",
+                          borderBottomLeftRadius: "5px",
+                          padding: "10px 16px",
+                          fontFamily: "var(--font-poppins, sans-serif)",
+                          fontSize: "0.875rem",
+                          lineHeight: 1.55,
+                          border: "1px solid rgba(220,30,60,0.1)",
+                          boxShadow: "0 1px 6px rgba(26,10,20,0.07)",
+                        }
+                  }
+                >
+                  {msg.text}
+                </div>
+
+                {/* Timestamp + read receipt */}
+                <div
+                  style={{
+                    display: "flex",
+                    alignItems: "center",
+                    gap: "4px",
+                    marginTop: "4px",
+                    justifyContent: isMe ? "flex-end" : "flex-start",
+                  }}
+                >
+                  <span
+                    style={{
+                      fontFamily: "var(--font-poppins, sans-serif)",
+                      fontSize: "0.625rem",
+                      color: "rgba(26,10,20,0.35)",
+                    }}
+                  >
+                    {msg.time}
+                  </span>
+                  {isMe && (
+                    <CheckCheck
+                      style={{ width: "12px", height: "12px", color: "#dc1e3c" }}
+                    />
+                  )}
+                </div>
+              </div>
+            </div>
+          );
+        })}
+        <div ref={bottomRef} />
+      </div>
+
+      {/* ── Input bar ── */}
+      <div
+        style={{
+          padding: "12px 16px",
+          display: "flex",
+          alignItems: "center",
+          gap: "12px",
+          flexShrink: 0,
+          background: "#ffffff",
+          borderTop: "1px solid rgba(220,30,60,0.12)",
+        }}
+      >
+        <input
+          type="text"
+          value={input}
+          onChange={(e) => setInput(e.target.value)}
+          onKeyDown={(e) => e.key === "Enter" && send()}
+          placeholder="Type a message…"
+          onFocus={() => setInputFocused(true)}
+          onBlur={() => setInputFocused(false)}
+          style={{
+            flex: 1,
+            height: "44px",
+            padding: "0 16px",
+            fontFamily: "var(--font-poppins, sans-serif)",
+            fontSize: "0.875rem",
+            color: "#1a0a14",
+            background: "#fdfbf9",
+            border: inputFocused
+              ? "1px solid rgba(220,30,60,0.55)"
+              : "1px solid rgba(220,30,60,0.18)",
+            borderRadius: "9999px",
+            outline: "none",
+            boxShadow: inputFocused
+              ? "0 0 0 3px rgba(220,30,60,0.08)"
+              : "none",
+            transition: "border-color 0.18s ease, box-shadow 0.18s ease",
+          }}
+        />
+
+        <button
+          onClick={send}
+          aria-label="Send message"
+          style={{
+            width: "44px",
+            height: "44px",
+            borderRadius: "50%",
+            border: "none",
+            background: input.trim()
+              ? "linear-gradient(135deg, #dc1e3c, #a0153c)"
+              : "rgba(220,30,60,0.15)",
+            color: input.trim() ? "#ffffff" : "rgba(220,30,60,0.5)",
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+            cursor: input.trim() ? "pointer" : "default",
+            flexShrink: 0,
+            boxShadow: input.trim() ? "0 3px 12px rgba(220,30,60,0.35)" : "none",
+            transition: "background 0.18s ease, box-shadow 0.18s ease",
+          }}
+        >
+          <Send style={{ width: "18px", height: "18px" }} />
+        </button>
+      </div>
     </div>
   );
 }
