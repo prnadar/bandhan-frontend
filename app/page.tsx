@@ -49,7 +49,7 @@ const features = [
 
 
 const couples = [
-  { url: "https://images.unsplash.com/photo-1591604466107-ec97de577aff?w=800&q=90&auto=format&fit=crop", name: "Priya & Rahul" },
+  { url: "/images/banner1.png", name: "Priya & Rahul" },
   { url: "https://images.unsplash.com/photo-1519741497674-611481863552?w=800&q=90&auto=format&fit=crop", name: "Anjali & Suresh" },
   { url: "https://images.unsplash.com/photo-1583939003579-730e3918a45a?w=800&q=90&auto=format&fit=crop", name: "Meera & Vikram" },
   { url: "https://images.unsplash.com/photo-1606216794074-735e91aa2c92?w=800&q=90&auto=format&fit=crop", name: "Kavya & Arjun" },
