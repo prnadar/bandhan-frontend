@@ -773,10 +773,10 @@ export default function HomePage() {
       <section style={{ padding: "48px 24px", background: "#fdfbf9", borderTop: "1px solid rgba(220,30,60,0.06)" }}>
         <div className="max-w-5xl mx-auto">
           <p style={{ textAlign: "center", fontSize: "11px", fontWeight: 700, color: "#bbb", textTransform: "uppercase", letterSpacing: "0.2em", marginBottom: "28px" }}>
-            Trusted by families across
+            Trusted by families across the world
           </p>
           <div style={{ display: "flex", flexWrap: "wrap", justifyContent: "center", gap: "12px 32px" }}>
-            {["London", "Birmingham", "Manchester", "Leicester", "Bradford", "Leeds", "Glasgow", "Dubai", "Toronto", "Chennai"].map((city) => (
+            {["🇬🇧 United Kingdom", "🇺🇸 United States", "🇮🇳 India", "🇨🇦 Canada", "🇩🇪 Germany", "🇦🇺 Australia", "🇦🇪 UAE", "🇸🇬 Singapore", "🇳🇿 New Zealand", "🇫🇷 France"].map((city) => (
               <span key={city} style={{
                 fontSize: "13px", fontWeight: 600, color: "#999",
                 padding: "6px 16px",
