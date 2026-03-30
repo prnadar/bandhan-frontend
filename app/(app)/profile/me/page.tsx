@@ -937,7 +937,7 @@ function PartnerTab({
           <FTextarea
             value={form.aboutPartner}
             onChange={(v) => update("aboutPartner", v)}
-            placeholder="Describe the kind of person you're looking for — their values, personality, and what matters most to you in a life partner..."
+            placeholder="Describe the kind of person you're looking for, their values, personality, and what matters most to you in a life partner..."
             rows={4}
           />
         </Field>

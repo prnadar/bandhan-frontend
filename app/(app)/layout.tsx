@@ -59,7 +59,7 @@ function VerificationBanner() {
       <div style={{ display: "flex", alignItems: "center", gap: "12px" }}>
         <span style={{ fontSize: "18px" }}>⚠️</span>
         <p style={{ margin: 0, color: "#fff", fontSize: "14px", lineHeight: 1.5 }}>
-          <strong>Complete your profile &amp; verify your ID</strong> — You must complete your profile and verify your identity to view other profiles and send interests.{" "}
+          <strong>Complete your profile &amp; verify your ID.</strong> You must complete your profile and verify your identity to view other profiles and send interests.{" "}
           <a href="/profile/me" style={{ color: "#ffd4dc", fontWeight: 700, textDecoration: "underline" }}>
             Complete now →
           </a>

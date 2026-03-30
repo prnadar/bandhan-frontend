@@ -4,7 +4,7 @@ import PublicFooter from "@/components/PublicFooter";
 
 export const metadata = {
   title: "Terms & Conditions | Match4Marriage",
-  description: "Terms and Conditions of Use for Match4Marriage Limited — UK's elite Indian matrimonial service.",
+  description: "Terms and Conditions of Use for Match4Marriage Limited, the UK elite Indian matrimonial service.",
 };
 
 const sections = [
@@ -51,7 +51,7 @@ const sections = [
     content: [
       "By submitting photos, profile information, or any other content to Match4Marriage, you grant us a non-exclusive, royalty-free, worldwide licence to use, display, and distribute that content solely for the purposes of operating and promoting the service.",
       "You represent and warrant that you own or have the necessary rights to all content you submit, and that it does not infringe the intellectual property or privacy rights of any third party.",
-      "You understand and agree that content submitted by all users — including your own — may be collected, aggregated, and anonymised for the purposes of improving the service, subject to our Privacy Policy and applicable UK data protection law.",
+      "You understand and agree that content submitted by all users, including your own, may be collected, aggregated, and anonymised for the purposes of improving the service, subject to our Privacy Policy and applicable UK data protection law.",
     ],
   },
   {
@@ -78,7 +78,7 @@ const sections = [
     title: "8. Limitation of Liability",
     content: [
       "Match4Marriage provides a platform to connect individuals seeking matrimonial matches. We do not guarantee that any particular match will result in a relationship or marriage.",
-      "To the fullest extent permitted by applicable law, Match4Marriage shall not be liable for any indirect, incidental, special, or consequential loss or damage arising from your use of — or inability to use — the service.",
+      "To the fullest extent permitted by applicable law, Match4Marriage shall not be liable for any indirect, incidental, special, or consequential loss or damage arising from your use of, or inability to use, the service.",
       "Match4Marriage will not be held liable for the conduct, actions, or representations of any member. You interact with other members at your own risk.",
       "Nothing in these Terms limits our liability for death or personal injury caused by our negligence, fraud, or any other liability that cannot be excluded under English law.",
     ],

@@ -4,7 +4,7 @@ import PublicFooter from "@/components/PublicFooter";
 
 export const metadata = {
   title: "Privacy Policy | Match4Marriage",
-  description: "Privacy Policy for Match4Marriage Limited — how we collect, use, and protect your personal information.",
+  description: "Privacy Policy for Match4Marriage Limited: how we collect, use, and protect your personal information.",
 };
 
 const sections = [
@@ -24,7 +24,7 @@ const sections = [
     content: [
       "Match4Marriage collects information from its Users at the time of registration as well as at certain specific instances of usage of our services, wherein they are requested to provide their personal information including contact information.",
       "These forms usually seek information such as name, gender, email address, date of birth, educational qualification, employment details, photos, marital status, and your interests, contact modes and specifics.",
-      "As a User using the free or paid services of Match4Marriage, it is deemed that the User has granted Match4Marriage the right to use, without any restriction, the posted information and publish the desired details throughout its platform — including all divisions, sister concerns, ventures, directories, listing, website pages, and associated media.",
+      "As a User using the free or paid services of Match4Marriage, it is deemed that the User has granted Match4Marriage the right to use, without any restriction, the posted information and publish the desired details throughout its platform, including all divisions, sister concerns, ventures, directories, listing, website pages, and associated media.",
       "The personal information requested by Match4Marriage is for usage at Match4Marriage to provide the necessary chosen services and enhancement of services by itself or by any authorised third party of Match4Marriage. If you choose to share it with some User, Visitor, or Third Party explicitly, then Match4Marriage has no role in data protection in such cases. Further, if you think that the information we hold about you is inaccurate or we are not entitled or require the same, you can contact us at enquiry@match4marriage.com.",
     ],
   },

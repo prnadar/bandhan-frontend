@@ -444,7 +444,7 @@ export default function InterestsPage() {
                   }}
                 >
                   <p style={{ fontFamily: "var(--font-poppins, sans-serif)", fontSize: "13px", color: "#dc1e3c", fontWeight: 500, margin: 0 }}>
-                    You both showed interest — start a conversation!
+                    You both showed interest. Start a conversation!
                   </p>
                 </div>
               )}

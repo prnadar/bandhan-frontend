@@ -20,14 +20,14 @@ const stories = [
     names: "Priya & Karthik",
     location: "London & Chennai",
     year: "Married 2024",
-    quote: "We had both given up on online matchmaking until Match4Marriage. Within weeks, we were introduced to each other — and within months, our families had met. We married in Chennai in December 2024.",
+    quote: "We had both given up on online matchmaking until Match4Marriage. Within weeks, we were introduced to each other, and within months, our families had met. We married in Chennai in December 2024.",
   },
   {
     img: "/images/story2.png",
     names: "Anitha & Vijay",
     location: "Birmingham & Coimbatore",
     year: "Married 2024",
-    quote: "What set Match4Marriage apart was the personal touch. They didn't just send us a profile — they took time to understand what we were both looking for. We are so grateful for the care they showed.",
+    quote: "What set Match4Marriage apart was the personal touch. They didn't just send us a profile. They took time to understand what we were both looking for. We are so grateful for the care they showed.",
   },
   {
     img: "/images/story4.png",
@@ -39,9 +39,9 @@ const stories = [
 ];
 
 const features = [
-  { title: "Hand-Picked Profiles Only", desc: "Every profile is personally reviewed and approved — not just registered" },
+  { title: "Hand-Picked Profiles Only", desc: "Every profile is personally reviewed and approved, not just registered" },
   { title: "Complete Discretion", desc: "Your details are handled with the utmost confidentiality at every step" },
-  { title: "Elite Matching", desc: "We match on values, ambition, and compatibility — not just age and location" },
+  { title: "Elite Matching", desc: "We match on values, ambition, and compatibility, not just age and location" },
   { title: "UK-Based Service", desc: "Founded in the United Kingdom, serving the global Indian community" },
   { title: "Dedicated Guidance", desc: "Personal support from our relationship advisors, 7 days a week" },
   { title: "Secure & GDPR Compliant", desc: "SSL encrypted, fully compliant with UK data protection standards" },
@@ -85,7 +85,7 @@ export default function HomePage() {
       {/* ── 1. Top Bar ───────────────────────────────────────────────── */}
       <div className="w-full text-white text-sm py-2 px-4" style={{ backgroundColor: "#dc1e3c" }}>
         <div className="max-w-7xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-1">
-          <span>💍 Elite Indian Matrimony — Established in the UK 🇬🇧</span>
+          <span>💍 Elite Indian Matrimony, Established in the UK 🇬🇧</span>
           <div className="flex items-center gap-4 text-xs sm:text-sm">
             <span>✉️ enquiry@match4marriage.com</span>
           </div>
@@ -327,7 +327,7 @@ export default function HomePage() {
             }}
           >
             <span style={{ color: "#fff", fontSize: "12px", fontWeight: 600, letterSpacing: "0.12em", textTransform: "uppercase" }}>
-              🇬🇧 Elite Indian Matrimony — UK
+              🇬🇧 Elite Indian Matrimony, UK
             </span>
           </div>
 
@@ -357,7 +357,7 @@ export default function HomePage() {
               textShadow: "0 1px 10px rgba(0,0,0,0.3)",
             }}
           >
-            A boutique matrimonial service for the global elite Indian community — hand-picked, personally verified profiles across the UK and worldwide.
+            A boutique matrimonial service for the global elite Indian community: hand-picked, personally verified profiles across the UK and worldwide.
           </p>
 
           {/* Search Widget */}
@@ -385,9 +385,9 @@ export default function HomePage() {
               <div>
                 <label className="text-xs font-medium mb-1 block" style={{ color: "#888" }}>Age Range</label>
                 <select className="w-full border rounded-lg px-3 py-2.5 text-sm" style={{ borderColor: "#e5e5e5", color: "#333" }}>
-                  <option>21 – 25</option>
-                  <option>26 – 30</option>
-                  <option>31 – 35</option>
+                  <option>21 to 25</option>
+                  <option>26 to 30</option>
+                  <option>31 to 35</option>
                   <option>36+</option>
                 </select>
               </div>
@@ -583,9 +583,9 @@ export default function HomePage() {
             <div className="grid grid-cols-2 lg:grid-cols-4" style={{ gap: "0", position: "relative" }}>
               {[
                 { num: "01", title: "Tell Us About You",       desc: "Create your profile. Every profile is personally reviewed before going live.", tag: "Profile" },
-                { num: "02", title: "We Do the Matching",      desc: "Our advisors hand-pick compatible profiles — no algorithms, no endless swiping.", tag: "Matching" },
+                { num: "02", title: "We Do the Matching",      desc: "Our advisors hand-pick compatible profiles. No algorithms, no endless swiping.", tag: "Matching" },
                 { num: "03", title: "Connect with Discretion", desc: "Express interest privately. Your details are shared only with mutual consent.", tag: "Connection" },
-                { num: "04", title: "Begin Forever",           desc: "Meet families and take the next step — with our advisors guiding you throughout.", tag: "Forever" },
+                { num: "04", title: "Begin Forever",           desc: "Meet families and take the next step, with our advisors guiding you throughout.", tag: "Forever" },
               ].map((step, i) => (
                 <div key={step.num} style={{ padding: "0 24px 0", textAlign: "center" }}>
                   {/* Circle */}
@@ -802,11 +802,11 @@ export default function HomePage() {
             {[
               {
                 q: "How is Match4Marriage different from other matrimony sites?",
-                a: "We are a boutique service — not a mass-market platform. Every profile is hand-picked and personally vetted by our team. We focus on quality introductions, not volume.",
+                a: "We are a boutique service, not a mass-market platform. Every profile is hand-picked and personally vetted by our team. We focus on quality introductions, not volume.",
               },
               {
                 q: "How does the matching process work?",
-                a: "Once you register, our advisors review your profile and preferences. We personally curate compatible introductions for you — no swiping, no endless browsing. Just meaningful, considered matches.",
+                a: "Once you register, our advisors review your profile and preferences. We personally curate compatible introductions for you. No swiping, no endless browsing. Just meaningful, considered matches.",
               },
               {
                 q: "Is my information kept private?",
@@ -818,7 +818,7 @@ export default function HomePage() {
               },
               {
                 q: "Do you serve families outside the UK?",
-                a: "Yes. While our primary focus is the British Indian community, we connect families globally — including India, UAE, Canada, Australia, and the USA.",
+                a: "Yes. While our primary focus is the British Indian community, we connect families globally, including India, UAE, Canada, Australia, and the USA.",
               },
             ].map((faq, i) => (
               <details key={i} style={{
@@ -854,7 +854,7 @@ export default function HomePage() {
               Speak to Our Team
             </h2>
             <p style={{ color: "#777", fontSize: "15px", lineHeight: 1.8, marginBottom: "32px" }}>
-              Have a question? Want to learn more before registering? Our advisors are here to help — no pressure, just a friendly conversation.
+              Have a question? Want to learn more before registering? Our advisors are here to help, no pressure, just a friendly conversation.
             </p>
             <div style={{ display: "flex", flexDirection: "column", gap: "16px" }}>
               {[
@@ -956,7 +956,7 @@ export default function HomePage() {
             Begin Your Journey Today
           </h2>
           <p className="text-lg mb-8" style={{ color: "#555" }}>
-            Join the UK&apos;s most trusted boutique Indian matrimonial service — where every connection is personal, verified, and meaningful.
+            Join the UK&apos;s most trusted boutique Indian matrimonial service, where every connection is personal, verified, and meaningful.
           </p>
           <div className="flex justify-center">
             <Link href="/auth/register" className="btn-gold px-10 py-3 text-base">
@@ -979,7 +979,7 @@ export default function HomePage() {
                 Match<span style={{ color: "#dc1e3c" }}>4</span>Marriage
               </span>
               <p style={{ fontSize: "13px", color: "rgba(255,255,255,0.45)", lineHeight: 1.7, margin: "12px 0 16px", maxWidth: "280px" }}>
-                Elite Indian Matrimony — UK registered, connecting the global Indian community with trust and discretion.
+                Elite Indian Matrimony, UK registered, connecting the global Indian community with trust and discretion.
               </p>
               <div style={{ display: "flex", gap: "10px" }}>
                 {[

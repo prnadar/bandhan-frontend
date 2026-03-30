@@ -59,7 +59,7 @@ export default function FamilyPage() {
               Family Mode
             </h1>
           </div>
-          <p className="text-sm" style={{ color: "rgba(26,10,20,0.45)" }}>Let your family participate in the search — with your permission</p>
+          <p className="text-sm" style={{ color: "rgba(26,10,20,0.45)" }}>Let your family participate in the search, with your permission</p>
         </div>
         <button
           onClick={() => setShowFamilyView(!showFamilyView)}

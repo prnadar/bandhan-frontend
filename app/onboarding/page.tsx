@@ -13,7 +13,7 @@ import {
 const steps = [
   { id: 1, label: "Basic Profile",  icon: User,    title: "Tell us about yourself",              subtitle: "Your profile helps us find better matches" },
   { id: 2, label: "Verify Phone",   icon: Phone,   title: "Verify your phone number",            subtitle: "We'll send a one-time verification code" },
-  { id: 3, label: "ID Verify",      icon: Shield,  title: "Verify your identity",                subtitle: "Government-grade trust — only you can see this data" },
+  { id: 3, label: "ID Verify",      icon: Shield,  title: "Verify your identity",                subtitle: "Government-grade trust. Only you can see this data" },
 ];
 
 const personalities = [
@@ -165,14 +165,14 @@ function IdVerifyStep({ onComplete }: { onComplete?: (done: boolean) => void }) 
       {docType && (
         <>
           <UploadBox
-            label={`${docType} — Front`}
+            label={`${docType}${docType} Front`}
             hint="Upload front of document"
             file={frontFile}
             onChange={(f) => { setFrontFile(f); checkComplete(f, backFile, selfieFile, docType, country); }}
           />
           {needsBack && (
             <UploadBox
-              label={`${docType} — Back`}
+              label={`${docType}${docType} Back`}
               hint="Upload back of document"
               file={backFile}
               onChange={(f) => { setBackFile(f); checkComplete(frontFile, f, selfieFile, docType, country); }}

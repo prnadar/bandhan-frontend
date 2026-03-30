@@ -45,7 +45,7 @@ const plans = [
       "Everything in Premium",
       "Dedicated relationship advisor",
       "Background verification",
-      "Privacy shield — hide profile from non-members",
+      "Privacy shield: hide profile from non-members",
       "Featured profile placement",
       "WhatsApp support",
       "Profile boosting (4× / month)",
@@ -826,7 +826,7 @@ export default function SubscriptionPage() {
                 margin: 0,
               }}
             >
-              Not happy? Contact us within 30 days for a full refund — no questions asked.
+              Not happy? Contact us within 30 days for a full refund, no questions asked.
             </p>
           </div>
         </div>

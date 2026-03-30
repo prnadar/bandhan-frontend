@@ -15,16 +15,16 @@ const initialMessages: Record<string, { id: string; from: "me" | "them"; text: s
   "1": [
     { id: "1", from: "them", text: "Namaste! Thank you for sending an interest. I went through your profile and it's really impressive 😊", time: "10:30 AM" },
     { id: "2", from: "me",   text: "Namaste Priya! Thank you so much. I was genuinely impressed by your work at Google and your passion for Carnatic music.", time: "10:35 AM" },
-    { id: "3", from: "them", text: "That's so kind! I saw you're into trekking too — have you done any Himalayan treks?", time: "10:38 AM" },
+    { id: "3", from: "them", text: "That's so kind! I saw you're into trekking too. Have you done any Himalayan treks?", time: "10:38 AM" },
     { id: "4", from: "me",   text: "Yes! Done Kedarkantha and Hampta Pass. Planning Roopkund next year. Do you trek?", time: "10:40 AM" },
-    { id: "5", from: "them", text: "Oh wow, Kedarkantha is on my list! I've only done Triund so far. Would love to hear more about your work — what are you building at the startup?", time: "10:42 AM" },
+    { id: "5", from: "them", text: "Oh wow, Kedarkantha is on my list! I've only done Triund so far. Would love to hear more about your work. What are you building at the startup?", time: "10:42 AM" },
   ],
   "2": [
     { id: "1", from: "them", text: "Hello! I saw your profile and thought we have a lot in common. My family is from Ahmedabad, what about yours?", time: "Yesterday 6:00 PM" },
     { id: "2", from: "me",   text: "Hi Anjali! Nice to connect. My family is from Rajasthan originally, settled in Mumbai.", time: "Yesterday 6:45 PM" },
   ],
   "3": [
-    { id: "1", from: "them", text: "I saw you're also into trekking — have you done Kedarkantha?", time: "Mon 3:20 PM" },
+    { id: "1", from: "them", text: "I saw you're also into trekking. Have you done Kedarkantha?", time: "Mon 3:20 PM" },
   ],
   "4": [
     { id: "1", from: "me",   text: "Hi Shruti! Lovely to connect. Delhi winters are harsh I imagine!", time: "Sun 11:10 AM" },

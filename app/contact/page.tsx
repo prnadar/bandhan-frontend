@@ -27,7 +27,7 @@ export default function ContactPage() {
           Speak to Our Team
         </h1>
         <p style={{ fontSize: "15px", color: "rgba(255,255,255,0.6)", maxWidth: "480px", margin: "0 auto" }}>
-          Our advisors are here to help — no pressure, just a friendly conversation. We typically respond within a few hours.
+          Our advisors are here to help, no pressure, just a friendly conversation. We typically respond within a few hours.
         </p>
       </div>
 
@@ -68,8 +68,8 @@ export default function ContactPage() {
             <div style={{ marginTop: "32px", padding: "24px", background: "#fff", borderRadius: "16px", border: "1px solid rgba(220,30,60,0.08)" }}>
               <h3 style={{ fontSize: "14px", fontWeight: 700, color: "#1a0a14", marginBottom: "12px" }}>🕐 Office Hours</h3>
               {[
-                { day: "Monday – Friday", hours: "9:00 AM – 6:00 PM BST" },
-                { day: "Saturday", hours: "10:00 AM – 4:00 PM BST" },
+                { day: "Monday to Friday", hours: "9:00 AM to 6:00 PM BST" },
+                { day: "Saturday", hours: "10:00 AM to 4:00 PM BST" },
                 { day: "Sunday", hours: "Closed" },
               ].map(({ day, hours }) => (
                 <div key={day} style={{ display: "flex", justifyContent: "space-between", marginBottom: "8px" }}>

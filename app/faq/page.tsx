@@ -12,15 +12,15 @@ const categories = [
     faqs: [
       {
         q: "How is Match4Marriage different from other matrimony sites?",
-        a: "We are a boutique service — not a mass-market platform. Every profile is hand-picked and personally vetted by our team. We focus on quality introductions, not volume.",
+        a: "We are a boutique service, not a mass-market platform. Every profile is hand-picked and personally vetted by our team. We focus on quality introductions, not volume.",
       },
       {
         q: "How does the matching process work?",
-        a: "Once you register, our advisors review your profile and preferences. We personally curate compatible introductions for you — no swiping, no endless browsing. Just meaningful, considered matches.",
+        a: "Once you register, our advisors review your profile and preferences. We personally curate compatible introductions for you. No swiping, no endless browsing. Just meaningful, considered matches.",
       },
       {
         q: "Who can register on Match4Marriage?",
-        a: "Match4Marriage is open to all Indian and South Asian communities worldwide — Hindu, Muslim, Christian, Sikh, Jain and others. We welcome NRIs and diaspora from the UK, India, UAE, Canada, Australia, USA and beyond.",
+        a: "Match4Marriage is open to all Indian and South Asian communities worldwide: Hindu, Muslim, Christian, Sikh, Jain and others. We welcome NRIs and diaspora from the UK, India, UAE, Canada, Australia, USA and beyond.",
       },
     ],
   },
@@ -33,7 +33,7 @@ const categories = [
       },
       {
         q: "How are profiles verified?",
-        a: "Every profile undergoes a manual review by our team. Members are ID-verified using government documents — not just auto-checked. We personally assess each profile before approval.",
+        a: "Every profile undergoes a manual review by our team. Members are ID-verified using government documents, not just auto-checked. We personally assess each profile before approval.",
       },
       {
         q: "Can I control who sees my profile?",
@@ -50,11 +50,11 @@ const categories = [
       },
       {
         q: "Do you serve families outside the UK?",
-        a: "Yes. While our primary focus is the British Indian community, we connect families globally — including India, UAE, Canada, Australia, and the USA.",
+        a: "Yes. While our primary focus is the British Indian community, we connect families globally, including India, UAE, Canada, Australia, and the USA.",
       },
       {
         q: "Can my family be involved in the process?",
-        a: "Absolutely — we actively encourage family involvement. Our Family Mode feature allows trusted family members to browse and suggest matches on your behalf.",
+        a: "Absolutely. We actively encourage family involvement. Our Family Mode feature allows trusted family members to browse and suggest matches on your behalf.",
       },
     ],
   },
@@ -63,7 +63,7 @@ const categories = [
     faqs: [
       {
         q: "Is there a free plan?",
-        a: "Yes. Our Basic plan is completely free — you can create a profile, get verified, and receive up to 5 profile introductions per month at no cost.",
+        a: "Yes. Our Basic plan is completely free. You can create a profile, get verified, and receive up to 5 profile introductions per month at no cost.",
       },
       {
         q: "What does the Premium plan include?",

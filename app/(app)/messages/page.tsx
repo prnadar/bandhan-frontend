@@ -17,7 +17,7 @@ const threads = [
   },
   {
     id: "3", name: "Kavya Nair", photo: "KN", grad: "linear-gradient(135deg,#5C7A52,#8DB870)",
-    lastMsg: "I saw you're also into trekking — have you done Kedarkantha?",
+    lastMsg: "I saw you're also into trekking. Have you done Kedarkantha?",
     time: "Mon", unread: 1, verified: true, compatibility: 84,
   },
   {

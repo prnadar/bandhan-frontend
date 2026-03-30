@@ -5,7 +5,7 @@ import "./globals.css";
 
 export const metadata: Metadata = {
   title: {
-    default: "Match4Marriage — Find Your Perfect Match",
+    default: "Match4Marriage: Find Your Perfect Match",
     template: "%s | Match4Marriage",
   },
   description:
@@ -21,7 +21,7 @@ export const metadata: Metadata = {
   openGraph: {
     type: "website",
     siteName: "Match4Marriage",
-    title: "Match4Marriage — Find Your Perfect Match",
+    title: "Match4Marriage: Find Your Perfect Match",
     description: "UK's most trusted Indian matrimonial service for families.",
   },
 };

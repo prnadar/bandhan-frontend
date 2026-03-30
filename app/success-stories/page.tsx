@@ -19,7 +19,7 @@ const stories = [
     initials: "P&R",
     grad: "linear-gradient(135deg,#dc1e3c,#a0153c)",
     quote:
-      "We had both given up on online matchmaking until Match4Marriage. Within weeks, we were introduced to each other — and within months, our families had met. We married in Chennai in December 2024.",
+      "We had both given up on online matchmaking until Match4Marriage. Within weeks, we were introduced to each other, and within months, our families had met. We married in Chennai in December 2024.",
     details: "Met on Match4Marriage · Engaged in 3 months · Married in Chennai",
     rating: 5,
   },
@@ -64,7 +64,7 @@ const stories = [
     initials: "D&A",
     grad: "linear-gradient(135deg,#7C3AED,#A78BFA)",
     quote:
-      "From the very first call with Match4Marriage's advisor, we knew this was different. No swiping, no awkward chats — just a genuine, curated introduction. We are forever grateful.",
+      "From the very first call with Match4Marriage's advisor, we knew this was different. No swiping, no awkward chats. Just a genuine, curated introduction. We are forever grateful.",
     details: "Advisor-curated match · Married in 6 months",
     rating: 5,
   },
@@ -94,7 +94,7 @@ const stories = [
     initials: "N&A",
     grad: "linear-gradient(135deg,#E8426A,#E8A060)",
     quote:
-      "We were both introduced through Match4Marriage's family-first approach. Our families connected before we did — which made everything feel right. Best decision we ever made.",
+      "We were both introduced through Match4Marriage's family-first approach. Our families connected before we did, which made everything feel right. Best decision we ever made.",
     details: "Family-introduced · Married in London",
     rating: 5,
   },
@@ -193,7 +193,7 @@ export default function SuccessStoriesPage() {
 
       {/* CTA */}
       <div style={{ background: "linear-gradient(135deg, #dc1e3c 0%, #a0153c 50%, #3b3fa0 100%)", padding: "64px 24px", textAlign: "center" }}>
-        <h2 style={{ fontFamily: "var(--font-playfair, serif)", fontSize: "clamp(24px, 3.5vw, 42px)", fontWeight: 700, color: "#fff", marginBottom: "16px" }}>
+        <h2 style={{ fontFamily: "var(--font-playfair, serif)", fontSize: "clamp(26px, 3.5vw, 42px)", fontWeight: 700, color: "#fff", marginBottom: "16px" }}>
           Your Story Could Be Next
         </h2>
         <p style={{ color: "rgba(255,255,255,0.6)", fontSize: "15px", marginBottom: "32px" }}>

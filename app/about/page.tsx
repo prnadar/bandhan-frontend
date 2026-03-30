@@ -6,7 +6,7 @@ import PublicHeader from "@/components/PublicHeader";
 import PublicFooter from "@/components/PublicFooter";
 
 const metadata = {
-  title: "About Us | Match4Marriage — Elite Indian Matrimony",
+  title: "About Us | Match4Marriage, Elite Indian Matrimony",
   description:
     "Match4Marriage is a UK-based boutique Indian matrimonial service. Hand-picked, personally verified profiles for the British Indian community and diaspora.",
 };
@@ -15,12 +15,12 @@ const pillars = [
   {
     icon: "👑",
     title: "Hand-Picked Profiles Only",
-    desc: "We do not accept everyone. Every profile on Match4Marriage is individually reviewed and approved — ensuring you meet only genuine, quality individuals.",
+    desc: "We do not accept everyone. Every profile on Match4Marriage is individually reviewed and approved, ensuring you meet only genuine, quality individuals.",
   },
   {
     icon: "🛡️",
     title: "Personally Verified",
-    desc: "Every member is manually verified. Not just ID-checked — personally assessed. You can trust that every connection is real.",
+    desc: "Every member is manually verified. Not just ID-checked, personally assessed. You can trust that every connection is real.",
   },
   {
     icon: "🔒",
@@ -30,12 +30,12 @@ const pillars = [
   {
     icon: "🤝",
     title: "Dedicated Guidance",
-    desc: "We are with you every step of the way — personal support, honest advice, and genuine care for your outcome.",
+    desc: "We are with you every step of the way: personal support, honest advice, and genuine care for your outcome.",
   },
   {
     icon: "🇬🇧",
     title: "Built in the UK, For Global Indians",
-    desc: "Built in the United Kingdom for the global Indian community — connecting Indians across the UK, India, USA, Canada, UAE, Australia, and beyond.",
+    desc: "Built in the United Kingdom for the global Indian community, connecting Indians across the UK, India, USA, Canada, UAE, Australia, and beyond.",
   },
   {
     icon: "💍",
@@ -68,7 +68,7 @@ const values = [
   {
     icon: "✨",
     title: "Tradition Meets Technology",
-    desc: "Our AI matching engine understands cultural compatibility — not just age and location.",
+    desc: "Our AI matching engine understands cultural compatibility, not just age and location.",
   },
   {
     icon: "💬",
@@ -78,12 +78,12 @@ const values = [
 ];
 
 const milestones = [
-  { year: "2020", event: "Match4Marriage founded in the United Kingdom with a clear vision — a curated, trustworthy matrimonial service for the Indian community." },
-  { year: "2021", event: "First hand-picked profiles added. Personal vetting process established — every profile individually reviewed before joining." },
+  { year: "2020", event: "Match4Marriage founded in the United Kingdom with a clear vision: a curated, trustworthy matrimonial service for the Indian community." },
+  { year: "2021", event: "First hand-picked profiles added. Personal vetting process established. Every profile individually reviewed before joining." },
   { year: "2022", event: "First marriages celebrated. Proof that a personal, quality-first approach creates real, lasting connections." },
   { year: "2023", event: "Reached 50+ elite verified profiles across UK, India, and the global Indian diaspora." },
   { year: "2024", event: "Platform refined with enhanced privacy, profile quality controls, and dedicated relationship guidance." },
-  { year: "2025", event: "Growing steadily — more successful matches, a stronger community, and an unwavering commitment to quality over quantity." },
+  { year: "2025", event: "Growing steadily: more successful matches, a stronger community, and an unwavering commitment to quality over quantity." },
 ];
 
 export default function AboutPage() {
@@ -115,13 +115,13 @@ export default function AboutPage() {
           </span>
           <h1
             className="font-playfair"
-            style={{ color: "#fff", fontSize: "clamp(32px, 5vw, 60px)", fontWeight: 700, lineHeight: 1.15, marginBottom: "20px", textShadow: "0 2px 20px rgba(0,0,0,0.2)" }}
+            style={{ color: "#fff", fontSize: "clamp(28px, 4vw, 52px)", fontWeight: 700, lineHeight: 1.15, marginBottom: "20px", textShadow: "0 2px 20px rgba(0,0,0,0.2)" }}
           >
             A Boutique Matrimonial<br />
             <span style={{ color: "#ffd87a" }}>Service Built on Trust</span>
           </h1>
-          <p style={{ color: "rgba(255,255,255,0.85)", fontSize: "clamp(15px, 2vw, 18px)", lineHeight: 1.7, maxWidth: "620px", margin: "0 auto" }}>
-            At Match4Marriage, we recognise that discovering a life partner is a profound life milestone — one that calls for trust, refinement, and exceptional care. Founded in the UK, built for the British Indian community, and open to the global diaspora.
+          <p style={{ color: "rgba(255,255,255,0.85)", fontSize: "15px", lineHeight: 1.7, maxWidth: "620px", margin: "0 auto" }}>
+            At Match4Marriage, we recognise that discovering a life partner is a profound life milestone, one that calls for trust, refinement, and exceptional care. Founded in the UK, built for the British Indian community, and open to the global diaspora.
           </p>
         </div>
       </section>
@@ -156,20 +156,20 @@ export default function AboutPage() {
         <div className="max-w-6xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
           <div>
             <span style={{ fontSize: "13px", fontWeight: 600, color: "#dc1e3c", textTransform: "uppercase", letterSpacing: "0.1em" }}>Who We Are</span>
-            <h2 className="font-playfair" style={{ fontSize: "clamp(28px, 3.5vw, 42px)", fontWeight: 700, color: "#1a0a14", marginTop: "12px", marginBottom: "20px", lineHeight: 1.2 }}>
+            <h2 className="font-playfair" style={{ fontSize: "clamp(26px, 3.5vw, 42px)", fontWeight: 700, color: "#1a0a14", marginTop: "12px", marginBottom: "20px", lineHeight: 1.2 }}>
               Built for the Global<br />Elite Indian Community
             </h2>
             <p style={{ color: "#555", lineHeight: 1.8, fontSize: "16px", marginBottom: "16px" }}>
-              At Match4Marriage, we understand that choosing a life partner is a deeply significant journey, deserving of trust, discretion, and thoughtful guidance. That is why we have made a deliberate choice — to remain small, selective, and genuinely personal.
+              At Match4Marriage, we understand that choosing a life partner is a deeply significant journey, deserving of trust, discretion, and thoughtful guidance. That is why we have made a deliberate choice: to remain small, selective, and genuinely personal.
             </p>
             <p style={{ color: "#555", lineHeight: 1.8, fontSize: "16px", marginBottom: "16px" }}>
-              Established in the United Kingdom, we are a boutique matrimonial service with over 100 hand-picked, individually verified profiles. Every member has been personally reviewed — not just registered. We have already had the privilege of celebrating successful marriages, and we take immense pride in each one.
+              Established in the United Kingdom, we are a boutique matrimonial service with over 100 hand-picked, individually verified profiles. Every member has been personally reviewed, not just registered. We have already had the privilege of celebrating successful marriages, and we take immense pride in each one.
             </p>
             <p style={{ color: "#555", lineHeight: 1.8, fontSize: "16px", marginBottom: "16px" }}>
-              Built in the United Kingdom for the global Indian community — we serve Indians across London, Birmingham, Manchester, Leicester, and the wider UK, as well as those rooted in India, USA, Canada, UAE, Australia, and beyond. Wherever you are in the world, if you are seeking a meaningful Indian match, Match4Marriage is for you.
+              Built in the United Kingdom for the global Indian community. We serve Indians across London, Birmingham, Manchester, Leicester, and the wider UK, as well as those rooted in India, USA, Canada, UAE, Australia, and beyond. Wherever you are in the world, if you are seeking a meaningful Indian match, Match4Marriage is for you.
             </p>
             <p style={{ color: "#555", lineHeight: 1.8, fontSize: "16px", marginBottom: "32px" }}>
-              We are not trying to be the biggest. We are committed to being the best — for the right people.
+              We are not trying to be the biggest. We are committed to being the best, for the right people.
             </p>
             <Link
               href="/auth/register"
@@ -209,7 +209,7 @@ export default function AboutPage() {
         <div className="max-w-6xl mx-auto">
           <div style={{ textAlign: "center", marginBottom: "64px" }}>
             <span style={{ fontSize: "12px", fontWeight: 700, color: "#dc1e3c", textTransform: "uppercase", letterSpacing: "0.15em" }}>What We Stand For</span>
-            <h2 className="font-playfair" style={{ fontSize: "clamp(28px, 3.5vw, 44px)", fontWeight: 700, color: "#1a0a14", marginTop: "14px", marginBottom: "16px" }}>Our Pillars</h2>
+            <h2 className="font-playfair" style={{ fontSize: "clamp(26px, 3.5vw, 42px)", fontWeight: 700, color: "#1a0a14", marginTop: "14px", marginBottom: "16px" }}>Our Pillars</h2>
             <div style={{ width: "48px", height: "3px", background: "linear-gradient(135deg, #dc1e3c, #a0153c)", borderRadius: "9999px", margin: "0 auto" }} />
           </div>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
@@ -258,7 +258,7 @@ export default function AboutPage() {
         <div className="max-w-3xl mx-auto">
           <div style={{ textAlign: "center", marginBottom: "56px" }}>
             <span style={{ fontSize: "13px", fontWeight: 600, color: "#dc1e3c", textTransform: "uppercase", letterSpacing: "0.1em" }}>Our Journey</span>
-            <h2 className="font-playfair" style={{ fontSize: "clamp(28px, 3.5vw, 42px)", fontWeight: 700, color: "#1a0a14", marginTop: "12px" }}>How We Got Here</h2>
+            <h2 className="font-playfair" style={{ fontSize: "clamp(26px, 3.5vw, 42px)", fontWeight: 700, color: "#1a0a14", marginTop: "12px" }}>How We Got Here</h2>
           </div>
           <div style={{ position: "relative" }}>
             {/* Vertical line */}
@@ -286,10 +286,10 @@ export default function AboutPage() {
         <div className="max-w-3xl mx-auto text-center">
           <span style={{ fontSize: "40px", display: "block", marginBottom: "24px" }}>💍</span>
           <blockquote className="font-playfair" style={{ fontSize: "clamp(20px, 3vw, 28px)", fontWeight: 600, color: "#1a0a14", lineHeight: 1.6, marginBottom: "24px", fontStyle: "italic" }}>
-            &ldquo;Our purpose is simple yet meaningful — to help you find not just a match, but a lasting and fulfilling companionship.&rdquo;
+            &ldquo;Our purpose is simple yet meaningful: to help you find not just a match, but a lasting and fulfilling companionship.&rdquo;
           </blockquote>
           <p style={{ color: "#888", fontSize: "14px", letterSpacing: "0.08em", textTransform: "uppercase", fontWeight: 600 }}>
-            — The Match4Marriage Team 🇬🇧 United Kingdom
+            The Match4Marriage Team 🇬🇧 United Kingdom
           </p>
           <div style={{ width: "48px", height: "3px", background: "#dc1e3c", borderRadius: "9999px", margin: "24px auto 0" }} />
         </div>
@@ -297,7 +297,7 @@ export default function AboutPage() {
 
       {/* ── CTA ── */}
       <section style={{ padding: "80px 24px", background: "linear-gradient(135deg, #dc1e3c 0%, #a0153c 50%, #3b3fa0 100%)", textAlign: "center" }}>
-        <h2 className="font-playfair" style={{ color: "#fff", fontSize: "clamp(28px, 4vw, 48px)", fontWeight: 700, marginBottom: "16px" }}>
+        <h2 className="font-playfair" style={{ color: "#fff", fontSize: "clamp(26px, 3.5vw, 42px)", fontWeight: 700, marginBottom: "16px" }}>
           Begin Your Journey Today
         </h2>
         <p style={{ color: "rgba(255,255,255,0.85)", fontSize: "16px", marginBottom: "36px", maxWidth: "540px", margin: "0 auto 36px" }}>

@@ -7,7 +7,7 @@ import PublicFooter from "@/components/PublicFooter";
 
 const metadata = {
   title: "Browse Profiles | Match4Marriage",
-  description: "Browse verified Indian matrimonial profiles on Match4Marriage — Elite Indian matrimony service based in the UK.",
+  description: "Browse verified Indian matrimonial profiles on Match4Marriage, Elite Indian matrimony service based in the UK.",
 };
 
 const demoProfiles = [

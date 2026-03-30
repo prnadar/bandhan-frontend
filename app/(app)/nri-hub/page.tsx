@@ -27,7 +27,7 @@ const features = [
   { icon: "🌐", title: "Timezone-aware chat",      desc: "See local time of your match. Schedule calls across time zones." },
   { icon: "✈️",  title: "India visit planner",      desc: "Share when you're in India. Meet matches during your trip." },
   { icon: "🛂",  title: "Visa & background check",  desc: "Optional foreign credential and background verification." },
-  { icon: "📹",  title: "Video introductions",      desc: "Skip the text — let a 90-second video speak for you." },
+  { icon: "📹",  title: "Video introductions",      desc: "Skip the text, let a 90-second video speak for you." },
 ];
 
 export default function NriHubPage() {

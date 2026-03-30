@@ -221,7 +221,7 @@ export default function DashboardPage() {
       }}>
         <div style={{ flex: 1 }}>
           <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: "8px" }}>
-            <span style={{ fontFamily: brand.poppins, fontSize: "13px", fontWeight: 600, color: brand.textPrimary }}>Profile completeness — 68%</span>
+            <span style={{ fontFamily: brand.poppins, fontSize: "13px", fontWeight: 600, color: brand.textPrimary }}>Profile completeness: 68%</span>
             <span style={{ fontFamily: brand.poppins, fontSize: "11px", color: brand.gold, fontWeight: 500 }}>+28pts trust score if complete</span>
           </div>
           <div style={{ height: "8px", background: "rgba(26,10,20,0.08)", borderRadius: "99px", overflow: "hidden" }}>
