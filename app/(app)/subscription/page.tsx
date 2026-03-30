@@ -622,7 +622,9 @@ export default function SubscriptionPage() {
 
                   {isVip ? (
                     <a
-                      href="mailto:enquiry@match4marriage.com?subject=VIP Concierge Package Enquiry"
+                      href="https://calendly.com/match4marriage"
+                      target="_blank"
+                      rel="noopener noreferrer"
                       style={{
                         display: "block", textAlign: "center",
                         width: "100%", padding: "9px 0",

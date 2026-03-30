@@ -44,7 +44,7 @@ const plans = [
     vip: true,
     features: ["Everything in Elite", "Personal matchmaker assigned", "Curated hand-picked profiles", "1-on-1 strategy call", "Profile photography consultation", "Family liaison service", "Unlimited profile boosts", "24/7 WhatsApp concierge support"],
     cta: "📅 Schedule a Call",
-    ctaHref: "mailto:enquiry@match4marriage.com?subject=VIP Concierge Package Enquiry",
+    ctaHref: "https://calendly.com/match4marriage",
   },
 ];
 
@@ -55,7 +55,7 @@ export default function PricingPage() {
 
       {/* Hero */}
       <div style={{ background: "linear-gradient(135deg, #dc1e3c 0%, #a0153c 50%, #3b3fa0 100%)", padding: "72px 24px 56px", textAlign: "center" }}>
-        <span style={{ fontSize: "11px", fontWeight: 700, color: "#dc1e3c", textTransform: "uppercase", letterSpacing: "0.2em", marginBottom: "12px", display: "block" }}>Membership Plans</span>
+        <span style={{ fontSize: "11px", fontWeight: 700, color: "rgba(255,255,255,0.75)", textTransform: "uppercase", letterSpacing: "0.2em", marginBottom: "12px", display: "block" }}>Membership Plans</span>
         <h1 style={{ fontFamily: "var(--font-playfair, serif)", fontSize: "clamp(28px, 4vw, 52px)", fontWeight: 700, color: "#fff", margin: "0 0 16px" }}>
           Invest in Your Forever
         </h1>

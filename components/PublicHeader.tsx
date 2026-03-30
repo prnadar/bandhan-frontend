@@ -6,6 +6,7 @@ import { useState, useRef, useEffect } from "react";
 export default function PublicHeader() {
   const pathname = usePathname();
   const [helpOpen, setHelpOpen] = useState(false);
+  const [mobileOpen, setMobileOpen] = useState(false);
   const helpRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -15,6 +16,9 @@ export default function PublicHeader() {
     document.addEventListener("mousedown", handler);
     return () => document.removeEventListener("mousedown", handler);
   }, []);
+
+  // Close mobile menu on route change
+  useEffect(() => { setMobileOpen(false); }, [pathname]);
 
   const navLinks = [
     { label: "Home",            href: "/" },
@@ -29,6 +33,9 @@ export default function PublicHeader() {
     { label: "Contact Us",   href: "/contact" },
     { label: "How It Works", href: "/#how-it-works" },
   ];
+
+  const isActive = (href: string) =>
+    pathname === href || (!href.includes("#") && href !== "/" && pathname.startsWith(href));
 
   return (
     <>
@@ -49,7 +56,7 @@ export default function PublicHeader() {
             <img src="/images/logo.jpeg" alt="Match4Marriage" style={{ height: "52px", width: "auto", objectFit: "contain" }} />
           </Link>
 
-          {/* Nav links */}
+          {/* Desktop Nav links */}
           <div className="hidden lg:flex items-center gap-7">
             {navLinks.map(({ label, href }) => (
               <Link
@@ -57,7 +64,7 @@ export default function PublicHeader() {
                 href={href}
                 className="text-sm font-medium transition-colors duration-200 hover:text-[#dc1e3c]"
                 style={{
-                  color: pathname === href || (!href.includes("#") && href !== "/" && pathname.startsWith(href)) ? "#dc1e3c" : "#333",
+                  color: isActive(href) ? "#dc1e3c" : "#333",
                   textDecoration: "none", minHeight: "auto",
                 }}
               >
@@ -104,7 +111,7 @@ export default function PublicHeader() {
             </div>
           </div>
 
-          {/* CTA */}
+          {/* Right side: CTA + Burger */}
           <div className="flex items-center gap-3">
             <Link
               href="/auth/login"
@@ -127,9 +134,122 @@ export default function PublicHeader() {
             >
               Register Free
             </Link>
-          </div>
 
+            {/* Burger — mobile only */}
+            <button
+              className="lg:hidden flex flex-col justify-center items-center gap-1.5 p-2"
+              onClick={() => setMobileOpen(!mobileOpen)}
+              aria-label="Toggle menu"
+              style={{ background: "none", border: "none", cursor: "pointer", marginLeft: "4px" }}
+            >
+              <span style={{
+                display: "block", width: "22px", height: "2px",
+                background: "#1a0a14", borderRadius: "2px",
+                transition: "all 0.25s",
+                transform: mobileOpen ? "translateY(7px) rotate(45deg)" : "none",
+              }} />
+              <span style={{
+                display: "block", width: "22px", height: "2px",
+                background: "#1a0a14", borderRadius: "2px",
+                transition: "all 0.25s",
+                opacity: mobileOpen ? 0 : 1,
+              }} />
+              <span style={{
+                display: "block", width: "22px", height: "2px",
+                background: "#1a0a14", borderRadius: "2px",
+                transition: "all 0.25s",
+                transform: mobileOpen ? "translateY(-7px) rotate(-45deg)" : "none",
+              }} />
+            </button>
+          </div>
         </div>
+
+        {/* ── Mobile Menu Drawer ── */}
+        {mobileOpen && (
+          <div style={{
+            background: "#fff",
+            borderTop: "1px solid rgba(220,30,60,0.10)",
+            boxShadow: "0 8px 32px rgba(0,0,0,0.08)",
+            padding: "16px 24px 24px",
+          }}
+          className="lg:hidden"
+          >
+            {/* Main nav links */}
+            {navLinks.map(({ label, href }) => (
+              <Link
+                key={label}
+                href={href}
+                onClick={() => setMobileOpen(false)}
+                style={{
+                  display: "block",
+                  padding: "12px 0",
+                  fontSize: "15px",
+                  fontWeight: isActive(href) ? 700 : 500,
+                  color: isActive(href) ? "#dc1e3c" : "#1a0a14",
+                  textDecoration: "none",
+                  borderBottom: "1px solid rgba(220,30,60,0.06)",
+                  minHeight: "auto",
+                }}
+              >
+                {label}
+              </Link>
+            ))}
+
+            {/* Help links */}
+            <p style={{ fontSize: "11px", fontWeight: 700, color: "#aaa", textTransform: "uppercase", letterSpacing: "0.08em", marginTop: "16px", marginBottom: "8px" }}>Help</p>
+            {helpLinks.map(({ label, href }) => (
+              <Link
+                key={label}
+                href={href}
+                onClick={() => setMobileOpen(false)}
+                style={{
+                  display: "block",
+                  padding: "10px 0",
+                  fontSize: "14px",
+                  fontWeight: 500,
+                  color: "#555",
+                  textDecoration: "none",
+                  borderBottom: "1px solid rgba(220,30,60,0.06)",
+                  minHeight: "auto",
+                }}
+              >
+                {label}
+              </Link>
+            ))}
+
+            {/* Auth buttons */}
+            <div style={{ display: "flex", gap: "10px", marginTop: "20px" }}>
+              <Link
+                href="/auth/login"
+                onClick={() => setMobileOpen(false)}
+                style={{
+                  flex: 1, textAlign: "center",
+                  padding: "11px 0", borderRadius: "9999px",
+                  fontSize: "14px", fontWeight: 600,
+                  border: "2px solid rgba(220,30,60,0.3)",
+                  color: "#dc1e3c", textDecoration: "none",
+                  minHeight: "auto",
+                }}
+              >
+                Log In
+              </Link>
+              <Link
+                href="/auth/register"
+                onClick={() => setMobileOpen(false)}
+                style={{
+                  flex: 1, textAlign: "center",
+                  padding: "11px 0", borderRadius: "9999px",
+                  fontSize: "14px", fontWeight: 600,
+                  background: "linear-gradient(135deg,#dc1e3c,#a0153c)",
+                  color: "#fff", textDecoration: "none",
+                  minHeight: "auto",
+                }}
+              >
+                Register Free
+              </Link>
+            </div>
+          </div>
+        )}
       </nav>
     </>
   );

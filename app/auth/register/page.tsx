@@ -339,7 +339,7 @@ export default function RegisterPage() {
                 Verify your email
               </h1>
               <p style={{ fontSize: "13px", color: "#888", marginBottom: "28px" }}>
-                We sent a 6-digit code to <strong style={{ color: "#1a0a14" }}>{email}</strong>
+                We'll send a 6-digit verification code to <strong style={{ color: "#1a0a14" }}>{email}</strong>
               </p>
 
               {!otpSent ? (

@@ -111,7 +111,7 @@ export default function AboutPage() {
 
         <div style={{ position: "relative", zIndex: 1, maxWidth: "720px", margin: "0 auto" }}>
           <span style={{ display: "inline-block", background: "rgba(255,255,255,0.15)", backdropFilter: "blur(8px)", borderRadius: "9999px", padding: "6px 20px", fontSize: "12px", fontWeight: 600, letterSpacing: "0.1em", textTransform: "uppercase", color: "#fff", marginBottom: "20px" }}>
-            🇬🇧 Established in the United Kingdom
+            🇬🇧 UK's Premier Indian Matrimonial Service
           </span>
           <h1
             className="font-playfair"

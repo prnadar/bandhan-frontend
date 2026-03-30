@@ -20,7 +20,7 @@ export default function ContactPage() {
 
       {/* Hero */}
       <div style={{ background: "linear-gradient(135deg, #dc1e3c 0%, #a0153c 50%, #3b3fa0 100%)", padding: "72px 24px 56px", textAlign: "center" }}>
-        <span style={{ fontSize: "11px", fontWeight: 700, color: "#dc1e3c", textTransform: "uppercase", letterSpacing: "0.2em", display: "block", marginBottom: "12px" }}>
+        <span style={{ fontSize: "11px", fontWeight: 700, color: "rgba(255,255,255,0.75)", textTransform: "uppercase", letterSpacing: "0.2em", display: "block", marginBottom: "12px" }}>
           Get In Touch
         </span>
         <h1 style={{ fontFamily: "var(--font-playfair, serif)", fontSize: "clamp(28px,4vw,52px)", fontWeight: 700, color: "#fff", margin: "0 0 16px" }}>
@@ -68,8 +68,8 @@ export default function ContactPage() {
             <div style={{ marginTop: "32px", padding: "24px", background: "#fff", borderRadius: "16px", border: "1px solid rgba(220,30,60,0.08)" }}>
               <h3 style={{ fontSize: "14px", fontWeight: 700, color: "#1a0a14", marginBottom: "12px" }}>🕐 Office Hours</h3>
               {[
-                { day: "Monday – Friday", hours: "9:00 AM – 6:00 PM GMT" },
-                { day: "Saturday", hours: "10:00 AM – 4:00 PM GMT" },
+                { day: "Monday – Friday", hours: "9:00 AM – 6:00 PM BST" },
+                { day: "Saturday", hours: "10:00 AM – 4:00 PM BST" },
                 { day: "Sunday", hours: "Closed" },
               ].map(({ day, hours }) => (
                 <div key={day} style={{ display: "flex", justifyContent: "space-between", marginBottom: "8px" }}>
