@@ -26,7 +26,7 @@ export default function ContactPage() {
         <h1 style={{ fontFamily: "var(--font-playfair, serif)", fontSize: "clamp(28px,4vw,52px)", fontWeight: 700, color: "#fff", margin: "0 0 16px" }}>
           Speak to Our Team
         </h1>
-        <p style={{ fontSize: "15px", color: "rgba(255,255,255,0.6)", maxWidth: "480px", margin: "0 auto" }}>
+        <p style={{ fontSize: "15px", color: "rgba(255,255,255,0.85)", maxWidth: "480px", margin: "0 auto" }}>
           Our advisors are here to help, no pressure, just a friendly conversation. We typically respond within a few hours.
         </p>
       </div>

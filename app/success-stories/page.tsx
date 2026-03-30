@@ -121,7 +121,7 @@ export default function SuccessStoriesPage() {
         <h1 style={{ fontFamily: "var(--font-playfair, serif)", fontSize: "clamp(28px, 4vw, 52px)", fontWeight: 700, color: "#fff", margin: "0 0 16px" }}>
           Success Stories 💍
         </h1>
-        <p style={{ fontSize: "16px", color: "rgba(255,255,255,0.6)", maxWidth: "540px", margin: "0 auto 40px" }}>
+        <p style={{ fontSize: "16px", color: "rgba(255,255,255,0.85)", maxWidth: "540px", margin: "0 auto 40px" }}>
           Hundreds of families have found their perfect match through Match4Marriage. Here are just a few of their stories.
         </p>
 
@@ -196,7 +196,7 @@ export default function SuccessStoriesPage() {
         <h2 style={{ fontFamily: "var(--font-playfair, serif)", fontSize: "clamp(26px, 3.5vw, 42px)", fontWeight: 700, color: "#fff", marginBottom: "16px" }}>
           Your Story Could Be Next
         </h2>
-        <p style={{ color: "rgba(255,255,255,0.6)", fontSize: "15px", marginBottom: "32px" }}>
+        <p style={{ color: "rgba(255,255,255,0.85)", fontSize: "15px", marginBottom: "32px" }}>
           Join the hundreds of families who found their perfect match through Match4Marriage.
         </p>
         <Link href={cta.href} style={{ display: "inline-block", padding: "14px 40px", borderRadius: "9999px", background: "linear-gradient(135deg,#dc1e3c,#a0153c)", color: "#fff", fontWeight: 700, fontSize: "15px", textDecoration: "none", boxShadow: "0 4px 24px rgba(220,30,60,0.4)" }}>

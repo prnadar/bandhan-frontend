@@ -94,7 +94,7 @@ export default function FAQPage() {
         <h1 style={{ fontFamily: "var(--font-playfair, serif)", fontSize: "clamp(28px,4vw,52px)", fontWeight: 700, color: "#fff", margin: "0 0 16px" }}>
           Frequently Asked Questions
         </h1>
-        <p style={{ fontSize: "15px", color: "rgba(255,255,255,0.6)", maxWidth: "500px", margin: "0 auto 32px" }}>
+        <p style={{ fontSize: "15px", color: "rgba(255,255,255,0.85)", maxWidth: "500px", margin: "0 auto 32px" }}>
           Everything you need to know about Match4Marriage. Can&apos;t find your answer?{" "}
           <Link href="/contact" style={{ color: "#ffd87a", textDecoration: "none", fontWeight: 600 }}>Contact us</Link>.
         </p>

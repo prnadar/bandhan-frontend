@@ -34,7 +34,7 @@ export default function ProfilesPage() {
         <h1 style={{ fontFamily: "var(--font-playfair, serif)", fontSize: "clamp(28px,4vw,52px)", fontWeight: 700, color: "#fff", margin: "0 0 16px" }}>
           Browse Profiles
         </h1>
-        <p style={{ fontSize: "15px", color: "rgba(255,255,255,0.6)", maxWidth: "480px", margin: "0 auto 32px" }}>
+        <p style={{ fontSize: "15px", color: "rgba(255,255,255,0.85)", maxWidth: "480px", margin: "0 auto 32px" }}>
           Every profile on Match4Marriage is hand-picked and personally verified. Register to view full profiles and connect.
         </p>
         <Link href={cta.href} style={{ display: "inline-block", padding: "12px 32px", borderRadius: "9999px", background: "linear-gradient(135deg,#dc1e3c,#a0153c)", color: "#fff", fontWeight: 700, fontSize: "14px", textDecoration: "none", boxShadow: "0 4px 20px rgba(220,30,60,0.35)" }}>

@@ -59,7 +59,7 @@ export default function PricingPage() {
         <h1 style={{ fontFamily: "var(--font-playfair, serif)", fontSize: "clamp(28px, 4vw, 52px)", fontWeight: 700, color: "#fff", margin: "0 0 16px" }}>
           Invest in Your Forever
         </h1>
-        <p style={{ color: "rgba(255,255,255,0.6)", fontSize: "16px", maxWidth: "520px", margin: "0 auto" }}>
+        <p style={{ color: "rgba(255,255,255,0.85)", fontSize: "16px", maxWidth: "520px", margin: "0 auto" }}>
           Transparent pricing · No hidden fees · Cancel anytime
         </p>
       </div>
