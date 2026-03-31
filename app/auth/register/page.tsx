@@ -57,35 +57,20 @@ export default function RegisterPage() {
       setErrors([]);
       setLoading(true);
       try {
-        // Register with Supabase
-        const { data, error: authError } = await supabase.auth.signUp({
-          email,
-          password,
-          options: {
-            data: {
-              full_name: name.trim(),
-              gender: gender.toLowerCase(),
-            },
-          },
+        // Send OTP via our custom API (uses Resend directly)
+        const res = await fetch("/api/send-otp", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ email, name: name.trim() }),
         });
-        if (authError) {
-          const msg = authError.message.toLowerCase();
-          if (msg.includes("email") && msg.includes("send")) {
-            setErrors(["Unable to send verification email. Please try again in a moment or contact support."]);
-          } else if (msg.includes("already registered") || msg.includes("already been registered")) {
-            setErrors(["This email is already registered. Please log in instead."]);
-          } else {
-            setErrors([authError.message]);
-          }
+        const data = await res.json();
+        if (!res.ok) {
+          setErrors([data.error || "Failed to send verification code. Please try again."]);
           setLoading(false);
           return;
         }
-        // Save token if session is immediately available
-        if (data?.session?.access_token) {
-          localStorage.setItem("auth_token", data.session.access_token);
-        }
         setLoading(false);
-        setOtpSent(true); // Auto-show OTP boxes — Supabase already sent the email
+        setOtpSent(true);
         setStep(1);
       } catch {
         setErrors(["Something went wrong. Please try again."]);
@@ -100,20 +85,27 @@ export default function RegisterPage() {
       if (otpCode.length < 6) { setErrors(["Please enter the 6-digit code."]); return; }
       setLoading(true);
       try {
-        const { error: verifyError } = await supabase.auth.verifyOtp({
-          email,
-          token: otpCode,
-          type: "email",
+        const res = await fetch("/api/verify-otp", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ email, code: otpCode, password, name: name.trim(), gender: gender.toLowerCase() }),
         });
-        if (verifyError) {
-          // If OTP fails, still advance (Supabase may auto-confirm in some configs)
-          console.warn("OTP verify:", verifyError.message);
+        const data = await res.json();
+        if (!res.ok) {
+          setErrors([data.error || "Invalid code. Please try again."]);
+          setLoading(false);
+          return;
+        }
+        // Sign in with password now that account is created
+        const { data: signInData, error: signInError } = await supabase.auth.signInWithPassword({ email, password });
+        if (!signInError && signInData.session?.access_token) {
+          localStorage.setItem("auth_token", signInData.session.access_token);
         }
         setLoading(false);
         setStep(2);
       } catch {
+        setErrors(["Something went wrong. Please try again."]);
         setLoading(false);
-        setStep(2);
       }
       return;
     }
