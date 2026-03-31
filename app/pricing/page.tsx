@@ -42,7 +42,7 @@ const plans = [
     badge: "✦ VIP",
     highlighted: false,
     vip: true,
-    features: ["Everything in Elite", "Personal matchmaker assigned", "Curated hand-picked profiles", "1-on-1 strategy call", "Profile photography consultation", "Family liaison service", "Unlimited profile boosts", "24/7 WhatsApp concierge support"],
+    features: ["Everything in Elite", "Personal matchmaker assigned", "Curated hand-picked profiles", "1-on-1 strategy call", "Profile photography consultation", "Family liaison service", "Unlimited profile boosts", "Financial due diligence", "24/7 WhatsApp concierge support"],
     cta: "📅 Schedule a Call",
     ctaHref: "https://calendly.com/match4marriage",
   },

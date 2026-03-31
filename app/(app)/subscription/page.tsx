@@ -68,6 +68,7 @@ const plans = [
       "Family liaison service",
       "Unlimited profile boosts",
       "24/7 WhatsApp concierge support",
+      "Financial due diligence",
     ],
   },
 ];
