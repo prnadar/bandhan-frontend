@@ -78,6 +78,7 @@ export default function RegisterPage() {
           localStorage.setItem("auth_token", data.session.access_token);
         }
         setLoading(false);
+        setOtpSent(true); // Auto-show OTP boxes — Supabase already sent the email
         setStep(1);
       } catch {
         setErrors(["Something went wrong. Please try again."]);
@@ -390,10 +391,16 @@ export default function RegisterPage() {
                 ← Back
               </button>
               <h1 style={{ fontFamily: "var(--font-playfair, serif)", fontSize: "26px", fontWeight: 700, color: "#1a0a14", marginBottom: "8px" }}>
-                Verify your email
+                Check your email
               </h1>
-              <p style={{ fontSize: "13px", color: "#888", marginBottom: "28px" }}>
-                We'll send a 6-digit verification code to <strong style={{ color: "#1a0a14" }}>{email}</strong>
+              <p style={{ fontSize: "13px", color: "#888", marginBottom: "8px" }}>
+                We've sent a 6-digit verification code to
+              </p>
+              <p style={{ fontSize: "14px", fontWeight: 600, color: "#1a0a14", marginBottom: "28px" }}>
+                📧 {email}
+              </p>
+              <p style={{ fontSize: "12px", color: "#aaa", marginBottom: "28px" }}>
+                Check your inbox (and spam folder). The code expires in 10 minutes.
               </p>
 
               {!otpSent ? (
