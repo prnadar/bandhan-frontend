@@ -1,6 +1,7 @@
 "use client";
 
-import { useState, useRef } from "react";
+import { useState, useRef, useEffect } from "react";
+import { supabase } from "@/lib/supabase";
 import {
   Shield, CheckCircle, AlertCircle, Camera, Upload,
   Plus, X, Edit3, Heart, Star, Users, Briefcase, GraduationCap,
@@ -1303,30 +1304,72 @@ function SaveButton({
 // ─── Photos Tab ──────────────────────────────────────────────────────────────
 
 function PhotosTab() {
-  const [photos, setPhotos] = useState<{ id: string; url: string; isPrimary: boolean }[]>([]);
+  const [photos, setPhotos] = useState<{ id: string; url: string; path: string; isPrimary: boolean }[]>([]);
   const [uploading, setUploading] = useState(false);
+  const [uploadError, setUploadError] = useState<string | null>(null);
   const [dragOver, setDragOver] = useState(false);
   const fileInputRef = useRef<HTMLInputElement>(null);
 
-  const handleFiles = (files: FileList | null) => {
-    if (!files) return;
+  // Load existing photos on mount
+  useEffect(() => {
+    (async () => {
+      const { data: { user } } = await supabase.auth.getUser();
+      if (!user) return;
+      const { data } = await supabase.storage.from("profiles").list(`${user.id}/photos`);
+      if (!data) return;
+      const loaded = await Promise.all(
+        data.map(async (file, idx) => {
+          const { data: urlData } = supabase.storage.from("profiles").getPublicUrl(`${user.id}/photos/${file.name}`);
+          return { id: file.id || file.name, url: urlData.publicUrl, path: `${user.id}/photos/${file.name}`, isPrimary: idx === 0 };
+        })
+      );
+      setPhotos(loaded);
+    })();
+  }, []);
+
+  const handleFiles = async (files: FileList | null) => {
+    if (!files || files.length === 0) return;
     setUploading(true);
-    const newPhotos = Array.from(files).slice(0, 6 - photos.length).map((file) => ({
-      id: crypto.randomUUID(),
-      url: URL.createObjectURL(file),
-      isPrimary: photos.length === 0,
-    }));
-    setTimeout(() => {
-      setPhotos((prev) => [...prev, ...newPhotos]);
-      setUploading(false);
-    }, 800);
+    setUploadError(null);
+    const { data: { user } } = await supabase.auth.getUser();
+    if (!user) { setUploadError("Please log in to upload photos."); setUploading(false); return; }
+
+    const toUpload = Array.from(files).slice(0, 6 - photos.length);
+    const uploaded: typeof photos = [];
+
+    for (const file of toUpload) {
+      // Validate type + size
+      if (!file.type.startsWith("image/")) continue;
+      if (file.size > 5 * 1024 * 1024) { setUploadError("Each photo must be under 5MB."); continue; }
+
+      const ext = file.name.split(".").pop() || "jpg";
+      const path = `${user.id}/photos/${Date.now()}-${Math.random().toString(36).slice(2)}.${ext}`;
+
+      const { error } = await supabase.storage.from("profiles").upload(path, file, {
+        cacheControl: "3600",
+        upsert: false,
+        contentType: file.type,
+      });
+
+      if (error) { setUploadError(`Upload failed: ${error.message}`); continue; }
+
+      const { data: urlData } = supabase.storage.from("profiles").getPublicUrl(path);
+      uploaded.push({ id: path, url: urlData.publicUrl, path, isPrimary: photos.length === 0 && uploaded.length === 0 });
+    }
+
+    setPhotos((prev) => [...prev, ...uploaded]);
+    setUploading(false);
   };
 
   const makePrimary = (id: string) => {
     setPhotos((prev) => prev.map((p) => ({ ...p, isPrimary: p.id === id })));
   };
 
-  const removePhoto = (id: string) => {
+  const removePhoto = async (id: string) => {
+    const photo = photos.find((p) => p.id === id);
+    if (photo?.path) {
+      await supabase.storage.from("profiles").remove([photo.path]);
+    }
     setPhotos((prev) => {
       const filtered = prev.filter((p) => p.id !== id);
       if (filtered.length > 0 && !filtered.some((p) => p.isPrimary)) {
@@ -1350,6 +1393,9 @@ function PhotosTab() {
           Upload up to 6 photos. Your primary photo appears on your profile card.
           Profiles with photos get <strong style={{ color: "#dc1e3c" }}>8× more responses</strong>.
         </p>
+        {uploadError && (
+          <p style={{ fontSize: 12, color: "#dc1e3c", marginTop: 6 }}>⚠️ {uploadError}</p>
+        )}
       </div>
 
       {/* Upload zone */}
