@@ -69,7 +69,14 @@ export default function RegisterPage() {
           },
         });
         if (authError) {
-          setErrors([authError.message]);
+          const msg = authError.message.toLowerCase();
+          if (msg.includes("email") && msg.includes("send")) {
+            setErrors(["Unable to send verification email. Please try again in a moment or contact support."]);
+          } else if (msg.includes("already registered") || msg.includes("already been registered")) {
+            setErrors(["This email is already registered. Please log in instead."]);
+          } else {
+            setErrors([authError.message]);
+          }
           setLoading(false);
           return;
         }
