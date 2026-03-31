@@ -3,6 +3,7 @@
 import { useState, useRef, useEffect } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
+import { supabase } from "@/lib/supabase";
 
 export default function LoginPage() {
   const router = useRouter();
@@ -26,9 +27,24 @@ export default function LoginPage() {
     if (password.length < 6) { setError("Password must be at least 6 characters."); return; }
     setError("");
     setLoading(true);
-    await new Promise((r) => setTimeout(r, 800));
-    setLoading(false);
-    router.push("/dashboard");
+    try {
+      const { data, error: authError } = await supabase.auth.signInWithPassword({ email, password });
+      if (authError) {
+        setError(authError.message === "Invalid login credentials"
+          ? "Incorrect email or password. Please try again."
+          : authError.message);
+        setLoading(false);
+        return;
+      }
+      // Save token for backend API calls
+      if (data.session?.access_token) {
+        localStorage.setItem("auth_token", data.session.access_token);
+      }
+      router.push("/dashboard");
+    } catch {
+      setError("Something went wrong. Please try again.");
+      setLoading(false);
+    }
   };
 
   return (

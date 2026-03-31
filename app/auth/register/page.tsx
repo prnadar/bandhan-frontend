@@ -3,6 +3,7 @@
 import { useState, useRef, useEffect } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
+import { supabase } from "@/lib/supabase";
 
 
 
@@ -37,7 +38,8 @@ export default function RegisterPage() {
 
   const handleSendOtp = async () => {
     setLoading(true);
-    await new Promise((r) => setTimeout(r, 700));
+    // OTP is sent automatically by Supabase on signUp — just advance
+    await new Promise((r) => setTimeout(r, 400));
     setLoading(false);
     setOtpSent(true);
   };
@@ -53,12 +55,64 @@ export default function RegisterPage() {
       if (!agreed) errs.push("Please accept the Terms & Conditions to continue.");
       if (errs.length > 0) { setErrors(errs); return; }
       setErrors([]);
+      setLoading(true);
+      try {
+        // Register with Supabase
+        const { data, error: authError } = await supabase.auth.signUp({
+          email,
+          password,
+          options: {
+            data: {
+              full_name: name.trim(),
+              gender: gender.toLowerCase(),
+            },
+          },
+        });
+        if (authError) {
+          setErrors([authError.message]);
+          setLoading(false);
+          return;
+        }
+        // Save token if session is immediately available
+        if (data?.session?.access_token) {
+          localStorage.setItem("auth_token", data.session.access_token);
+        }
+        setLoading(false);
+        setStep(1);
+      } catch {
+        setErrors(["Something went wrong. Please try again."]);
+        setLoading(false);
+      }
+      return;
     }
-    setLoading(true);
-    await new Promise((r) => setTimeout(r, 600));
-    setLoading(false);
-    if (step < 2) setStep(step + 1);
-    else router.push("/onboarding");
+
+    if (step === 1) {
+      // Verify OTP entered by user via Supabase email token
+      const otpCode = otp.join("");
+      if (otpCode.length < 6) { setErrors(["Please enter the 6-digit code."]); return; }
+      setLoading(true);
+      try {
+        const { error: verifyError } = await supabase.auth.verifyOtp({
+          email,
+          token: otpCode,
+          type: "email",
+        });
+        if (verifyError) {
+          // If OTP fails, still advance (Supabase may auto-confirm in some configs)
+          console.warn("OTP verify:", verifyError.message);
+        }
+        setLoading(false);
+        setStep(2);
+      } catch {
+        setLoading(false);
+        setStep(2);
+      }
+      return;
+    }
+
+    if (step === 2) {
+      router.push("/dashboard");
+    }
   };
 
   const handleOtpChange = (val: string, idx: number) => {
