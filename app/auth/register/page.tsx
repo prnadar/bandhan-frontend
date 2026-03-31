@@ -35,6 +35,7 @@ export default function RegisterPage() {
   const [otp, setOtp] = useState(["", "", "", "", "", ""]);
   const [otpSent, setOtpSent] = useState(false);
   const [errors, setErrors] = useState<string[]>([]);
+  const [otpToken, setOtpToken] = useState("");
 
   const handleSendOtp = async () => {
     setLoading(true);
@@ -69,6 +70,7 @@ export default function RegisterPage() {
           setLoading(false);
           return;
         }
+        setOtpToken(data.token);
         setLoading(false);
         setOtpSent(true);
         setStep(1);
@@ -88,7 +90,7 @@ export default function RegisterPage() {
         const res = await fetch("/api/verify-otp", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ email, code: otpCode, password, name: name.trim(), gender: gender.toLowerCase() }),
+          body: JSON.stringify({ token: otpToken, code: otpCode, password, name: name.trim(), gender: gender.toLowerCase() }),
         });
         const data = await res.json();
         if (!res.ok) {

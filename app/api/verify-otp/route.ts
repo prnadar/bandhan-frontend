@@ -1,70 +1,55 @@
 import { NextRequest, NextResponse } from "next/server";
 import { createClient } from "@supabase/supabase-js";
+import crypto from "crypto";
 
 const supabaseAdmin = createClient(
   process.env.NEXT_PUBLIC_SUPABASE_URL!,
   process.env.SUPABASE_SERVICE_KEY!
 );
 
+const OTP_SECRET = process.env.SUPABASE_SERVICE_KEY!;
+
+function verifyToken(token: string, code: string): { valid: boolean; email?: string; error?: string } {
+  try {
+    const [b64, hmac] = token.split(".");
+    const payload = Buffer.from(b64, "base64").toString("utf8");
+    const expected = crypto.createHmac("sha256", OTP_SECRET).update(payload).digest("hex");
+    if (hmac !== expected) return { valid: false, error: "Invalid token" };
+    const data = JSON.parse(payload);
+    if (Date.now() > data.exp) return { valid: false, error: "Code expired. Please register again." };
+    if (data.otp !== code) return { valid: false, error: "Incorrect code. Please try again." };
+    return { valid: true, email: data.email };
+  } catch {
+    return { valid: false, error: "Invalid token" };
+  }
+}
+
 export async function POST(req: NextRequest) {
   try {
-    const { email, code, password, name, gender } = await req.json();
-    if (!email || !code) return NextResponse.json({ error: "Email and code required" }, { status: 400 });
+    const { token, code, password, name, gender } = await req.json();
+    if (!token || !code) return NextResponse.json({ error: "Code required" }, { status: 400 });
 
-    // Verify OTP
-    const { data: otpData, error: otpError } = await supabaseAdmin
-      .from("otp_codes")
-      .select("*")
-      .eq("email", email.toLowerCase())
-      .eq("code", code)
-      .eq("used", false)
-      .single();
+    const result = verifyToken(token, code);
+    if (!result.valid) return NextResponse.json({ error: result.error }, { status: 400 });
 
-    if (otpError || !otpData) {
-      return NextResponse.json({ error: "Invalid or expired code. Please try again." }, { status: 400 });
-    }
+    const email = result.email!;
 
-    // Check expiry
-    if (new Date(otpData.expires_at) < new Date()) {
-      return NextResponse.json({ error: "Code has expired. Please register again." }, { status: 400 });
-    }
-
-    // Mark OTP as used
-    await supabaseAdmin.from("otp_codes").update({ used: true }).eq("email", email.toLowerCase());
-
-    // Create user in Supabase Auth (admin — bypasses email confirmation)
+    // Create user in Supabase Auth (admin — auto-confirmed)
     const { data: userData, error: userError } = await supabaseAdmin.auth.admin.createUser({
       email,
       password,
-      email_confirm: true, // Auto-confirm since we verified OTP ourselves
+      email_confirm: true,
       user_metadata: { full_name: name, gender },
     });
 
     if (userError) {
-      // User might already exist — try to sign them in
-      if (userError.message.includes("already")) {
-        const { data: signInData, error: signInError } = await supabaseAdmin.auth.admin.generateLink({
-          type: "magiclink",
-          email,
-        });
-        if (signInError) return NextResponse.json({ error: signInError.message }, { status: 400 });
-        return NextResponse.json({ success: true, action_link: signInData.properties?.action_link });
+      if (userError.message.toLowerCase().includes("already")) {
+        return NextResponse.json({ error: "This email is already registered. Please log in." }, { status: 400 });
       }
       return NextResponse.json({ error: userError.message }, { status: 400 });
     }
 
-    // Generate session for immediate login
-    const { data: sessionData } = await supabaseAdmin.auth.admin.generateLink({
-      type: "magiclink",
-      email,
-    });
-
-    return NextResponse.json({
-      success: true,
-      user_id: userData.user?.id,
-      action_link: sessionData?.properties?.action_link,
-    });
-
+    return NextResponse.json({ success: true, user_id: userData.user?.id });
   } catch (err) {
     console.error("verify-otp error:", err);
     return NextResponse.json({ error: "Server error" }, { status: 500 });

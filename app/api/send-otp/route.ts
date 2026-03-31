@@ -1,16 +1,17 @@
 import { NextRequest, NextResponse } from "next/server";
-import { createClient } from "@supabase/supabase-js";
-
-const supabaseAdmin = createClient(
-  process.env.NEXT_PUBLIC_SUPABASE_URL!,
-  process.env.SUPABASE_SERVICE_KEY!
-);
+import crypto from "crypto";
 
 const RESEND_KEY = process.env.RESEND_API_KEY!;
+const OTP_SECRET = process.env.SUPABASE_SERVICE_KEY!; // reuse as HMAC secret
 
-// Generate 6-digit OTP
 function generateOTP(): string {
   return Math.floor(100000 + Math.random() * 900000).toString();
+}
+
+function signOTP(email: string, otp: string, expiresAt: number): string {
+  const payload = JSON.stringify({ email: email.toLowerCase(), otp, exp: expiresAt });
+  const hmac = crypto.createHmac("sha256", OTP_SECRET).update(payload).digest("hex");
+  return Buffer.from(payload).toString("base64") + "." + hmac;
 }
 
 export async function POST(req: NextRequest) {
@@ -18,31 +19,15 @@ export async function POST(req: NextRequest) {
     const { email, name } = await req.json();
     if (!email) return NextResponse.json({ error: "Email required" }, { status: 400 });
 
-    // Generate OTP
     const otp = generateOTP();
-    const expiresAt = new Date(Date.now() + 10 * 60 * 1000); // 10 minutes
-
-    // Store OTP in Supabase (use a simple table or metadata)
-    // We'll store in a temporary table approach using Supabase
-    const { error: storeError } = await supabaseAdmin
-      .from("otp_codes")
-      .upsert({
-        email: email.toLowerCase(),
-        code: otp,
-        expires_at: expiresAt.toISOString(),
-        used: false,
-      }, { onConflict: "email" });
-
-    if (storeError) {
-      console.error("Store OTP error:", storeError);
-      // Continue even if storage fails — still send email
-    }
+    const expiresAt = Date.now() + 10 * 60 * 1000; // 10 minutes
+    const token = signOTP(email, otp, expiresAt);
 
     // Send OTP via Resend
     const res = await fetch("https://api.resend.com/emails", {
       method: "POST",
       headers: {
-        "Authorization": `Bearer ${RESEND_KEY}`,
+        Authorization: `Bearer ${RESEND_KEY}`,
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
@@ -65,20 +50,20 @@ export async function POST(req: NextRequest) {
               <p style="color: #888; font-size: 13px; margin: 0;">This code expires in <strong>10 minutes</strong>. Do not share it with anyone.</p>
             </div>
             <p style="text-align: center; color: #aaa; font-size: 12px; margin-top: 24px;">
-              © ${new Date().getFullYear()} Match4Marriage Limited · United Kingdom
+              &copy; ${new Date().getFullYear()} Match4Marriage Limited &middot; United Kingdom
             </p>
           </div>
         `,
       }),
     });
 
-    const data = await res.json();
     if (!res.ok) {
-      console.error("Resend error:", data);
+      const err = await res.json();
+      console.error("Resend error:", err);
       return NextResponse.json({ error: "Failed to send email" }, { status: 500 });
     }
 
-    return NextResponse.json({ success: true });
+    return NextResponse.json({ success: true, token });
   } catch (err) {
     console.error("send-otp error:", err);
     return NextResponse.json({ error: "Server error" }, { status: 500 });
