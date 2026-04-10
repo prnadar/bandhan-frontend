@@ -1,7 +1,9 @@
 import type { Metadata, Viewport } from "next";
+import dynamic from "next/dynamic";
 import QueryProvider from "@/lib/providers/query-provider";
-import Preloader from "@/components/Preloader";
 import "./globals.css";
+
+const Preloader = dynamic(() => import("@/components/Preloader"), { ssr: false });
 
 export const metadata: Metadata = {
   title: {

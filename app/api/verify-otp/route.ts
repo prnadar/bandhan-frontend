@@ -43,8 +43,18 @@ export async function POST(req: NextRequest) {
     });
 
     if (userError) {
+      // If user already exists, that's fine — they proved email ownership via OTP
       if (userError.message.toLowerCase().includes("already")) {
-        return NextResponse.json({ error: "This email is already registered. Please log in." }, { status: 400 });
+        // Try to fetch the existing user so we can return their ID
+        const { data: existingList } = await supabaseAdmin.auth.admin.listUsers();
+        const existingUser = existingList?.users?.find(
+          (u) => u.email?.toLowerCase() === email.toLowerCase()
+        );
+        return NextResponse.json({
+          success: true,
+          user_id: existingUser?.id ?? null,
+          existing: true,
+        });
       }
       return NextResponse.json({ error: userError.message }, { status: 400 });
     }

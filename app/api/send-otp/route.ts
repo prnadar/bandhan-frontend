@@ -31,7 +31,7 @@ export async function POST(req: NextRequest) {
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
-        from: "Match4Marriage <onboarding@resend.dev>",
+        from: "Match4Marriage <noreply@match4marriage.com>",
         to: [email],
         subject: "Your Match4Marriage verification code",
         html: `

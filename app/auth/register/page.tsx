@@ -98,11 +98,40 @@ export default function RegisterPage() {
           setLoading(false);
           return;
         }
-        // Sign in with password now that account is created
-        const { data: signInData, error: signInError } = await supabase.auth.signInWithPassword({ email, password });
-        if (!signInError && signInData.session?.access_token) {
-          localStorage.setItem("auth_token", signInData.session.access_token);
+
+        // Sync user to FastAPI backend DB (non-fatal — don't block registration if this fails)
+        const backendApiUrl = process.env.NEXT_PUBLIC_API_URL ?? "";
+        if (backendApiUrl) {
+          try {
+            const backendRes = await fetch(`${backendApiUrl}/api/v1/auth/email-register`, {
+              method: "POST",
+              headers: {
+                "Content-Type": "application/json",
+                "X-Tenant-ID": "bandhan",
+              },
+              body: JSON.stringify({ email, name: name.trim(), gender: gender.toLowerCase() }),
+            });
+            if (backendRes.ok) {
+              const backendData = await backendRes.json();
+              if (backendData?.data?.access_token) {
+                localStorage.setItem("auth_token", backendData.data.access_token);
+                localStorage.setItem("backend_token", backendData.data.access_token);
+                localStorage.setItem("backend_user_id", backendData.data.user_id);
+              }
+            } else {
+              console.warn("Backend user sync failed:", await backendRes.text());
+            }
+          } catch (backendErr) {
+            console.warn("Backend user sync error:", backendErr);
+          }
         }
+
+        // Supabase sign-in is secondary for this flow, do not block progress on it.
+        const { data: signInData } = await supabase.auth.signInWithPassword({ email, password });
+        if (signInData.session?.access_token) {
+          localStorage.setItem("supabase_auth_token", signInData.session.access_token);
+        }
+
         setLoading(false);
         setStep(2);
       } catch {

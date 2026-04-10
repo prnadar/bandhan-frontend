@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useRef, useCallback } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import PublicHeader from "@/components/PublicHeader";
@@ -9,6 +9,8 @@ import {
   Heart, Phone, User, Brain, Shield, Sliders,
   Check, ArrowRight, ArrowLeft, Upload, Star,
 } from "lucide-react";
+import { firebaseAuth } from "@/lib/firebase";
+import { RecaptchaVerifier, signInWithPhoneNumber, type ConfirmationResult } from "firebase/auth";
 
 const steps = [
   { id: 1, label: "Basic Profile",  icon: User,    title: "Tell us about yourself",              subtitle: "Your profile helps us find better matches" },
@@ -190,14 +192,127 @@ function IdVerifyStep({ onComplete }: { onComplete?: (done: boolean) => void }) 
   );
 }
 
+const COUNTRY_CODES = [
+  { code: "+44",  flag: "🇬🇧", label: "UK (+44)" },
+  { code: "+91",  flag: "🇮🇳", label: "India (+91)" },
+  { code: "+1",   flag: "🇺🇸", label: "US (+1)" },
+  { code: "+1",   flag: "🇨🇦", label: "Canada (+1)" },
+  { code: "+61",  flag: "🇦🇺", label: "Australia (+61)" },
+  { code: "+971", flag: "🇦🇪", label: "UAE (+971)" },
+  { code: "+65",  flag: "🇸🇬", label: "Singapore (+65)" },
+  { code: "+64",  flag: "🇳🇿", label: "New Zealand (+64)" },
+  { code: "+27",  flag: "🇿🇦", label: "South Africa (+27)" },
+  { code: "+49",  flag: "🇩🇪", label: "Germany (+49)" },
+  { code: "+31",  flag: "🇳🇱", label: "Netherlands (+31)" },
+  { code: "+33",  flag: "🇫🇷", label: "France (+33)" },
+  { code: "+353", flag: "🇮🇪", label: "Ireland (+353)" },
+  { code: "+60",  flag: "🇲🇾", label: "Malaysia (+60)" },
+  { code: "+254", flag: "🇰🇪", label: "Kenya (+254)" },
+  { code: "+94",  flag: "🇱🇰", label: "Sri Lanka (+94)" },
+  { code: "+977", flag: "🇳🇵", label: "Nepal (+977)" },
+  { code: "+880", flag: "🇧🇩", label: "Bangladesh (+880)" },
+  { code: "+92",  flag: "🇵🇰", label: "Pakistan (+92)" },
+  { code: "+974", flag: "🇶🇦", label: "Qatar (+974)" },
+  { code: "+968", flag: "🇴🇲", label: "Oman (+968)" },
+  { code: "+973", flag: "🇧🇭", label: "Bahrain (+973)" },
+  { code: "+965", flag: "🇰🇼", label: "Kuwait (+965)" },
+] as const;
+
 export default function OnboardingPage() {
   const router = useRouter();
   const [step, setStep] = useState(1);
   const [phone, setPhone] = useState("");
+  const [countryCode, setCountryCode] = useState("+44");
   const [otp, setOtp] = useState(["", "", "", "", "", ""]);
   const [otpSent, setOtpSent] = useState(false);
   const [otpVerified, setOtpVerified] = useState(false);
+  const [otpLoading, setOtpLoading] = useState(false);
+  const [otpError, setOtpError] = useState("");
   const [idUploaded, setIdUploaded] = useState(false);
+
+  // Firebase phone auth refs
+  const confirmationRef = useRef<ConfirmationResult | null>(null);
+  const recaptchaRef = useRef<RecaptchaVerifier | null>(null);
+
+  const getRecaptchaVerifier = useCallback(() => {
+    if (recaptchaRef.current) return recaptchaRef.current;
+    // Clear previous reCAPTCHA widget from DOM if any
+    const container = document.getElementById("recaptcha-container");
+    if (container) container.innerHTML = "";
+    const verifier = new RecaptchaVerifier(firebaseAuth, "recaptcha-container", {
+      size: "invisible",
+    });
+    recaptchaRef.current = verifier;
+    return verifier;
+  }, []);
+
+  const handleSendOtp = useCallback(async () => {
+    const trimmed = phone.replace(/\D/g, "");
+    if (trimmed.length < 7) {
+      setOtpError("Please enter a valid phone number");
+      return;
+    }
+    setOtpLoading(true);
+    setOtpError("");
+    try {
+      const fullNumber = `${countryCode}${trimmed}`;
+      const verifier = getRecaptchaVerifier();
+      const result = await signInWithPhoneNumber(firebaseAuth, fullNumber, verifier);
+      confirmationRef.current = result;
+      setOtpSent(true);
+    } catch (err: unknown) {
+      console.error("Firebase phone auth error:", err);
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      const firebaseErr = err as any;
+      const code: string = firebaseErr?.code ?? "";
+      const msg: string = firebaseErr?.message ?? (err instanceof Error ? err.message : "Failed to send OTP");
+      console.error("Firebase error code:", code, "message:", msg);
+      if (code === "auth/too-many-requests" || msg.includes("too-many-requests")) {
+        setOtpError("Too many attempts. Please wait a few minutes and try again.");
+      } else if (code === "auth/invalid-phone-number" || msg.includes("invalid-phone-number")) {
+        setOtpError("Invalid phone number. Please check and try again.");
+      } else if (code === "auth/captcha-check-failed" || msg.includes("reCAPTCHA")) {
+        setOtpError("reCAPTCHA verification failed. Please refresh the page and try again.");
+      } else if (code === "auth/network-request-failed") {
+        setOtpError("Network error. Please check your internet connection.");
+      } else if (code === "auth/quota-exceeded") {
+        setOtpError("SMS quota exceeded. Please try again later.");
+      } else if (code === "auth/missing-phone-provider") {
+        setOtpError("Phone authentication is not enabled. Please contact support.");
+      } else {
+        setOtpError(`Could not send OTP: ${code || msg}`);
+      }
+      // Reset reCAPTCHA on error so it re-renders fresh
+      try {
+        if (recaptchaRef.current) {
+          recaptchaRef.current.clear();
+        }
+      } catch { /* ignore */ }
+      recaptchaRef.current = null;
+    } finally {
+      setOtpLoading(false);
+    }
+  }, [phone, countryCode, getRecaptchaVerifier]);
+
+  const handleVerifyOtp = useCallback(async () => {
+    const otpCode = otp.join("");
+    if (otpCode.length < 6) return;
+    if (!confirmationRef.current) {
+      setOtpError("Session expired. Please resend the OTP.");
+      return;
+    }
+    setOtpLoading(true);
+    setOtpError("");
+    try {
+      await confirmationRef.current.confirm(otpCode);
+      setOtpVerified(true);
+    } catch (err: unknown) {
+      console.error("OTP verification error:", err);
+      setOtpError("Incorrect code. Please try again.");
+    } finally {
+      setOtpLoading(false);
+    }
+  }, [otp]);
   const [form, setForm] = useState({ name: "", dob: "", gender: "", religion: "", caste: "", country: "", motherTongue: "", education: "", profession: "" });
   const [quizAnswers, setQuizAnswers] = useState<Record<number, number>>({});
   const [prefs, setPrefs] = useState({ ageMin: "25", ageMax: "32", religion: "Any", city: "Any India" });
@@ -301,6 +416,12 @@ export default function OnboardingPage() {
         {/* ── Step 2: Phone + OTP ── */}
         {step === 2 && (
           <div style={{ display: "flex", flexDirection: "column", gap: "16px" }}>
+            <div id="recaptcha-container" />
+            {otpError && (
+              <div style={{ padding: "10px 14px", background: "rgba(220,30,60,0.05)", border: "1px solid rgba(220,30,60,0.2)", borderRadius: "10px" }}>
+                <p style={{ fontSize: "12px", color: "#dc1e3c", margin: 0 }}>{otpError}</p>
+              </div>
+            )}
             {!otpSent ? (
               <>
                 <div>
@@ -308,58 +429,77 @@ export default function OnboardingPage() {
                     Mobile Number
                   </label>
                   <div style={{
-                    display: "flex", alignItems: "center", gap: "8px",
-                    padding: "0 16px",
+                    display: "flex", alignItems: "center", gap: "0",
                     border: "1px solid rgba(220,30,60,0.15)",
                     borderRadius: "10px",
                     height: "48px",
                     background: "#fff",
+                    overflow: "hidden",
                   }}>
-                    <span style={{ fontSize: "14px", color: "rgba(26,10,20,0.55)", borderRight: "1px solid rgba(220,30,60,0.15)", paddingRight: "12px" }}>+91</span>
+                    <select
+                      value={countryCode}
+                      onChange={(e) => setCountryCode(e.target.value)}
+                      style={{
+                        height: "100%",
+                        padding: "0 8px 0 12px",
+                        border: "none",
+                        borderRight: "1px solid rgba(220,30,60,0.15)",
+                        background: "rgba(220,30,60,0.02)",
+                        fontSize: "13px",
+                        color: "#1a0a14",
+                        outline: "none",
+                        cursor: "pointer",
+                        minWidth: "130px",
+                      }}
+                    >
+                      {COUNTRY_CODES.map((c, i) => (
+                        <option key={`${c.code}-${i}`} value={c.code}>
+                          {c.flag} {c.label}
+                        </option>
+                      ))}
+                    </select>
                     <input
                       type="tel"
                       placeholder="9876543210"
                       value={phone}
-                      onChange={(e) => setPhone(e.target.value)}
-                      style={{ flex: 1, background: "transparent", fontSize: "14px", color: "#1a0a14", outline: "none", border: "none" }}
+                      onChange={(e) => setPhone(e.target.value.replace(/\D/g, ""))}
+                      style={{ flex: 1, background: "transparent", fontSize: "14px", color: "#1a0a14", outline: "none", border: "none", padding: "0 16px" }}
                     />
                   </div>
                 </div>
                 <button
-                  onClick={() => setOtpSent(true)}
-                  disabled={phone.length < 10}
+                  onClick={handleSendOtp}
+                  disabled={phone.length < 7 || otpLoading}
                   style={{
                     width: "100%", padding: "12px 24px",
-                    background: phone.length < 10 ? "rgba(26,10,20,0.08)" : "linear-gradient(135deg, #dc1e3c, #a0153c)",
-                    color: phone.length < 10 ? "#aaa" : "#fff",
+                    background: phone.length < 7 || otpLoading ? "rgba(26,10,20,0.08)" : "linear-gradient(135deg, #dc1e3c, #a0153c)",
+                    color: phone.length < 7 || otpLoading ? "#aaa" : "#fff",
                     borderRadius: "10px", fontSize: "14px", fontWeight: 600,
-                    border: "none", cursor: phone.length < 10 ? "not-allowed" : "pointer",
-                    boxShadow: phone.length >= 10 ? "0 4px 16px rgba(220,30,60,0.25)" : "none",
+                    border: "none", cursor: phone.length < 7 || otpLoading ? "not-allowed" : "pointer",
+                    boxShadow: phone.length >= 7 && !otpLoading ? "0 4px 16px rgba(220,30,60,0.25)" : "none",
                     display: "flex", alignItems: "center", justifyContent: "center", gap: "8px",
                   }}
                 >
-                  Send OTP <ArrowRight style={{ width: "16px", height: "16px" }} />
+                  {otpLoading ? "Sending..." : <>Send OTP <ArrowRight style={{ width: "16px", height: "16px" }} /></>}
                 </button>
               </>
-            ) : (
+            ) : !otpVerified ? (
               <>
                 <p style={{ fontSize: "13px", color: "#888" }}>
-                  Enter the 6-digit OTP sent to <strong style={{ color: "#1a0a14" }}>+91 {phone}</strong>
+                  Enter the 6-digit OTP sent to <strong style={{ color: "#1a0a14" }}>{countryCode} {phone}</strong>
                 </p>
                 <div style={{ display: "flex", gap: "8px", justifyContent: "center" }}>
                   {otp.map((digit, i) => (
                     <input
                       key={i}
                       type="text"
+                      inputMode="numeric"
                       maxLength={1}
                       value={digit}
                       onChange={(e) => {
                         const val = e.target.value.replace(/\D/, "");
-                        const next = [...otp]; next[i] = val; setOtp(next);
+                        const updated = [...otp]; updated[i] = val; setOtp(updated);
                         if (val && i < 5) (document.getElementById(`otp-${i + 1}`) as HTMLInputElement)?.focus();
-                        const filled = [...next].every(d => d !== "");
-                        if (filled) setOtpVerified(true);
-                        else setOtpVerified(false);
                       }}
                       id={`otp-${i}`}
                       style={{
@@ -374,13 +514,39 @@ export default function OnboardingPage() {
                     />
                   ))}
                 </div>
+                <button
+                  onClick={handleVerifyOtp}
+                  disabled={otp.join("").length < 6 || otpLoading}
+                  style={{
+                    width: "100%", padding: "12px 24px",
+                    background: otp.join("").length < 6 || otpLoading ? "rgba(26,10,20,0.08)" : "linear-gradient(135deg, #dc1e3c, #a0153c)",
+                    color: otp.join("").length < 6 || otpLoading ? "#aaa" : "#fff",
+                    borderRadius: "10px", fontSize: "14px", fontWeight: 600,
+                    border: "none", cursor: otp.join("").length < 6 || otpLoading ? "not-allowed" : "pointer",
+                    boxShadow: otp.join("").length >= 6 && !otpLoading ? "0 4px 16px rgba(220,30,60,0.25)" : "none",
+                    display: "flex", alignItems: "center", justifyContent: "center", gap: "8px",
+                  }}
+                >
+                  {otpLoading ? "Verifying..." : "Verify OTP"}
+                </button>
                 <p style={{ fontSize: "12px", textAlign: "center", color: "#aaa" }}>
                   Didn't receive?{" "}
-                  <button style={{ background: "none", border: "none", color: "#dc1e3c", fontWeight: 600, cursor: "pointer", fontSize: "12px", padding: 0 }}>
-                    Resend in 30s
+                  <button
+                    onClick={() => { setOtpSent(false); setOtp(["", "", "", "", "", ""]); setOtpError(""); recaptchaRef.current = null; }}
+                    style={{ background: "none", border: "none", color: "#dc1e3c", fontWeight: 600, cursor: "pointer", fontSize: "12px", padding: 0 }}
+                  >
+                    Resend OTP
                   </button>
                 </p>
               </>
+            ) : (
+              <div style={{ textAlign: "center", padding: "12px 0" }}>
+                <div style={{ width: "48px", height: "48px", borderRadius: "50%", background: "rgba(92,122,82,0.1)", display: "flex", alignItems: "center", justifyContent: "center", margin: "0 auto 12px" }}>
+                  <Check style={{ width: "24px", height: "24px", color: "#5C7A52" }} />
+                </div>
+                <p style={{ fontSize: "15px", fontWeight: 600, color: "#5C7A52" }}>Phone verified!</p>
+                <p style={{ fontSize: "13px", color: "#888", marginTop: "4px" }}>{countryCode} {phone}</p>
+              </div>
             )}
           </div>
         )}

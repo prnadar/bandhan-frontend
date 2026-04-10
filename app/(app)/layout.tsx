@@ -2,12 +2,13 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import {
   LayoutDashboard, Heart, MessageCircle, User, Star, Globe,
   Shield, Bell, Settings, LogOut, ChevronRight, Users, Star as StarIcon,
   CreditCard, Home, Menu, X,
 } from "lucide-react";
+import { profileApi } from "@/lib/api";
 
 const navItems = [
   { href: "/profile/me",   label: "My Profile",   icon: User            },
@@ -77,6 +78,38 @@ function VerificationBanner() {
 export default function AppLayout({ children }: { children: React.ReactNode }) {
   const pathname = usePathname();
   const [collapsed, setCollapsed] = useState(false);
+  const [sidebarName, setSidebarName] = useState("");
+  const [sidebarInitial, setSidebarInitial] = useState("");
+  const [sidebarTrustScore, setSidebarTrustScore] = useState<number | null>(null);
+
+  useEffect(() => {
+    const userId = typeof window !== "undefined"
+      ? localStorage.getItem("backend_user_id") || localStorage.getItem("user_id") || ""
+      : "";
+
+    if (!userId) return;
+
+    profileApi.getProfile(userId)
+      .then((res) => {
+        const p = res.data?.data ?? res.data;
+        const name = p?.first_name
+          ? `${p.first_name}${p.last_name ? ` ${p.last_name.charAt(0)}.` : ""}`
+          : p?.full_name || p?.name || "";
+        if (name) {
+          setSidebarName(name);
+          setSidebarInitial(name.charAt(0).toUpperCase());
+        }
+      })
+      .catch(() => {});
+
+    profileApi.getTrustScore()
+      .then((res) => {
+        const d = res.data?.data ?? res.data;
+        if (d?.total !== undefined) setSidebarTrustScore(d.total);
+        else if (d?.trust_score !== undefined) setSidebarTrustScore(d.trust_score);
+      })
+      .catch(() => {});
+  }, [pathname]);
 
   const sidebarWidth = collapsed ? "72px" : "256px";
 
@@ -128,13 +161,13 @@ export default function AppLayout({ children }: { children: React.ReactNode }) {
                 className="w-10 h-10 rounded-full flex items-center justify-center font-bold text-white text-sm flex-shrink-0"
                 style={{ background: "linear-gradient(135deg,#dc1e3c,#a0153c)" }}
               >
-                P
+                {sidebarInitial || "?"}
               </div>
               <div className="flex-1 min-w-0">
-                <p className="text-sm font-semibold truncate" style={{ color: "#ffffff" }}>Prabhakar S.</p>
+                <p className="text-sm font-semibold truncate" style={{ color: "#ffffff" }}>{sidebarName || "My Profile"}</p>
                 <div className="flex items-center gap-1 mt-0.5">
                   <Shield className="w-3 h-3" style={{ color: "#8DB870" }} />
-                  <span className="text-xs font-medium" style={{ color: "#8DB870" }}>Trust Score: 84</span>
+                  <span className="text-xs font-medium" style={{ color: "#8DB870" }}>Trust Score: {sidebarTrustScore ?? "–"}</span>
                 </div>
               </div>
               <ChevronRight className="w-4 h-4 flex-shrink-0" style={{ color: "rgba(255,255,255,0.25)" }} />
@@ -148,7 +181,7 @@ export default function AppLayout({ children }: { children: React.ReactNode }) {
             <div
               className="w-9 h-9 rounded-full flex items-center justify-center font-bold text-white text-sm"
               style={{ background: "linear-gradient(135deg,#dc1e3c,#a0153c)" }}
-            >P</div>
+            >{sidebarInitial || "?"}</div>
           </div>
         )}
 
@@ -250,7 +283,18 @@ export default function AppLayout({ children }: { children: React.ReactNode }) {
             );
           })}
           <button
-            onClick={() => {}}
+            onClick={() => {
+              // Clear all auth tokens
+              localStorage.removeItem("auth_token");
+              localStorage.removeItem("backend_token");
+              localStorage.removeItem("backend_user_id");
+              localStorage.removeItem("user_id");
+              localStorage.removeItem("supabase_auth_token");
+              localStorage.removeItem("user_profile");
+              localStorage.removeItem("legallabs_session");
+              // Redirect to home
+              window.location.href = "/";
+            }}
             title={collapsed ? "Sign Out" : undefined}
             className="w-full flex items-center rounded-xl text-sm transition-colors"
             style={{
