@@ -5,6 +5,7 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import PublicHeader from "@/components/PublicHeader";
 import PublicFooter from "@/components/PublicFooter";
+import { profileApi } from "@/lib/api";
 import {
   Heart, Phone, User, Brain, Shield, Sliders,
   Check, ArrowRight, ArrowLeft, Upload, Star,
@@ -353,8 +354,39 @@ export default function OnboardingPage() {
     }
   }, []);
 
-  const next = () => {
-    if (step < steps.length) {
+  const [saving, setSaving] = useState(false);
+
+  const next = async () => {
+    if (step === 1) {
+      // Save basic profile to backend before moving on
+      const userId = localStorage.getItem("backend_user_id") || localStorage.getItem("user_id") || "";
+      if (userId && form.name) {
+        setSaving(true);
+        try {
+          const nameParts = form.name.trim().split(/\s+/);
+          const firstName = nameParts[0] || "";
+          const lastName = nameParts.slice(1).join(" ") || "";
+          await profileApi.updateProfile(userId, {
+            first_name: firstName,
+            last_name: lastName,
+            gender: form.gender ? form.gender.toLowerCase() : undefined,
+            date_of_birth: form.dob || undefined,
+            religion: form.religion || undefined,
+            caste: form.caste || undefined,
+            country: form.country || undefined,
+            mother_tongue: form.motherTongue || undefined,
+            education_level: form.education || undefined,
+            occupation: form.profession || undefined,
+          });
+        } catch (err) {
+          console.warn("Failed to save profile to backend:", err);
+          // Don't block — user can still proceed
+        } finally {
+          setSaving(false);
+        }
+      }
+      setStep(2);
+    } else if (step < steps.length) {
       setStep(step + 1);
     } else {
       // All 3 steps done — mark onboarding as complete
@@ -784,6 +816,7 @@ export default function OnboardingPage() {
           )}
           {(() => {
             const blocked =
+              saving ||
               (step === 2 && !otpVerified) ||
               (step === 3 && !idUploaded);
             return (
@@ -803,7 +836,7 @@ export default function OnboardingPage() {
                   boxShadow: blocked ? "none" : "0 4px 16px rgba(220,30,60,0.25)",
                 }}
               >
-                {step === steps.length ? "Go to Dashboard" : "Continue"}
+                {saving ? "Saving..." : step === steps.length ? "Go to Dashboard" : "Continue"}
                 <ArrowRight style={{ width: "16px", height: "16px" }} />
               </button>
             );
