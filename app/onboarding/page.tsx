@@ -279,6 +279,10 @@ export default function OnboardingPage() {
         setOtpError("SMS quota exceeded. Please try again later.");
       } else if (code === "auth/missing-phone-provider") {
         setOtpError("Phone authentication is not enabled. Please contact support.");
+      } else if (code === "auth/billing-not-enabled" || msg.toLowerCase().includes("billing")) {
+        setOtpError("Firebase billing (Blaze plan) is required for phone SMS. Please upgrade at console.firebase.google.com and wait a few minutes.");
+      } else if (code === "auth/internal-error" || msg.toLowerCase().includes("internal")) {
+        setOtpError(`Firebase internal error — this often means billing isn't active yet. Error: ${code} - ${msg}`);
       } else {
         setOtpError(`Could not send OTP: ${code || msg}`);
       }
