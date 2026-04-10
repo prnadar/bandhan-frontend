@@ -126,6 +126,11 @@ export default function RegisterPage() {
           }
         }
 
+        // Persist user name & gender so onboarding can pre-fill them
+        localStorage.setItem("user_name", name.trim());
+        localStorage.setItem("user_gender", gender.toLowerCase());
+        localStorage.setItem("user_email", email.toLowerCase());
+
         // Supabase sign-in is secondary for this flow, do not block progress on it.
         const { data: signInData } = await supabase.auth.signInWithPassword({ email, password });
         if (signInData.session?.access_token) {

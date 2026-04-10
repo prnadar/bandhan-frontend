@@ -40,7 +40,9 @@ export default function LoginPage() {
       if (data.session?.access_token) {
         localStorage.setItem("auth_token", data.session.access_token);
       }
-      router.push("/dashboard");
+      // Redirect to onboarding if not completed, otherwise dashboard
+      const onboardingDone = localStorage.getItem("onboarding_completed") === "true";
+      router.push(onboardingDone ? "/dashboard" : "/onboarding");
     } catch {
       setError("Something went wrong. Please try again.");
       setLoading(false);

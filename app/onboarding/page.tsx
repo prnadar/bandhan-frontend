@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useRef, useCallback } from "react";
+import { useState, useRef, useCallback, useEffect } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import PublicHeader from "@/components/PublicHeader";
@@ -314,13 +314,51 @@ export default function OnboardingPage() {
     }
   }, [otp]);
   const [form, setForm] = useState({ name: "", dob: "", gender: "", religion: "", caste: "", country: "", motherTongue: "", education: "", profession: "" });
+
+  // Pre-fill name & gender from registration data stored in localStorage
+  useEffect(() => {
+    const savedName = localStorage.getItem("user_name") ?? "";
+    const savedGender = localStorage.getItem("user_gender") ?? "";
+    if (savedName || savedGender) {
+      setForm((prev) => ({
+        ...prev,
+        name: prev.name || savedName,
+        gender: prev.gender || (savedGender === "male" ? "Male" : savedGender === "female" ? "Female" : prev.gender),
+      }));
+    }
+  }, []);
   const [quizAnswers, setQuizAnswers] = useState<Record<number, number>>({});
   const [prefs, setPrefs] = useState({ ageMin: "25", ageMax: "32", religion: "Any", city: "Any India" });
 
   const progress = ((step - 1) / (steps.length - 1)) * 100;
   const currentStep = steps[step - 1];
 
-  const next = () => step < steps.length ? setStep(step + 1) : router.push("/dashboard");
+  // Persist current step so returning users resume where they left off
+  useEffect(() => {
+    if (typeof window !== "undefined") {
+      localStorage.setItem("onboarding_step", String(step));
+    }
+  }, [step]);
+
+  // On mount, resume from saved step (if any)
+  useEffect(() => {
+    const saved = localStorage.getItem("onboarding_step");
+    if (saved) {
+      const parsed = parseInt(saved, 10);
+      if (parsed >= 1 && parsed <= steps.length) setStep(parsed);
+    }
+  }, []);
+
+  const next = () => {
+    if (step < steps.length) {
+      setStep(step + 1);
+    } else {
+      // All 3 steps done — mark onboarding as complete
+      localStorage.setItem("onboarding_completed", "true");
+      localStorage.removeItem("onboarding_step");
+      router.push("/dashboard");
+    }
+  };
   const back = () => step > 1 && setStep(step - 1);
 
   return (

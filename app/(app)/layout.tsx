@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import { useState, useEffect } from "react";
 import {
   LayoutDashboard, Heart, MessageCircle, User, Star, Globe,
@@ -77,10 +77,21 @@ function VerificationBanner() {
 
 export default function AppLayout({ children }: { children: React.ReactNode }) {
   const pathname = usePathname();
+  const router = useRouter();
   const [collapsed, setCollapsed] = useState(false);
   const [sidebarName, setSidebarName] = useState("");
   const [sidebarInitial, setSidebarInitial] = useState("");
   const [sidebarTrustScore, setSidebarTrustScore] = useState<number | null>(null);
+
+  // Redirect to onboarding if the 3 steps haven't been completed
+  useEffect(() => {
+    if (typeof window !== "undefined") {
+      const onboardingDone = localStorage.getItem("onboarding_completed") === "true";
+      if (!onboardingDone) {
+        router.replace("/onboarding");
+      }
+    }
+  }, [router]);
 
   useEffect(() => {
     const userId = typeof window !== "undefined"
