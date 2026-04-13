@@ -19,6 +19,29 @@ export async function POST(req: NextRequest) {
     const { email, name } = await req.json();
     if (!email) return NextResponse.json({ error: "Email required" }, { status: 400 });
 
+    // Check if email already registered in backend
+    const backendUrl = process.env.NEXT_PUBLIC_API_URL;
+    if (backendUrl) {
+      try {
+        const checkRes = await fetch(`${backendUrl}/api/v1/auth/check-email`, {
+          method: "POST",
+          headers: { "Content-Type": "application/json", "X-Tenant-ID": "bandhan" },
+          body: JSON.stringify({ email }),
+        });
+        if (checkRes.ok) {
+          const checkData = await checkRes.json();
+          if (checkData?.data?.exists) {
+            return NextResponse.json(
+              { error: "An account with this email already exists. Please log in instead." },
+              { status: 409 },
+            );
+          }
+        }
+      } catch {
+        // Non-fatal: if backend is down, allow OTP flow to continue
+      }
+    }
+
     const otp = generateOTP();
     const expiresAt = Date.now() + 10 * 60 * 1000; // 10 minutes
     const token = signOTP(email, otp, expiresAt);
