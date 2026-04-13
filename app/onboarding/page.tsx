@@ -366,12 +366,19 @@ export default function OnboardingPage() {
           const nameParts = form.name.trim().split(/\s+/);
           const firstName = nameParts[0] || "";
           const lastName = nameParts.slice(1).join(" ") || "";
+          // Map display values to backend enum values
+          const religionMap: Record<string, string> = {
+            "Hindu": "hindu", "Muslim": "muslim", "Christian": "christian",
+            "Sikh": "sikh", "Jain": "jain", "Buddhist": "buddhist",
+            "Parsi / Zoroastrian": "parsi", "Jewish": "jewish",
+            "No Religion": "other", "Other": "other",
+          };
           await profileApi.updateProfile(userId, {
             first_name: firstName,
             last_name: lastName,
             gender: form.gender ? form.gender.toLowerCase() : undefined,
             date_of_birth: form.dob || undefined,
-            religion: form.religion || undefined,
+            religion: form.religion ? (religionMap[form.religion] || form.religion.toLowerCase()) : undefined,
             caste: form.caste || undefined,
             country: form.country || undefined,
             mother_tongue: form.motherTongue || undefined,
