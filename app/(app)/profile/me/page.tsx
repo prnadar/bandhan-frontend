@@ -182,7 +182,7 @@ export default function MyProfilePage() {
 
   // Load profile from backend on mount
   useEffect(() => {
-    async function loadProfile() {
+    (async () => {
       let userId = localStorage.getItem("backend_user_id") || localStorage.getItem("user_id") || "";
 
       // Fallback: get user ID from Supabase session if not in localStorage
@@ -192,13 +192,8 @@ export default function MyProfilePage() {
           if (user?.id) {
             userId = user.id;
             localStorage.setItem("backend_user_id", userId);
-            // Also ensure we have an auth token for the backend
-            const { data: { session } } = await supabase.auth.getSession();
-            if (session?.access_token && !localStorage.getItem("auth_token")) {
-              localStorage.setItem("auth_token", `demo:${userId}`);
-            }
           }
-        } catch { /* ignore */ }
+        } catch (e) { console.warn("Supabase getUser failed:", e); }
       }
 
       if (!userId) return;
@@ -208,51 +203,44 @@ export default function MyProfilePage() {
         localStorage.setItem("auth_token", `demo:${userId}`);
       }
 
-      profileApi.getProfile(userId).then((res) => {
-      const p = res.data?.data ?? res.data;
-      if (!p) return;
+      try {
+        const res = await profileApi.getProfile(userId);
+        const p = res.data?.data ?? res.data;
+        if (!p) return;
 
-      // Map backend fields → form state
-      const dob = p.date_of_birth ? new Date(p.date_of_birth) : null;
-      setGeneral((prev) => ({
-        ...prev,
-        name: [p.first_name, p.last_name].filter(Boolean).join(" ") || prev.name,
-        gender: p.gender ? p.gender.charAt(0).toUpperCase() + p.gender.slice(1) : prev.gender,
-        dobDay: dob ? String(dob.getDate()) : prev.dobDay,
-        dobMonth: dob ? ["January","February","March","April","May","June","July","August","September","October","November","December"][dob.getMonth()] : prev.dobMonth,
-        dobYear: dob ? String(dob.getFullYear()) : prev.dobYear,
-        height: p.height_cm ? `${Math.floor(p.height_cm / 30.48)}ft ${Math.round((p.height_cm % 30.48) / 2.54)}in` : prev.height,
-        weight: p.weight_kg ? String(p.weight_kg) : prev.weight,
-        religion: p.religion ? p.religion.charAt(0).toUpperCase() + p.religion.slice(1) : prev.religion,
-        subCaste: p.caste || prev.subCaste,
-        motherTongue: p.mother_tongue || prev.motherTongue,
-        countryLivingIn: p.country || prev.countryLivingIn,
-        currentLocation: p.city || prev.currentLocation,
-        aboutMe: p.bio || prev.aboutMe,
-        maritalStatus: p.marital_status ? p.marital_status.charAt(0).toUpperCase() + p.marital_status.slice(1).replace(/_/g, " ") : prev.maritalStatus,
-      }));
+        const dob = p.date_of_birth ? new Date(p.date_of_birth) : null;
+        setGeneral((prev) => ({
+          ...prev,
+          name: [p.first_name, p.last_name].filter(Boolean).join(" ") || prev.name,
+          gender: p.gender ? p.gender.charAt(0).toUpperCase() + p.gender.slice(1) : prev.gender,
+          dobDay: dob ? String(dob.getDate()) : prev.dobDay,
+          dobMonth: dob ? ["January","February","March","April","May","June","July","August","September","October","November","December"][dob.getMonth()] : prev.dobMonth,
+          dobYear: dob ? String(dob.getFullYear()) : prev.dobYear,
+          height: p.height_cm ? `${Math.floor(p.height_cm / 30.48)}ft ${Math.round((p.height_cm % 30.48) / 2.54)}in` : prev.height,
+          weight: p.weight_kg ? String(p.weight_kg) : prev.weight,
+          religion: p.religion ? p.religion.charAt(0).toUpperCase() + p.religion.slice(1) : prev.religion,
+          subCaste: p.caste || prev.subCaste,
+          motherTongue: p.mother_tongue || prev.motherTongue,
+          countryLivingIn: p.country || prev.countryLivingIn,
+          currentLocation: p.city || prev.currentLocation,
+          aboutMe: p.bio || prev.aboutMe,
+          maritalStatus: p.marital_status ? p.marital_status.charAt(0).toUpperCase() + p.marital_status.slice(1).replace(/_/g, " ") : prev.maritalStatus,
+        }));
 
-      setEducation((prev) => ({
-        ...prev,
-        educationLevel: p.education_level || prev.educationLevel,
-        occupation: p.occupation || prev.occupation,
-        annualIncome: p.annual_income_inr ? String(p.annual_income_inr) : prev.annualIncome,
-      }));
+        setEducation((prev) => ({
+          ...prev,
+          educationLevel: p.education_level || prev.educationLevel,
+          occupation: p.occupation || prev.occupation,
+          annualIncome: p.annual_income_inr ? String(p.annual_income_inr) : prev.annualIncome,
+        }));
 
-      if (p.about_family) {
-        setFamily((prev) => ({ ...prev, aboutFamily: p.about_family }));
-      }
-      if (p.family_details) {
-        setFamily((prev) => ({ ...prev, ...p.family_details }));
-      }
-      if (p.partner_prefs) {
-        setPartner((prev) => ({ ...prev, ...p.partner_prefs }));
-      }
-      }).catch((err) => {
+        if (p.about_family) setFamily((prev) => ({ ...prev, aboutFamily: p.about_family }));
+        if (p.family_details) setFamily((prev) => ({ ...prev, ...p.family_details }));
+        if (p.partner_prefs) setPartner((prev) => ({ ...prev, ...p.partner_prefs }));
+      } catch (err) {
         console.warn("Failed to load profile:", err);
-      });
-    }
-    loadProfile();
+      }
+    })();
   }, []);
 
   const handleSave = useCallback(async (tabId: string) => {

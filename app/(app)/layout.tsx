@@ -109,7 +109,7 @@ export default function AppLayout({ children }: { children: React.ReactNode }) {
               localStorage.setItem("auth_token", `demo:${userId}`);
             }
           }
-        } catch { /* ignore */ }
+        } catch (_e) { /* ignore */ }
       }
 
       if (!userId) return;
@@ -117,26 +117,24 @@ export default function AppLayout({ children }: { children: React.ReactNode }) {
         localStorage.setItem("auth_token", `demo:${userId}`);
       }
 
-      profileApi.getProfile(userId)
-        .then((res) => {
-          const p = res.data?.data ?? res.data;
-          const name = p?.first_name
-            ? `${p.first_name}${p.last_name ? ` ${p.last_name.charAt(0)}.` : ""}`
-            : p?.full_name || p?.name || "";
-          if (name) {
-            setSidebarName(name);
-            setSidebarInitial(name.charAt(0).toUpperCase());
-          }
-        })
-        .catch(() => {});
+      try {
+        const res = await profileApi.getProfile(userId);
+        const p = res.data?.data ?? res.data;
+        const name = p?.first_name
+          ? `${p.first_name}${p.last_name ? ` ${p.last_name.charAt(0)}.` : ""}`
+          : p?.full_name || p?.name || "";
+        if (name) {
+          setSidebarName(name);
+          setSidebarInitial(name.charAt(0).toUpperCase());
+        }
+      } catch (_e) { /* ignore */ }
 
-      profileApi.getTrustScore()
-        .then((res) => {
-          const d = res.data?.data ?? res.data;
-          if (d?.total !== undefined) setSidebarTrustScore(d.total);
-          else if (d?.trust_score !== undefined) setSidebarTrustScore(d.trust_score);
-        })
-        .catch(() => {});
+      try {
+        const res = await profileApi.getTrustScore();
+        const d = res.data?.data ?? res.data;
+        if (d?.total !== undefined) setSidebarTrustScore(d.total);
+        else if (d?.trust_score !== undefined) setSidebarTrustScore(d.trust_score);
+      } catch (_e) { /* ignore */ }
     }
     loadSidebar();
   }, [pathname]);
