@@ -240,6 +240,18 @@ export default function MyProfilePage() {
       } catch (err) {
         console.warn("Failed to load profile:", err);
       }
+
+      // Fallback: pre-fill from localStorage if backend returned empty fields
+      setGeneral((prev) => {
+        if (prev.name) return prev;
+        const localName = localStorage.getItem("user_name") || "";
+        const localGender = localStorage.getItem("user_gender") || "";
+        return {
+          ...prev,
+          name: prev.name || localName,
+          gender: prev.gender || (localGender === "male" ? "Male" : localGender === "female" ? "Female" : prev.gender),
+        };
+      });
     })();
   }, []);
 

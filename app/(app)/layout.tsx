@@ -117,17 +117,23 @@ export default function AppLayout({ children }: { children: React.ReactNode }) {
         localStorage.setItem("auth_token", `demo:${userId}`);
       }
 
+      let resolvedName = "";
       try {
         const res = await profileApi.getProfile(userId);
         const p = res.data?.data ?? res.data;
-        const name = p?.first_name
+        resolvedName = p?.first_name
           ? `${p.first_name}${p.last_name ? ` ${p.last_name.charAt(0)}.` : ""}`
           : p?.full_name || p?.name || "";
-        if (name) {
-          setSidebarName(name);
-          setSidebarInitial(name.charAt(0).toUpperCase());
-        }
       } catch (_e) { /* ignore */ }
+
+      // Fallback: use locally stored name from registration if backend returned nothing
+      if (!resolvedName) {
+        resolvedName = localStorage.getItem("user_name") || "";
+      }
+      if (resolvedName) {
+        setSidebarName(resolvedName);
+        setSidebarInitial(resolvedName.charAt(0).toUpperCase());
+      }
 
       try {
         const res = await profileApi.getTrustScore();
