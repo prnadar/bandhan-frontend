@@ -9,6 +9,7 @@ import {
   CreditCard, Home, Menu, X,
 } from "lucide-react";
 import { profileApi } from "@/lib/api";
+import { supabase } from "@/lib/supabase";
 
 const navItems = [
   { href: "/profile/me",   label: "My Profile",   icon: User            },
@@ -94,32 +95,50 @@ export default function AppLayout({ children }: { children: React.ReactNode }) {
   }, [router]);
 
   useEffect(() => {
-    const userId = typeof window !== "undefined"
-      ? localStorage.getItem("backend_user_id") || localStorage.getItem("user_id") || ""
-      : "";
+    async function loadSidebar() {
+      let userId = localStorage.getItem("backend_user_id") || localStorage.getItem("user_id") || "";
 
-    if (!userId) return;
+      // Fallback: get user ID from Supabase if not in localStorage
+      if (!userId) {
+        try {
+          const { data: { user } } = await supabase.auth.getUser();
+          if (user?.id) {
+            userId = user.id;
+            localStorage.setItem("backend_user_id", userId);
+            if (!localStorage.getItem("auth_token")) {
+              localStorage.setItem("auth_token", `demo:${userId}`);
+            }
+          }
+        } catch { /* ignore */ }
+      }
 
-    profileApi.getProfile(userId)
-      .then((res) => {
-        const p = res.data?.data ?? res.data;
-        const name = p?.first_name
-          ? `${p.first_name}${p.last_name ? ` ${p.last_name.charAt(0)}.` : ""}`
-          : p?.full_name || p?.name || "";
-        if (name) {
-          setSidebarName(name);
-          setSidebarInitial(name.charAt(0).toUpperCase());
-        }
-      })
-      .catch(() => {});
+      if (!userId) return;
+      if (!localStorage.getItem("auth_token")) {
+        localStorage.setItem("auth_token", `demo:${userId}`);
+      }
 
-    profileApi.getTrustScore()
-      .then((res) => {
-        const d = res.data?.data ?? res.data;
-        if (d?.total !== undefined) setSidebarTrustScore(d.total);
-        else if (d?.trust_score !== undefined) setSidebarTrustScore(d.trust_score);
-      })
-      .catch(() => {});
+      profileApi.getProfile(userId)
+        .then((res) => {
+          const p = res.data?.data ?? res.data;
+          const name = p?.first_name
+            ? `${p.first_name}${p.last_name ? ` ${p.last_name.charAt(0)}.` : ""}`
+            : p?.full_name || p?.name || "";
+          if (name) {
+            setSidebarName(name);
+            setSidebarInitial(name.charAt(0).toUpperCase());
+          }
+        })
+        .catch(() => {});
+
+      profileApi.getTrustScore()
+        .then((res) => {
+          const d = res.data?.data ?? res.data;
+          if (d?.total !== undefined) setSidebarTrustScore(d.total);
+          else if (d?.trust_score !== undefined) setSidebarTrustScore(d.trust_score);
+        })
+        .catch(() => {});
+    }
+    loadSidebar();
   }, [pathname]);
 
   const sidebarWidth = collapsed ? "72px" : "256px";

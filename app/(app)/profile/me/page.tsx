@@ -182,12 +182,33 @@ export default function MyProfilePage() {
 
   // Load profile from backend on mount
   useEffect(() => {
-    const userId = typeof window !== "undefined"
-      ? localStorage.getItem("backend_user_id") || localStorage.getItem("user_id") || ""
-      : "";
-    if (!userId) return;
+    async function loadProfile() {
+      let userId = localStorage.getItem("backend_user_id") || localStorage.getItem("user_id") || "";
 
-    profileApi.getProfile(userId).then((res) => {
+      // Fallback: get user ID from Supabase session if not in localStorage
+      if (!userId) {
+        try {
+          const { data: { user } } = await supabase.auth.getUser();
+          if (user?.id) {
+            userId = user.id;
+            localStorage.setItem("backend_user_id", userId);
+            // Also ensure we have an auth token for the backend
+            const { data: { session } } = await supabase.auth.getSession();
+            if (session?.access_token && !localStorage.getItem("auth_token")) {
+              localStorage.setItem("auth_token", `demo:${userId}`);
+            }
+          }
+        } catch { /* ignore */ }
+      }
+
+      if (!userId) return;
+
+      // Ensure auth_token exists for backend API calls
+      if (!localStorage.getItem("auth_token")) {
+        localStorage.setItem("auth_token", `demo:${userId}`);
+      }
+
+      profileApi.getProfile(userId).then((res) => {
       const p = res.data?.data ?? res.data;
       if (!p) return;
 
@@ -227,9 +248,11 @@ export default function MyProfilePage() {
       if (p.partner_prefs) {
         setPartner((prev) => ({ ...prev, ...p.partner_prefs }));
       }
-    }).catch((err) => {
-      console.warn("Failed to load profile:", err);
-    });
+      }).catch((err) => {
+        console.warn("Failed to load profile:", err);
+      });
+    }
+    loadProfile();
   }, []);
 
   const handleSave = useCallback(async (tabId: string) => {
