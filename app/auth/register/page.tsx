@@ -109,7 +109,7 @@ export default function RegisterPage() {
                 "Content-Type": "application/json",
                 "X-Tenant-ID": "bandhan",
               },
-              body: JSON.stringify({ email, name: name.trim(), gender: gender.toLowerCase() }),
+              body: JSON.stringify({ email, name: name.trim(), gender: gender === "Bride" ? "female" : gender === "Groom" ? "male" : gender.toLowerCase() }),
             });
             if (backendRes.ok) {
               const backendData = await backendRes.json();
@@ -128,7 +128,7 @@ export default function RegisterPage() {
 
         // Persist user name & gender so onboarding can pre-fill them
         localStorage.setItem("user_name", name.trim());
-        localStorage.setItem("user_gender", gender.toLowerCase());
+        localStorage.setItem("user_gender", gender === "Bride" ? "female" : gender === "Groom" ? "male" : gender.toLowerCase());
         localStorage.setItem("user_email", email.toLowerCase());
 
         // Supabase sign-in is secondary for this flow, do not block progress on it.

@@ -398,7 +398,7 @@ export default function AppLayout({ children }: { children: React.ReactNode }) {
                 background: "linear-gradient(135deg,#dc1e3c,#a0153c)",
                 display: "flex", alignItems: "center", justifyContent: "center",
                 color: "#fff", fontWeight: 700, fontSize: "13px",
-              }}>P</div>
+              }}>{sidebarInitial || "?"}</div>
             </Link>
           </div>
         </header>
